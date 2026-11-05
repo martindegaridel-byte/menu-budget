@@ -1,8 +1,162 @@
 @import "tailwindcss";
 
+/* =====================================================================
+   Design system « Menu Budget »
+   Thème sombre par défaut ; thème clair via <html data-theme="light">.
+   Les composants de src/components/ds/ n'utilisent que ces tokens.
+   ===================================================================== */
+
 :root {
-  color-scheme: light dark;
+  color-scheme: light dark; /* passera à « dark » quand les pages seront migrées (étape 2) */
+
+  /* Couleurs — thème sombre */
+  --mb-canvas: #0b0f0e;
+  --mb-surface: #131a18;
+  --mb-surface-2: #1a2321;
+  --mb-surface-3: #222d2a;
+  --mb-line: rgba(255, 255, 255, 0.06);
+  --mb-line-strong: rgba(255, 255, 255, 0.12);
+  --mb-fg: #ecf2ef;
+  --mb-muted: #a3b0ab; /* 7,9:1 sur surface */
+  --mb-subtle: #84928d; /* 5,5:1 sur surface, 5,0:1 sur surface-2 — légendes */
+  --mb-accent: #34d399;
+  --mb-accent-2: #10b981;
+  --mb-accent-fg: #04291b; /* texte sur bouton principal : ≥ 6,2:1 */
+  --mb-accent-soft: rgba(52, 211, 153, 0.12);
+  --mb-accent-text: #6ee7b7;
+  --mb-warn: #f5b544;
+  --mb-warn-soft: rgba(245, 181, 68, 0.14);
+  --mb-warn-text: #f5b544;
+  --mb-danger: #f87171;
+  --mb-danger-soft: rgba(248, 113, 113, 0.14);
+  --mb-danger-text: #f87171;
+  --mb-focus: #34d399;
+  --mb-overlay: rgba(5, 8, 7, 0.6);
+
+  /* Profondeur */
+  --mb-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 1px rgba(0, 0, 0, 0.25);
+  --mb-shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --mb-glass: rgba(19, 26, 24, 0.72);
 }
+
+:root[data-theme="light"] {
+  --mb-canvas: #f5f8f6;
+  --mb-surface: #ffffff;
+  --mb-surface-2: #eef3f0;
+  --mb-surface-3: #e3eae6;
+  --mb-line: rgba(11, 15, 14, 0.08);
+  --mb-line-strong: rgba(11, 15, 14, 0.16);
+  --mb-fg: #0b0f0e;
+  --mb-muted: #46534f; /* 8,0:1 sur blanc */
+  --mb-subtle: #5d6b66; /* 5,6:1 */
+  --mb-accent: #34d399;
+  --mb-accent-2: #10b981;
+  --mb-accent-fg: #04291b;
+  --mb-accent-soft: rgba(16, 185, 129, 0.12);
+  --mb-accent-text: #047857; /* 5,5:1 sur blanc */
+  --mb-warn: #f5b544;
+  --mb-warn-soft: rgba(245, 181, 68, 0.2);
+  --mb-warn-text: #92400e;
+  --mb-danger: #f87171;
+  --mb-danger-soft: rgba(248, 113, 113, 0.16);
+  --mb-danger-text: #b91c1c;
+  --mb-focus: #059669;
+  --mb-overlay: rgba(11, 15, 14, 0.35);
+  --mb-shadow-soft: 0 1px 2px rgba(11, 15, 14, 0.06), 0 1px 1px rgba(11, 15, 14, 0.04);
+  --mb-shadow-lift: 0 12px 32px -12px rgba(11, 15, 14, 0.18), 0 2px 8px rgba(11, 15, 14, 0.06);
+  --mb-glass: rgba(255, 255, 255, 0.75);
+}
+
+/* Tokens exposés à Tailwind : bg-canvas, bg-surface, border-line, text-muted,
+   rounded-field / rounded-card / rounded-sheet, shadow-soft / shadow-lift… */
+@theme inline {
+  --color-canvas: var(--mb-canvas);
+  --color-surface: var(--mb-surface);
+  --color-surface-2: var(--mb-surface-2);
+  --color-surface-3: var(--mb-surface-3);
+  --color-line: var(--mb-line);
+  --color-line-strong: var(--mb-line-strong);
+  --color-fg: var(--mb-fg);
+  --color-muted: var(--mb-muted);
+  --color-subtle: var(--mb-subtle);
+  --color-accent: var(--mb-accent);
+  --color-accent-2: var(--mb-accent-2);
+  --color-accent-fg: var(--mb-accent-fg);
+  --color-accent-soft: var(--mb-accent-soft);
+  --color-accent-text: var(--mb-accent-text);
+  --color-warn: var(--mb-warn);
+  --color-warn-soft: var(--mb-warn-soft);
+  --color-warn-text: var(--mb-warn-text);
+  --color-danger: var(--mb-danger);
+  --color-danger-soft: var(--mb-danger-soft);
+  --color-danger-text: var(--mb-danger-text);
+  --color-focus: var(--mb-focus);
+  --color-overlay: var(--mb-overlay);
+  --color-glass: var(--mb-glass);
+
+  --radius-field: 12px;
+  --radius-card: 16px;
+  --radius-sheet: 20px;
+
+  --shadow-soft: var(--mb-shadow-soft);
+  --shadow-lift: var(--mb-shadow-lift);
+
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-numeric: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* Échelle typographique : titres 28 / 22 / 18, corps 16 / 15, légendes 13 */
+  --text-title-1: 28px;
+  --text-title-1--line-height: 34px;
+  --text-title-2: 22px;
+  --text-title-2--line-height: 28px;
+  --text-title-3: 18px;
+  --text-title-3--line-height: 24px;
+  --text-body: 16px;
+  --text-body--line-height: 24px;
+  --text-body-sm: 15px;
+  --text-body-sm--line-height: 22px;
+  --text-caption: 13px;
+  --text-caption--line-height: 18px;
+
+  --animate-toast-in: mb-toast-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-pop: mb-pop 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes mb-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mb-pop {
+  0% {
+    transform: scale(0.85);
+  }
+  60% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Anneau de focus commun à tous les composants du design system */
+@utility focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  &:focus-visible {
+    outline-color: var(--mb-focus);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Styles actuels des pages (remplacés page par page aux étapes 2 et 3)
+   --------------------------------------------------------------------- */
 
 body {
   @apply bg-stone-50 text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100;
@@ -16,7 +170,12 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

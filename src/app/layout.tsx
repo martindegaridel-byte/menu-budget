@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import { AppNav } from "@/components/AppNav";
+import { THEME_INIT_SCRIPT, ToastProvider } from "@/components/ds";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,8 +21,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" data-theme="dark" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>
+        <ToastProvider>
         <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-white focus:p-2">
           Aller au contenu
         </a>
@@ -35,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <AppNav />
+        </ToastProvider>
       </body>
     </html>
   );
