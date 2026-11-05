@@ -98,6 +98,23 @@ dans **Magasins** (saisie ou import CSV : `ingrédient ; libellé ; quantité ; 
 L'interface `PriceProvider` (`src/lib/pricing/priceBook.ts`) permet de brancher
 une autre source.
 
+### Prix réels avec Open Prices
+
+[Open Prices](https://prices.openfoodfacts.org) (Open Food Facts) publie des prix
+photographiés en magasin par la communauté. Dans **Magasins**, collez l'adresse de
+la page de votre magasin (ex. `https://prices.openfoodfacts.org/locations/10`) puis
+« Importer les prix » :
+
+- chaque produit est associé à un ingrédient (`src/lib/pricing/openprices-rules.ts`) ;
+- on garde le dernier prix de chaque produit, hors promotions, sur les 24 derniers mois ;
+- un prix plus de 3 fois plus cher ou moins cher que l'estimation est écarté
+  (mauvaise association probable) ;
+- les ingrédients trouvés n'utilisent plus que les prix réels ; les autres gardent les
+  estimations. Les prix plus de 1,5 fois plus chers que l'estimation sont signalés
+  (souvent une marque haut de gamme : saisissez la marque distributeur ou supprimez-le).
+
+Données Open Prices sous licence [ODbL](https://opendatacommons.org/licenses/odbl/).
+
 ## Architecture
 
 ```

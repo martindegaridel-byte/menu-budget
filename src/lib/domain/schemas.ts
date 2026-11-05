@@ -114,7 +114,7 @@ export const IngredientSchema = z.object({
 });
 export type Ingredient = z.infer<typeof IngredientSchema>;
 
-export const PriceSourceSchema = z.enum(["estimate", "manual", "import"]);
+export const PriceSourceSchema = z.enum(["estimate", "manual", "import", "openprices"]);
 export type PriceSource = z.infer<typeof PriceSourceSchema>;
 
 /** Un conditionnement réel vendu en magasin (on achète le paquet entier). */

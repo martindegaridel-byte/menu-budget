@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { BudgetInput } from "@/components/planner/PreferencesForm";
+import { OpenPricesImporter } from "./OpenPricesImporter";
 import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
 import { Button, Card, Notice } from "@/components/ui";
 import { api } from "@/lib/client/api";
@@ -19,7 +20,7 @@ const FORMATS: [StoreFormat, string][] = [
   ["discount", "Discount"],
   ["autre", "Autre"],
 ];
-const SOURCE = { estimate: "Estimation", manual: "Mon prix", import: "Importé" } as Record<string, string>;
+const SOURCE = { estimate: "Estimation", manual: "Mon prix", import: "Importé", openprices: "Relevé Open Prices" } as Record<string, string>;
 type Prices = Awaited<ReturnType<typeof api.getPrices>>;
 
 export function StoresManager({ ingredients }: { ingredients: IngredientOption[] }) {
@@ -27,6 +28,7 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
   const [stores, setStores] = useState<Store[]>([]);
   const [formatIndex, setFormatIndex] = useState<Record<string, number>>({});
   const [msg, setMsg] = useState<{ level: "info" | "error"; text: string } | null>(null);
+  const [pricesVersion, setPricesVersion] = useState(0);
   const activeId = prefs.storeId ?? stores[0]?.id;
 
   const reload = useCallback(async () => {
@@ -92,7 +94,15 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
         </p>
       </Card>
 
-      {activeId && <PricesEditor key={activeId} storeId={activeId} ingredients={ingredients} />}
+      {activeId && (
+        <OpenPricesImporter
+          key={`op-${activeId}`}
+          storeId={activeId}
+          storeName={stores.find((s) => s.id === activeId)?.name ?? "ce magasin"}
+          onImported={() => setPricesVersion((v) => v + 1)}
+        />
+      )}
+      {activeId && <PricesEditor key={`${activeId}-${pricesVersion}`} storeId={activeId} ingredients={ingredients} />}
       <div role="status" aria-live="polite">
         {msg && <Notice level={msg.level}>{msg.text}</Notice>}
       </div>

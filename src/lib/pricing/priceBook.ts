@@ -22,6 +22,7 @@ export interface ResolvePriceBookInput {
 
 /**
  * Règles :
+ * 0. Un ingrédient qui a des prix réels relevés (Open Prices) n'utilise plus les estimations.
  * 1. Un prix saisi pour ce magasin remplace l'estimation de même contenance.
  * 2. Les autres estimations restent disponibles, ajustées par l'indice de prix du magasin
  *    (arrondi au centime supérieur : on ne sous-estime pas).
@@ -34,7 +35,10 @@ export function resolvePriceBook(input: ResolvePriceBookInput): PriceBook {
     own.set(p.ingredientId, [...(own.get(p.ingredientId) ?? []), p]);
   }
   for (const p of input.referencePackages) {
-    const overridden = own.get(p.ingredientId)?.some((o) => Math.abs(o.quantity - p.quantity) < 1e-6);
+    const ownForIngredient = own.get(p.ingredientId);
+    const overridden =
+      ownForIngredient?.some((o) => o.source === "openprices") ||
+      ownForIngredient?.some((o) => Math.abs(o.quantity - p.quantity) < 1e-6);
     if (overridden) continue;
     const priceCents = input.store.priceIndex === 100 ? p.priceCents : Math.ceil((p.priceCents * input.store.priceIndex) / 100);
     book.set(p.ingredientId, [...(book.get(p.ingredientId) ?? []), { ...p, priceCents }]);

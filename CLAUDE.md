@@ -28,7 +28,10 @@ déduit avant achat.
   `money`, `units`, `filterRecipes`, `computeRecipeCost`, `buildShoppingList`,
   `optimizeMenu`, `swapRecipe`. Toutes les données arrivent en paramètres.
 - `src/lib/pricing/` — interface `PriceProvider` + implémentations
-  (estimations Intermarché seed, surcharges utilisateur par magasin).
+  (estimations Intermarché seed, surcharges utilisateur par magasin), import CSV,
+  import Open Prices (`openprices.ts` : association pure et testée ; règles dans
+  `openprices-rules.ts` ; client HTTP `openprices-client.ts`). Un ingrédient avec des
+  prix `openprices` n'utilise plus les estimations.
 - `src/lib/llm/` — `RecipeGenerator` (interface), implémentation Anthropic
   (`claude-opus-5-5`, sortie structurée Zod v4), `validateGeneratedRecipes`.
   Désactivé sauf `RECIPE_GENERATOR_ENABLED=true`.

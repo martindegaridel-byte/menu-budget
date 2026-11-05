@@ -25,6 +25,24 @@ export interface SavedMenuSummary {
   recipeNames: string[];
 }
 
+export interface OpenPricesImport {
+  location: { id: number; name: string; url: string; priceCount: number };
+  since: string;
+  fetched: number;
+  imported: number;
+  matchedIngredients: number;
+  totalIngredients: number;
+  rejectedAsImplausible: number;
+  premium: OpenPricesItem[];
+  items: OpenPricesItem[];
+}
+export interface OpenPricesItem {
+  ingredientId: string;
+  ingredientName: string;
+  ratio: number | null;
+  packages: { label: string; priceCents: number; asOf: string }[];
+}
+
 export const api = {
   generate: (preferences: PreferencesInput, initial?: string[]) =>
     call<MenuResult>("/api/menu/generate", { body: { preferences, initial } }),
@@ -59,6 +77,8 @@ export const api = {
   deletePrice: (packageId: string) => call("/api/prices", { method: "DELETE", body: { packageId } }),
   importPrices: (storeId: string, csv: string) =>
     call<{ imported: number; errors: { line: number; message: string }[] }>("/api/prices/import", { body: { storeId, csv } }),
+  importOpenPrices: (storeId: string, location: string) =>
+    call<OpenPricesImport>("/api/prices/openprices", { body: { storeId, location } }),
   setUnavailable: (storeId: string, ingredientId: string, unavailable: boolean) =>
     call("/api/prices/unavailable", { body: { storeId, ingredientId, unavailable } }),
   generateRecipes: (preferences: PreferencesInput, count = 2) =>

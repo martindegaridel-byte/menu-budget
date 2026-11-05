@@ -1,0 +1,194 @@
+{
+ "source": "Open Prices (Open Food Facts) — https://prices.openfoodfacts.org/locations/10 — données sous licence ODbL (https://opendatacommons.org/licenses/odbl/). Extrait de quelques relevés pour les tests.",
+ "items": [
+  {
+   "id": 145386,
+   "type": "PRODUCT",
+   "product_code": "3250392427146",
+   "product_name": "6 OEUFS FRAIS SOL GROS VOLAE",
+   "category_tag": null,
+   "price": 1.52,
+   "price_is_discounted": false,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2025-10-04",
+   "product": {
+    "product_name": "6 oeufs frais calibre gros de poules élevées au sol",
+    "product_quantity": 0,
+    "product_quantity_unit": null,
+    "quantity": "6 pcs",
+    "brands": "volaé",
+    "categories_tags": [
+     "en:eggs-and-their-products",
+     "en:farming-products",
+     "en:eggs",
+     "en:chicken-eggs",
+     "en:barn-chicken-eggs",
+     "en:free-range-chicken-eggs"
+    ]
+   }
+  },
+  {
+   "id": 169925,
+   "type": "PRODUCT",
+   "product_code": "3250390600435",
+   "product_name": "BAC SORBET CITRON VERT ADELIE",
+   "category_tag": null,
+   "price": 2.79,
+   "price_is_discounted": false,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2025-12-06",
+   "product": {
+    "product_name": "Sorbet citron vert",
+    "product_quantity": 1000,
+    "product_quantity_unit": "ml",
+    "quantity": "1L",
+    "brands": "Adelie",
+    "categories_tags": [
+     "en:desserts",
+     "en:frozen-foods",
+     "en:frozen-desserts",
+     "en:ice-creams-and-sorbets",
+     "en:sorbets",
+     "en:lime-sorbets"
+    ]
+   }
+  },
+  {
+   "id": 86162,
+   "type": "PRODUCT",
+   "product_code": "3250392556006",
+   "product_name": "AUBERGINE PROVENCALE BOCA",
+   "category_tag": null,
+   "price": 1.65,
+   "price_is_discounted": false,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2025-02-28",
+   "product": {
+    "product_name": "Aubergines à la provençale - 400g 446 mL",
+    "product_quantity": 400,
+    "product_quantity_unit": "g",
+    "quantity": "400 g",
+    "brands": "Saint Eloi",
+    "categories_tags": [
+     "en:plant-based-foods-and-beverages",
+     "en:plant-based-foods",
+     "en:fruits-and-vegetables-based-foods",
+     "en:vegetable-based-foods-and-beverages",
+     "en:vegetables-based-foods",
+     "en:vegetables",
+     "en:prepared-vegetables",
+     "en:prepared-eggplants",
+     "en:aubergines",
+     "en:riste-with-eggplant-and-tomatoes-and-onions",
+     "fr:aubergines-a-la-provencale",
+     "fr:Legumes cuisines (plat a completer)"
+    ]
+   }
+  },
+  {
+   "id": 121970,
+   "type": "CATEGORY",
+   "product_code": null,
+   "product_name": "BANANE VRAC",
+   "category_tag": "en:bananas",
+   "price": 0.98,
+   "price_is_discounted": false,
+   "price_per": "KILOGRAM",
+   "currency": "EUR",
+   "date": "2025-06-21",
+   "product": null
+  },
+  {
+   "id": 170075,
+   "type": "PRODUCT",
+   "product_code": "3410280146034",
+   "product_name": "LAIT STERILISE DEMI E CREME BK TOP BUDGET",
+   "category_tag": null,
+   "price": 0.94,
+   "price_is_discounted": false,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2025-12-06",
+   "product": {
+    "product_name": "Lait uht 1/2 ecreme bq 1l",
+    "product_quantity": 1000,
+    "product_quantity_unit": "ml",
+    "quantity": "1000 ml",
+    "brands": "Top budget",
+    "categories_tags": [
+     "en:dairies",
+     "en:milks-liquid-and-powder",
+     "en:milks",
+     "en:homogenized-milks",
+     "en:pasteurised-products",
+     "en:semi-skimmed-milks",
+     "en:uht-milks",
+     "fr:Autres produits"
+    ]
+   }
+  },
+  {
+   "id": 86363,
+   "type": "PRODUCT",
+   "product_code": "3410280020723",
+   "product_name": "CHAMPIGNONS PIEDS & MORC",
+   "category_tag": null,
+   "price": 1.58,
+   "price_is_discounted": false,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2025-02-28",
+   "product": {
+    "product_name": "Champignons de Paris Pieds et Morceaux",
+    "product_quantity": 800,
+    "product_quantity_unit": "g",
+    "quantity": "800 g (460 g égoutté)",
+    "brands": "Top Budget",
+    "categories_tags": [
+     "en:plant-based-foods-and-beverages",
+     "en:plant-based-foods",
+     "en:fruits-and-vegetables-based-foods",
+     "en:vegetable-based-foods-and-beverages",
+     "en:canned-foods",
+     "en:vegetables-based-foods",
+     "en:canned-plant-based-foods",
+     "en:mushrooms-and-their-products",
+     "en:mushrooms",
+     "en:canned-mushrooms",
+     "en:canned-champignon-mushrooms"
+    ]
+   }
+  },
+  {
+   "id": 193817,
+   "type": "PRODUCT",
+   "product_code": "7613034975416",
+   "product_name": "CONE CHOCOLAT X6 EXTREME",
+   "category_tag": null,
+   "price": 3.39,
+   "price_is_discounted": true,
+   "price_per": null,
+   "currency": "EUR",
+   "date": "2026-01-29",
+   "product": {
+    "product_name": "Extrême Chocolat",
+    "product_quantity": 720,
+    "product_quantity_unit": "ml",
+    "quantity": "720 ml e (426 g)",
+    "brands": "Nestlé",
+    "categories_tags": [
+     "en:desserts",
+     "en:frozen-foods",
+     "en:frozen-desserts",
+     "en:ice-creams-and-sorbets",
+     "en:ice-creams",
+     "en:ice-cream-cones",
+     "fr:Cônes au chocolat"
+    ]
+   }
+  }
+ ]
+}
