@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Ban, ChefHat, Clock, Loader2, Package, Sparkles, Store as StoreIcon, Wallet } from "lucide-react";
+import { ArrowRight, Ban, ChefHat, Clock, Dumbbell, Loader2, Package, Scale, Sparkles, Store as StoreIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { CollapsibleCard, Segmented } from "@/components/ds";
@@ -7,7 +7,7 @@ import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { Chips, IngredientPicker, Stepper } from "@/components/ui";
 import type { IngredientOption } from "@/lib/client/catalog-types";
 import type { Profile } from "@/lib/domain/profile";
-import { CUISINES, DIETS, EQUIPMENT, type Cuisine, type Diet, type Difficulty, type Equipment, type Preferences, type Store } from "@/lib/domain/schemas";
+import { CUISINES, DIETS, EQUIPMENT, NUTRITION_GOALS, type Cuisine, type Diet, type Difficulty, type Equipment, type NutritionGoal, type Preferences, type Store } from "@/lib/domain/schemas";
 import { divideCeil, eurosToCents, formatEuros } from "@/lib/engine/money";
 
 const entries = <K extends string>(o: Record<K, string>) => Object.entries(o) as [K, string][];
@@ -279,7 +279,7 @@ export function PreferencesForm({
       </CollapsibleCard>
 
       {/* 2. Régime & contraintes */}
-      <CollapsibleCard step={2} icon={Ban} title="Régime et contraintes" summary={`${DIETS[prefs.diet]} · ${nExcluded} exclusion${nExcluded > 1 ? "s" : ""} · ${nAllergens} allergie${nAllergens > 1 ? "s" : ""}`}>
+      <CollapsibleCard step={2} icon={Ban} title="Régime et contraintes" summary={`${DIETS[prefs.diet]}${prefs.nutritionGoal !== "aucun" ? ` · ${NUTRITION_GOALS[prefs.nutritionGoal]}` : ""} · ${nExcluded} exclusion${nExcluded > 1 ? "s" : ""} · ${nAllergens} allergie${nAllergens > 1 ? "s" : ""}`}>
         <div className="space-y-5">
           <div>
             <p className="mb-2 text-caption font-medium text-muted">Régime</p>
@@ -290,6 +290,26 @@ export function PreferencesForm({
               options={entries(DIETS).map(([value]) => ({ value, label: DIET_SHORT[value] }))}
             />
             <p className="mt-1.5 text-caption text-subtle">{DIETS[prefs.diet]}</p>
+          </div>
+          <div>
+            <p className="mb-2 text-caption font-medium text-muted">Objectif nutritionnel</p>
+            <Segmented
+              label="Objectif nutritionnel"
+              value={prefs.nutritionGoal}
+              onChange={(g: NutritionGoal) => set("nutritionGoal", g)}
+              options={[
+                { value: "aucun", label: "Aucun" },
+                { value: "proteine", label: "Protéiné", icon: Dumbbell },
+                { value: "equilibre", label: "Équilibré", icon: Scale },
+              ]}
+            />
+            <p className="mt-1.5 text-caption text-subtle">
+              {prefs.nutritionGoal === "proteine"
+                ? "Privilégie les plats à 30 g de protéines ou plus par portion, toujours dans le budget."
+                : prefs.nutritionGoal === "equilibre"
+                  ? "Privilégie une répartition proche de 15 % protéines, 50 % glucides, 35 % lipides."
+                  : "Les valeurs nutritionnelles s'affichent quand même sur chaque plat."}
+            </p>
           </div>
           <div className="flex items-center justify-between gap-3 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
             <p className="text-body-sm">

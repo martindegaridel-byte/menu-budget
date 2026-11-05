@@ -1,5 +1,6 @@
-import type { Preferences } from "@/lib/domain/schemas";
+import type { Nutrition, Preferences } from "@/lib/domain/schemas";
 import { allocateCents, divideCeil, formatEuros, type Cents } from "./money";
+import { HIGH_PROTEIN_GRAMS, energyShares } from "./nutrition";
 import { bestUnitPrice } from "./packaging";
 import { filterRecipes, REJECTION_LABELS, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
 import { createRng } from "./rng";
@@ -26,6 +27,8 @@ export interface MenuRecipe {
   skippedOptional: string[];
   /** Ingrédients pris (au moins en partie) dans le placard. */
   pantryIngredientIds: string[];
+  /** Valeurs nutritionnelles d'une portion (estimation). */
+  nutrition: Nutrition | null;
 }
 
 export interface Diagnostic {
@@ -38,7 +41,8 @@ export interface Diagnostic {
     | "suggest-meals"
     | "suggest-persons"
     | "recipe-no-longer-valid"
-    | "unavailable";
+    | "unavailable"
+    | "nutrition-goal";
   message: string;
 }
 
@@ -53,6 +57,8 @@ export interface MenuResult {
   remainingCents: Cents;
   perPersonPerMealCents: Cents;
   pantrySavingsCents: Cents;
+  /** Moyenne par repas et par personne (null si inconnue). */
+  nutritionPerMeal: Nutrition | null;
   recipes: MenuRecipe[];
   shoppingList: ShoppingList;
   diagnostics: Diagnostic[];
@@ -527,8 +533,14 @@ function buildResult(
       droppedOptional: c.droppedOptional,
       skippedOptional: [...c.optionalNeeds.keys()].filter((id) => !extras[k]?.has(id)),
       pantryIngredientIds: [...recipeNeeds[k]!.keys()].filter((id) => (lineById.get(id)?.fromPantry ?? 0) > 0),
+      nutrition: c.nutrition,
     };
   });
+  const known = recipes.map((r) => r.nutrition).filter((n): n is Nutrition => !!n);
+  const nutritionPerMeal: Nutrition | null =
+    known.length === recipes.length && known.length > 0
+      ? (["kcal", "protein", "carbs", "fat"] as const).reduce((acc, k) => ({ ...acc, [k]: Math.round(known.reduce((a, n) => a + n[k], 0) / known.length) }), { kcal: 0, protein: 0, carbs: 0, fat: 0 })
+      : null;
 
   const diagnostics: Diagnostic[] = [];
   if (filtered.candidates.length < prefs.meals) {
@@ -544,6 +556,25 @@ function buildResult(
       code: "unavailable",
       message: `Ingrédient(s) introuvable(s) : ${list.unavailable.map((id) => ctx.ingredients.get(id)?.name ?? id).join(", ")}.`,
     });
+  }
+
+  // Objectif nutritionnel : on dit franchement quand le budget ne permet pas de l'atteindre.
+  if (nutritionPerMeal && prefs.nutritionGoal === "proteine" && nutritionPerMeal.protein < HIGH_PROTEIN_GRAMS - 5) {
+    diagnostics.push({
+      level: "warning",
+      code: "nutrition-goal",
+      message: `Objectif protéiné atteint en partie : ${nutritionPerMeal.protein} g de protéines par repas en moyenne (repère : ${HIGH_PROTEIN_GRAMS} g). Un budget un peu plus large ou des œufs, légumineuses et thon au placard aideront.`,
+    });
+  }
+  if (nutritionPerMeal && prefs.nutritionGoal === "equilibre") {
+    const s = energyShares(nutritionPerMeal);
+    if (s.fat > 0.45 || s.carbs < 0.38 || s.protein < 0.1) {
+      diagnostics.push({
+        level: "warning",
+        code: "nutrition-goal",
+        message: `Équilibre atteint en partie : ${Math.round(s.protein * 100)} % protéines, ${Math.round(s.carbs * 100)} % glucides, ${Math.round(s.fat * 100)} % lipides (repère : 15 / 50 / 35).`,
+      });
+    }
   }
 
   let pantrySavingsCents = 0;
@@ -568,6 +599,7 @@ function buildResult(
     remainingCents: prefs.budgetCents - total,
     perPersonPerMealCents: divideCeil(total, prefs.persons * Math.max(1, menu.length)),
     pantrySavingsCents,
+    nutritionPerMeal,
     recipes,
     shoppingList: list,
     diagnostics,
@@ -592,6 +624,7 @@ function noCandidates(prefs: Preferences, filtered: FilterResult, started: numbe
     remainingCents: prefs.budgetCents,
     perPersonPerMealCents: 0,
     pantrySavingsCents: 0,
+    nutritionPerMeal: null,
     recipes: [],
     shoppingList: { lines: [], totalCents: 0, usedCostCents: 0, unavailable: [] },
     diagnostics: [

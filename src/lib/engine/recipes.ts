@@ -1,6 +1,7 @@
-import type { Allergen, Preferences, Recipe } from "@/lib/domain/schemas";
+import type { Allergen, Nutrition, Preferences, Recipe } from "@/lib/domain/schemas";
 import { isOriginAllowed } from "./diet";
 import { deriveRecipeFacts, type Base, type Protein } from "./facts";
+import { nutritionBonus, nutritionPerPortion } from "./nutrition";
 import { hashString } from "./rng";
 import { buildShoppingList, pantryQuantity } from "./shopping";
 import type { EngineContext, Needs, ShoppingList } from "./types";
@@ -38,6 +39,8 @@ export interface PreparedRecipe {
   /** Indicateurs utiles à la variété (déduits des ingrédients). */
   protein: Protein | null;
   base: Base | null;
+  /** Valeurs nutritionnelles d'une portion (ingrédients essentiels). */
+  nutrition: Nutrition | null;
 }
 
 export interface FilterResult {
@@ -95,14 +98,16 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       continue;
     }
     const facts = deriveRecipeFacts(recipe, ctx.ingredients);
+    const nutrition = nutritionPerPortion(needs, ctx.ingredients, prefs.persons);
     candidates.push({
       recipe,
       needs,
       optionalNeeds,
       droppedOptional,
-      score: scoreRecipe(recipe, needs, prefs, ctx),
+      score: scoreRecipe(recipe, needs, prefs, ctx) + nutritionBonus(nutrition, prefs.nutritionGoal),
       protein: facts.protein,
       base: facts.base,
+      nutrition,
     });
   }
   return { candidates, rejected };

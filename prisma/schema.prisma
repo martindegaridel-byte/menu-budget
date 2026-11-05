@@ -38,6 +38,8 @@ model Ingredient {
   allergensJson String  @default("[]")
   staple        Boolean @default(false)
   tagsJson      String  @default("[]")
+  /// Valeurs nutritionnelles (JSON : kcal, protein, carbs, fat), pour 100 g/ml ou par pièce
+  nutritionJson String?
 
   packages    Package[]
   recipeLines RecipeIngredient[]

@@ -21,6 +21,7 @@ async function main() {
         allergensJson: JSON.stringify(i.allergens),
         staple: i.staple,
         tagsJson: JSON.stringify(i.tags),
+        nutritionJson: i.nutrition ? JSON.stringify(i.nutrition) : null,
       };
       await tx.ingredient.upsert({ where: { id: i.id }, create: { id: i.id, ...row }, update: row });
     }

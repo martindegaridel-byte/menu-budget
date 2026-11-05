@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
+import { MacroBar } from "@/components/MacroBar";
 import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/ui";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { CUISINES, type Cuisine } from "@/lib/domain/schemas";
@@ -77,6 +78,12 @@ export function MenuSummary({
             <dd className="font-numeric text-title-3 font-semibold tabular-nums text-accent-text">{formatEuros(result.pantrySavingsCents)}</dd>
           </div>
         </dl>
+      )}
+      {result.nutritionPerMeal && (
+        <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+          <p className="mb-1.5 text-caption text-muted">En moyenne, par repas et par personne (estimation)</p>
+          <MacroBar n={result.nutritionPerMeal} />
+        </div>
       )}
       {result.diagnostics.length > 0 && (
         <div aria-live="polite" className="space-y-2">
@@ -174,6 +181,7 @@ export function MenuRecipes({
                   )}
                 </div>
                 {result.persons > 1 && <p className="mt-1.5 text-caption text-muted tabular-nums">≈ {formatEuros(r.perPersonCents)} / pers.</p>}
+                {r.nutrition && <MacroBar n={r.nutrition} compact className="mt-2" />}
               </div>
             </div>
             {r.skippedOptional.length > 0 && (

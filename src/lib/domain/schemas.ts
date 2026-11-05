@@ -107,6 +107,23 @@ const positive = z.number().positive();
 /* Ingrédients & conditionnements                                     */
 /* ------------------------------------------------------------------ */
 
+export const NutritionSchema = z.object({
+  kcal: z.number().nonnegative(),
+  protein: z.number().nonnegative(),
+  carbs: z.number().nonnegative(),
+  fat: z.number().nonnegative(),
+});
+export type Nutrition = z.infer<typeof NutritionSchema>;
+
+/** Objectif nutritionnel privilégié par le moteur (sans jamais dépasser le budget). */
+export const NUTRITION_GOALS = {
+  aucun: "Aucun",
+  proteine: "Riche en protéines",
+  equilibre: "Équilibré",
+} as const;
+export const NutritionGoalSchema = z.enum(Object.keys(NUTRITION_GOALS) as [keyof typeof NUTRITION_GOALS, ...(keyof typeof NUTRITION_GOALS)[]]);
+export type NutritionGoal = z.infer<typeof NutritionGoalSchema>;
+
 export const IngredientSchema = z.object({
   id,
   name: z.string().min(2),
@@ -120,6 +137,11 @@ export const IngredientSchema = z.object({
   staple: z.boolean().default(false),
   /** Familles pour les exclusions rapides (porc, champignon, fromage, piquant…). */
   tags: z.array(z.string()).default([]),
+  /**
+   * Valeurs nutritionnelles moyennes (estimations, ordre de grandeur Ciqual) :
+   * pour 100 g / 100 ml, ou pour 1 pièce si l'unité de base est « piece ».
+   */
+  nutrition: NutritionSchema.optional(),
 });
 export type Ingredient = z.infer<typeof IngredientSchema>;
 
@@ -241,6 +263,8 @@ export const PreferencesSchema = z.object({
    * le moteur les pénalise pour éviter de reproposer les mêmes plats.
    */
   recentRecipeIds: z.array(id).max(63).default([]),
+  /** Objectif nutritionnel : privilégier les plats riches en protéines ou équilibrés. */
+  nutritionGoal: NutritionGoalSchema.default("aucun"),
 });
 export type Preferences = z.infer<typeof PreferencesSchema>;
 export type PreferencesInput = z.input<typeof PreferencesSchema>;

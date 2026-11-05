@@ -64,6 +64,7 @@ export async function getCatalog(): Promise<Catalog> {
       gramsPerPiece: i.gramsPerPiece ?? undefined,
       allergens: json(i.allergensJson, []),
       tags: json(i.tagsJson, []),
+      nutrition: i.nutritionJson ? json(i.nutritionJson, undefined) : undefined,
     }),
   );
   const recipes = recipeRows.map((r) =>

@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { Badge } from "@/components/ds";
+import { MacroBar } from "@/components/MacroBar";
 import { RecipeStorage } from "@/components/RecipeStorage";
+import { nutritionPerPortion } from "@/lib/engine/nutrition";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
 import { toBaseQuantity, formatQuantity } from "@/lib/engine/units";
@@ -32,6 +34,7 @@ export default async function RecipePage({
     return { ...l, ing, qty: toBaseQuantity(l.quantity, l.unit, ing) * factor };
   });
   const allergens = [...new Set(lines.filter((l) => !l.optional).flatMap((l) => l.ing.allergens))];
+  const nutrition = nutritionPerPortion(new Map(lines.filter((l) => !l.optional).map((l) => [l.ingredientId, l.qty])), catalog.ingredientsById, persons);
   const diets = compatibleDiets(lines.filter((l) => !l.optional).map((l) => l.ing.animal));
 
   return (
@@ -64,6 +67,12 @@ export default async function RecipePage({
           </p>
         )}
         <RecipeStorage recipe={recipe} />
+        {nutrition && (
+          <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+            <p className="mb-1.5 text-caption text-muted">Par portion (estimation)</p>
+            <MacroBar n={nutrition} />
+          </div>
+        )}
       </header>
 
       <section aria-labelledby="ing-title" className="rounded-card bg-surface p-4 shadow-soft ring-1 ring-inset ring-line sm:p-5">
