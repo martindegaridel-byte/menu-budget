@@ -44,3 +44,6 @@ next-env.d.ts
 # base locale
 prisma/*.db
 prisma/*.db-journal
+
+# Livres de cuisine (sources privées) : jamais envoyés sur GitHub
+livres/
