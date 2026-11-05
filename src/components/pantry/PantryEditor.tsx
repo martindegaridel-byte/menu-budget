@@ -35,6 +35,7 @@ import type { IngredientOption } from "@/lib/client/catalog-types";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { isPerishable } from "@/lib/domain/perishable";
 import { AISLES, type Aisle, type PantryItem } from "@/lib/domain/schemas";
+import { ReceiptImport } from "./ReceiptImport";
 
 const UNIT_LABEL = { g: "g", ml: "ml", piece: "pièce" } as const;
 const QUICK_ADD = [
@@ -159,6 +160,18 @@ export function PantryEditor({
     } finally {
       setSaving(false);
     }
+  };
+
+  /** Ajout d'achats (ticket) : on additionne aux quantités existantes. */
+  const addPurchases = (bought: { ingredientId: string; quantity: number | null }[]) => {
+    const next = new Map(items.map((i) => [i.ingredientId, { ...i }]));
+    for (const b of bought) {
+      const cur = next.get(b.ingredientId);
+      if (b.quantity === null || cur?.quantity === null) next.set(b.ingredientId, { ...(cur ?? { ingredientId: b.ingredientId }), quantity: null });
+      else next.set(b.ingredientId, { ...(cur ?? { ingredientId: b.ingredientId }), quantity: (cur?.quantity ?? 0) + b.quantity });
+    }
+    update([...next.values()]);
+    toast({ title: `${bought.length} article${bought.length > 1 ? "s" : ""} ajouté${bought.length > 1 ? "s" : ""}`, description: "Pensez à enregistrer le placard.", tone: "success" });
   };
 
   const staples = ingredients.filter((i) => i.staple);
@@ -382,6 +395,8 @@ export function PantryEditor({
           </div>
         )}
       </Card>
+
+      <ReceiptImport ingredients={ingredients} onAdd={addPurchases} />
 
       <Card className="space-y-4" aria-labelledby="staples-title">
         <div>

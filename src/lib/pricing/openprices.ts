@@ -92,8 +92,13 @@ function compile(id: string, rule: MatchRule) {
 /** Ingrédients candidats pour un prix (selon nom et catégories). */
 export function candidateIngredients(p: OpenPrice): string[] {
   const rawName = p.product?.product_name || p.product_name || "";
+  return candidatesForName(rawName, [...(p.product?.categories_tags ?? []), ...(p.category_tag ? [p.category_tag] : [])]);
+}
+
+/** Ingrédients candidats pour un nom de produit (et d'éventuelles catégories Open Food Facts). */
+export function candidatesForName(rawName: string, categories: readonly string[] = []): string[] {
   const name = normalizeName(rawName);
-  const cats = new Set([...(p.product?.categories_tags ?? []), ...(p.category_tag ? [p.category_tag] : [])]);
+  const cats = new Set(categories);
   const out: string[] = [];
   if (globalNot.test(name)) return out;
   for (const [id, rule] of Object.entries(OPEN_PRICES_RULES)) {
