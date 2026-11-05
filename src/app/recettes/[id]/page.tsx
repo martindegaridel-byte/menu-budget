@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { RecipeStorage } from "@/components/RecipeStorage";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
 import { toBaseQuantity, formatQuantity } from "@/lib/engine/units";
@@ -52,6 +53,7 @@ export default async function RecipePage({
           {diets.includes("vegan") ? "🌱 Vegan" : diets.includes("vegetarien") ? "🥚 Végétarien" : diets.includes("pescetarien") ? "🐟 Pescétarien" : "🍗 Omnivore"}
           {allergens.length > 0 && <> · Allergènes : {allergens.map((a) => ALLERGENS[a]).join(", ")}</>}
         </p>
+        <RecipeStorage recipe={recipe} />
       </header>
 
       <section aria-labelledby="ing-title" className="rounded-2xl bg-white p-4 ring-1 ring-stone-200 dark:bg-stone-900 dark:ring-stone-800">

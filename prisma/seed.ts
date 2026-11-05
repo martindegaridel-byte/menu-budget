@@ -52,6 +52,10 @@ async function main() {
         tagsJson: JSON.stringify(r.tags),
         stepsJson: JSON.stringify(r.steps),
         source: r.source,
+        portions: r.portions ?? null,
+        fridgeDays: r.fridgeDays ?? null,
+        freezable: r.freezable ?? null,
+        reheats: r.reheats ?? null,
       };
       await tx.recipe.upsert({ where: { id: r.id }, create: { id: r.id, ...row }, update: row });
       await tx.recipeIngredient.createMany({

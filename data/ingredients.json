@@ -255,6 +255,12 @@
     {"id": "legumes-potage-surgeles", "name": "Légumes pour potage (surgelés)", "aisle": "surgeles", "unit": "g", "packages": [{"label": "Sachet 1 kg", "quantity": 1000, "priceCents": 199}]},
     {"id": "puree-sesame", "name": "Crème de sésame (tahini)", "aisle": "monde", "unit": "g", "allergens": ["sesame"], "packages": [{"label": "Pot 300 g", "quantity": 300, "priceCents": 349}]},
     {"id": "banane-plantain", "name": "Banane plantain", "aisle": "fruits-legumes", "unit": "g", "gramsPerPiece": 300, "tags": ["base:pommes-de-terre"], "packages": [{"label": "À l'unité (~300 g)", "quantity": 300, "priceCents": 99}]},
-    {"id": "feuilles-brick", "name": "Feuilles de brick", "aisle": "monde", "unit": "piece", "allergens": ["gluten"], "tags": ["base:pate"], "packages": [{"label": "Paquet de 10 feuilles", "quantity": 10, "priceCents": 189}]}
+    {"id": "feuilles-brick", "name": "Feuilles de brick", "aisle": "monde", "unit": "piece", "allergens": ["gluten"], "tags": ["base:pate"], "packages": [{"label": "Paquet de 10 feuilles", "quantity": 10, "priceCents": 189}]},
+    {"id": "citronnelle", "name": "Citronnelle", "aisle": "fruits-legumes", "unit": "g", "gramsPerPiece": 25, "packages": [{"label": "Barquette 3 tiges (~75 g)", "quantity": 75, "priceCents": 149}]},
+    {"id": "gaspacho", "name": "Gaspacho", "aisle": "conserves", "unit": "ml", "packages": [{"label": "Brique 1 L", "quantity": 1000, "priceCents": 229}]},
+    {"id": "raviolis-jambon", "name": "Raviolis frais au jambon", "aisle": "charcuterie", "unit": "g", "animal": "viande", "allergens": ["gluten", "oeufs", "lait"], "tags": ["porc", "base:pates"], "packages": [{"label": "Barquette 300 g", "quantity": 300, "priceCents": 199}, {"label": "2 × 300 g", "quantity": 600, "priceCents": 369}]},
+    {"id": "chair-a-saucisse", "name": "Chair à saucisse", "aisle": "boucherie", "unit": "g", "animal": "viande", "tags": ["porc"], "packages": [{"label": "Barquette 400 g", "quantity": 400, "priceCents": 349}]},
+    {"id": "sauce-nems", "name": "Sauce pour nems", "aisle": "monde", "unit": "ml", "animal": "poisson", "allergens": ["poissons"], "packages": [{"label": "Bouteille 200 ml", "quantity": 200, "priceCents": 179}]},
+    {"id": "myrtilles", "name": "Myrtilles", "aisle": "fruits-legumes", "unit": "g", "packages": [{"label": "Barquette 125 g", "quantity": 125, "priceCents": 249}]}
   ]
 }

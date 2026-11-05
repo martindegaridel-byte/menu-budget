@@ -110,6 +110,11 @@ model Recipe {
   tagsJson    String @default("[]")
   stepsJson   String @default("[]")
   source      String @default("seed")
+  /// Conservation (facultatif)
+  portions    Int?
+  fridgeDays  Int?
+  freezable   Boolean?
+  reheats     Boolean?
 
   ingredients RecipeIngredient[]
   favorites   FavoriteRecipe[]

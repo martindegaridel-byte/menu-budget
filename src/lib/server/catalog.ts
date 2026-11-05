@@ -72,6 +72,10 @@ export async function getCatalog(): Promise<Catalog> {
       equipment: json(r.equipmentJson, []),
       tags: json(r.tagsJson, []),
       steps: json(r.stepsJson, []),
+      portions: r.portions ?? undefined,
+      fridgeDays: r.fridgeDays ?? undefined,
+      freezable: r.freezable ?? undefined,
+      reheats: r.reheats ?? undefined,
       ingredients: r.ingredients.map((l) => ({
         ingredientId: l.ingredientId,
         quantity: l.quantity,

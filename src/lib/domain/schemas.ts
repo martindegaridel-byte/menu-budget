@@ -188,6 +188,15 @@ export const RecipeSchema = z.object({
   ingredients: z.array(RecipeIngredientSchema).min(1),
   steps: z.array(z.string().min(3)).min(1),
   source: z.enum(["seed", "llm", "user"]).default("seed"),
+  /* Conservation (facultatif ; affichée seulement, pas encore utilisée par le moteur). */
+  /** Nombre de portions qu'on prépare habituellement en une fois. */
+  portions: z.number().int().min(1).max(20).optional(),
+  /** Durée de conservation au réfrigérateur, en jours. */
+  fridgeDays: z.number().int().min(0).max(14).optional(),
+  /** Se congèle bien. */
+  freezable: z.boolean().optional(),
+  /** Se réchauffe bien (sinon : à manger le jour même). */
+  reheats: z.boolean().optional(),
 });
 export type Recipe = z.infer<typeof RecipeSchema>;
 

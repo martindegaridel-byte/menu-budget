@@ -50,7 +50,7 @@ cp .env.example .env
 npx prisma migrate dev
 ```
 
-(applique les migrations SQLite et lance le seed : 252 ingrédients, 202 recettes)
+(applique les migrations SQLite et lance le seed : 258 ingrédients, 222 recettes)
 
 ```bash
 npm run dev
