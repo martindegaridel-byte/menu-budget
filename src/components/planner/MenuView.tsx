@@ -27,7 +27,8 @@ import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { CUISINES, type Cuisine } from "@/lib/domain/schemas";
 import { formatEuros } from "@/lib/engine/money";
-import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
+import type { MenuResult, PrepPlan, SwapOption } from "@/lib/engine/optimize";
+import { formatQuantity } from "@/lib/engine/units";
 import { BudgetInput } from "./PreferencesForm";
 
 const LEVEL = ["", "Facile", "Moyen", "Difficile"];
@@ -121,6 +122,50 @@ export function MenuSummary({
   );
 }
 
+const soirs = (slots: readonly number[]) =>
+  slots.length > 1 && slots.at(-1)! - slots[0]! === slots.length - 1
+    ? `soirs ${slots[0]! + 1} à ${slots.at(-1)! + 1}`
+    : `soir${slots.length > 1 ? "s" : ""} ${slots.map((k) => k + 1).join(", ")}`;
+
+/** Batch cooking : ce qui se prépare en une fois. */
+export function PrepPlanCard({ plan }: { plan: PrepPlan }) {
+  if (plan.cookOnce.length === 0 && plan.sharedBases.length === 0) return null;
+  return (
+    <Card aria-labelledby="prep-title" className="space-y-3">
+      <div className="flex items-center gap-3">
+        <span className="grid size-9 place-items-center rounded-field bg-accent-soft text-accent-text">
+          <CookingPot aria-hidden className="size-[18px]" strokeWidth={ICON_STROKE} />
+        </span>
+        <div>
+          <h2 id="prep-title" className="text-title-3 font-semibold">
+            Préparation mutualisée
+          </h2>
+          <p className="text-caption text-muted">Moins de cuisine en semaine : préparez ceci en une fois.</p>
+        </div>
+      </div>
+      <ul className="space-y-2">
+        {plan.cookOnce.map((g) => (
+          <li key={g.recipeId} className="flex gap-2.5 rounded-field bg-surface-2 p-3 text-body-sm ring-1 ring-inset ring-line">
+            <CheckCircle2 aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-text" strokeWidth={ICON_STROKE} />
+            <span>
+              <span className="font-semibold">{g.name}</span> : cuisinez-le une fois pour les {soirs(g.slots)}
+              {g.fridgeDays ? ` (se garde ${g.fridgeDays} jours au frigo)` : ""}.
+            </span>
+          </li>
+        ))}
+        {plan.sharedBases.map((b) => (
+          <li key={b.ingredientId} className="flex gap-2.5 rounded-field bg-surface-2 p-3 text-body-sm ring-1 ring-inset ring-line">
+            <Wheat aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-text" strokeWidth={ICON_STROKE} />
+            <span>
+              <span className="font-semibold">{b.name}</span> : faites cuire {formatQuantity(b.quantity, b.unit)} en une fois pour les {soirs(b.slots)}.
+            </span>
+          </li>
+        ))}
+      </ul>
+    </Card>
+  );
+}
+
 export function MenuRecipes({
   result,
   recipes,
@@ -147,6 +192,8 @@ export function MenuRecipes({
         const { icon: Icon, tint } = dishVisual(info);
         const href = `/recettes/${r.recipeId}?p=${result.persons}`;
         const done = cooked?.has(slot) ?? false;
+        const group = result.prepPlan?.cookOnce.find((g) => g.slots.includes(slot));
+        const leftover = group && group.slots[0] !== slot;
         return (
           <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className={cn("overflow-hidden transition-opacity duration-200", done && "opacity-70")}>
             <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
@@ -171,7 +218,17 @@ export function MenuRecipes({
                   </Link>
                 </h3>
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  <Badge icon={Clock}>{r.totalMinutes} min</Badge>
+                  {group && !leftover && (
+                    <Badge tone="accent" icon={CookingPot}>
+                      Couvre {group.slots.length} soirs{group.fridgeDays ? `, se garde ${group.fridgeDays} j` : ""}
+                    </Badge>
+                  )}
+                  {leftover && (
+                    <Badge tone="accent" icon={CookingPot}>
+                      Restes du soir {group.slots[0]! + 1} · à réchauffer
+                    </Badge>
+                  )}
+                  <Badge icon={Clock}>{leftover ? "5 min" : `${r.totalMinutes} min`}</Badge>
                   <Badge>{LEVEL[r.difficulty]}</Badge>
                   <Badge>{CUISINES[r.cuisine as Cuisine] ?? r.cuisine}</Badge>
                   {r.pantryIngredientIds.length > 0 && (

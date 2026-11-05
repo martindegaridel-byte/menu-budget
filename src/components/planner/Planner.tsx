@@ -14,7 +14,7 @@ import type { Profile } from "@/lib/domain/profile";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
-import { MenuRecipes, MenuSummary, SwapSheet } from "./MenuView";
+import { MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
 
@@ -334,6 +334,7 @@ export function Planner({
               <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
                 {tab === "menu" ? (
                   <div className="space-y-3">
+                    {result.prepPlan && <PrepPlanCard plan={result.prepPlan} />}
                     <MenuRecipes
                       result={result}
                       recipes={recipeMap}

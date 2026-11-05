@@ -41,6 +41,21 @@ export interface PreparedRecipe {
   base: Base | null;
   /** Valeurs nutritionnelles d'une portion (ingrédients essentiels). */
   nutrition: Nutrition | null;
+  baseIngredientId: string | null;
+  /**
+   * Nombre de soirs qu'un même plat peut couvrir en batch cooking (1 = un seul soir) :
+   * il faut qu'il se réchauffe bien, se garde au frigo, et que ses portions suffisent.
+   */
+  maxCover: number;
+}
+
+/** Au plus 3 soirs pour un même plat, même s'il se garde plus longtemps (on garde de la variété). */
+export const MAX_COVER = 3;
+
+/** Soirs consécutifs qu'une recette peut couvrir pour `persons` personnes. */
+export function coverFor(recipe: Pick<Recipe, "portions" | "fridgeDays" | "reheats">, persons: number): number {
+  if (recipe.reheats !== true || !recipe.fridgeDays || !recipe.portions) return 1;
+  return Math.max(1, Math.min(MAX_COVER, recipe.fridgeDays + 1, Math.floor(recipe.portions / persons)));
 }
 
 export interface FilterResult {
@@ -108,6 +123,8 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       protein: facts.protein,
       base: facts.base,
       nutrition,
+      baseIngredientId: facts.baseIngredientId,
+      maxCover: coverFor(recipe, prefs.persons),
     });
   }
   return { candidates, rejected };

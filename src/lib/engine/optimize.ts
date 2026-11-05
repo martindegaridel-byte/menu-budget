@@ -48,6 +48,14 @@ export interface Diagnostic {
 
 export type MenuStatus = "ok" | "over-budget" | "no-candidates";
 
+/** Batch cooking : ce qui se prépare en une fois. Les numéros de soir commencent à 0. */
+export interface PrepPlan {
+  /** Plats cuisinés une fois pour plusieurs soirs consécutifs. */
+  cookOnce: { recipeId: string; name: string; slots: number[]; fridgeDays: number | null }[];
+  /** Bases communes à cuire ensemble (riz, pâtes…), quantité totale en unité de base. */
+  sharedBases: { ingredientId: string; name: string; unit: "g" | "ml" | "piece"; quantity: number; slots: number[] }[];
+}
+
 export interface MenuResult {
   status: MenuStatus;
   persons: number;
@@ -59,6 +67,8 @@ export interface MenuResult {
   pantrySavingsCents: Cents;
   /** Moyenne par repas et par personne (null si inconnue). */
   nutritionPerMeal: Nutrition | null;
+  /** Plan de préparation (batch cooking activé), sinon null. */
+  prepPlan: PrepPlan | null;
   recipes: MenuRecipe[];
   shoppingList: ShoppingList;
   diagnostics: Diagnostic[];
@@ -90,6 +100,11 @@ interface Evaluation {
 const REPEAT_PENALTY = { cuisine: 1.5, protein: 1.5, base: 1.5 } as const;
 const OVER_CAP_PENALTY = 6;
 const DUPLICATE_PENALTY = 8;
+/** Batch cooking : bonus par soir couvert sans recuisiner, et par plat qui partage la base d'un autre. */
+const BATCH_REPEAT_BONUS = 1.5;
+const SHARED_BASE_BONUS = 3;
+/** Bases qui se cuisent à l'avance (pas le pain ni les pâtes à tarte). */
+const COOKABLE_BASES = new Set(["pates", "riz", "pommes-de-terre", "cereales", "legumineuses"]);
 /**
  * Poids du coût dans l'objectif : faible, pour départager sans ramener toujours les
  * mêmes plats bon marché (le budget, lui, reste une contrainte stricte).
@@ -113,7 +128,16 @@ class Evaluator {
     readonly ctx: EngineContext,
     readonly budget: Cents,
     readonly meals: number,
+    /** Batch cooking : un plat peut couvrir plusieurs soirs ; les bases communes sont favorisées. */
+    readonly batch = false,
   ) {}
+
+  /** Peut-on (encore) ajouter la recette `c` à ce menu ? */
+  canUse(menu: readonly number[], c: number, allowRepeats: boolean): boolean {
+    if (allowRepeats) return true;
+    const n = menu.reduce((a, x) => a + (x === c ? 1 : 0), 0);
+    return n === 0 || (this.batch && n < this.candidates[c]!.maxCover);
+  }
 
   needs(menu: readonly number[]): Needs {
     const n: Needs = new Map();
@@ -142,21 +166,35 @@ class Evaluator {
     const bump = (m: Map<string, number>, k: string | null) => k && m.set(k, (m.get(k) ?? 0) + 1);
     const seen = new Map<number, number>();
     for (const i of menu) {
+      score += this.candidates[i]!.score;
+      seen.set(i, (seen.get(i) ?? 0) + 1);
+    }
+    // Variété : en batch cooking, un plat cuisiné une fois pour plusieurs soirs compte une seule fois.
+    const counted = this.batch ? [...seen.keys()] : menu;
+    const sharedBase = new Map<string, number>();
+    for (const i of counted) {
       const c = this.candidates[i]!;
-      score += c.score;
       bump(count.cuisine, c.recipe.cuisine);
       bump(count.protein, c.protein);
       bump(count.base, c.base);
-      seen.set(i, (seen.get(i) ?? 0) + 1);
+      if (c.base && COOKABLE_BASES.has(c.base)) bump(sharedBase, c.baseIngredientId);
     }
     const cap = varietyCap(menu.length);
     for (const kind of ["cuisine", "protein", "base"] as const) {
+      if (this.batch && kind === "base") continue; // partager une base est justement le but
       for (const n of count[kind].values()) {
         score -= REPEAT_PENALTY[kind] * (n - 1);
         if (kind !== "cuisine" && n > cap) score -= OVER_CAP_PENALTY * (n - cap);
       }
     }
-    for (const n of seen.values()) if (n > 1) score -= DUPLICATE_PENALTY * (n - 1);
+    for (const [i, n] of seen) {
+      if (n <= 1) continue;
+      const cover = this.batch ? this.candidates[i]!.maxCover : 1;
+      const covered = Math.min(n, cover);
+      score += BATCH_REPEAT_BONUS * (covered - 1); // une cuisson de moins
+      score -= DUPLICATE_PENALTY * (n - covered);
+    }
+    if (this.batch) for (const n of sharedBase.values()) if (n > 1) score += SHARED_BASE_BONUS * (n - 1);
     return score;
   }
 }
@@ -165,8 +203,15 @@ class Evaluator {
 /* Recherche                                                           */
 /* ------------------------------------------------------------------ */
 
-function canUse(menu: readonly number[], c: number, allowRepeats: boolean) {
-  return allowRepeats || !menu.includes(c);
+/** Batch cooking : on regroupe les soirs d'un même plat, puis les plats qui partagent une base. */
+function batchOrder(menu: readonly number[], ev: Evaluator): number[] {
+  if (!ev.batch) return [...menu];
+  const groups = new Map<number, number>();
+  for (const i of menu) groups.set(i, (groups.get(i) ?? 0) + 1);
+  return [...groups.entries()]
+    .map(([i, n], order) => ({ i, n, order, base: ev.candidates[i]!.baseIngredientId ?? "\uffff" }))
+    .sort((a, b) => a.base.localeCompare(b.base) || a.order - b.order)
+    .flatMap(({ i, n }) => Array.from({ length: n }, () => i));
 }
 
 /** Taille du vivier de recettes bon marché utilisé pour chercher le menu le moins cher. */
@@ -205,7 +250,7 @@ function minCostMenu(
     let best = -1;
     let bestEval: Evaluation | null = null;
     for (const c of pool) {
-      if (!canUse(menu, c, allowRepeats)) continue;
+      if (!ev.canUse(menu, c, allowRepeats)) continue;
       const e = ev.evaluate([...menu, c]);
       if (!e.feasible) continue;
       if (!bestEval || e.cost < bestEval.cost || (e.cost === bestEval.cost && e.objective > bestEval.objective)) {
@@ -224,7 +269,7 @@ function minCostMenu(
     for (let s = 0; s < k && !improved; s++) {
       if (Date.now() > deadline) break;
       for (const c of pool) {
-        if (c === menu[s] || !canUse(menu, c, allowRepeats)) continue;
+        if (c === menu[s] || !ev.canUse(menu, c, allowRepeats)) continue;
         const next = [...menu];
         next[s] = c;
         const e = ev.evaluate(next);
@@ -246,7 +291,7 @@ function greedyByScore(ev: Evaluator, k: number, allowRepeats: boolean, order: r
     const remainingSlots = k - s - 1;
     let pick = -1;
     for (const c of order) {
-      if (!canUse(menu, c, allowRepeats)) continue;
+      if (!ev.canUse(menu, c, allowRepeats)) continue;
       const e = ev.evaluate([...menu, c]);
       if (e.feasible && e.cost + remainingSlots * floorPerMeal <= ev.budget) {
         pick = c;
@@ -270,7 +315,7 @@ function improveUnderBudget(ev: Evaluator, start: number[], allowRepeats: boolea
     for (let s = 0; s < menu.length; s++) {
       if (Date.now() > deadline) break; // on garde la meilleure amélioration trouvée jusque-là
       for (let c = 0; c < ev.candidates.length; c++) {
-        if (c === menu[s] || !canUse(menu, c, allowRepeats)) continue;
+        if (c === menu[s] || !ev.canUse(menu, c, allowRepeats)) continue;
         const next = [...menu];
         next[s] = c;
         const e = ev.evaluate(next);
@@ -301,7 +346,7 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   if (candidates.length === 0) return noCandidates(prefs, filtered, started);
 
   const allowRepeats = candidates.length < prefs.meals;
-  const ev = new Evaluator(candidates, ctx, prefs.budgetCents, prefs.meals);
+  const ev = new Evaluator(candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
   const timeLimit = options.timeLimitMs ?? 1000;
   const pool = cheapPool(ev);
   const cheapest = minCostMenu(ev, prefs.meals, allowRepeats, pool, started + timeLimit * 0.5);
@@ -309,7 +354,7 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
 
   const cheapestEval = ev.evaluate(cheapest);
   if (cheapestEval.cost > prefs.budgetCents) {
-    const result = buildResult(cheapest, prefs, ctx, ev, filtered, started);
+    const result = buildResult(batchOrder(cheapest, ev), prefs, ctx, ev, filtered, started);
     result.status = "over-budget";
     result.diagnostics.unshift(
       ...overBudgetDiagnostics(prefs, ctx, cheapestEval.cost, ev, allowRepeats, options, pool, started + timeLimit * 1.2),
@@ -354,12 +399,12 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   }
   const ranked = [...finals.values()].sort((a, b) => b.objective - a.objective);
   const top = ranked[0];
-  if (!top) return buildResult(cheapest, prefs, ctx, ev, filtered, started);
+  if (!top) return buildResult(batchOrder(cheapest, ev), prefs, ctx, ev, filtered, started);
   const tolerance = Math.max(1, Math.abs(top.objective) * NEAR_BEST);
   const near = ranked.filter((r) => r.objective >= top.objective - tolerance);
   // Réoptimisation d'un menu existant (budget modifié…) : on garde le meilleur, sans tirage.
   const chosen = fromInitial.length === prefs.meals ? top : (near[Math.floor(rng() * near.length)] ?? top);
-  return buildResult(chosen.menu, prefs, ctx, ev, filtered, started);
+  return buildResult(batchOrder(chosen.menu, ev), prefs, ctx, ev, filtered, started);
 }
 
 /**
@@ -369,7 +414,7 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
 export function evaluateMenu(recipeIds: readonly string[], prefs: Preferences, ctx: EngineContext): MenuResult {
   const started = Date.now();
   const filtered = filterRecipes(prefs, ctx);
-  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, prefs.meals);
+  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
   const indices: number[] = [];
   const invalid: string[] = [];
   for (const id of recipeIds) {
@@ -418,7 +463,7 @@ export function swapOptions(
   limit = 12,
 ): SwapOption[] {
   const filtered = filterRecipes(prefs, ctx);
-  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, recipeIds.length);
+  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, recipeIds.length, prefs.batchCooking);
   const idx = recipeIds.map((id) => filtered.candidates.findIndex((c) => c.recipe.id === id));
   const current = ev.evaluate(idx.filter((i) => i >= 0));
   const options: SwapOption[] = [];
@@ -536,6 +581,32 @@ function buildResult(
       nutrition: c.nutrition,
     };
   });
+  let prepPlan: PrepPlan | null = null;
+  if (prefs.batchCooking) {
+    const bySlots = new Map<number, number[]>();
+    menu.forEach((i, k) => bySlots.set(i, [...(bySlots.get(i) ?? []), k]));
+    const cookOnce = [...bySlots.entries()]
+      .filter(([, slots]) => slots.length > 1)
+      .map(([i, slots]) => ({ recipeId: ev.candidates[i]!.recipe.id, name: ev.candidates[i]!.recipe.name, slots, fridgeDays: ev.candidates[i]!.recipe.fridgeDays ?? null }));
+    const baseSlots = new Map<string, { recipes: Set<number>; slots: number[]; quantity: number }>();
+    menu.forEach((i, k) => {
+      const c = ev.candidates[i]!;
+      const id = c.baseIngredientId;
+      if (!id || !c.base || !COOKABLE_BASES.has(c.base)) return;
+      const cur = baseSlots.get(id) ?? { recipes: new Set<number>(), slots: [], quantity: 0 };
+      cur.recipes.add(i);
+      cur.slots.push(k);
+      cur.quantity += recipeNeeds[k]!.get(id) ?? 0;
+      baseSlots.set(id, cur);
+    });
+    const sharedBases = [...baseSlots.entries()]
+      .filter(([, b]) => b.recipes.size > 1)
+      .map(([id, b]) => {
+        const ing = ctx.ingredients.get(id);
+        return { ingredientId: id, name: ing?.name ?? id, unit: ing?.unit ?? "g", quantity: Math.round(b.quantity), slots: b.slots };
+      });
+    prepPlan = { cookOnce, sharedBases };
+  }
   const known = recipes.map((r) => r.nutrition).filter((n): n is Nutrition => !!n);
   const nutritionPerMeal: Nutrition | null =
     known.length === recipes.length && known.length > 0
@@ -600,6 +671,7 @@ function buildResult(
     perPersonPerMealCents: divideCeil(total, prefs.persons * Math.max(1, menu.length)),
     pantrySavingsCents,
     nutritionPerMeal,
+    prepPlan,
     recipes,
     shoppingList: list,
     diagnostics,
@@ -625,6 +697,7 @@ function noCandidates(prefs: Preferences, filtered: FilterResult, started: numbe
     perPersonPerMealCents: 0,
     pantrySavingsCents: 0,
     nutritionPerMeal: null,
+    prepPlan: null,
     recipes: [],
     shoppingList: { lines: [], totalCents: 0, usedCostCents: 0, unavailable: [] },
     diagnostics: [
@@ -689,7 +762,7 @@ function overBudgetDiagnostics(
   const persons = largestFitting(prefs.persons - 1, (n) => {
     const f = filterRecipes({ ...prefs, persons: n }, ctx);
     if (f.candidates.length === 0) return false;
-    const ev2 = new Evaluator(f.candidates, ctx, prefs.budgetCents, prefs.meals);
+    const ev2 = new Evaluator(f.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
     const m = minCostMenu(ev2, prefs.meals, f.candidates.length < prefs.meals, cheapPool(ev2), deadline);
     return !!m && ev2.evaluate(m).cost <= prefs.budgetCents;
   });

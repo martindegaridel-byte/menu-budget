@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Ban, ChefHat, Clock, Dumbbell, Loader2, Package, Scale, Sparkles, Store as StoreIcon, Wallet } from "lucide-react";
+import { ArrowRight, Ban, ChefHat, Clock, CookingPot, Dumbbell, Loader2, Package, Scale, Sparkles, Store as StoreIcon, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useId, useState } from "react";
 import { CollapsibleCard, Segmented } from "@/components/ds";
@@ -336,7 +336,7 @@ export function PreferencesForm({
         step={3}
         icon={ChefHat}
         title="Temps, niveau, équipement et goûts"
-        summary={`${timeLabel} · ${LEVELS[prefs.maxDifficulty - 1]!.label} · ${prefs.equipment.length} équipement${prefs.equipment.length > 1 ? "s" : ""}`}
+        summary={`${timeLabel}${prefs.batchCooking ? " · batch cooking" : ""} · ${LEVELS[prefs.maxDifficulty - 1]!.label} · ${prefs.equipment.length} équipement${prefs.equipment.length > 1 ? "s" : ""}`}
       >
         <div className="space-y-5">
           <Field label="Temps total maximum par plat" htmlFor={timeId} icon={Clock}>
@@ -348,6 +348,22 @@ export function PreferencesForm({
               ))}
             </select>
           </Field>
+          <label className="flex min-h-11 cursor-pointer items-start justify-between gap-3 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+            <span>
+              <span className="flex items-center gap-2 text-body-sm font-medium">
+                <CookingPot aria-hidden className="size-4 text-muted" strokeWidth={ICON_STROKE} />
+                Batch cooking
+              </span>
+              <span className="mt-0.5 block text-caption text-muted">
+                Cuisiner une fois pour 2 ou 3 soirs (plats qui se gardent et se réchauffent) et partager les bases : le riz ou les pâtes se cuisent en une fois.
+              </span>
+            </span>
+            <input type="checkbox" role="switch" className="peer sr-only" checked={prefs.batchCooking} onChange={(e) => set("batchCooking", e.target.checked)} />
+            <span
+              aria-hidden
+              className="relative mt-1 h-6 w-10 shrink-0 rounded-full bg-surface-3 ring-1 ring-inset ring-line-strong transition-colors duration-150 after:absolute after:left-0.5 after:top-0.5 after:size-5 after:rounded-full after:bg-fg after:transition-transform after:duration-150 peer-checked:bg-accent-2 peer-checked:after:translate-x-4 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+            />
+          </label>
           <div>
             <p className="mb-2 text-caption font-medium text-muted">Niveau en cuisine</p>
             <Segmented label="Niveau en cuisine" value={`${prefs.maxDifficulty}`} onChange={(v) => set("maxDifficulty", Number(v) as Difficulty)} options={LEVELS} />

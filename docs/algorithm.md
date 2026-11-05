@@ -78,3 +78,20 @@ Mesures (machine de dev, 172 recettes) : 5 repas ≈ 0,2 s ; 14 repas × 4 pers.
 - PLNE (programmation linéaire en nombres entiers) avec variables de paquets si l'on
   veut l'optimum prouvé (solveur côté serveur).
 - Tenir compte de la valeur des restes (réutilisables la semaine suivante).
+
+## 5. Objectif nutritionnel et batch cooking
+
+- **Nutrition** : chaque ingrédient porte kcal / protéines / glucides / lipides
+  (pour 100 g ou 100 ml, ou par pièce ; estimations, ordre de grandeur Ciqual).
+  Les macros d'une portion sont calculées sur les ingrédients essentiels.
+  `nutritionGoal` ajoute un bonus au score : « proteine » (≥ 30 g par portion),
+  « equilibre » (proche de 15 / 50 / 35 % de l'énergie). Le budget reste strict ;
+  un avertissement signale un objectif atteint en partie.
+- **Batch cooking** (`batchCooking`) : une recette peut couvrir jusqu'à
+  `coverFor` soirs consécutifs = min(3, jours au frigo + 1, portions ÷ personnes),
+  seulement si elle se réchauffe bien ; sans données de conservation : 1 soir.
+  Les ingrédients sont achetés une fois (besoins cumulés), le coût est réparti
+  par soir. Score : +1,5 par soir couvert sans recuisiner, +3 par plat qui partage
+  une base qui se cuit à l'avance (riz, pâtes, pommes de terre, céréales,
+  légumineuses), pas de pénalité de base répétée. Le menu regroupe les soirs d'un
+  même plat ; `prepPlan` liste ce qui se prépare en une fois.

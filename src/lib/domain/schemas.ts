@@ -265,6 +265,11 @@ export const PreferencesSchema = z.object({
   recentRecipeIds: z.array(id).max(63).default([]),
   /** Objectif nutritionnel : privilégier les plats riches en protéines ou équilibrés. */
   nutritionGoal: NutritionGoalSchema.default("aucun"),
+  /**
+   * Batch cooking : cuisiner une fois pour plusieurs soirs (plats qui se gardent et se
+   * réchauffent) et mutualiser les bases (riz, pâtes…) entre les plats.
+   */
+  batchCooking: z.boolean().default(false),
 });
 export type Preferences = z.infer<typeof PreferencesSchema>;
 export type PreferencesInput = z.input<typeof PreferencesSchema>;

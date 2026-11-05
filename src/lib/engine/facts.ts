@@ -41,6 +41,8 @@ export interface RecipeFacts {
   quick: boolean;
   glutenFree: boolean;
   base: Base | null;
+  /** Ingrédient qui sert de base (ex. « riz-long ») : utile pour mutualiser sa cuisson. */
+  baseIngredientId: string | null;
   protein: Protein | null;
 }
 
@@ -94,12 +96,13 @@ export function deriveRecipeFacts(recipe: Recipe, ingredients: ReadonlyMap<strin
     items.sort((a, b) => a.rank - b.rank || b.perServing - a.perServing)[0]?.value ?? null;
 
   // Base : féculent le plus présent ; les légumineuses ne servent de base qu'en l'absence de féculent.
-  const base = pickLargest(
+  const baseLine = pickLargest(
     significant.flatMap((l) => {
       const b = baseOf(l.ing);
-      return b ? [{ value: b, rank: b === "legumineuses" ? 1 : 0, perServing: l.perServing }] : [];
+      return b ? [{ value: { base: b, id: l.ing.id }, rank: b === "legumineuses" ? 1 : 0, perServing: l.perServing }] : [];
     }),
   );
+  const base = baseLine?.base ?? null;
   const protein = pickLargest(
     significant.flatMap((l) => {
       const p = proteinOf(l.ing);
@@ -113,6 +116,7 @@ export function deriveRecipeFacts(recipe: Recipe, ingredients: ReadonlyMap<strin
     quick: recipe.prepMinutes + recipe.cookMinutes <= QUICK_MINUTES,
     glutenFree: !allergens.includes("gluten"),
     base,
+    baseIngredientId: baseLine?.id ?? null,
     protein,
   };
 }
