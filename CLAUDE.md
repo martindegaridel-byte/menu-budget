@@ -29,7 +29,12 @@ déduit avant achat.
   `optimizeMenu`, `swapRecipe`. Toutes les données arrivent en paramètres.
 - `src/lib/pricing/` — interface `PriceProvider` + implémentations
   (estimations Intermarché seed, surcharges utilisateur par magasin).
-- `src/lib/server/` — accès Prisma, adaptateurs vers le moteur.
+- `src/lib/llm/` — `RecipeGenerator` (interface), implémentation Anthropic
+  (`claude-opus-5-5`, sortie structurée Zod v4), `validateGeneratedRecipes`.
+  Désactivé sauf `RECIPE_GENERATOR_ENABLED=true`.
+- `src/lib/server/` — accès Prisma, utilisateur anonyme (cookie), contexte moteur.
+- `src/lib/client/` — appels API, helpers liste de courses (purs, testés).
+- `src/components/` — UI (planner, pantry, stores, history).
 - `src/app/` — Next.js App Router (pages + route handlers).
 - `data/` — seed JSON (ingrédients, formats/prix, recettes, magasins).
 - `prisma/` — schéma + seed.
@@ -52,3 +57,7 @@ déduit avant achat.
   à un `userId` pour brancher l'auth plus tard.
 - Tests du moteur écrits avant/avec l'implémentation (`*.test.ts` à côté du code).
 - Commits petits et clairs, `npm run check` vert avant chaque commit.
+- Pages qui lisent la base : `export const dynamic = "force-dynamic"` (le build
+  ne doit pas dépendre de la base).
+- Test d'acceptation clé : `optimize.test.ts` (100 combinaisons, budget jamais
+  dépassé, aucun aliment exclu, < 2 s).

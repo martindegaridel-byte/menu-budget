@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Menu Budget
 
-## Getting Started
+Application web mobile-first : vous indiquez un **budget**, un nombre de **repas**
+(1 repas = 1 plat) et vos contraintes ; l'app compose des plats dont le **coût en
+caisse** respecte strictement le budget, en tenant compte de **votre placard**,
+puis génère la **liste de courses** par rayon.
 
-First, run the development server:
+Prix de référence : **Intermarché Super** (estimations), avec gestion de plusieurs
+magasins et saisie / import de vos propres prix.
+
+## Fonctionnalités
+
+- **Préférences** : budget, nombre de repas, personnes, régime (omnivore,
+  flexitarien, pescétarien, végétarien, vegan), 14 allergènes, aliments exclus,
+  temps max, niveau, équipement, cuisines et aliments favoris, magasin.
+- **Moteur de budget** (`src/lib/engine`, fonctions pures) :
+  - conditionnement réel (on achète le paquet entier, au format le moins cher) ;
+  - placard déduit avant achat (0 €), sans double comptage ;
+  - réutilisation d'ingrédients entre plats ;
+  - optimisation glouton + recherche locale (voir [docs/algorithm.md](docs/algorithm.md)) ;
+  - budget impossible → menu le moins cher + « il manque X € » + suggestions.
+- **Résultat** : jauge total/budget, coût par plat et par personne, économie
+  grâce au placard, remplacement d'un plat avec le nouveau prix, ajustement en
+  direct du budget et du nombre de personnes.
+- **Liste de courses** par rayon, cases à cocher, copier / partager, restes,
+  « J'ai fait mes courses » (met le placard à jour).
+- **Placard** : stock avec quantités et dates de péremption (les produits qui
+  périment sont prioritaires), condiments cochés.
+- **Magasins** : plusieurs magasins (indice de prix par format), prix saisis à la
+  main ou importés en CSV, produits « introuvables ici ».
+- **Historique et favoris** (menus et recettes).
+- **IA (optionnelle)** : génération de recettes via l'API Anthropic, sortie JSON
+  validée par Zod ; le prix n'est jamais fourni par le LLM.
+
+## Démarrage
+
+Prérequis : Node.js 20+.
+
+```bash
+npm install
+```
+
+```bash
+cp .env.example .env
+```
+
+```bash
+npx prisma migrate dev
+```
+
+(applique les migrations SQLite et lance le seed : 173 ingrédients, 215 formats, 64 recettes)
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis ouvrez http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Commandes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Commande | Rôle |
+|---|---|
+| `npm run dev` | serveur de développement |
+| `npm run build` / `npm start` | build et serveur de production |
+| `npm test` | tests Vitest (moteur, données, CSV, validation LLM) |
+| `npm run lint` / `npm run typecheck` | ESLint / TypeScript strict |
+| `npm run check` | typecheck + lint + tests |
+| `npm run db:seed` | recharge le catalogue (vos prix sont conservés) |
+| `npm run db:reset` | réinitialise la base |
 
-## Learn More
+### Génération de recettes par IA (facultatif)
 
-To learn more about Next.js, take a look at the following resources:
+Dans `.env` :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+ANTHROPIC_API_KEY="sk-ant-..."
+RECIPE_GENERATOR_ENABLED="true"
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Un bouton « Proposer 2 recettes » apparaît alors sous le formulaire. Les recettes
+sont rejetées si elles utilisent un ingrédient inconnu ou interdit ; leur coût est
+calculé par le moteur.
 
-## Deploy on Vercel
+### Passer à Postgres
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Dans `prisma/schema.prisma`, remplacez `provider = "sqlite"` par `"postgresql"`,
+renseignez `DATABASE_URL`, supprimez `prisma/migrations` et lancez
+`npx prisma migrate dev`. Les champs `*Json` peuvent devenir de type `Json`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Prix
+
+Les prix fournis sont des **estimations** pour un Intermarché Super (marques
+distributeur privilégiées, novembre 2026), pas des relevés officiels : Intermarché
+ne publie pas d'API de prix et les prix varient d'un magasin à l'autre. Recalez-les
+dans **Magasins** (saisie ou import CSV : `ingrédient ; libellé ; quantité ; unité ; prix`).
+L'interface `PriceProvider` (`src/lib/pricing/priceBook.ts`) permet de brancher
+une autre source.
+
+## Architecture
+
+```
+data/                 seed JSON (ingrédients + formats/prix, recettes, magasins)
+prisma/               schéma, migrations, seed
+src/lib/domain/       types et schémas Zod (source de vérité)
+src/lib/engine/       moteur pur : prix, conditionnement, placard, optimisation
+src/lib/pricing/      PriceProvider, résolution des prix par magasin, import CSV
+src/lib/llm/          générateur de recettes (interface + Anthropic + validation)
+src/lib/server/       Prisma, utilisateur anonyme, contexte moteur
+src/app/              pages et routes d'API (Next.js App Router)
+src/components/       interface
+```
+
+Les montants sont toujours des **centimes entiers**. Pas de compte utilisateur pour
+l'instant : un identifiant anonyme est stocké dans un cookie, et toutes les données
+y sont rattachées (`getCurrentUserId` est le point d'extension pour l'authentification).
