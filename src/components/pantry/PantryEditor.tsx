@@ -3,6 +3,7 @@ import { useEffect, useId, useMemo, useState } from "react";
 import { Button, Card, Notice } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption } from "@/lib/client/catalog-types";
+import { isPerishable } from "@/lib/domain/perishable";
 import { AISLES, type PantryItem } from "@/lib/domain/schemas";
 
 const UNIT_LABEL = { g: "g", ml: "ml", piece: "pièce(s)" } as const;
@@ -49,7 +50,12 @@ export function PantryEditor({ ingredients }: { ingredients: IngredientOption[] 
   };
   const save = async () => {
     try {
-      const r = await api.putPantry(items);
+      // Pas de date de péremption pour l'épicerie sèche, les conserves, les épices, les surgelés.
+      const cleaned = items.map((i) => {
+        const ing = byId.get(i.ingredientId);
+        return ing && !isPerishable(ing) ? { ingredientId: i.ingredientId, quantity: i.quantity } : i;
+      });
+      const r = await api.putPantry(cleaned);
       setItems(r.items);
       setDirty(false);
       setStatus({ level: "info", text: "Placard enregistré. Il sera utilisé pour vos prochains menus." });
@@ -70,7 +76,7 @@ export function PantryEditor({ ingredients }: { ingredients: IngredientOption[] 
           Ingrédients en stock
         </h2>
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          Indiquez les quantités : le moteur les utilise en priorité et n&apos;achète que le complément. Une date de péremption proche favorise les recettes qui les utilisent.
+          Indiquez les quantités : le moteur les utilise en priorité et n&apos;achète que le complément. Pour les produits frais, une date de péremption proche (facultative) favorise les recettes qui les utilisent.
         </p>
         <div className="flex gap-2">
           <label htmlFor={searchId} className="sr-only">
@@ -133,16 +139,18 @@ export function PantryEditor({ ingredients }: { ingredients: IngredientOption[] 
                         onChange={(e) => setItem(item.ingredientId, { quantity: e.target.value === "" ? null : Math.max(0, Number(e.target.value)) })}
                       />
                     </label>
-                    <label className="text-sm">
-                      <span className="mb-1 block">À consommer avant</span>
-                      <input
-                        type="date"
-                        className="input w-44"
-                        value={item.expiresOn ?? ""}
-                        onChange={(e) => setItem(item.ingredientId, { expiresOn: e.target.value || undefined })}
-                      />
-                    </label>
-                    {days !== null && days <= 5 && (
+                    {isPerishable(ing) && (
+                      <label className="text-sm">
+                        <span className="mb-1 block">À consommer avant (facultatif)</span>
+                        <input
+                          type="date"
+                          className="input w-44"
+                          value={item.expiresOn ?? ""}
+                          onChange={(e) => setItem(item.ingredientId, { expiresOn: e.target.value || undefined })}
+                        />
+                      </label>
+                    )}
+                    {isPerishable(ing) && days !== null && days <= 5 && (
                       <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900 dark:bg-amber-900 dark:text-amber-100">
                         {days < 0 ? "Périmé" : days === 0 ? "Aujourd'hui" : `Dans ${days} j`} — prioritaire
                       </span>
