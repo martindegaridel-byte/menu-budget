@@ -6,6 +6,7 @@ import { api } from "@/lib/client/api";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { pantryAfterShopping } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
+import type { Profile } from "@/lib/domain/profile";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
@@ -26,11 +27,13 @@ export function Planner({
   recipes,
   stores,
   llmEnabled = false,
+  permanent = { excludedIngredientIds: [], allergens: [] },
 }: {
   ingredients: IngredientOption[];
   recipes: RecipeSummary[];
   stores: Store[];
   llmEnabled?: boolean;
+  permanent?: Profile;
 }) {
   const [storedPrefs, setPrefs] = usePersistentState<Preferences>("mb:prefs", DEFAULT_PREFERENCES);
   const prefs = useMemo(() => {
@@ -144,6 +147,7 @@ export function Planner({
             loading={busy}
             ingredients={ingredients}
             stores={stores}
+            permanent={permanent}
           />
           {llmEnabled && <AiRecipes prefs={prefs} />}
           {result && (

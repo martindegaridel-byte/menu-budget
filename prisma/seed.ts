@@ -20,6 +20,7 @@ async function main() {
         animal: i.animal,
         allergensJson: JSON.stringify(i.allergens),
         staple: i.staple,
+        tagsJson: JSON.stringify(i.tags),
       };
       await tx.ingredient.upsert({ where: { id: i.id }, create: { id: i.id, ...row }, update: row });
     }

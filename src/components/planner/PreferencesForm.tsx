@@ -1,7 +1,9 @@
 "use client";
+import Link from "next/link";
 import { useId, useState } from "react";
 import { Button, Card, Chips, IngredientPicker, Stepper } from "@/components/ui";
 import type { IngredientOption } from "@/lib/client/catalog-types";
+import type { Profile } from "@/lib/domain/profile";
 import {
   ALLERGENS,
   CUISINES,
@@ -80,7 +82,9 @@ export function PreferencesForm({
   loading,
   ingredients,
   stores,
+  permanent,
 }: {
+  permanent?: Profile;
   prefs: Preferences;
   onChange: (p: Preferences) => void;
   onSubmit: () => void;
@@ -159,8 +163,9 @@ export function PreferencesForm({
           onToggle={(a: Allergen) => set("allergens", toggle(prefs.allergens, a))}
           hint="« Lait / lactose » exclut tous les produits laitiers."
         />
+        <PermanentSummary permanent={permanent} ingredients={ingredients} />
         <IngredientPicker
-          label="Aliments exclus"
+          label="Aliments exclus pour ce menu"
           options={ingredients}
           selected={prefs.excludedIngredientIds}
           onChange={(ids) => set("excludedIngredientIds", ids)}
@@ -220,5 +225,32 @@ export function PreferencesForm({
         {loading ? "Composition en cours…" : "Composer mes repas"}
       </Button>
     </form>
+  );
+}
+
+function PermanentSummary({ permanent, ingredients }: { permanent?: Profile; ingredients: readonly IngredientOption[] }) {
+  const n = permanent?.excludedIngredientIds.length ?? 0;
+  const allergens = permanent?.allergens ?? [];
+  const names = new Map(ingredients.map((i) => [i.id, i.name]));
+  return (
+    <div className="rounded-xl bg-stone-50 p-3 text-sm dark:bg-stone-800">
+      <p className="font-medium">Exclusions permanentes (toujours appliquées)</p>
+      {n === 0 && allergens.length === 0 ? (
+        <p className="text-stone-600 dark:text-stone-400">Aucune pour l&apos;instant.</p>
+      ) : (
+        <p className="text-stone-600 dark:text-stone-400">
+          {allergens.length > 0 && <>Allergies : {allergens.map((a) => ALLERGENS[a]).join(", ")}. </>}
+          {n > 0 && (
+            <>
+              {n} aliment{n > 1 ? "s" : ""} : {permanent!.excludedIngredientIds.slice(0, 6).map((id) => names.get(id) ?? id).join(", ")}
+              {n > 6 ? "…" : ""}
+            </>
+          )}
+        </p>
+      )}
+      <Link href="/exclusions" className="mt-1 inline-block font-medium text-emerald-800 underline dark:text-emerald-300">
+        Modifier mes exclusions
+      </Link>
+    </div>
   );
 }

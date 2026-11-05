@@ -6,6 +6,7 @@ import { cx } from "./ui";
 const LINKS = [
   { href: "/", label: "Menu", icon: "🍽️" },
   { href: "/placard", label: "Placard", icon: "🥫" },
+  { href: "/exclusions", label: "Exclusions", icon: "🚫" },
   { href: "/magasins", label: "Magasins", icon: "🏪" },
   { href: "/historique", label: "Historique", icon: "🕘" },
 ] as const;

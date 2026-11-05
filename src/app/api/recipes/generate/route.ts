@@ -6,6 +6,7 @@ import { AnthropicRecipeGenerator, isRecipeGeneratorEnabled } from "@/lib/llm/an
 import { buildEngineContext, getCatalog, invalidateCatalog } from "@/lib/server/catalog";
 import { prisma } from "@/lib/server/db";
 import { HttpError, parseBody, route } from "@/lib/server/http";
+import { withProfile } from "@/lib/server/profile";
 import { getCurrentUserId } from "@/lib/server/user";
 
 const BodySchema = z.object({ preferences: PreferencesSchema, count: z.number().int().min(1).max(4).default(2) });
@@ -13,8 +14,9 @@ const BodySchema = z.object({ preferences: PreferencesSchema, count: z.number().
 /** Génère de nouvelles recettes par LLM ; leur coût est recalculé par le moteur. */
 export const POST = route(async (req: Request) => {
   if (!isRecipeGeneratorEnabled()) throw new HttpError(404, "Génération de recettes désactivée (RECIPE_GENERATOR_ENABLED).");
-  const { preferences, count } = await parseBody(req, BodySchema);
+  const { preferences: raw, count } = await parseBody(req, BodySchema);
   const userId = await getCurrentUserId();
+  const preferences = await withProfile(userId, raw);
   const [catalog, ctx] = await Promise.all([getCatalog(), buildEngineContext(userId, preferences)]);
   const allowedIngredients = catalog.ingredients.filter(
     (i) =>

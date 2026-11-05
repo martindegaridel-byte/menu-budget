@@ -109,6 +109,8 @@ export const IngredientSchema = z.object({
   allergens: z.array(AllergenSchema).default([]),
   /** Condiment/épice : se gère en « présent / absent » dans le placard. */
   staple: z.boolean().default(false),
+  /** Familles pour les exclusions rapides (porc, champignon, fromage, piquant…). */
+  tags: z.array(z.string()).default([]),
 });
 export type Ingredient = z.infer<typeof IngredientSchema>;
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { Ingredient } from "@/lib/domain/schemas";
 import { formatQuantity, toBaseQuantity, UnitConversionError } from "./units";
 
-const base = { aisle: "epicerie-salee" as const, animal: null, allergens: [], staple: false };
+const base = { aisle: "epicerie-salee" as const, animal: null, allergens: [], staple: false, tags: [] };
 const oignon: Ingredient = { ...base, id: "oignon", name: "Oignon", unit: "g", gramsPerPiece: 120 };
 const lait: Ingredient = { ...base, id: "lait", name: "Lait", unit: "ml" };
 const oeuf: Ingredient = { ...base, id: "oeuf", name: "Œuf", unit: "piece" };
