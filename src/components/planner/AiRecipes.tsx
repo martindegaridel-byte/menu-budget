@@ -1,4 +1,6 @@
 "use client";
+import { Sparkles } from "lucide-react";
+import { CardHeader } from "@/components/ds";
 import Link from "next/link";
 import { useState } from "react";
 import { Button, Card, Notice } from "@/components/ui";
@@ -15,14 +17,14 @@ export function AiRecipes({ prefs }: { prefs: Preferences }) {
   const [error, setError] = useState<string | null>(null);
   return (
     <Card className="space-y-3" aria-labelledby="ai-title">
-      <h2 id="ai-title" className="font-semibold">
-        Nouvelles idées de recettes (IA)
-      </h2>
-      <p className="text-sm text-stone-600 dark:text-stone-400">
+      <CardHeader icon={Sparkles} title={<span id="ai-title">Nouvelles idées de recettes</span>} />
+      <p className="-mt-2 text-body-sm text-muted">
         Crée des recettes adaptées à vos critères, uniquement avec des ingrédients de la base. Leur prix est recalculé par l&apos;application ; elles seront ensuite proposées dans vos menus.
       </p>
       <Button
         variant="secondary"
+        icon={Sparkles}
+        loading={busy}
         disabled={busy}
         onClick={async () => {
           setBusy(true);
@@ -36,22 +38,22 @@ export function AiRecipes({ prefs }: { prefs: Preferences }) {
           }
         }}
       >
-        {busy ? "Création en cours (jusqu'à une minute)…" : "✨ Proposer 2 recettes"}
+        {busy ? "Création en cours (jusqu'à une minute)…" : "Proposer 2 recettes"}
       </Button>
       <div aria-live="polite" className="space-y-2">
         {error && <Notice level="error">{error}</Notice>}
         {res && (
-          <ul className="space-y-1 text-sm">
+          <ul className="space-y-1 text-body-sm">
             {res.recipes.map((r) => (
               <li key={r.id} className="flex justify-between gap-2">
-                <Link href={`/recettes/${r.id}?p=${prefs.persons}`} className="font-medium text-emerald-800 hover:underline dark:text-emerald-300">
+                <Link href={`/recettes/${r.id}?p=${prefs.persons}`} className="link">
                   {r.name}
                 </Link>
                 <span className="tabular-nums">{formatEuros(r.purchaseCents)} en caisse</span>
               </li>
             ))}
             {res.rejected.map((r) => (
-              <li key={r.name} className="text-stone-500">
+              <li key={r.name} className="text-subtle">
                 Écartée : {r.name} ({r.reason})
               </li>
             ))}

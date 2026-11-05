@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import { AppNav } from "@/components/AppNav";
+import { AppNav, MobileHeader, SideNav } from "@/components/AppNav";
 import { THEME_INIT_SCRIPT, ToastProvider } from "@/components/ds";
 import "./globals.css";
 
@@ -14,8 +14,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c0a09" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f8f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0f0e" },
   ],
 };
 
@@ -27,21 +27,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ToastProvider>
-        <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded-lg focus:bg-white focus:p-2">
-          Aller au contenu
-        </a>
-        <header className="sticky top-0 z-10 border-b border-stone-200 bg-stone-50/95 backdrop-blur dark:border-stone-800 dark:bg-stone-950/95">
-          <div className="mx-auto flex max-w-2xl items-center gap-2 px-4 py-3">
-            <span aria-hidden className="text-xl">
-              🥕
-            </span>
-            <span className="text-lg font-bold tracking-tight">Menu Budget</span>
+          <a
+            href="#contenu"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-field focus:bg-surface-3 focus:px-4 focus:py-3 focus:text-fg focus:ring-2 focus:ring-focus"
+          >
+            Aller au contenu
+          </a>
+          <MobileHeader />
+          <SideNav />
+          <div className="lg:pl-64">
+            <main id="contenu" className="mx-auto max-w-[720px] px-4 pb-32 pt-5 lg:pb-16 lg:pt-10">
+              {children}
+            </main>
           </div>
-        </header>
-        <main id="contenu" className="mx-auto max-w-2xl px-4 pb-28 pt-4">
-          {children}
-        </main>
-        <AppNav />
+          <AppNav />
         </ToastProvider>
       </body>
     </html>

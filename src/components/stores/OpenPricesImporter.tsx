@@ -1,4 +1,6 @@
 "use client";
+import { Download, ScanLine } from "lucide-react";
+import { CardHeader } from "@/components/ds";
 import { useId, useState } from "react";
 import { Button, Card, Notice } from "@/components/ui";
 import { api, type OpenPricesImport } from "@/lib/client/api";
@@ -33,12 +35,10 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
 
   return (
     <Card className="space-y-3" aria-labelledby="op-title">
-      <h2 id="op-title" className="text-lg font-semibold">
-        Prix réels relevés (Open Prices)
-      </h2>
-      <p className="text-sm text-stone-600 dark:text-stone-400">
+      <CardHeader icon={ScanLine} title={<span id="op-title">Prix réels relevés (Open Prices)</span>} />
+      <p className="-mt-2 text-body-sm text-muted">
         Open Prices rassemble des prix photographiés en magasin par la communauté Open Food Facts. Cherchez votre magasin sur{" "}
-        <a href="https://prices.openfoodfacts.org" target="_blank" rel="noreferrer" className="font-medium text-emerald-800 underline dark:text-emerald-300">
+        <a href="https://prices.openfoodfacts.org" target="_blank" rel="noreferrer" className="link">
           prices.openfoodfacts.org
         </a>
         , copiez l&apos;adresse de sa page et collez-la ici. Les prix trouvés remplacent les estimations pour « {storeName} », sauf s&apos;ils sont nettement plus chers que d&apos;habitude.
@@ -54,7 +54,7 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
           value={value}
           onChange={(e) => setLocation(e.target.value)}
         />
-        <Button onClick={run} disabled={busy || !value.trim()}>
+        <Button icon={Download} loading={busy} onClick={run} disabled={busy || !value.trim()}>
           {busy ? "Import en cours (≈ 30 s)…" : report ? "Mettre à jour" : "Importer les prix"}
         </Button>
       </div>
@@ -68,7 +68,7 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
               les estimations.
             </Notice>
             {report.ignoredExpensive > 0 && (
-              <p className="text-sm text-stone-600 dark:text-stone-400">
+              <p className="text-body-sm text-muted">
                 {report.ignoredExpensive} prix trop chers par rapport au prix habituel (marques chères, bio…) ont été ignorés : pour ces produits, le prix
                 habituel est conservé.
               </p>
@@ -77,12 +77,12 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
               {showAll ? "Masquer le détail" : "Voir tous les prix importés"}
             </Button>
             {showAll && (
-              <ul className="max-h-80 space-y-1 overflow-y-auto text-sm">
+              <ul className="max-h-80 space-y-1 overflow-y-auto text-body-sm">
                 {report.items.map((i) => (
-                  <li key={i.ingredientId} className="flex justify-between gap-3 border-b border-stone-100 py-1 dark:border-stone-800">
+                  <li key={i.ingredientId} className="flex justify-between gap-3 border-b border-line py-1">
                     <span>
                       <span className="font-medium">{i.ingredientName}</span>
-                      <span className="block text-xs text-stone-600 dark:text-stone-400">
+                      <span className="block text-caption text-muted">
                         {i.packages[0]?.label} · relevé le {new Date(i.packages[0]?.asOf ?? "").toLocaleDateString("fr-FR")}
                       </span>
                     </span>
@@ -94,7 +94,7 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
           </>
         )}
       </div>
-      <p className="text-xs text-stone-500">
+      <p className="text-caption text-subtle">
         Données{" "}
         <a href="https://prices.openfoodfacts.org" target="_blank" rel="noreferrer" className="underline">
           Open Prices

@@ -1,3 +1,5 @@
+import { History } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
 import { HistoryList } from "@/components/history/HistoryList";
 import { getCatalogView } from "@/lib/server/views";
 
@@ -7,8 +9,8 @@ export const metadata = { title: "Historique et favoris — Menu Budget" };
 export default async function HistoryPage() {
   const { recipes } = await getCatalogView();
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Historique et favoris</h1>
+    <div>
+      <PageHeader icon={History} title="Historique" description="Vos menus enregistrés et vos recettes favorites." />
       <HistoryList recipes={recipes} />
     </div>
   );

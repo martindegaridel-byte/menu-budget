@@ -1,7 +1,10 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { CalendarClock, ListChecks, Pencil, RefreshCw, Star, UtensilsCrossed } from "lucide-react";
 import { useToast } from "@/components/ds";
+import { ICON_STROKE } from "@/components/ds/cn";
+import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
@@ -180,14 +183,55 @@ export function Planner({
 
   const showForm = !result || editing;
 
+  // Allergies : une seule source de vérité (profil, onglet Exclusions). Les anciennes
+  // allergies saisies dans le formulaire sont transférées une fois dans le profil.
+  useEffect(() => {
+    if (prefs.allergens.length === 0) return;
+    void (async () => {
+      try {
+        const profile = await api.getProfile();
+        await api.putProfile({ ...profile, allergens: [...new Set([...profile.allergens, ...prefs.allergens])] });
+        setPrefs({ ...prefs, allergens: [] });
+        toast({ title: "Vos allergies sont maintenant dans l'onglet Exclusions", tone: "info" });
+      } catch {
+        /* nouvel essai au prochain affichage */
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefs.allergens.length]);
+
+  // Anti-gaspi : produits du placard qui périment dans les 5 jours (le moteur les utilise en priorité).
+  const [expiring, setExpiring] = useState<string[]>([]);
+  useEffect(() => {
+    api
+      .getPantry()
+      .then(({ items }) => {
+        const today = todayIso();
+        setExpiring(items.filter((i) => i.expiresOn && expiryInfo(i.expiresOn, today).tone !== "neutral").map((i) => ingredientMap.get(i.ingredientId)?.name ?? i.ingredientId));
+      })
+      .catch(() => setExpiring([]));
+  }, [ingredientMap]);
+
   return (
     <div className="space-y-4">
       {showForm ? (
         <>
-          <h1 className="text-2xl font-bold">Vos repas sur mesure</h1>
-          <p className="text-stone-600 dark:text-stone-400">
-            Indiquez votre budget : nous composons des plats dont le coût en caisse le respecte, en tenant compte de votre placard.
-          </p>
+          <header className="space-y-1.5">
+            <h1 className="text-title-1 font-semibold tracking-tight">Vos repas sur mesure</h1>
+            <p className="text-body-sm text-muted">Un budget, quelques goûts : on compose des plats dont le coût en caisse le respecte, placard compris.</p>
+          </header>
+          {expiring.length > 0 && prefs.usePantry && (
+            <div role="status" className="flex items-start gap-3 rounded-card bg-warn-soft p-3.5 ring-1 ring-inset ring-warn/30">
+              <CalendarClock aria-hidden className="mt-0.5 size-5 shrink-0 text-warn-text" strokeWidth={ICON_STROKE} />
+              <p className="text-body-sm">
+                <span className="font-semibold">
+                  {expiring.length} ingrédient{expiring.length > 1 ? "s" : ""} bientôt périmé{expiring.length > 1 ? "s" : ""}
+                </span>{" "}
+                ({expiring.slice(0, 3).join(", ")}
+                {expiring.length > 3 ? "…" : ""}) : les recettes qui les utilisent passent en priorité.
+              </p>
+            </div>
+          )}
           <PreferencesForm
             prefs={prefs}
             onChange={setPrefs}
@@ -207,10 +251,13 @@ export function Planner({
       ) : (
         <div ref={resultRef} tabIndex={-1} className="space-y-4 outline-none" aria-busy={busy}>
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h1 className="text-2xl font-bold">
-              {result.recipes.length} repas · {result.persons} pers.
-            </h1>
-            <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>
+            <div>
+              <p className="text-caption font-medium uppercase tracking-wider text-subtle">Votre menu</p>
+              <h1 className="text-title-1 font-semibold tracking-tight">
+                {result.recipes.length} repas · {result.persons} pers.
+              </h1>
+            </div>
+            <Button variant="secondary" size="sm" icon={Pencil} onClick={() => setEditing(true)}>
               Modifier les critères
             </Button>
           </div>
@@ -227,7 +274,7 @@ export function Planner({
 
           {result.recipes.length > 0 && (
             <>
-              <div role="tablist" aria-label="Affichage" className="grid grid-cols-2 gap-1 rounded-2xl bg-stone-200 p-1 dark:bg-stone-800">
+              <div role="tablist" aria-label="Affichage" className="grid grid-cols-2 gap-1 rounded-[14px] bg-surface-2 p-1 ring-1 ring-inset ring-line">
                 {(["menu", "courses"] as const).map((t) => (
                   <button
                     key={t}
@@ -237,11 +284,12 @@ export function Planner({
                     aria-controls={`panel-${t}`}
                     onClick={() => setTab(t)}
                     className={cx(
-                      "min-h-10 rounded-xl text-sm font-semibold focus-visible:outline-2 focus-visible:outline-emerald-600",
-                      tab === t ? "bg-white shadow dark:bg-stone-900" : "text-stone-700 dark:text-stone-300",
+                      "focus-ring inline-flex min-h-11 items-center justify-center gap-2 rounded-field text-body-sm font-medium transition-colors duration-150",
+                      tab === t ? "bg-surface-3 text-fg shadow-soft ring-1 ring-inset ring-line-strong" : "text-muted hover:text-fg",
                     )}
                   >
-                    {t === "menu" ? "Menu" : `Liste de courses (${result.shoppingList.lines.filter((l) => l.toBuy > 0).length})`}
+                    {t === "menu" ? <UtensilsCrossed aria-hidden className="size-4" strokeWidth={ICON_STROKE} /> : <ListChecks aria-hidden className="size-4" strokeWidth={ICON_STROKE} />}
+                    {t === "menu" ? "Menu" : `Courses (${result.shoppingList.lines.filter((l) => l.toBuy > 0).length})`}
                   </button>
                 ))}
               </div>
@@ -258,11 +306,11 @@ export function Planner({
                       busy={busy}
                     />
                     <div className="grid grid-cols-2 gap-2">
-                      <Button variant="secondary" onClick={() => generate(prefs)} disabled={busy}>
-                        ↻ Autre proposition
+                      <Button variant="secondary" icon={RefreshCw} onClick={() => generate(prefs)} disabled={busy}>
+                        Autre menu
                       </Button>
-                      <Button onClick={save} disabled={busy}>
-                        ☆ Enregistrer
+                      <Button icon={Star} onClick={save} disabled={busy}>
+                        Enregistrer
                       </Button>
                     </div>
                   </div>
@@ -279,7 +327,7 @@ export function Planner({
               </div>
             </>
           )}
-          <p className="text-xs text-stone-500">
+          <p className="text-caption text-subtle">
             Prix indicatifs estimés pour {storeName ?? "votre magasin"} — corrigez-les dans « Magasins » pour plus de précision.
           </p>
         </div>

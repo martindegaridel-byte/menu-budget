@@ -1,7 +1,9 @@
 "use client";
+import { Star } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ds";
+import { cn } from "@/components/ds/cn";
 import { api } from "@/lib/client/api";
-import { Button } from "./ui";
 
 export function FavoriteButton({ recipeId, initial }: { recipeId: string; initial: boolean }) {
   const [on, setOn] = useState(initial);
@@ -9,7 +11,9 @@ export function FavoriteButton({ recipeId, initial }: { recipeId: string; initia
     <Button
       variant="secondary"
       size="sm"
+      icon={Star}
       aria-pressed={on}
+      className={cn("shrink-0", on && "text-warn [&_svg]:fill-warn")}
       onClick={async () => {
         setOn(!on);
         try {
@@ -19,7 +23,7 @@ export function FavoriteButton({ recipeId, initial }: { recipeId: string; initia
         }
       }}
     >
-      {on ? "★ Favori" : "☆ Ajouter aux favoris"}
+      {on ? "Favori" : "Favori ?"}
     </Button>
   );
 }

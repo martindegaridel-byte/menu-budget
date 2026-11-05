@@ -7,7 +7,7 @@
    ===================================================================== */
 
 :root {
-  color-scheme: light dark; /* passera à « dark » quand les pages seront migrées (étape 2) */
+  color-scheme: dark;
 
   /* Couleurs — thème sombre */
   --mb-canvas: #0b0f0e;
@@ -40,6 +40,7 @@
 }
 
 :root[data-theme="light"] {
+  color-scheme: light;
   --mb-canvas: #f5f8f6;
   --mb-surface: #ffffff;
   --mb-surface-2: #eef3f0;
@@ -102,7 +103,7 @@
   --shadow-lift: var(--mb-shadow-lift);
 
   --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-numeric: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-numeric: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; /* chiffres tabulaires via tabular-nums */
 
   /* Échelle typographique : titres 28 / 22 / 18, corps 16 / 15, légendes 13 */
   --text-title-1: 28px;
@@ -155,17 +156,35 @@
 }
 
 /* ---------------------------------------------------------------------
-   Styles actuels des pages (remplacés page par page aux étapes 2 et 3)
+   Base
    --------------------------------------------------------------------- */
 
 body {
-  @apply bg-stone-50 text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--mb-canvas);
+  color: var(--mb-fg);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--mb-accent-soft);
 }
 
 @layer components {
+  /* Champ de saisie commun (texte, nombre, date, liste) */
   .input {
-    @apply min-h-11 w-full rounded-xl bg-white px-3 text-base ring-1 ring-stone-300 placeholder:text-stone-400 focus:outline-2 focus:outline-emerald-600 dark:bg-stone-800 dark:ring-stone-600;
+    @apply min-h-11 w-full rounded-field bg-surface-2 px-3 text-body text-fg ring-1 ring-inset ring-line-strong transition-shadow duration-150 placeholder:text-subtle hover:ring-line-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-focus;
+  }
+  select.input {
+    @apply appearance-none bg-[length:16px] bg-[right_12px_center] bg-no-repeat pr-9;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2384928d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+  /* Lien textuel */
+  .link {
+    @apply rounded font-medium text-accent-text underline decoration-accent/40 underline-offset-4 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus;
   }
 }
 

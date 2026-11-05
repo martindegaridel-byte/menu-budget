@@ -1,6 +1,8 @@
+import { AlertTriangle, ChevronLeft, CookingPot, Flame, Leaf, Timer } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/FavoriteButton";
+import { Badge } from "@/components/ds";
 import { RecipeStorage } from "@/components/RecipeStorage";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
@@ -34,52 +36,65 @@ export default async function RecipePage({
 
   return (
     <article className="space-y-4">
-      <Link href="/" className="text-sm font-medium text-emerald-800 hover:underline dark:text-emerald-300">
-        ← Retour au menu
+      <Link href="/" className="focus-ring -ml-2 inline-flex min-h-11 items-center gap-1 rounded-field px-2 text-body-sm font-medium text-muted hover:text-fg">
+        <ChevronLeft aria-hidden className="size-4" strokeWidth={1.75} />
+        Retour au menu
       </Link>
-      <header className="space-y-2">
+      <header className="space-y-3">
         <div className="flex items-start justify-between gap-3">
-          <h1 className="text-2xl font-bold">{recipe.name}</h1>
+          <div>
+            <p className="text-caption font-medium uppercase tracking-wider text-subtle">{CUISINES[recipe.cuisine]}</p>
+            <h1 className="text-title-1 font-semibold tracking-tight [text-wrap:balance]">{recipe.name}</h1>
+          </div>
           <FavoriteButton recipeId={recipe.id} initial={favorite} />
         </div>
-        <p className="text-stone-600 dark:text-stone-400">{recipe.description}</p>
-        <p className="flex flex-wrap gap-x-3 text-sm text-stone-600 dark:text-stone-400">
-          <span>{CUISINES[recipe.cuisine]}</span>
-          <span>Préparation {recipe.prepMinutes} min</span>
-          <span>Cuisson {recipe.cookMinutes} min</span>
-          <span>{recipe.equipment.map((e) => EQUIPMENT[e]).join(", ")}</span>
-        </p>
-        <p className="text-sm">
-          {diets.includes("vegan") ? "🌱 Vegan" : diets.includes("vegetarien") ? "🥚 Végétarien" : diets.includes("pescetarien") ? "🐟 Pescétarien" : "🍗 Omnivore"}
-          {allergens.length > 0 && <> · Allergènes : {allergens.map((a) => ALLERGENS[a]).join(", ")}</>}
-        </p>
+        {recipe.description && <p className="text-body-sm text-muted">{recipe.description}</p>}
+        <div className="flex flex-wrap gap-1.5">
+          <Badge icon={Timer}>Préparation {recipe.prepMinutes} min</Badge>
+          <Badge icon={Flame}>Cuisson {recipe.cookMinutes} min</Badge>
+          <Badge icon={CookingPot}>{recipe.equipment.map((e) => EQUIPMENT[e]).join(", ")}</Badge>
+          <Badge tone="accent" icon={Leaf}>
+            {diets.includes("vegan") ? "Vegan" : diets.includes("vegetarien") ? "Végétarien" : diets.includes("pescetarien") ? "Pescétarien" : "Omnivore"}
+          </Badge>
+        </div>
+        {allergens.length > 0 && (
+          <p className="flex items-start gap-2 text-body-sm text-muted">
+            <AlertTriangle aria-hidden className="mt-0.5 size-4 shrink-0 text-warn-text" strokeWidth={1.75} />
+            <span>Allergènes : {allergens.map((a) => ALLERGENS[a]).join(", ")}</span>
+          </p>
+        )}
         <RecipeStorage recipe={recipe} />
       </header>
 
-      <section aria-labelledby="ing-title" className="rounded-2xl bg-white p-4 ring-1 ring-stone-200 dark:bg-stone-900 dark:ring-stone-800">
-        <h2 id="ing-title" className="mb-2 text-lg font-semibold">
+      <section aria-labelledby="ing-title" className="rounded-card bg-surface p-4 shadow-soft ring-1 ring-inset ring-line sm:p-5">
+        <h2 id="ing-title" className="mb-2 text-title-3 font-semibold">
           Ingrédients pour {persons} personne{persons > 1 ? "s" : ""}
         </h2>
-        <ul className="divide-y divide-stone-100 dark:divide-stone-800">
+        <ul className="divide-y divide-line">
           {lines.map((l) => (
             <li key={l.ingredientId} className="flex justify-between gap-2 py-2">
               <span>
                 {l.ing.name}
-                {l.optional && <span className="text-sm text-stone-500"> (facultatif)</span>}
+                {l.optional && <span className="text-caption text-subtle"> (facultatif)</span>}
               </span>
-              <span className="tabular-nums text-stone-700 dark:text-stone-300">{formatQuantity(l.qty, l.ing.unit)}</span>
+              <span className="tabular-nums text-muted">{formatQuantity(l.qty, l.ing.unit)}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="steps-title" className="rounded-2xl bg-white p-4 ring-1 ring-stone-200 dark:bg-stone-900 dark:ring-stone-800">
-        <h2 id="steps-title" className="mb-2 text-lg font-semibold">
+      <section aria-labelledby="steps-title" className="rounded-card bg-surface p-4 shadow-soft ring-1 ring-inset ring-line sm:p-5">
+        <h2 id="steps-title" className="mb-3 text-title-3 font-semibold">
           Préparation
         </h2>
-        <ol className="list-decimal space-y-2 pl-5">
+        <ol className="space-y-3">
           {recipe.steps.map((s, i) => (
-            <li key={i}>{s}</li>
+            <li key={i} className="flex gap-3">
+              <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-accent-soft text-caption font-semibold tabular-nums text-accent-text">
+                {i + 1}
+              </span>
+              <span className="pt-0.5 text-body-sm">{s}</span>
+            </li>
           ))}
         </ol>
       </section>

@@ -1,16 +1,22 @@
 "use client";
+import { CalendarDays, History as HistoryIcon, RotateCcw, Star, Trash2, Users, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button, Card, Notice } from "@/components/ui";
+import { Badge, Card, EmptyState, IconButton, Segmented, useToast } from "@/components/ds";
+import { cn, ICON_STROKE } from "@/components/ds/cn";
+import { Notice } from "@/components/ui";
 import { api, type SavedMenuSummary } from "@/lib/client/api";
 import type { RecipeSummary } from "@/lib/client/catalog-types";
 import { formatEuros } from "@/lib/engine/money";
 
+const dateFmt = new Intl.DateTimeFormat("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+
 export function HistoryList({ recipes }: { recipes: RecipeSummary[] }) {
   const [menus, setMenus] = useState<SavedMenuSummary[] | null>(null);
   const [favRecipes, setFavRecipes] = useState<string[]>([]);
-  const [onlyFav, setOnlyFav] = useState(false);
+  const [view, setView] = useState<"tous" | "favoris">("tous");
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
   const recipeMap = new Map(recipes.map((r) => [r.id, r]));
 
   const reload = () =>
@@ -25,82 +31,153 @@ export function HistoryList({ recipes }: { recipes: RecipeSummary[] }) {
   }, []);
 
   if (error) return <Notice level="error">{error}</Notice>;
-  if (!menus) return <p role="status">Chargement…</p>;
-  const shown = onlyFav ? menus.filter((m) => m.favorite) : menus;
+  if (!menus)
+    return (
+      <div role="status" aria-label="Chargement de l'historique" className="space-y-3">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="h-36 animate-pulse rounded-card bg-surface ring-1 ring-inset ring-line" />
+        ))}
+      </div>
+    );
+
+  if (menus.length === 0 && favRecipes.length === 0) {
+    return (
+      <Card>
+        <EmptyState
+          icon={HistoryIcon}
+          title="Aucun menu enregistré pour l'instant"
+          description="Composez un menu puis touchez « Enregistrer » : il apparaîtra ici, prêt à être refait en un tap."
+          action={
+            <Link
+              href="/"
+              className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-field bg-gradient-to-b from-accent to-accent-2 px-5 font-semibold text-accent-fg shadow-soft hover:brightness-110"
+            >
+              <UtensilsCrossed aria-hidden className="size-[18px]" strokeWidth={ICON_STROKE} />
+              Composer un menu
+            </Link>
+          }
+        />
+      </Card>
+    );
+  }
+
+  const shown = view === "favoris" ? menus.filter((m) => m.favorite) : menus;
+  const toggleFav = async (m: SavedMenuSummary) => {
+    setMenus(menus.map((x) => (x.id === m.id ? { ...x, favorite: !m.favorite } : x)));
+    try {
+      await api.updateMenu(m.id, { favorite: !m.favorite });
+    } catch {
+      toast({ title: "Impossible de modifier le favori", tone: "error" });
+      void reload();
+    }
+  };
+  const remove = async (m: SavedMenuSummary) => {
+    await api.deleteMenu(m.id);
+    await reload();
+    toast({ title: `« ${m.name} » supprimé`, tone: "info" });
+  };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {favRecipes.length > 0 && (
-        <Card aria-labelledby="fav-recipes">
-          <h2 id="fav-recipes" className="mb-2 text-lg font-semibold">
+        <section aria-labelledby="fav-recipes">
+          <h2 id="fav-recipes" className="mb-2 text-caption font-semibold uppercase tracking-wider text-subtle">
             Recettes favorites
           </h2>
-          <ul className="flex flex-wrap gap-2">
+          <ul className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             {favRecipes.map((id) => (
-              <li key={id}>
+              <li key={id} className="shrink-0">
                 <Link
                   href={`/recettes/${id}`}
-                  className="inline-flex min-h-9 items-center rounded-full bg-emerald-50 px-3 text-sm text-emerald-900 ring-1 ring-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950 dark:text-emerald-100 dark:ring-emerald-900"
+                  className="focus-ring inline-flex min-h-11 items-center gap-1.5 rounded-full bg-surface-2 px-3.5 text-body-sm font-medium ring-1 ring-inset ring-line-strong hover:bg-surface-3"
                 >
-                  ★ {recipeMap.get(id)?.name ?? id}
+                  <Star aria-hidden className="size-4 fill-warn text-warn" strokeWidth={ICON_STROKE} />
+                  {recipeMap.get(id)?.name ?? id}
                 </Link>
               </li>
             ))}
           </ul>
-        </Card>
+        </section>
       )}
 
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Menus enregistrés</h2>
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" className="size-5 accent-emerald-700" checked={onlyFav} onChange={(e) => setOnlyFav(e.target.checked)} />
-          Favoris uniquement
-        </label>
-      </div>
+      <section aria-labelledby="menus-title" className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 id="menus-title" className="text-title-3 font-semibold">
+            Menus enregistrés
+          </h2>
+          <Segmented
+            label="Afficher"
+            value={view}
+            onChange={setView}
+            options={[
+              { value: "tous", label: `Tous (${menus.length})` },
+              { value: "favoris", label: "Favoris", icon: Star },
+            ]}
+          />
+        </div>
 
-      {shown.length === 0 && <p className="text-stone-600 dark:text-stone-400">Aucun menu pour l&apos;instant. Enregistrez-en un depuis l&apos;écran Menu.</p>}
-      <ul className="space-y-3">
-        {shown.map((m) => (
-          <Card as="li" key={m.id} className="space-y-2">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="font-semibold">{m.name}</h3>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
-                  {new Date(m.createdAt).toLocaleDateString("fr-FR")} · {m.persons} pers. · {formatEuros(m.totalCents)} / {formatEuros(m.budgetCents)}
-                </p>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-pressed={m.favorite}
-                aria-label={m.favorite ? "Retirer des favoris" : "Ajouter aux favoris"}
-                onClick={async () => {
-                  await api.updateMenu(m.id, { favorite: !m.favorite });
-                  await reload();
-                }}
-              >
-                {m.favorite ? "★" : "☆"}
-              </Button>
-            </div>
-            <p className="text-sm">{m.recipeNames.join(" · ")}</p>
-            <div className="flex gap-2">
-              <Link href={`/?menu=${m.id}`} className="inline-flex min-h-9 items-center rounded-xl bg-emerald-700 px-3 text-sm font-medium text-white hover:bg-emerald-800">
-                Rouvrir (prix actuels)
-              </Link>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={async () => {
-                  await api.deleteMenu(m.id);
-                  await reload();
-                }}
-              >
-                Supprimer
-              </Button>
-            </div>
+        {shown.length === 0 ? (
+          <Card>
+            <EmptyState icon={Star} title="Aucun menu favori" description="Touchez l'étoile d'un menu pour le retrouver ici." className="py-6" />
           </Card>
-        ))}
-      </ul>
+        ) : (
+          <ul className="space-y-3">
+            {shown.map((m) => {
+              const ratio = m.budgetCents > 0 ? m.totalCents / m.budgetCents : 1;
+              return (
+                <Card as="li" key={m.id} padded={false} className="overflow-hidden">
+                  <div className="space-y-3 p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <h3 className="truncate text-body font-semibold">{m.name}</h3>
+                        <div className="mt-1.5 flex flex-wrap gap-1.5">
+                          <Badge icon={CalendarDays}>{dateFmt.format(new Date(m.createdAt))}</Badge>
+                          <Badge icon={Users}>{m.persons} pers.</Badge>
+                          <Badge icon={UtensilsCrossed}>{m.recipeNames.length} repas</Badge>
+                        </div>
+                      </div>
+                      <IconButton
+                        icon={Star}
+                        label={m.favorite ? "Retirer des favoris" : "Ajouter aux favoris"}
+                        aria-pressed={m.favorite}
+                        onClick={() => void toggleFav(m)}
+                        className={cn(m.favorite ? "text-warn [&_svg]:fill-warn" : "text-muted")}
+                      />
+                    </div>
+                    <div>
+                      <div className="flex items-baseline justify-between text-body-sm">
+                        <span className="text-muted">Coût prévu</span>
+                        <span className="tabular-nums">
+                          <span className="font-numeric font-semibold">{formatEuros(m.totalCents)}</span>
+                          <span className="text-muted"> / {formatEuros(m.budgetCents)}</span>
+                        </span>
+                      </div>
+                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-3" aria-hidden>
+                        <div
+                          className={cn("h-full rounded-full", ratio > 1 ? "bg-danger" : ratio > 0.9 ? "bg-warn" : "bg-accent")}
+                          style={{ width: `${Math.min(100, Math.round(ratio * 100))}%` }}
+                        />
+                      </div>
+                    </div>
+                    <p className="line-clamp-2 text-body-sm text-muted">{m.recipeNames.join(" · ")}</p>
+                  </div>
+                  <div className="flex items-center gap-1 border-t border-line p-1.5">
+                    <Link
+                      href={`/?menu=${m.id}`}
+                      className="focus-ring inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-field text-body-sm font-medium text-accent-text hover:bg-accent-soft"
+                    >
+                      <RotateCcw aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+                      Refaire ce menu
+                    </Link>
+                    <IconButton icon={Trash2} label={`Supprimer « ${m.name} »`} onClick={() => void remove(m)} className="text-muted hover:bg-danger-soft hover:text-danger-text" />
+                  </div>
+                </Card>
+              );
+            })}
+          </ul>
+        )}
+        <p className="text-caption text-subtle">« Refaire ce menu » le recalcule avec les prix actuels de votre magasin.</p>
+      </section>
     </div>
   );
 }

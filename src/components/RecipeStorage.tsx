@@ -15,7 +15,7 @@ export function RecipeStorage({ recipe, className = "" }: { recipe: Pick<Recipe,
   if (recipe.reheats !== undefined) items.push({ icon: Flame, text: recipe.reheats ? "Se réchauffe bien" : "Meilleur tout juste préparé" });
   if (items.length === 0) return null;
   return (
-    <ul className={`flex flex-wrap gap-x-4 gap-y-1 text-sm text-stone-600 dark:text-stone-400 ${className}`} aria-label="Conservation">
+    <ul className={`flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted ${className}`} aria-label="Conservation">
       {items.map(({ icon: Icon, text }) => (
         <li key={text} className="inline-flex items-center gap-1.5">
           <Icon aria-hidden className="size-4" strokeWidth={1.75} />

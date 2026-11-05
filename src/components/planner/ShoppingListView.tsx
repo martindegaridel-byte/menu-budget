@@ -1,5 +1,8 @@
 "use client";
+import { Check, Copy, PackageCheck, Share2, ShoppingBasket } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/components/ds";
+import { ICON_STROKE } from "@/components/ds/cn";
 import { Button, Card, Notice, cx } from "@/components/ui";
 import { describePicks, groupByAisle, shoppingListText } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
@@ -24,7 +27,8 @@ export function ShoppingListView({
 }) {
   const [checkedByMenu, setCheckedByMenu] = usePersistentState<Record<string, string[]>>("mb:checked", {});
   const checked = new Set(checkedByMenu[menuKey] ?? []);
-  const [status, setStatus] = useState<string | null>(null);
+  const toast = useToast();
+  const setStatus = (title: string) => toast({ title, tone: "success" });
   const [confirm, setConfirm] = useState(false);
 
   const toggle = (id: string) => {
@@ -44,7 +48,7 @@ export function ShoppingListView({
       await navigator.clipboard.writeText(text);
       setStatus("Liste copiée dans le presse-papiers.");
     } catch {
-      setStatus("Copie impossible : sélectionnez le texte manuellement.");
+      toast({ title: "Copie impossible : sélectionnez le texte manuellement.", tone: "error" });
     }
   };
   const share = async () => {
@@ -63,43 +67,56 @@ export function ShoppingListView({
   return (
     <div className="space-y-4">
       <Card className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-sm text-stone-600 dark:text-stone-400">Total des courses</p>
-          <p className="text-2xl font-bold tabular-nums">{formatEuros(list.totalCents)}</p>
-          {checked.size > 0 && <p className="text-sm text-stone-600 dark:text-stone-400">Reste à mettre au panier : {formatEuros(remaining)}</p>}
+        <div className="flex items-center gap-3">
+          <span className="grid size-11 place-items-center rounded-field bg-accent-soft text-accent-text">
+            <ShoppingBasket aria-hidden className="size-5" strokeWidth={ICON_STROKE} />
+          </span>
+          <div>
+            <p className="text-caption text-muted">Total estimé des courses</p>
+            <p className="font-numeric text-title-2 font-semibold tabular-nums">{formatEuros(list.totalCents)}</p>
+            {checked.size > 0 && <p className="text-caption text-muted tabular-nums">Reste à mettre au panier : {formatEuros(remaining)}</p>}
+          </div>
         </div>
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={copy}>
+          <Button variant="secondary" icon={Copy} onClick={copy}>
             Copier
           </Button>
-          <Button onClick={share}>Partager</Button>
+          <Button icon={Share2} onClick={share}>
+            Partager
+          </Button>
         </div>
       </Card>
-      <p role="status" aria-live="polite" className="text-sm text-emerald-800 dark:text-emerald-300">
-        {status}
-      </p>
 
       {groupByAisle(toBuy).map((g) => (
         <Card key={g.aisle} aria-labelledby={`aisle-${g.aisle}`}>
-          <h3 id={`aisle-${g.aisle}`} className="mb-2 font-semibold">
+          <h3 id={`aisle-${g.aisle}`} className="mb-1 flex items-center justify-between text-caption font-semibold uppercase tracking-wider text-subtle">
             {g.label}
+            <span className="tabular-nums">
+              {g.lines.filter((l) => checked.has(l.ingredientId)).length}/{g.lines.length}
+            </span>
           </h3>
-          <ul className="divide-y divide-stone-100 dark:divide-stone-800">
+          <ul className="divide-y divide-line">
             {g.lines.map((l) => {
               const on = checked.has(l.ingredientId);
               return (
                 <li key={l.ingredientId}>
                   <label className="flex min-h-12 cursor-pointer items-start gap-3 py-2">
-                    <input type="checkbox" checked={on} onChange={() => toggle(l.ingredientId)} className="mt-1 size-5 shrink-0 accent-emerald-700" />
-                    <span className={cx("flex-1", on && "text-stone-400 line-through")}>
+                    <input type="checkbox" checked={on} onChange={() => toggle(l.ingredientId)} className="peer sr-only" />
+                    <span
+                      aria-hidden
+                      className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-[8px] ring-1 ring-inset ring-line-strong transition-colors duration-150 peer-checked:bg-accent-2 peer-checked:ring-accent-2 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+                    >
+                      {on && <Check className="size-4 animate-pop text-accent-fg" strokeWidth={2.5} />}
+                    </span>
+                    <span className={cx("flex-1 transition-colors duration-150", on && "text-subtle line-through")}>
                       <span className="font-medium">{l.name}</span>
-                      <span className="block text-sm text-stone-600 dark:text-stone-400">
+                      <span className="block text-caption text-muted">
                         {describePicks(l)} · besoin {formatQuantity(l.toBuy, l.unit)}
                         {l.fromPantry > 0 && ` (+ ${formatQuantity(l.fromPantry, l.unit)} du placard)`}
                         {l.leftover > 0 && ` · reste ${formatQuantity(l.leftover, l.unit)}`}
                       </span>
                     </span>
-                    <span className="whitespace-nowrap tabular-nums font-medium">{formatEuros(l.costCents)}</span>
+                    <span className="whitespace-nowrap font-numeric font-medium tabular-nums">{formatEuros(l.costCents)}</span>
                   </label>
                 </li>
               );
@@ -110,14 +127,14 @@ export function ShoppingListView({
 
       {atHome.length > 0 && (
         <Card aria-labelledby="at-home">
-          <h3 id="at-home" className="mb-2 font-semibold">
+          <h3 id="at-home" className="mb-2 text-caption font-semibold uppercase tracking-wider text-subtle">
             Déjà dans votre placard
           </h3>
-          <ul className="space-y-1 text-sm">
+          <ul className="space-y-1.5 text-body-sm">
             {atHome.map((l) => (
               <li key={l.ingredientId} className="flex justify-between gap-2">
                 <span>{l.name}</span>
-                <span className="text-stone-600 dark:text-stone-400">{formatQuantity(l.needed, l.unit)}</span>
+                <span className="text-muted">{formatQuantity(l.needed, l.unit)}</span>
               </li>
             ))}
           </ul>
@@ -125,8 +142,8 @@ export function ShoppingListView({
       )}
 
       <Card className="space-y-3">
-        <h3 className="font-semibold">Après les courses</h3>
-        <p className="text-sm text-stone-600 dark:text-stone-400">
+        <h3 className="text-title-3 font-semibold">Après les courses</h3>
+        <p className="text-body-sm text-muted">
           Mettez votre placard à jour : ce que le menu consomme est retiré, les restes des paquets achetés sont ajoutés.
         </p>
         {confirm ? (
@@ -145,7 +162,7 @@ export function ShoppingListView({
             </Button>
           </div>
         ) : (
-          <Button variant="secondary" onClick={() => setConfirm(true)}>
+          <Button variant="secondary" icon={PackageCheck} onClick={() => setConfirm(true)}>
             J&apos;ai fait mes courses
           </Button>
         )}

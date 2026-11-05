@@ -1,3 +1,4 @@
+import type { Profile } from "@/lib/domain/profile";
 import type { PantryItem, PreferencesInput, Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 
@@ -86,6 +87,8 @@ export const api = {
       "/api/recipes/generate",
       { body: { preferences, count } },
     ),
+  getProfile: () => call<Profile>("/api/profile"),
+  putProfile: (profile: Profile) => call<Profile>("/api/profile", { method: "PUT", body: profile }),
   favorites: () => call<{ recipeIds: string[] }>("/api/favorites"),
   setFavorite: (recipeId: string, favorite: boolean) => call("/api/favorites", { body: { recipeId, favorite } }),
 };

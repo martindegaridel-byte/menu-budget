@@ -1,6 +1,25 @@
 "use client";
-import { RefreshCw } from "lucide-react";
+import {
+  ArrowLeftRight,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  Egg,
+  Fish,
+  Gauge,
+  Leaf,
+  Package,
+  RefreshCw,
+  Salad,
+  Soup,
+  Sparkles,
+  UtensilsCrossed,
+  Wheat,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ds";
+import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/ui";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { CUISINES, type Cuisine } from "@/lib/domain/schemas";
@@ -9,6 +28,18 @@ import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { BudgetInput } from "./PreferencesForm";
 
 const LEVEL = ["", "Facile", "Moyen", "Difficile"];
+
+/** Illustration du plat (pas de photo dans la base) : icône + dégradé selon ses étiquettes. */
+function dishVisual(info?: RecipeSummary): { icon: LucideIcon; tint: string } {
+  const t = new Set(info?.tags ?? []);
+  if (t.has("poisson") || t.has("fruits-de-mer")) return { icon: Fish, tint: "from-sky-400/25 to-sky-400/5 text-sky-300" };
+  if (t.has("soupe")) return { icon: Soup, tint: "from-orange-400/25 to-orange-400/5 text-orange-300" };
+  if (t.has("vegan")) return { icon: Leaf, tint: "from-accent/30 to-accent/5 text-accent-text" };
+  if (t.has("oeufs")) return { icon: Egg, tint: "from-yellow-300/25 to-yellow-300/5 text-yellow-200" };
+  if (t.has("vegetarien")) return { icon: Salad, tint: "from-lime-400/25 to-lime-400/5 text-lime-300" };
+  if (t.has("pates") || t.has("riz")) return { icon: Wheat, tint: "from-amber-300/25 to-amber-300/5 text-amber-200" };
+  return { icon: UtensilsCrossed, tint: "from-rose-400/25 to-rose-400/5 text-rose-300" };
+}
 
 export function MenuSummary({
   result,
@@ -34,40 +65,48 @@ export function MenuSummary({
       </h2>
       <BudgetGauge total={result.totalCents} budget={result.budgetCents} />
       {result.recipes.length > 0 && (
-        <dl className="grid grid-cols-2 gap-2 text-sm">
-          <div className="rounded-xl bg-stone-50 p-2 dark:bg-stone-800">
-            <dt className="text-stone-600 dark:text-stone-400">Par personne et par repas</dt>
-            <dd className="text-lg font-semibold tabular-nums">≈ {formatEuros(result.perPersonPerMealCents)}</dd>
+        <dl className="grid grid-cols-2 gap-2">
+          <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+            <dt className="text-caption text-muted">Par personne et par repas</dt>
+            <dd className="font-numeric text-title-3 font-semibold tabular-nums">≈ {formatEuros(result.perPersonPerMealCents)}</dd>
           </div>
-          <div className="rounded-xl bg-stone-50 p-2 dark:bg-stone-800">
-            <dt className="text-stone-600 dark:text-stone-400">Économie grâce au placard</dt>
-            <dd className="text-lg font-semibold tabular-nums">{formatEuros(result.pantrySavingsCents)}</dd>
+          <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+            <dt className="text-caption text-muted">Économie grâce au placard</dt>
+            <dd className="font-numeric text-title-3 font-semibold tabular-nums text-accent-text">{formatEuros(result.pantrySavingsCents)}</dd>
           </div>
         </dl>
       )}
-      <div aria-live="polite" className="space-y-2">
-        {result.diagnostics.map((d, i) => (
-          <Notice key={i} level={d.level}>
-            {d.message}
-          </Notice>
-        ))}
-      </div>
-      <details className="rounded-xl bg-stone-50 p-3 dark:bg-stone-800" open={result.status === "over-budget"}>
-        <summary className="cursor-pointer font-medium">Ajuster en direct</summary>
-        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+      {result.diagnostics.length > 0 && (
+        <div aria-live="polite" className="space-y-2">
+          {result.diagnostics.map((d, i) => (
+            <Notice key={i} level={d.level}>
+              {d.message}
+            </Notice>
+          ))}
+        </div>
+      )}
+      <details className="group rounded-field bg-surface-2 ring-1 ring-inset ring-line" open={result.status === "over-budget"}>
+        <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-field px-3 text-body-sm font-medium [&::-webkit-details-marker]:hidden">
+          <span className="inline-flex items-center gap-2">
+            <Gauge aria-hidden className="size-4 text-muted" strokeWidth={ICON_STROKE} />
+            Ajuster en direct
+          </span>
+          <ChevronDown aria-hidden className="size-4 text-muted transition-transform duration-200 group-open:rotate-180" strokeWidth={ICON_STROKE} />
+        </summary>
+        <div className="grid gap-4 px-3 pb-3 sm:grid-cols-2">
           <div>
-            <label htmlFor="live-budget" className="mb-1 block text-sm font-medium">
+            <label htmlFor="live-budget" className="mb-2 block text-caption font-medium text-muted">
               Budget
             </label>
             <BudgetInput id="live-budget" value={budgetCents} onChange={onBudget} />
           </div>
           <Stepper label="Personnes" value={persons} min={1} max={12} onChange={onPersons} />
+          {result.status === "over-budget" && result.recipes.length > 0 && (
+            <Button className="sm:col-span-2" fullWidth icon={Sparkles} onClick={onReoptimize} disabled={busy}>
+              Réajuster le menu pour tenir le budget
+            </Button>
+          )}
         </div>
-        {result.status === "over-budget" && result.recipes.length > 0 && (
-          <Button className="mt-3 w-full" onClick={onReoptimize} disabled={busy}>
-            Réajuster le menu pour tenir le budget
-          </Button>
-        )}
       </details>
     </Card>
   );
@@ -92,56 +131,57 @@ export function MenuRecipes({
     <ol className="space-y-3" aria-label="Plats du menu">
       {result.recipes.map((r, slot) => {
         const info = recipes.get(r.recipeId);
+        const { icon: Icon, tint } = dishVisual(info);
+        const href = `/recettes/${r.recipeId}?p=${result.persons}`;
         return (
-          <Card as="li" key={`${r.recipeId}-${slot}`} className="space-y-2">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-stone-500">Repas {slot + 1}</p>
-                <h3 className="text-lg font-semibold leading-tight">
-                  <Link href={`/recettes/${r.recipeId}?p=${result.persons}`} className="hover:underline focus-visible:outline-2 focus-visible:outline-emerald-600">
+          <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className="overflow-hidden">
+            <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
+              <div aria-hidden className={cn("grid size-20 shrink-0 place-items-center rounded-field bg-gradient-to-br ring-1 ring-inset ring-line sm:size-24", tint)}>
+                <Icon className="size-9" strokeWidth={1.5} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-caption font-medium uppercase tracking-wider text-subtle">Repas {slot + 1}</p>
+                  <p className="font-numeric text-title-3 font-semibold tabular-nums">{formatEuros(r.allocatedCents)}</p>
+                </div>
+                <h3 className="text-body font-semibold leading-snug [text-wrap:balance]">
+                  <Link href={href} className="focus-ring rounded hover:text-accent-text">
                     {r.name}
                   </Link>
                 </h3>
-                {info?.description && <p className="text-sm text-stone-600 dark:text-stone-400">{info.description}</p>}
-              </div>
-              <div className="text-right">
-                <p className="whitespace-nowrap text-lg font-bold tabular-nums">{formatEuros(r.allocatedCents)}</p>
-                <p className="whitespace-nowrap text-xs text-stone-600 dark:text-stone-400">≈ {formatEuros(r.perPersonCents)} / pers.</p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  <Badge icon={Clock}>{r.totalMinutes} min</Badge>
+                  <Badge>{LEVEL[r.difficulty]}</Badge>
+                  <Badge>{CUISINES[r.cuisine as Cuisine] ?? r.cuisine}</Badge>
+                  {r.pantryIngredientIds.length > 0 && (
+                    <Badge tone="accent" icon={Package}>
+                      {r.pantryIngredientIds.length} du placard
+                    </Badge>
+                  )}
+                </div>
+                {result.persons > 1 && <p className="mt-1.5 text-caption text-muted tabular-nums">≈ {formatEuros(r.perPersonCents)} / pers.</p>}
               </div>
             </div>
-            <p className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-stone-600 dark:text-stone-400">
-              <span>{CUISINES[r.cuisine as Cuisine] ?? r.cuisine}</span>
-              <span>⏱ {r.totalMinutes} min</span>
-              <span>{LEVEL[r.difficulty]}</span>
-              {r.pantryIngredientIds.length > 0 && <span>🥫 {r.pantryIngredientIds.length} du placard</span>}
-            </p>
             {r.skippedOptional.length > 0 && (
-              <p className="text-xs text-stone-600 dark:text-stone-400">
+              <p className="px-4 pb-2 text-caption text-subtle">
                 Facultatif non acheté pour tenir le budget : {r.skippedOptional.map((id) => ingredients.get(id)?.name ?? id).join(", ")}
               </p>
             )}
-            <div className="flex flex-wrap gap-2">
+            <div className="grid grid-cols-[1fr_1fr_auto] gap-1 border-t border-line p-1.5">
               {onRegenerate && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => onRegenerate(slot)}
-                  disabled={busy}
-                  aria-label={`Régénérer ${r.name}`}
-                  className="min-h-11 gap-1.5"
-                >
-                  <RefreshCw aria-hidden className="size-4" strokeWidth={1.75} />
-                  Régénérer ce plat
+                <Button variant="ghost" size="sm" icon={RefreshCw} onClick={() => onRegenerate(slot)} disabled={busy} aria-label={`Régénérer ${r.name}`}>
+                  Régénérer
                 </Button>
               )}
-              <Button variant="secondary" size="sm" onClick={() => onSwap(slot)} aria-label={`Choisir un autre plat que ${r.name}`}>
-                Choisir…
+              <Button variant="ghost" size="sm" icon={ArrowLeftRight} onClick={() => onSwap(slot)} aria-label={`Choisir un autre plat que ${r.name}`}>
+                Choisir
               </Button>
               <Link
-                href={`/recettes/${r.recipeId}?p=${result.persons}`}
-                className="inline-flex min-h-9 items-center rounded-xl px-3 text-sm font-medium text-emerald-800 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-stone-800"
+                href={href}
+                aria-label={`Voir la recette : ${r.name}`}
+                className="focus-ring inline-flex min-h-11 items-center gap-1 rounded-field px-3 text-body-sm font-medium text-muted hover:bg-surface-2 hover:text-fg"
               >
-                Voir la recette
+                Recette <ChevronRight aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
               </Link>
             </div>
           </Card>
@@ -168,8 +208,14 @@ export function SwapSheet({
 }) {
   return (
     <Sheet open={open} onClose={onClose} title={current ? `Remplacer « ${current} »` : "Remplacer"}>
-      {loading && <p role="status">Recherche des alternatives…</p>}
-      {options && options.length === 0 && <p>Aucune alternative compatible avec vos critères.</p>}
+      {loading && (
+        <div role="status" aria-label="Recherche des alternatives" className="space-y-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-16 animate-pulse rounded-field bg-surface-2" />
+          ))}
+        </div>
+      )}
+      {options && options.length === 0 && <p className="text-body-sm text-muted">Aucune alternative compatible avec vos critères.</p>}
       {options && options.length > 0 && (
         <ul className="space-y-2">
           {options.map((o) => (
@@ -177,20 +223,20 @@ export function SwapSheet({
               <button
                 type="button"
                 onClick={() => onPick(o.recipeId)}
-                className="flex w-full items-center justify-between gap-3 rounded-xl p-3 text-left ring-1 ring-stone-200 hover:bg-stone-50 focus-visible:outline-2 focus-visible:outline-emerald-600 dark:ring-stone-700 dark:hover:bg-stone-800"
+                className="focus-ring flex min-h-16 w-full items-center justify-between gap-3 rounded-field bg-surface-2 p-3 text-left ring-1 ring-inset ring-line transition-colors duration-150 hover:bg-surface-3"
               >
                 <span>
                   <span className="block font-medium">{o.name}</span>
-                  <span className="text-sm text-stone-600 dark:text-stone-400">
+                  <span className="text-caption text-muted">
                     {CUISINES[o.cuisine as Cuisine] ?? o.cuisine} · {o.totalMinutes} min
                   </span>
                 </span>
                 <span className="text-right">
-                  <span className={`block font-semibold tabular-nums ${o.deltaCents > 0 ? "text-red-700 dark:text-red-400" : "text-emerald-800 dark:text-emerald-300"}`}>
+                  <span className={cn("block font-numeric font-semibold tabular-nums", o.deltaCents > 0 ? "text-danger-text" : "text-accent-text")}>
                     {o.deltaCents > 0 ? "+" : o.deltaCents < 0 ? "−" : "±"}
                     {formatEuros(Math.abs(o.deltaCents))}
                   </span>
-                  <span className="text-xs text-stone-600 dark:text-stone-400">
+                  <span className="text-caption text-muted tabular-nums">
                     total {formatEuros(o.newTotalCents)}
                     {!o.fitsBudget && " · hors budget"}
                   </span>

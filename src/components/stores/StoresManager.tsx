@@ -1,5 +1,8 @@
 "use client";
+import { Check, Clock, FileSpreadsheet, MapPin, Pencil, Plus, Search, ShieldCheck, Store as StoreIcon, Tag, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { Badge, CardHeader, IconButton, useToast, type BadgeTone } from "@/components/ds";
+import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { BudgetInput } from "@/components/planner/PreferencesForm";
 import { OpenPricesImporter } from "./OpenPricesImporter";
 import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
@@ -23,11 +26,27 @@ const FORMATS: [StoreFormat, string][] = [
 const SOURCE = { estimate: "Estimation", manual: "Mon prix", import: "Importé", openprices: "Relevé Open Prices" } as Record<string, string>;
 type Prices = Awaited<ReturnType<typeof api.getPrices>>;
 
+const DAY = 86_400_000;
+const ageDays = (iso: string) => Math.max(0, Math.round((Date.now() - Date.parse(iso)) / DAY));
+const ageLabel = (d: number) => (d === 0 ? "aujourd'hui" : d < 31 ? `il y a ${d} j` : d < 365 ? `il y a ${Math.round(d / 30)} mois` : `il y a ${Math.round(d / 365)} an${d >= 730 ? "s" : ""}`);
+
+/** Confiance dans un prix : votre prix > relevé récent > import > relevé ancien > estimation. */
+function confidence(source: string, asOf: string): { tone: BadgeTone; label: string } {
+  if (source === "manual") return { tone: "accent", label: "Confiance élevée" };
+  if (source === "openprices") {
+    const d = ageDays(asOf);
+    return d <= 180 ? { tone: "accent", label: "Confiance élevée" } : d <= 450 ? { tone: "warn", label: "Confiance moyenne" } : { tone: "danger", label: "Ancien" };
+  }
+  if (source === "import") return { tone: "warn", label: "Confiance moyenne" };
+  return { tone: "neutral", label: "Estimation" };
+}
+
 export function StoresManager({ ingredients }: { ingredients: IngredientOption[] }) {
   const [prefs, setPrefs] = usePersistentState<Preferences>("mb:prefs", DEFAULT_PREFERENCES);
   const [stores, setStores] = useState<Store[]>([]);
   const [formatIndex, setFormatIndex] = useState<Record<string, number>>({});
-  const [msg, setMsg] = useState<{ level: "info" | "error"; text: string } | null>(null);
+  const toast = useToast();
+  const setMsg = (m: { level: "info" | "error"; text: string }) => toast({ title: m.text, tone: m.level === "error" ? "error" : "success" });
   const [pricesVersion, setPricesVersion] = useState(0);
   const activeId = prefs.storeId ?? stores[0]?.id;
 
@@ -37,49 +56,59 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
     setFormatIndex(r.formatPriceIndex);
   }, []);
   useEffect(() => {
-    reload().catch(() => setMsg({ level: "error", text: "Impossible de charger les magasins." }));
-  }, [reload]);
+    reload().catch(() => toast({ title: "Impossible de charger les magasins.", tone: "error" }));
+  }, [reload, toast]);
 
   return (
     <div className="space-y-4">
       <Card className="space-y-3" aria-labelledby="stores-title">
-        <h2 id="stores-title" className="text-lg font-semibold">
-          Mes magasins
-        </h2>
-        <ul className="space-y-2">
-          {stores.map((s) => (
-            <li key={s.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl p-2 ring-1 ring-stone-200 dark:ring-stone-700">
-              <label className="flex min-h-11 flex-1 items-center gap-3">
-                <input
-                  type="radio"
-                  name="active-store"
-                  className="size-5 accent-emerald-700"
-                  checked={s.id === activeId}
-                  onChange={() => setPrefs({ ...prefs, storeId: s.id })}
-                />
-                <span>
-                  <span className="block font-medium">{s.name}</span>
-                  <span className="text-xs text-stone-600 dark:text-stone-400">
-                    {s.city ? `${s.city} · ` : ""}indice de prix {s.priceIndex}
+        <CardHeader icon={StoreIcon} title={<span id="stores-title">Mes magasins</span>} description="Le magasin choisi sert au calcul de vos menus." />
+        <ul className="space-y-2" role="radiogroup" aria-labelledby="stores-title">
+          {stores.map((s) => {
+            const on = s.id === activeId;
+            return (
+              <li
+                key={s.id}
+                className={cn(
+                  "flex items-center gap-2 rounded-field p-1.5 pl-3 ring-1 ring-inset transition-colors duration-150",
+                  on ? "bg-accent-soft ring-accent/40" : "bg-surface-2 ring-line",
+                )}
+              >
+                <label className="flex min-h-11 flex-1 cursor-pointer items-center gap-3">
+                  <input type="radio" name="active-store" className="peer sr-only" checked={on} onChange={() => setPrefs({ ...prefs, storeId: s.id })} />
+                  <span
+                    aria-hidden
+                    className="grid size-5 shrink-0 place-items-center rounded-full ring-2 ring-inset ring-line-strong peer-checked:bg-accent-2 peer-checked:ring-accent-2 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus"
+                  >
+                    {on && <Check className="size-3.5 text-accent-fg" strokeWidth={3} />}
                   </span>
-                </span>
-              </label>
-              {s.id !== "intermarche-super" && (
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={async () => {
-                    await api.deleteStore(s.id);
-                    if (s.id === activeId) setPrefs({ ...prefs, storeId: "intermarche-super" });
-                    await reload();
-                  }}
-                  aria-label={`Supprimer ${s.name}`}
-                >
-                  Supprimer
-                </Button>
-              )}
-            </li>
-          ))}
+                  <span className="min-w-0">
+                    <span className="block truncate font-medium">{s.name}</span>
+                    <span className="inline-flex items-center gap-1 text-caption text-muted">
+                      {s.city && (
+                        <>
+                          <MapPin aria-hidden className="size-3" strokeWidth={ICON_STROKE} /> {s.city} ·{" "}
+                        </>
+                      )}
+                      indice {s.priceIndex}
+                    </span>
+                  </span>
+                </label>
+                {s.id !== "intermarche-super" && (
+                  <IconButton
+                    icon={Trash2}
+                    label={`Supprimer ${s.name}`}
+                    className="text-muted hover:bg-danger-soft hover:text-danger-text"
+                    onClick={async () => {
+                      await api.deleteStore(s.id);
+                      if (s.id === activeId) setPrefs({ ...prefs, storeId: "intermarche-super" });
+                      await reload();
+                    }}
+                  />
+                )}
+              </li>
+            );
+          })}
         </ul>
         <AddStoreForm
           formatIndex={formatIndex}
@@ -89,7 +118,7 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
             setMsg({ level: "info", text: "Magasin ajouté et sélectionné." });
           }}
         />
-        <p className="text-xs text-stone-600 dark:text-stone-400">
+        <p className="text-caption text-subtle">
           Les prix de départ sont des estimations Intermarché ajustées par l&apos;indice du magasin (100 = identique). Vos prix saisis sont toujours prioritaires.
         </p>
       </Card>
@@ -103,9 +132,6 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
         />
       )}
       {activeId && <PricesEditor key={`${activeId}-${pricesVersion}`} storeId={activeId} ingredients={ingredients} />}
-      <div role="status" aria-live="polite">
-        {msg && <Notice level={msg.level}>{msg.text}</Notice>}
-      </div>
     </div>
   );
 }
@@ -120,14 +146,14 @@ function AddStoreForm({ formatIndex, onCreated }: { formatIndex: Record<string, 
   const ids = { chain: useId(), format: useId(), city: useId(), index: useId() };
   if (!open)
     return (
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        + Ajouter un magasin
+      <Button variant="secondary" icon={Plus} onClick={() => setOpen(true)}>
+        Ajouter un magasin
       </Button>
     );
   const effectiveIndex = index ?? formatIndex[format] ?? 100;
   return (
     <form
-      className="space-y-3 rounded-xl bg-stone-50 p-3 dark:bg-stone-800"
+      className="space-y-3 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line"
       onSubmit={async (e) => {
         e.preventDefault();
         try {
@@ -148,7 +174,7 @@ function AddStoreForm({ formatIndex, onCreated }: { formatIndex: Record<string, 
     >
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <label htmlFor={ids.chain} className="mb-1 block text-sm font-medium">
+          <label htmlFor={ids.chain} className="mb-2 block text-caption font-medium text-muted">
             Enseigne
           </label>
           <select id={ids.chain} className="input" value={chain} onChange={(e) => setChain(e.target.value)}>
@@ -158,7 +184,7 @@ function AddStoreForm({ formatIndex, onCreated }: { formatIndex: Record<string, 
           </select>
         </div>
         <div>
-          <label htmlFor={ids.format} className="mb-1 block text-sm font-medium">
+          <label htmlFor={ids.format} className="mb-2 block text-caption font-medium text-muted">
             Format
           </label>
           <select id={ids.format} className="input" value={format} onChange={(e) => (setFormat(e.target.value as StoreFormat), setIndex(null))}>
@@ -170,13 +196,13 @@ function AddStoreForm({ formatIndex, onCreated }: { formatIndex: Record<string, 
           </select>
         </div>
         <div>
-          <label htmlFor={ids.city} className="mb-1 block text-sm font-medium">
+          <label htmlFor={ids.city} className="mb-2 block text-caption font-medium text-muted">
             Ville / quartier (facultatif)
           </label>
           <input id={ids.city} className="input" value={city} onChange={(e) => setCity(e.target.value)} maxLength={80} />
         </div>
         <div>
-          <label htmlFor={ids.index} className="mb-1 block text-sm font-medium">
+          <label htmlFor={ids.index} className="mb-2 block text-caption font-medium text-muted">
             Indice de prix (100 = Intermarché Super)
           </label>
           <input
@@ -220,19 +246,43 @@ function PricesEditor({ storeId, ingredients }: { storeId: string; ingredients: 
     return q.length < 2 ? [] : ingredients.filter((i) => i.name.toLowerCase().includes(q)).slice(0, 12);
   }, [query, ingredients]);
 
-  if (!data) return <p role="status">Chargement des prix…</p>;
+  if (!data)
+    return (
+      <div role="status" aria-label="Chargement des prix" className="h-48 animate-pulse rounded-card bg-surface ring-1 ring-inset ring-line" />
+    );
+
+  const all = Object.values(data.prices).flat();
+  const op = all.filter((p) => p.source === "openprices");
+  const mine = all.filter((p) => p.source === "manual" || p.source === "import");
+  const newest = op.reduce<string | null>((a, p) => (!a || p.asOf > a ? p.asOf : a), null);
+  const median = op.length ? [...op].map((p) => ageDays(p.asOf)).sort((a, b) => a - b)[Math.floor(op.length / 2)]! : null;
 
   return (
     <Card className="space-y-4" aria-labelledby="prices-title">
-      <h2 id="prices-title" className="text-lg font-semibold">
-        Prix — {data.store.name}
-      </h2>
-      <div>
-        <label htmlFor={searchId} className="mb-1 block text-sm font-medium">
+      <CardHeader icon={Tag} title={<span id="prices-title">Prix — {data.store.name}</span>} description="Touchez un prix pour le corriger." />
+      <dl className="grid grid-cols-3 gap-2 text-center">
+        <div className="rounded-field bg-surface-2 p-2.5 ring-1 ring-inset ring-line">
+          <dt className="text-caption text-muted">Relevés réels</dt>
+          <dd className="font-numeric text-title-3 font-semibold tabular-nums">{op.length}</dd>
+        </div>
+        <div className="rounded-field bg-surface-2 p-2.5 ring-1 ring-inset ring-line">
+          <dt className="text-caption text-muted">Fraîcheur</dt>
+          <dd className="text-body-sm font-semibold">{median === null ? "—" : ageLabel(median)}</dd>
+          {newest && <dd className="text-[11px] text-subtle">dernier : {ageLabel(ageDays(newest))}</dd>}
+        </div>
+        <div className="rounded-field bg-surface-2 p-2.5 ring-1 ring-inset ring-line">
+          <dt className="text-caption text-muted">Vos prix</dt>
+          <dd className="font-numeric text-title-3 font-semibold tabular-nums">{mine.length}</dd>
+        </div>
+      </dl>
+      <div className="relative">
+        <label htmlFor={searchId} className="sr-only">
           Rechercher un produit
         </label>
-        <input id={searchId} className="input" placeholder="ex. riz, lait, poulet…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-subtle" strokeWidth={ICON_STROKE} />
+        <input id={searchId} type="search" className="input pl-9" placeholder="Rechercher un produit : riz, lait, poulet…" value={query} onChange={(e) => setQuery(e.target.value)} />
       </div>
+      {query.trim().length < 2 && <p className="text-caption text-subtle">Tapez au moins 2 lettres pour voir et corriger les prix d&apos;un produit.</p>}
       <ul className="space-y-3">
         {shown.map((ing) => (
           <IngredientPrices
@@ -246,9 +296,12 @@ function PricesEditor({ storeId, ingredients }: { storeId: string; ingredients: 
         ))}
       </ul>
 
-      <details className="rounded-xl bg-stone-50 p-3 dark:bg-stone-800">
-        <summary className="cursor-pointer font-medium">Importer des prix (CSV)</summary>
-        <p className="mt-2 text-sm text-stone-600 dark:text-stone-400">
+      <details className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+        <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-field font-medium [&::-webkit-details-marker]:hidden">
+          <FileSpreadsheet aria-hidden className="size-4 text-muted" strokeWidth={ICON_STROKE} />
+          Importer des prix (CSV)
+        </summary>
+        <p className="mt-2 text-body-sm text-muted">
           Une ligne par format : <code>ingrédient ; libellé ; quantité ; unité ; prix</code>, par exemple
           <code className="block">riz-long ; Paquet 1 kg ; 1 ; kg ; 1,39</code>
         </p>
@@ -271,7 +324,7 @@ function PricesEditor({ storeId, ingredients }: { storeId: string; ingredients: 
         <div role="status" aria-live="polite" className="mt-2 space-y-1 text-sm">
           {importMsg && <p>{importMsg}</p>}
           {importErrors.map((e) => (
-            <p key={e.line} className="text-red-700 dark:text-red-400">
+            <p key={e.line} className="text-danger-text">
               Ligne {e.line} : {e.message}
             </p>
           ))}
@@ -295,17 +348,19 @@ function IngredientPrices({
   onChanged: () => Promise<void>;
 }) {
   const [editing, setEditing] = useState<{ label: string; quantity: number; priceCents: number } | null>(null);
+  const [quick, setQuick] = useState<{ id: string; priceCents: number } | null>(null);
+  const toast = useToast();
   const qtyId = useId();
   const priceId = useId();
   const labelId = useId();
   return (
-    <li className="rounded-xl p-3 ring-1 ring-stone-200 dark:ring-stone-700">
+    <li className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-medium">{ingredient.name}</span>
-        <label className="flex items-center gap-2 text-sm">
+        <span className="font-semibold">{ingredient.name}</span>
+        <label className="flex min-h-11 cursor-pointer items-center gap-2 text-body-sm text-muted">
           <input
             type="checkbox"
-            className="size-5 accent-emerald-700"
+            className="size-5 accent-[var(--mb-danger)]"
             checked={unavailable}
             onChange={async (e) => {
               await api.setUnavailable(storeId, ingredient.id, e.target.checked);
@@ -315,34 +370,76 @@ function IngredientPrices({
           Introuvable ici
         </label>
       </div>
-      <ul className="mt-2 space-y-1 text-sm">
-        {packages.map((p) => (
-          <li key={p.id} className="flex flex-wrap items-center justify-between gap-2">
-            <span>
-              {p.label} <span className="text-stone-500">({formatQuantity(p.quantity, ingredient.unit)})</span>
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="rounded-full bg-stone-100 px-2 text-xs dark:bg-stone-800">{SOURCE[p.source] ?? p.source}</span>
-              <span className="font-semibold tabular-nums">{formatEuros(p.priceCents)}</span>
-              <Button size="sm" variant="ghost" onClick={() => setEditing({ label: p.label, quantity: p.quantity, priceCents: p.priceCents })}>
-                Modifier
-              </Button>
-              {p.source !== "estimate" && (
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  aria-label={`Supprimer mon prix pour ${p.label}`}
-                  onClick={async () => {
-                    await api.deletePrice(p.id);
+      <ul className="mt-1 divide-y divide-line">
+        {packages.map((p) => {
+          const conf = confidence(p.source, p.asOf);
+          const isQuick = quick?.id === p.id;
+          return (
+            <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-body-sm">
+                  {p.label} <span className="text-subtle">({formatQuantity(p.quantity, ingredient.unit)})</span>
+                </p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  <Badge tone={conf.tone} icon={ShieldCheck}>
+                    {SOURCE[p.source] ?? p.source}
+                  </Badge>
+                  {p.source !== "estimate" && (
+                    <Badge icon={Clock}>
+                      <span className="sr-only">Relevé </span>
+                      {ageLabel(ageDays(p.asOf))}
+                    </Badge>
+                  )}
+                  <span className="sr-only">{conf.label}</span>
+                </div>
+              </div>
+              {isQuick ? (
+                <form
+                  className="flex items-center gap-1"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    await api.setPrice({ storeId, ingredientId: ingredient.id, label: p.label, quantity: p.quantity, priceCents: quick.priceCents });
+                    setQuick(null);
+                    toast({ title: `Prix corrigé : ${formatEuros(quick.priceCents)}`, tone: "success" });
                     await onChanged();
                   }}
                 >
-                  ✕
-                </Button>
+                  <div className="w-28">
+                    <label className="sr-only" htmlFor={`quick-${p.id}`}>
+                      Nouveau prix pour {p.label}
+                    </label>
+                    <BudgetInput id={`quick-${p.id}`} value={quick.priceCents} onChange={(priceCents) => setQuick({ id: p.id, priceCents })} />
+                  </div>
+                  <IconButton icon={Check} label="Enregistrer le prix" type="submit" variant="primary" />
+                  <IconButton icon={X} label="Annuler" onClick={() => setQuick(null)} />
+                </form>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => setQuick({ id: p.id, priceCents: p.priceCents })}
+                    aria-label={`Corriger le prix de ${p.label} : ${formatEuros(p.priceCents)}`}
+                    className="focus-ring inline-flex min-h-11 items-center gap-1.5 rounded-field px-2.5 font-numeric font-semibold tabular-nums hover:bg-surface-3"
+                  >
+                    {formatEuros(p.priceCents)}
+                    <Pencil aria-hidden className="size-3.5 text-subtle" strokeWidth={ICON_STROKE} />
+                  </button>
+                  {p.source !== "estimate" && (
+                    <IconButton
+                      icon={Trash2}
+                      label={`Supprimer mon prix pour ${p.label}`}
+                      className="text-muted hover:bg-danger-soft hover:text-danger-text"
+                      onClick={async () => {
+                        await api.deletePrice(p.id);
+                        await onChanged();
+                      }}
+                    />
+                  )}
+                </span>
               )}
-            </span>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
       {editing ? (
         <form
@@ -355,13 +452,13 @@ function IngredientPrices({
           }}
         >
           <div className="sm:col-span-2">
-            <label htmlFor={labelId} className="text-xs">
+            <label htmlFor={labelId} className="mb-1 block text-caption text-muted">
               Libellé
             </label>
             <input id={labelId} className="input" value={editing.label} onChange={(e) => setEditing({ ...editing, label: e.target.value })} />
           </div>
           <div>
-            <label htmlFor={qtyId} className="text-xs">
+            <label htmlFor={qtyId} className="mb-1 block text-caption text-muted">
               Contenance ({ingredient.unit === "piece" ? "pièces" : ingredient.unit})
             </label>
             <input
@@ -375,7 +472,7 @@ function IngredientPrices({
             />
           </div>
           <div>
-            <label htmlFor={priceId} className="text-xs">
+            <label htmlFor={priceId} className="mb-1 block text-caption text-muted">
               Prix
             </label>
             <BudgetInput id={priceId} value={editing.priceCents} onChange={(priceCents) => setEditing({ ...editing, priceCents })} />
@@ -393,10 +490,11 @@ function IngredientPrices({
         <Button
           size="sm"
           variant="ghost"
+          icon={Plus}
           className="mt-1"
           onClick={() => setEditing({ label: "", quantity: ingredient.unit === "piece" ? 1 : 500, priceCents: 100 })}
         >
-          + Ajouter un format
+          Ajouter un format
         </Button>
       )}
     </li>

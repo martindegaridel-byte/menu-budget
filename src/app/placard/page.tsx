@@ -1,3 +1,5 @@
+import { Package } from "lucide-react";
+import { PageHeader } from "@/components/PageHeader";
 import { PantryEditor } from "@/components/pantry/PantryEditor";
 import { getCatalogView } from "@/lib/server/views";
 
@@ -7,8 +9,8 @@ export const metadata = { title: "Mon placard — Menu Budget" };
 export default async function PantryPage() {
   const { ingredients } = await getCatalogView();
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Mon placard</h1>
+    <div>
+      <PageHeader icon={Package} title="Mon placard" description="Ce que vous avez déjà ne coûte rien : vos menus en tiennent compte." />
       <PantryEditor ingredients={ingredients} />
     </div>
   );
