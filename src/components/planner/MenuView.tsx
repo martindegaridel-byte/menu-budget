@@ -1,4 +1,5 @@
 "use client";
+import { RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/ui";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
@@ -77,11 +78,15 @@ export function MenuRecipes({
   recipes,
   ingredients,
   onSwap,
+  onRegenerate,
+  busy = false,
 }: {
   result: MenuResult;
   recipes: ReadonlyMap<string, RecipeSummary>;
   ingredients: ReadonlyMap<string, IngredientOption>;
   onSwap: (slot: number) => void;
+  onRegenerate?: (slot: number) => void;
+  busy?: boolean;
 }) {
   return (
     <ol className="space-y-3" aria-label="Plats du menu">
@@ -115,9 +120,22 @@ export function MenuRecipes({
                 Facultatif non acheté pour tenir le budget : {r.skippedOptional.map((id) => ingredients.get(id)?.name ?? id).join(", ")}
               </p>
             )}
-            <div className="flex gap-2">
-              <Button variant="secondary" size="sm" onClick={() => onSwap(slot)} aria-label={`Remplacer ${r.name}`}>
-                ⇄ Remplacer
+            <div className="flex flex-wrap gap-2">
+              {onRegenerate && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => onRegenerate(slot)}
+                  disabled={busy}
+                  aria-label={`Régénérer ${r.name}`}
+                  className="min-h-11 gap-1.5"
+                >
+                  <RefreshCw aria-hidden className="size-4" strokeWidth={1.75} />
+                  Régénérer ce plat
+                </Button>
+              )}
+              <Button variant="secondary" size="sm" onClick={() => onSwap(slot)} aria-label={`Choisir un autre plat que ${r.name}`}>
+                Choisir…
               </Button>
               <Link
                 href={`/recettes/${r.recipeId}?p=${result.persons}`}

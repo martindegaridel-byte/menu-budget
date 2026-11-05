@@ -9,12 +9,26 @@ Code : `src/lib/engine/` (fonctions pures, sans I/O, testées dans `*.test.ts`).
 - **Contraintes dures de filtrage** : régime, allergènes, aliments exclus, temps total,
   niveau, équipement, disponibilité en magasin.
 - **Objectif** (à maximiser) : somme des scores de préférence − pénalités de variété
-  − `1,5 × nb_repas × coût / budget` (à goût égal, on dépense moins).
+  − `0,5 × nb_repas × coût / budget`. Le poids du coût est volontairement faible : il
+  départage, sans ramener toujours les mêmes plats bon marché (le budget reste strict).
   - score recette = 10 + 4 (cuisine aimée) + 3 par aliment favori (max 6)
     + 4 par produit du placard qui périme sous 5 jours − 3 (viande, si flexitarien)
-    + bruit reproductible ∈ [0, 2[ dépendant de la graine (pour « Proposer autre chose »).
-  - pénalités : −2 par cuisine ou protéine au-delà de 2 occurrences, −8 par doublon
-    (doublons autorisés seulement s'il y a moins de recettes compatibles que de repas).
+    − historique (8 / 5 / 2 pour une recette du dernier / avant-dernier / 3e menu)
+    + bruit reproductible ∈ [0, 5[ dépendant de la graine.
+  - variété (base, protéine et cuisine **déduites des ingrédients**, voir `facts.ts`) :
+    −1,5 par répétition ; au-delà d'environ un tiers du menu (`ceil(repas / 3)`, soit
+    2 pour 5 repas) sur la même base ou la même protéine : −6 par plat en trop ;
+    −8 par doublon (autorisé seulement s'il y a moins de recettes que de repas).
+
+### Variété d'une génération à l'autre
+
+- L'appli tire une **nouvelle graine** à chaque génération ; elle est renvoyée dans le
+  résultat (`seed`) : mêmes réglages + même graine ⇒ même menu.
+- L'appli transmet les recettes des 3 derniers menus (`recentRecipeIds`).
+- Tirage final parmi les optimums locaux à moins de 3 % du meilleur (sauf
+  réoptimisation d'un menu existant, qui garde le meilleur).
+- « Régénérer ce plat » : tirage pondéré (par rang) parmi les 5 meilleures
+  alternatives de `swapOptions` qui tiennent dans le budget et ne sont pas récentes.
 
 ## 2. Coût d'un panier : `buildShoppingList`
 
@@ -42,7 +56,7 @@ partagés) — NP-difficile en général, mais petit (≤ 21 plats, ~170 recette
      (« il manque X € pour N personnes et M repas ») + suggestions calculées par
      dichotomie (nombre de repas / de personnes qui tiennent dans le budget).
 2. **Points de départ** : menu le moins cher, menu courant (`initial`), glouton par
-   score sous budget, 3 gloutons randomisés (graine).
+   score sous budget, 5 gloutons randomisés (graine).
 3. **Recherche locale par meilleure amélioration** sous contrainte coût ≤ budget
    (voisinage : remplacer un plat par une autre recette), jusqu'à l'optimum local
    ou au plafond de temps (1 s par défaut, vérifié à l'intérieur des boucles).

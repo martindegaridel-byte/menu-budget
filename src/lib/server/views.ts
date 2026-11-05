@@ -1,9 +1,11 @@
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
+import { deriveRecipeFacts, derivedTags } from "@/lib/engine/facts";
 import { getCatalog } from "./catalog";
 
 /** Données de catalogue allégées pour les composants client. */
 export async function getCatalogView(): Promise<{ ingredients: IngredientOption[]; recipes: RecipeSummary[] }> {
   const c = await getCatalog();
+  const byId = new Map(c.ingredients.map((i) => [i.id, i]));
   return {
     ingredients: c.ingredients.map(({ id, name, aisle, unit, staple }) => ({ id, name, aisle, unit, staple })),
     recipes: c.recipes.map((r) => ({
@@ -13,7 +15,8 @@ export async function getCatalogView(): Promise<{ ingredients: IngredientOption[
       cuisine: r.cuisine,
       totalMinutes: r.prepMinutes + r.cookMinutes,
       difficulty: r.difficulty,
-      tags: r.tags,
+      // Étiquettes de la recette + celles déduites des ingrédients (régime, « rapide »…).
+      tags: [...new Set([...r.tags, ...derivedTags(deriveRecipeFacts(r, byId))])],
     })),
   };
 }

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { toBaseQuantity } from "@/lib/engine/units";
 import { compatibleDiets } from "@/lib/engine/diet";
+import { DERIVED_TAG_NAMES } from "@/lib/engine/facts";
+import { RecipeSchema } from "@/lib/domain/schemas";
 import { loadSeedData } from "./seed";
 
 const data = loadSeedData();
@@ -50,5 +52,31 @@ describe("données seed", () => {
       ).length;
     expect(without("gluten")).toBeGreaterThanOrEqual(15);
     expect(without("lait")).toBeGreaterThanOrEqual(15);
+  });
+
+  describe.each(data.recipes.map((r) => [r.id, r] as const))("recette %s", (_, r) => {
+    it("est valide (schéma Zod, temps et étapes cohérents)", () => {
+      expect(RecipeSchema.safeParse(r).success).toBe(true);
+      const total = r.prepMinutes + r.cookMinutes;
+      expect(total).toBeGreaterThanOrEqual(5);
+      expect(total).toBeLessThanOrEqual(300);
+      expect(r.steps.length).toBeGreaterThanOrEqual(2);
+      expect(r.ingredients.filter((l) => !l.optional).length).toBeGreaterThanOrEqual(2);
+    });
+
+    it("n'utilise que des ingrédients existants, une seule fois chacun", () => {
+      for (const l of r.ingredients) expect(byId.has(l.ingredientId), l.ingredientId).toBe(true);
+      const ids = r.ingredients.map((l) => l.ingredientId);
+      expect(new Set(ids).size).toBe(ids.length);
+    });
+
+    it("ne porte aucune étiquette de régime, d'allergène, de protéine ou de durée écrite à la main", () => {
+      for (const t of r.tags) expect(DERIVED_TAG_NAMES.has(t), t).toBe(false);
+    });
+
+    it("déclare le four si une étape l'utilise", () => {
+      const usesOven = r.steps.some((s) => /\b(four|enfourner|gratiner)\b/i.test(s));
+      if (usesOven) expect(r.equipment).toContain("four");
+    });
   });
 });

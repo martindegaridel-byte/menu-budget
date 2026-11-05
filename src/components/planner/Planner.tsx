@@ -1,6 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useToast } from "@/components/ds";
 import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
@@ -13,6 +14,20 @@ import { AiRecipes } from "./AiRecipes";
 import { MenuRecipes, MenuSummary, SwapSheet } from "./MenuView";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
+
+/** Nouvelle graine à chaque génération (gardée dans le résultat pour pouvoir le reproduire). */
+const newSeed = () => Math.floor(Math.random() * 2_147_483_647);
+/** Taille de l'historique transmis au moteur : les 3 derniers menus. */
+const HISTORY_MENUS = 3;
+
+/** Tirage pondéré par le rang parmi les premières options (la 1re a le plus de chances). */
+function pickWeighted<T>(items: readonly T[], top = 5): T | undefined {
+  const pool = items.slice(0, top);
+  const weights = pool.map((_, i) => pool.length - i);
+  let r = Math.random() * weights.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < pool.length; i++) if ((r -= weights[i]!) < 0) return pool[i];
+  return pool[0];
+}
 
 export const DEFAULT_PREFERENCES: Preferences = PreferencesSchema.parse({
   budgetCents: 2000,
@@ -41,11 +56,13 @@ export function Planner({
     return parsed.success ? parsed.data : DEFAULT_PREFERENCES;
   }, [storedPrefs]);
   const [result, setResult] = usePersistentState<MenuResult | null>("mb:result", null);
+  // Recettes proposées récemment (la plus récente d'abord) : le moteur évite de les reproposer.
+  const [recent, setRecent] = usePersistentState<string[]>("mb:recent", []);
+  const toast = useToast();
   const [tab, setTab] = useState<"menu" | "courses">("menu");
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
   const [swap, setSwap] = useState<{ slot: number; options: SwapOption[] | null } | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const search = useSearchParams();
@@ -68,9 +85,16 @@ export function Planner({
     }
   }, []);
 
+  const remember = (ids: readonly string[], meals: number) =>
+    setRecent((prev) => [...ids, ...prev.filter((id) => !ids.includes(id))].slice(0, Math.min(63, HISTORY_MENUS * Math.max(1, meals))));
+
+  /** Nouveau menu (nouvelle graine, historique transmis) ; avec `initial`, réoptimise le menu courant. */
   const generate = (p: Preferences, initial?: string[]) =>
     run(async () => {
-      const r = await api.generate(p, initial);
+      const next = initial ? { ...p, recentRecipeIds: [] } : { ...p, seed: newSeed(), recentRecipeIds: recent };
+      setPrefs({ ...next, recentRecipeIds: [] });
+      const r = await api.generate(next, initial);
+      if (!initial) remember(r.recipes.map((x) => x.recipeId), r.recipes.length);
       setResult(r);
       setEditing(false);
       setTab("menu");
@@ -106,10 +130,34 @@ export function Planner({
   const openSwap = (slot: number) => {
     setSwap({ slot, options: null });
     void run(async () => {
-      const { options } = await api.swap({ ...prefs, meals: recipeIds.length }, recipeIds, slot);
+      const { options } = await api.swap({ ...prefs, meals: recipeIds.length, recentRecipeIds: recent }, recipeIds, slot);
       setSwap({ slot, options });
     });
   };
+
+  /** « Régénérer ce plat » : tirage d'une bonne alternative dans le budget, avec « Annuler ». */
+  const regenerate = (slot: number) =>
+    run(async () => {
+      const before = [...recipeIds];
+      const p = { ...prefs, meals: before.length, recentRecipeIds: recent };
+      const { options } = await api.swap(p, before, slot);
+      const fitting = options.filter((o) => o.fitsBudget);
+      const fresh = fitting.filter((o) => !recent.includes(o.recipeId));
+      const pick = pickWeighted(fresh.length > 0 ? fresh : fitting);
+      if (!pick) {
+        toast({ title: "Aucune autre recette ne tient dans le budget", tone: "warn" });
+        return;
+      }
+      const ids = [...before];
+      ids[slot] = pick.recipeId;
+      setResult(await api.evaluate({ ...prefs, meals: ids.length }, ids));
+      remember([pick.recipeId], ids.length);
+      toast({
+        title: `${pick.name} remplace ${result?.recipes[slot]?.name ?? "le plat"}`,
+        tone: "success",
+        onUndo: () => void run(async () => setResult(await api.evaluate({ ...prefs, meals: before.length }, before))),
+      });
+    });
   const pickSwap = (recipeId: string) => {
     if (!swap) return;
     const ids = [...recipeIds];
@@ -120,8 +168,8 @@ export function Planner({
 
   const save = () =>
     run(async () => {
-      await api.saveMenu({ ...prefs, meals: recipeIds.length }, recipeIds);
-      setToast("Menu enregistré dans l'historique.");
+      await api.saveMenu({ ...prefs, meals: recipeIds.length, recentRecipeIds: [] }, recipeIds);
+      toast({ title: "Menu enregistré dans l'historique", tone: "success" });
     });
 
   const shoppingDone = async () => {
@@ -201,9 +249,16 @@ export function Planner({
               <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
                 {tab === "menu" ? (
                   <div className="space-y-3">
-                    <MenuRecipes result={result} recipes={recipeMap} ingredients={ingredientMap} onSwap={openSwap} />
+                    <MenuRecipes
+                      result={result}
+                      recipes={recipeMap}
+                      ingredients={ingredientMap}
+                      onSwap={openSwap}
+                      onRegenerate={regenerate}
+                      busy={busy}
+                    />
                     <div className="grid grid-cols-2 gap-2">
-                      <Button variant="secondary" onClick={() => generate({ ...prefs, seed: prefs.seed + 1 })} disabled={busy}>
+                      <Button variant="secondary" onClick={() => generate(prefs)} disabled={busy}>
                         ↻ Autre proposition
                       </Button>
                       <Button onClick={save} disabled={busy}>
@@ -231,9 +286,6 @@ export function Planner({
       )}
 
       <div aria-live="assertive">{error && <Notice level="error">{error}</Notice>}</div>
-      <div role="status" aria-live="polite">
-        {toast && <Notice level="info">{toast}</Notice>}
-      </div>
 
       <SwapSheet
         open={!!swap}

@@ -1,5 +1,6 @@
 import type { Allergen, Preferences, Recipe } from "@/lib/domain/schemas";
 import { isOriginAllowed } from "./diet";
+import { deriveRecipeFacts, type Base, type Protein } from "./facts";
 import { hashString } from "./rng";
 import { buildShoppingList, pantryQuantity } from "./shopping";
 import type { EngineContext, Needs, ShoppingList } from "./types";
@@ -34,16 +35,15 @@ export interface PreparedRecipe {
   /** Ingrédients facultatifs retirés car incompatibles ou indisponibles. */
   droppedOptional: string[];
   score: number;
-  /** Indicateurs utiles au score de variété. */
-  protein: string | null;
+  /** Indicateurs utiles à la variété (déduits des ingrédients). */
+  protein: Protein | null;
+  base: Base | null;
 }
 
 export interface FilterResult {
   candidates: PreparedRecipe[];
   rejected: { recipeId: string; reasons: RejectionReason[] }[];
 }
-
-const PROTEIN_TAGS = ["boeuf", "porc", "poulet", "volaille", "poisson", "fruits-de-mer", "oeufs"] as const;
 
 type Constraints = Pick<
   Preferences,
@@ -94,19 +94,32 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       rejected.push({ recipeId: recipe.id, reasons: [...reasons] });
       continue;
     }
+    const facts = deriveRecipeFacts(recipe, ctx.ingredients);
     candidates.push({
       recipe,
       needs,
       optionalNeeds,
       droppedOptional,
       score: scoreRecipe(recipe, needs, prefs, ctx),
-      protein: PROTEIN_TAGS.find((t) => recipe.tags.includes(t)) ?? null,
+      protein: facts.protein,
+      base: facts.base,
     });
   }
   return { candidates, rejected };
 }
 
 const EXPIRING_DAYS = 5;
+/** Amplitude du bruit (graine) ajouté au score : assez pour varier, moins qu'un goût déclaré. */
+export const SCORE_NOISE = 5;
+/** Pénalité d'historique : dernier menu, avant-dernier, celui d'avant. */
+export const HISTORY_PENALTIES = [8, 5, 2] as const;
+
+/** Pénalité d'une recette selon sa position dans l'historique (la plus récente d'abord). */
+export function historyPenalty(recipeId: string, recent: readonly string[], meals: number): number {
+  const pos = recent.indexOf(recipeId);
+  if (pos < 0) return 0;
+  return HISTORY_PENALTIES[Math.floor(pos / Math.max(1, meals))] ?? 0;
+}
 
 function daysBetween(fromIso: string, toIso: string): number {
   return Math.round((Date.parse(toIso) - Date.parse(fromIso)) / 86_400_000);
@@ -119,7 +132,8 @@ function daysBetween(fromIso: string, toIso: string): number {
 export function scoreRecipe(
   recipe: Recipe,
   needs: Needs,
-  prefs: Pick<Preferences, "likedCuisines" | "favoriteIngredientIds" | "diet" | "seed">,
+  prefs: Pick<Preferences, "likedCuisines" | "favoriteIngredientIds" | "diet" | "seed"> &
+    Partial<Pick<Preferences, "recentRecipeIds" | "meals">>,
   ctx: EngineContext,
 ): number {
   let score = 10;
@@ -134,8 +148,10 @@ export function scoreRecipe(
     const item = ctx.pantry.get(id);
     if (item?.expiresOn && daysBetween(ctx.today, item.expiresOn) <= EXPIRING_DAYS) score += 4;
   }
-  // Léger bruit reproductible pour varier les menus d'une graine à l'autre.
-  score += (hashString(recipe.id, prefs.seed) % 1000) / 500;
+  // Plats proposés récemment : pénalisés, d'autant plus qu'ils sont récents.
+  score -= historyPenalty(recipe.id, prefs.recentRecipeIds ?? [], prefs.meals ?? 1);
+  // Bruit reproductible pour varier les menus d'une graine à l'autre.
+  score += ((hashString(recipe.id, prefs.seed) % 1000) / 1000) * SCORE_NOISE;
   return score;
 }
 

@@ -83,6 +83,15 @@ export const CUISINES = {
   mediterraneenne: "Méditerranéenne",
   americaine: "Américaine",
   espagnole: "Espagnole",
+  africaine: "Africaine",
+  antillaise: "Antillaise",
+  japonaise: "Japonaise",
+  coreenne: "Coréenne",
+  vietnamienne: "Vietnamienne",
+  libanaise: "Libanaise",
+  grecque: "Grecque",
+  portugaise: "Portugaise",
+  turque: "Turque",
 } as const;
 export const CuisineSchema = z.enum(Object.keys(CUISINES) as [keyof typeof CUISINES, ...(keyof typeof CUISINES)[]]);
 export type Cuisine = z.infer<typeof CuisineSchema>;
@@ -218,6 +227,11 @@ export const PreferencesSchema = z.object({
   storeId: z.string().optional(),
   /** Graine pour varier les propositions de façon reproductible. */
   seed: z.number().int().nonnegative().default(0),
+  /**
+   * Recettes proposées récemment, la plus récente d'abord (rempli par l'appli) :
+   * le moteur les pénalise pour éviter de reproposer les mêmes plats.
+   */
+  recentRecipeIds: z.array(id).max(63).default([]),
 });
 export type Preferences = z.infer<typeof PreferencesSchema>;
 export type PreferencesInput = z.input<typeof PreferencesSchema>;

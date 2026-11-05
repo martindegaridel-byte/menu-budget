@@ -56,6 +56,8 @@ export interface MenuResult {
   recipes: MenuRecipe[];
   shoppingList: ShoppingList;
   diagnostics: Diagnostic[];
+  /** Graine utilisée : la même graine et les mêmes réglages redonnent le même menu. */
+  seed: number;
   stats: { candidates: number; evaluations: number; elapsedMs: number };
 }
 
@@ -78,10 +80,22 @@ interface Evaluation {
   objective: number;
 }
 
-const VARIETY_PENALTY = 2;
+/** Pénalités de variété : chaque répétition coûte un peu, le dépassement du plafond beaucoup. */
+const REPEAT_PENALTY = { cuisine: 1.5, protein: 1.5, base: 1.5 } as const;
+const OVER_CAP_PENALTY = 6;
 const DUPLICATE_PENALTY = 8;
-/** Poids du coût dans l'objectif : à goût égal, on préfère dépenser moins. */
-const COST_WEIGHT = 1.5;
+/**
+ * Poids du coût dans l'objectif : faible, pour départager sans ramener toujours les
+ * mêmes plats bon marché (le budget, lui, reste une contrainte stricte).
+ */
+const COST_WEIGHT = 0.5;
+/** Écart toléré avec le meilleur menu trouvé pour le tirage final (3 %, au moins 1 point). */
+const NEAR_BEST = 0.03;
+
+/** Nombre maximal de plats sur la même base ou la même protéine : environ un tiers du menu. */
+export function varietyCap(meals: number): number {
+  return Math.max(1, Math.ceil(meals / 3));
+}
 
 class Evaluator {
   evaluations = 0;
@@ -118,18 +132,24 @@ class Evaluator {
 
   private menuScore(menu: readonly number[]): number {
     let score = 0;
-    const cuisines = new Map<string, number>();
-    const proteins = new Map<string, number>();
+    const count = { cuisine: new Map<string, number>(), protein: new Map<string, number>(), base: new Map<string, number>() };
+    const bump = (m: Map<string, number>, k: string | null) => k && m.set(k, (m.get(k) ?? 0) + 1);
     const seen = new Map<number, number>();
     for (const i of menu) {
       const c = this.candidates[i]!;
       score += c.score;
-      cuisines.set(c.recipe.cuisine, (cuisines.get(c.recipe.cuisine) ?? 0) + 1);
-      if (c.protein) proteins.set(c.protein, (proteins.get(c.protein) ?? 0) + 1);
+      bump(count.cuisine, c.recipe.cuisine);
+      bump(count.protein, c.protein);
+      bump(count.base, c.base);
       seen.set(i, (seen.get(i) ?? 0) + 1);
     }
-    for (const n of cuisines.values()) if (n > 2) score -= VARIETY_PENALTY * (n - 2);
-    for (const n of proteins.values()) if (n > 2) score -= VARIETY_PENALTY * (n - 2);
+    const cap = varietyCap(menu.length);
+    for (const kind of ["cuisine", "protein", "base"] as const) {
+      for (const n of count[kind].values()) {
+        score -= REPEAT_PENALTY[kind] * (n - 1);
+        if (kind !== "cuisine" && n > cap) score -= OVER_CAP_PENALTY * (n - cap);
+      }
+    }
     for (const n of seen.values()) if (n > 1) score -= DUPLICATE_PENALTY * (n - 1);
     return score;
   }
@@ -312,23 +332,28 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   const g = greedyByScore(ev, prefs.meals, allowRepeats, byScore, floorPerMeal);
   if (g) starts.push(g);
   const rng = createRng(prefs.seed + 1);
-  for (let r = 0; r < 3; r++) {
+  for (let r = 0; r < 5; r++) {
     const order = byScore.map((i) => ({ i, k: rng() + candidates[i]!.score / 40 })).sort((a, b) => b.k - a.k).map((x) => x.i);
     const m = greedyByScore(ev, prefs.meals, allowRepeats, order, floorPerMeal);
     if (m) starts.push(m);
   }
 
-  let best = cheapest;
-  let bestObj = -Infinity;
+  // Optimums locaux de chaque départ, puis tirage parmi ceux proches du meilleur :
+  // deux générations successives ne redonnent pas forcément le même menu.
+  const finals = new Map<string, { menu: number[]; objective: number }>();
   for (const s of starts) {
     const m = improveUnderBudget(ev, s, allowRepeats, deadline);
     const e = ev.evaluate(m);
-    if (e.feasible && e.cost <= prefs.budgetCents && e.objective > bestObj) {
-      best = m;
-      bestObj = e.objective;
-    }
+    if (e.feasible && e.cost <= prefs.budgetCents) finals.set([...m].sort((a, b) => a - b).join(","), { menu: m, objective: e.objective });
   }
-  return buildResult(best, prefs, ctx, ev, filtered, started);
+  const ranked = [...finals.values()].sort((a, b) => b.objective - a.objective);
+  const top = ranked[0];
+  if (!top) return buildResult(cheapest, prefs, ctx, ev, filtered, started);
+  const tolerance = Math.max(1, Math.abs(top.objective) * NEAR_BEST);
+  const near = ranked.filter((r) => r.objective >= top.objective - tolerance);
+  // Réoptimisation d'un menu existant (budget modifié…) : on garde le meilleur, sans tirage.
+  const chosen = fromInitial.length === prefs.meals ? top : (near[Math.floor(rng() * near.length)] ?? top);
+  return buildResult(chosen.menu, prefs, ctx, ev, filtered, started);
 }
 
 /**
@@ -546,6 +571,7 @@ function buildResult(
     recipes,
     shoppingList: list,
     diagnostics,
+    seed: prefs.seed,
     stats: { candidates: filtered.candidates.length, evaluations: ev.evaluations, elapsedMs: Date.now() - started },
   };
 }
@@ -575,6 +601,7 @@ function noCandidates(prefs: Preferences, filtered: FilterResult, started: numbe
         message: `Aucune recette ne respecte toutes vos contraintes. Les plus bloquantes : ${top.join(", ") || "inconnues"}.`,
       },
     ],
+    seed: prefs.seed,
     stats: { candidates: 0, evaluations: 0, elapsedMs: Date.now() - started },
   };
 }

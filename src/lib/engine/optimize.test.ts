@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ALLERGENS, DIETS, type Allergen, type Diet } from "@/lib/domain/schemas";
-import { evaluateMenu, optimizeMenu, swapOptions } from "./optimize";
-import { filterRecipes } from "./recipes";
+import { evaluateMenu, optimizeMenu, swapOptions, varietyCap } from "./optimize";
+import { filterRecipes, historyPenalty } from "./recipes";
 import { createRng } from "./rng";
 import { prefs, seedContext } from "./test-fixtures";
 
@@ -85,6 +85,65 @@ describe("optimizeMenu", () => {
   it("privilégie les cuisines aimées", () => {
     const res = optimizeMenu(prefs({ budgetCents: 4000, meals: 4, likedCuisines: ["indienne"] }), ctx);
     expect(res.recipes.filter((r) => r.cuisine === "indienne").length).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe("variété", () => {
+  // Profil type : 1 personne, 20 €, 5 dîners, 45 min, condiments cochés au placard.
+  const staples = [...ctx.ingredients.values()].filter((i) => i.staple).map((i) => ({ ingredientId: i.id, quantity: null }));
+  const withStaples = seedContext({ pantry: staples });
+  const profile = (seed: number, recentRecipeIds: string[] = []) =>
+    prefs({ budgetCents: 2000, meals: 5, persons: 1, maxTotalMinutes: 45, seed, recentRecipeIds });
+  const candidates = new Map(filterRecipes(profile(0), withStaples).candidates.map((c) => [c.recipe.id, c]));
+
+  it("propose au moins 25 recettes différentes sur 20 générations, sans dépasser le budget", () => {
+    const seen = new Set<string>();
+    let recent: string[] = [];
+    for (let k = 0; k < 20; k++) {
+      const res = optimizeMenu(profile(1000 + k * 7919, recent), withStaples);
+      expect(res.status).toBe("ok");
+      expect(res.totalCents).toBeLessThanOrEqual(2000);
+      const ids = res.recipes.map((r) => r.recipeId);
+      recent = [...ids, ...recent.filter((id) => !ids.includes(id))].slice(0, 15);
+      ids.forEach((id) => seen.add(id));
+    }
+    expect(seen.size).toBeGreaterThanOrEqual(25);
+  }, 30_000);
+
+  it("ne met jamais plus de 2 plats sur la même base dans un menu de 5", () => {
+    expect(varietyCap(5)).toBe(2);
+    for (let k = 0; k < 10; k++) {
+      const res = optimizeMenu(profile(500 + k * 131), withStaples);
+      const bases = new Map<string, number>();
+      for (const r of res.recipes) {
+        const b = candidates.get(r.recipeId)?.base;
+        if (b) bases.set(b, (bases.get(b) ?? 0) + 1);
+      }
+      for (const n of bases.values()) expect(n).toBeLessThanOrEqual(2);
+    }
+  }, 30_000);
+
+  it("évite les plats du dernier menu", () => {
+    const first = optimizeMenu(profile(11), withStaples).recipes.map((r) => r.recipeId);
+    const next = optimizeMenu(profile(11, first), withStaples).recipes.map((r) => r.recipeId);
+    expect(next.filter((id) => first.includes(id)).length).toBeLessThanOrEqual(1);
+  });
+
+  it("pénalise d'abord le dernier menu, puis de moins en moins", () => {
+    const recent = ["a", "b", "c", "d", "e", "f"];
+    expect(historyPenalty("a", recent, 2)).toBeGreaterThan(historyPenalty("c", recent, 2));
+    expect(historyPenalty("c", recent, 2)).toBeGreaterThan(historyPenalty("e", recent, 2));
+    expect(historyPenalty("z", recent, 2)).toBe(0);
+  });
+
+  it("varie d'une graine à l'autre et garde la graine dans le résultat", () => {
+    const menus = new Set<string>();
+    for (const seed of [1, 2, 3, 4, 5]) {
+      const res = optimizeMenu(profile(seed), withStaples);
+      expect(res.seed).toBe(seed);
+      menus.add(res.recipes.map((r) => r.recipeId).sort().join(","));
+    }
+    expect(menus.size).toBeGreaterThanOrEqual(3);
   });
 });
 
