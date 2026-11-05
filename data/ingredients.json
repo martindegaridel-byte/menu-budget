@@ -252,6 +252,9 @@
     {"id": "safran", "name": "Safran en poudre", "aisle": "condiments", "unit": "g", "staple": true, "packages": [{"label": "2 dosettes (0,2 g)", "quantity": 0.2, "priceCents": 299}]},
     {"id": "choux-bruxelles-surgeles", "name": "Choux de Bruxelles (surgelés)", "aisle": "surgeles", "unit": "g", "packages": [{"label": "Sachet 1 kg", "quantity": 1000, "priceCents": 219}]},
     {"id": "petits-pois-carottes-surgeles", "name": "Petits pois-carottes (surgelés)", "aisle": "surgeles", "unit": "g", "packages": [{"label": "Sachet 1 kg", "quantity": 1000, "priceCents": 219}]},
-    {"id": "legumes-potage-surgeles", "name": "Légumes pour potage (surgelés)", "aisle": "surgeles", "unit": "g", "packages": [{"label": "Sachet 1 kg", "quantity": 1000, "priceCents": 199}]}
+    {"id": "legumes-potage-surgeles", "name": "Légumes pour potage (surgelés)", "aisle": "surgeles", "unit": "g", "packages": [{"label": "Sachet 1 kg", "quantity": 1000, "priceCents": 199}]},
+    {"id": "puree-sesame", "name": "Crème de sésame (tahini)", "aisle": "monde", "unit": "g", "allergens": ["sesame"], "packages": [{"label": "Pot 300 g", "quantity": 300, "priceCents": 349}]},
+    {"id": "banane-plantain", "name": "Banane plantain", "aisle": "fruits-legumes", "unit": "g", "gramsPerPiece": 300, "tags": ["base:pommes-de-terre"], "packages": [{"label": "À l'unité (~300 g)", "quantity": 300, "priceCents": 99}]},
+    {"id": "feuilles-brick", "name": "Feuilles de brick", "aisle": "monde", "unit": "piece", "allergens": ["gluten"], "tags": ["base:pate"], "packages": [{"label": "Paquet de 10 feuilles", "quantity": 10, "priceCents": 189}]}
   ]
 }

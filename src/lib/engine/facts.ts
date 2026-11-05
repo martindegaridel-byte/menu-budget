@@ -57,7 +57,7 @@ function proteinOf(ing: Ingredient): { protein: Protein; rank: number } | null {
   if (ing.animal === "fruits-de-mer") return { protein: "fruits-de-mer", rank: 0 };
   if (ing.tags.includes("proteine-vegetale")) return { protein: "proteine-vegetale", rank: 1 };
   if (ing.tags.includes("base:legumineuses")) return { protein: "legumineuses", rank: 1 };
-  if (ing.animal === "oeuf" && ing.unit === "piece") return { protein: "oeufs", rank: 2 };
+  if (ing.animal === "oeuf" && ing.unit === "piece") return { protein: "oeufs", rank: 1 };
   if (ing.tags.includes("fromage")) return { protein: "fromage", rank: 3 };
   return null;
 }

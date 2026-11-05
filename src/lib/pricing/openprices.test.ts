@@ -104,3 +104,17 @@ describe("client Open Prices", () => {
     await expect(fetchOpenPrices(10, { since: "2024-11-01", delayMs: 0 }, fake)).rejects.toThrow(/503/);
   });
 });
+
+describe("règles d'association", () => {
+  it("ne référencent que des ingrédients existants", async () => {
+    const { OPEN_PRICES_RULES } = await import("./openprices-rules");
+    for (const id of Object.keys(OPEN_PRICES_RULES)) expect(ingredients.has(id), id).toBe(true);
+  });
+
+  it("reconnaissent les nouveaux ingrédients", () => {
+    const named = (product_name: string) => ({ id: 1, type: "PRODUCT", product_code: "1", product_name, category_tag: null, price: 1, price_is_discounted: false, price_per: null, currency: "EUR", date: "2026-10-01" }) as OpenPrice;
+    expect(candidateIngredients(named("Tahini crème de sésame"))).toContain("puree-sesame");
+    expect(candidateIngredients(named("Banane plantain"))).toContain("banane-plantain");
+    expect(candidateIngredients(named("Feuilles de brick x10"))).toContain("feuilles-brick");
+  });
+});
