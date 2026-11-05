@@ -1,0 +1,450 @@
+[
+  {
+    "id": "spaghetti-carbonara", "name": "Spaghetti à la carbonara", "cuisine": "italienne",
+    "description": "La vraie, sans crème : œufs, lardons et parmesan.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 12, "difficulty": 1, "equipment": ["plaques"], "tags": ["pates", "rapide"],
+    "ingredients": [["spaghetti", 400, "g"], ["lardons-fumes", 200, "g"], ["oeuf", 4, "piece"], ["parmesan", 60, "g"], ["poivre", 2, "g"], ["sel", 10, "g"]],
+    "steps": ["Cuire les spaghetti dans l'eau bouillante salée.", "Faire dorer les lardons à sec.", "Battre les œufs avec le parmesan et du poivre.", "Égoutter les pâtes en gardant un peu d'eau, mélanger hors du feu avec les lardons puis les œufs."]
+  },
+  {
+    "id": "spaghetti-bolognaise", "name": "Spaghetti bolognaise", "cuisine": "italienne",
+    "description": "Sauce mijotée au bœuf, carotte et tomate.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques"], "tags": ["pates", "classique", "boeuf"],
+    "ingredients": [["spaghetti", 400, "g"], ["boeuf-hache", 350, "g"], ["tomates-concassees", 400, "g"], ["concentre-tomate", 30, "g"], ["oignon-jaune", 1, "piece"], ["carotte", 1, "piece"], ["ail", 2, "piece"], ["huile-olive", 2, "cs"], ["herbes-provence", 2, "g"], ["sel", 8, "g"]],
+    "steps": ["Émincer oignon, ail et carotte, les faire revenir dans l'huile.", "Ajouter la viande et la faire colorer.", "Ajouter tomates, concentré et herbes, mijoter 20 min.", "Servir sur les spaghetti cuits al dente."]
+  },
+  {
+    "id": "penne-pesto-tomates", "name": "Penne au pesto et tomates cerises", "cuisine": "italienne",
+    "description": "Plat express et frais.",
+    "baseServings": 4, "prepMinutes": 5, "cookMinutes": 11, "difficulty": 1, "equipment": ["plaques"], "tags": ["pates", "rapide", "vegetarien"],
+    "ingredients": [["penne", 400, "g"], ["pesto", 150, "g"], ["tomate-cerise", 250, "g"], ["parmesan", 30, "g", true], ["sel", 8, "g"]],
+    "steps": ["Cuire les penne.", "Couper les tomates cerises en deux.", "Mélanger pâtes égouttées, pesto et tomates, parsemer de parmesan."]
+  },
+  {
+    "id": "pates-legumes-soleil", "name": "Pâtes aux légumes du soleil", "cuisine": "mediterraneenne",
+    "description": "Courgette, poivron et tomate poêlés à l'huile d'olive.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["pates", "vegan", "legumes"],
+    "ingredients": [["penne", 400, "g"], ["courgette", 2, "piece"], ["poivron", 1, "piece"], ["tomates-concassees", 400, "g"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["huile-olive", 3, "cs"], ["herbes-provence", 2, "g"], ["sel", 8, "g"]],
+    "steps": ["Couper les légumes en dés.", "Les faire revenir 10 min dans l'huile avec oignon et ail.", "Ajouter les tomates et les herbes, mijoter 10 min.", "Mélanger aux pâtes cuites."]
+  },
+  {
+    "id": "lasagnes-bolognaise", "name": "Lasagnes à la bolognaise", "cuisine": "italienne",
+    "description": "Le classique gratiné du dimanche.",
+    "baseServings": 6, "prepMinutes": 30, "cookMinutes": 45, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["four", "boeuf", "classique"],
+    "ingredients": [["lasagnes", 300, "g"], ["boeuf-hache", 500, "g"], ["coulis-tomate", 690, "g"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["lait-demi-ecreme", 500, "ml"], ["beurre-doux", 40, "g"], ["farine-ble", 40, "g"], ["emmental-rape", 100, "g"], ["muscade", 1, "g"], ["sel", 8, "g"]],
+    "steps": ["Préparer une bolognaise avec oignon, ail, viande et coulis.", "Préparer une béchamel : beurre, farine puis lait, muscade.", "Alterner feuilles, bolognaise, béchamel dans un plat.", "Couvrir d'emmental, cuire 40 min à 180 °C."]
+  },
+  {
+    "id": "lasagnes-epinards-ricotta", "name": "Lasagnes épinards-ricotta", "cuisine": "italienne",
+    "description": "Version végétarienne fondante.",
+    "baseServings": 6, "prepMinutes": 20, "cookMinutes": 40, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["four", "vegetarien"],
+    "ingredients": [["lasagnes", 300, "g"], ["epinards-surgeles", 600, "g"], ["ricotta", 250, "g"], ["coulis-tomate", 690, "g"], ["mozzarella", 125, "g"], ["ail", 2, "piece"], ["muscade", 1, "g"], ["huile-olive", 1, "cs"], ["sel", 8, "g"]],
+    "steps": ["Décongeler et égoutter les épinards, les mélanger à la ricotta, l'ail et la muscade.", "Alterner feuilles, coulis et mélange épinards.", "Terminer par la mozzarella, cuire 35 min à 180 °C."]
+  },
+  {
+    "id": "gratin-coquillettes-jambon", "name": "Gratin de coquillettes au jambon", "cuisine": "francaise",
+    "description": "Doudou économique et gourmand.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques", "four"], "tags": ["four", "economique"],
+    "ingredients": [["coquillettes", 400, "g"], ["des-jambon", 150, "g"], ["creme-liquide", 200, "ml"], ["emmental-rape", 100, "g"], ["sel", 8, "g"], ["poivre", 1, "g"]],
+    "steps": ["Cuire les coquillettes 2 min de moins qu'indiqué.", "Mélanger avec jambon et crème, verser dans un plat.", "Couvrir d'emmental, gratiner 15 min à 200 °C."]
+  },
+  {
+    "id": "risotto-champignons", "name": "Risotto aux champignons", "cuisine": "italienne",
+    "description": "Crémeux, au parmesan.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 2, "equipment": ["plaques"], "tags": ["vegetarien", "riz"],
+    "ingredients": [["riz-arborio", 300, "g"], ["champignon-paris", 250, "g"], ["oignon-jaune", 1, "piece"], ["bouillon-legumes", 2, "piece"], ["parmesan", 50, "g"], ["beurre-doux", 30, "g"], ["huile-olive", 1, "cs"]],
+    "steps": ["Préparer 1 L de bouillon chaud.", "Faire revenir l'oignon puis le riz jusqu'à ce qu'il soit nacré.", "Ajouter le bouillon louche par louche pendant 18 min.", "Poêler les champignons, les ajouter avec le beurre et le parmesan."]
+  },
+  {
+    "id": "curry-pois-chiches-coco", "name": "Curry de pois chiches au lait de coco", "cuisine": "indienne",
+    "description": "Doux, parfumé, 100 % végétal.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "sans-gluten", "riz"],
+    "ingredients": [["pois-chiches", 530, "g"], ["lait-coco", 400, "ml"], ["tomates-concassees", 400, "g"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["curry-poudre", 8, "g"], ["riz-basmati", 300, "g"], ["huile-tournesol", 1, "cs"], ["sel", 6, "g"]],
+    "steps": ["Faire revenir oignon et ail avec le curry.", "Ajouter tomates, lait de coco et pois chiches égouttés.", "Mijoter 15 min. Servir avec le riz basmati."]
+  },
+  {
+    "id": "dal-lentilles-corail", "name": "Dal de lentilles corail", "cuisine": "indienne",
+    "description": "Réconfortant et très économique.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "sans-gluten", "economique"],
+    "ingredients": [["lentilles-corail", 300, "g"], ["lait-coco", 200, "ml"], ["tomates-concassees", 400, "g"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["gingembre", 15, "g"], ["curcuma", 3, "g"], ["cumin", 3, "g"], ["riz-basmati", 250, "g"], ["huile-tournesol", 1, "cs"], ["sel", 6, "g"]],
+    "steps": ["Faire revenir oignon, ail, gingembre et épices.", "Ajouter lentilles rincées, tomates et 50 cl d'eau, cuire 20 min.", "Ajouter le lait de coco. Servir avec le riz."]
+  },
+  {
+    "id": "chili-con-carne", "name": "Chili con carne", "cuisine": "mexicaine",
+    "description": "Bœuf, haricots rouges et épices, servi avec du riz.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 35, "difficulty": 1, "equipment": ["plaques"], "tags": ["boeuf", "epice", "sans-gluten"],
+    "ingredients": [["boeuf-hache", 350, "g"], ["haricots-rouges", 500, "g"], ["tomates-concassees", 400, "g"], ["poivron", 1, "piece"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["cumin", 4, "g"], ["piment-poudre", 2, "g"], ["riz-long", 250, "g"], ["huile-tournesol", 1, "cs"], ["sel", 6, "g"]],
+    "steps": ["Faire revenir oignon, ail et poivron.", "Ajouter la viande et les épices.", "Ajouter tomates et haricots, mijoter 25 min.", "Servir avec le riz."]
+  },
+  {
+    "id": "chili-sin-carne", "name": "Chili sin carne", "cuisine": "mexicaine",
+    "description": "La version végétale, riche en protéines.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "sans-gluten", "economique"],
+    "ingredients": [["haricots-rouges", 500, "g"], ["mais-conserve", 285, "g"], ["tomates-concassees", 800, "g"], ["poivron", 1, "piece"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["cumin", 4, "g"], ["paprika", 3, "g"], ["riz-long", 250, "g"], ["huile-tournesol", 1, "cs"], ["sel", 6, "g"]],
+    "steps": ["Faire revenir oignon, ail et poivron avec les épices.", "Ajouter tomates, haricots et maïs, mijoter 25 min.", "Servir avec le riz."]
+  },
+  {
+    "id": "poulet-curry-coco", "name": "Poulet au curry et lait de coco", "cuisine": "indienne",
+    "description": "Tendre et parfumé, avec du riz basmati.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["poulet", "sans-gluten"],
+    "ingredients": [["filet-poulet", 500, "g"], ["lait-coco", 400, "ml"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["curry-poudre", 10, "g"], ["riz-basmati", 300, "g"], ["coriandre", 10, "g", true], ["huile-tournesol", 1, "cs"], ["sel", 6, "g"]],
+    "steps": ["Couper le poulet en dés, le dorer.", "Ajouter oignon, ail et curry.", "Verser le lait de coco, mijoter 15 min.", "Servir avec le riz et la coriandre."]
+  },
+  {
+    "id": "poulet-roti-pdt", "name": "Cuisses de poulet rôties et pommes de terre", "cuisine": "francaise",
+    "description": "Tout au four, peu de vaisselle.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 50, "difficulty": 1, "equipment": ["four"], "tags": ["poulet", "four", "sans-gluten", "economique"],
+    "ingredients": [["cuisse-poulet", 4, "piece"], ["pomme-de-terre", 1000, "g"], ["ail", 4, "piece"], ["thym", 2, "g"], ["huile-olive", 3, "cs"], ["sel", 8, "g"], ["poivre", 1, "g"]],
+    "steps": ["Couper les pommes de terre en quartiers.", "Disposer avec les cuisses, l'ail, le thym et l'huile dans un plat.", "Cuire 50 min à 200 °C en retournant à mi-cuisson."]
+  },
+  {
+    "id": "poulet-basquaise", "name": "Poulet basquaise", "cuisine": "francaise",
+    "description": "Poivrons, tomates et piment d'Espelette.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 40, "difficulty": 2, "equipment": ["plaques"], "tags": ["poulet", "sans-gluten"],
+    "ingredients": [["cuisse-poulet", 4, "piece"], ["poivron", 3, "piece"], ["tomates-concassees", 400, "g"], ["oignon-jaune", 2, "piece"], ["ail", 2, "piece"], ["piment-poudre", 1, "g"], ["riz-long", 250, "g"], ["huile-olive", 2, "cs"], ["sel", 6, "g"]],
+    "steps": ["Dorer les cuisses dans l'huile, réserver.", "Faire fondre oignons, ail et poivrons en lanières.", "Ajouter tomates, piment et le poulet, mijoter 30 min.", "Servir avec le riz."]
+  },
+  {
+    "id": "wok-poulet-nouilles", "name": "Wok de poulet aux nouilles", "cuisine": "asiatique",
+    "description": "Nouilles sautées, légumes croquants et sauce soja.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["poulet", "rapide"],
+    "ingredients": [["nouilles-oeufs", 250, "g"], ["filet-poulet", 280, "g"], ["legumes-wok", 750, "g"], ["sauce-soja", 4, "cs"], ["ail", 2, "piece"], ["gingembre", 10, "g"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Cuire les nouilles, égoutter.", "Saisir le poulet émincé avec ail et gingembre.", "Ajouter les légumes, sauter 6 min.", "Ajouter nouilles et sauce soja, mélanger."]
+  },
+  {
+    "id": "nouilles-sautees-tofu", "name": "Nouilles de riz sautées au tofu", "cuisine": "asiatique",
+    "description": "Façon pad thaï, végétal et sans œuf.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 10, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "rapide"],
+    "ingredients": [["nouilles-riz", 300, "g"], ["tofu-nature", 400, "g"], ["legumes-wok", 750, "g"], ["sauce-soja", 4, "cs"], ["citron-vert", 1, "piece"], ["beurre-cacahuete", 30, "g", true], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Réhydrater les nouilles dans l'eau chaude.", "Dorer le tofu en dés.", "Sauter les légumes, ajouter nouilles, tofu et sauce soja.", "Finir avec le jus de citron vert."]
+  },
+  {
+    "id": "poulet-satay", "name": "Poulet sauce satay", "cuisine": "asiatique",
+    "description": "Sauce cacahuète-coco, riz parfumé.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 20, "difficulty": 2, "equipment": ["plaques"], "tags": ["poulet"],
+    "ingredients": [["filet-poulet", 500, "g"], ["beurre-cacahuete", 80, "g"], ["lait-coco", 400, "ml"], ["sauce-soja", 2, "cs"], ["ail", 1, "piece"], ["citron-vert", 1, "piece"], ["riz-basmati", 300, "g"], ["huile-tournesol", 1, "cs"]],
+    "steps": ["Dorer le poulet en dés.", "Mélanger beurre de cacahuète, lait de coco, soja et ail.", "Verser sur le poulet, mijoter 10 min, ajouter le citron vert.", "Servir avec le riz."]
+  },
+  {
+    "id": "saumon-riz-brocoli", "name": "Saumon, riz et brocoli", "cuisine": "francaise",
+    "description": "Assiette équilibrée, cuisson simple.",
+    "baseServings": 2, "prepMinutes": 5, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "sans-gluten", "equilibre"],
+    "ingredients": [["saumon-pave", 250, "g"], ["riz-basmati", 150, "g"], ["brocoli", 1, "piece"], ["citron", 0.5, "piece"], ["huile-olive", 1, "cs"], ["sel", 4, "g"]],
+    "steps": ["Cuire le riz.", "Cuire le brocoli à la vapeur ou à l'eau 6 min.", "Poêler le saumon 4 min de chaque côté, arroser de citron."]
+  },
+  {
+    "id": "colin-provencale", "name": "Colin à la provençale", "cuisine": "mediterraneenne",
+    "description": "Poisson blanc en sauce tomate, pommes de terre vapeur.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "sans-gluten"],
+    "ingredients": [["colin-surgele", 400, "g"], ["tomates-concassees", 400, "g"], ["olives-noires", 75, "g", true], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["herbes-provence", 2, "g"], ["pomme-de-terre", 800, "g"], ["huile-olive", 2, "cs"], ["sel", 6, "g"]],
+    "steps": ["Cuire les pommes de terre à l'eau 20 min.", "Faire revenir oignon et ail, ajouter tomates et herbes.", "Déposer le colin dans la sauce, couvrir et cuire 10 min."]
+  },
+  {
+    "id": "gratin-poisson-epinards", "name": "Gratin de poisson aux épinards", "cuisine": "francaise",
+    "description": "Colin, épinards et crème, gratiné.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 2, "equipment": ["four"], "tags": ["poisson", "four", "sans-gluten"],
+    "ingredients": [["colin-surgele", 400, "g"], ["epinards-surgeles", 600, "g"], ["creme-fraiche-epaisse", 200, "ml"], ["emmental-rape", 80, "g"], ["ail", 1, "piece"], ["muscade", 1, "g"], ["sel", 5, "g"]],
+    "steps": ["Décongeler épinards et poisson.", "Mélanger épinards, crème, ail et muscade dans un plat.", "Poser le poisson, couvrir d'emmental, cuire 25 min à 200 °C."]
+  },
+  {
+    "id": "pates-thon-tomate", "name": "Pâtes au thon et à la tomate", "cuisine": "italienne",
+    "description": "Le placard qui sauve la soirée.",
+    "baseServings": 4, "prepMinutes": 5, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "rapide", "economique"],
+    "ingredients": [["penne", 400, "g"], ["thon-naturel", 208, "g"], ["tomates-concassees", 400, "g"], ["oignon-jaune", 1, "piece"], ["ail", 1, "piece"], ["huile-olive", 2, "cs"], ["origan", 1, "g"], ["sel", 8, "g"]],
+    "steps": ["Cuire les pâtes.", "Faire revenir oignon et ail, ajouter tomates et origan, cuire 10 min.", "Ajouter le thon émietté et mélanger aux pâtes."]
+  },
+  {
+    "id": "salade-riz-thon", "name": "Salade de riz au thon", "cuisine": "francaise",
+    "description": "Fraîche, à préparer à l'avance.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "sans-gluten", "froid"],
+    "ingredients": [["riz-long", 250, "g"], ["thon-naturel", 208, "g"], ["mais-conserve", 285, "g"], ["tomate", 2, "piece"], ["oeuf", 3, "piece"], ["vinaigre-vin", 2, "cs"], ["huile-tournesol", 3, "cs"], ["moutarde", 5, "g"], ["sel", 5, "g"]],
+    "steps": ["Cuire le riz et les œufs (10 min), refroidir.", "Couper tomates et œufs.", "Mélanger avec thon, maïs et une vinaigrette moutardée."]
+  },
+  {
+    "id": "tortilla-espagnole", "name": "Tortilla espagnole", "cuisine": "espagnole",
+    "description": "Omelette épaisse aux pommes de terre et oignons.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 25, "difficulty": 2, "equipment": ["plaques"], "tags": ["vegetarien", "sans-gluten", "economique", "oeufs"],
+    "ingredients": [["pomme-de-terre", 600, "g"], ["oeuf", 6, "piece"], ["oignon-jaune", 1, "piece"], ["huile-olive", 4, "cs"], ["salade-laitue", 1, "piece", true], ["sel", 5, "g"]],
+    "steps": ["Couper pommes de terre et oignon en fines tranches, les cuire doucement dans l'huile 15 min.", "Battre les œufs, ajouter les légumes.", "Cuire à feu doux, retourner à l'aide d'une assiette.", "Servir avec la salade."]
+  },
+  {
+    "id": "quiche-lorraine", "name": "Quiche lorraine", "cuisine": "francaise",
+    "description": "Lardons, œufs et crème sur pâte brisée.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 35, "difficulty": 1, "equipment": ["four"], "tags": ["four", "classique"],
+    "ingredients": [["pate-brisee", 1, "piece"], ["lardons-fumes", 200, "g"], ["oeuf", 3, "piece"], ["creme-liquide", 200, "ml"], ["lait-demi-ecreme", 100, "ml"], ["muscade", 1, "g"], ["salade-laitue", 1, "piece", true], ["poivre", 1, "g"]],
+    "steps": ["Étaler la pâte dans un moule.", "Faire revenir les lardons.", "Battre œufs, crème, lait, muscade et poivre.", "Verser sur les lardons, cuire 35 min à 180 °C."]
+  },
+  {
+    "id": "quiche-poireaux-chevre", "name": "Quiche poireaux et chèvre", "cuisine": "francaise",
+    "description": "Fondue de poireaux et rondelles de chèvre.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 35, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["four", "vegetarien"],
+    "ingredients": [["pate-brisee", 1, "piece"], ["poireau", 2, "piece"], ["chevre-buche", 120, "g"], ["oeuf", 3, "piece"], ["creme-liquide", 200, "ml"], ["beurre-doux", 15, "g"], ["sel", 4, "g"]],
+    "steps": ["Émincer et faire fondre les poireaux au beurre 10 min.", "Battre œufs et crème, ajouter les poireaux.", "Verser sur la pâte, ajouter le chèvre, cuire 35 min à 180 °C."]
+  },
+  {
+    "id": "tarte-tomate-moutarde", "name": "Tarte fine tomate-moutarde", "cuisine": "francaise",
+    "description": "Simple, croustillante, de saison.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 1, "equipment": ["four"], "tags": ["four", "vegetarien"],
+    "ingredients": [["pate-brisee", 1, "piece"], ["tomate", 4, "piece"], ["moutarde", 40, "g"], ["emmental-rape", 60, "g"], ["herbes-provence", 2, "g"], ["huile-olive", 1, "cs"], ["salade-laitue", 1, "piece", true]],
+    "steps": ["Étaler la pâte, la tartiner de moutarde.", "Parsemer d'emmental, couvrir de rondelles de tomate.", "Ajouter herbes et huile, cuire 30 min à 200 °C."]
+  },
+  {
+    "id": "shakshuka", "name": "Shakshuka", "cuisine": "orientale",
+    "description": "Œufs pochés dans une sauce tomate-poivron épicée.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "oeufs", "economique"],
+    "ingredients": [["oeuf", 6, "piece"], ["tomates-concassees", 800, "g"], ["poivron", 2, "piece"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["cumin", 3, "g"], ["paprika", 3, "g"], ["baguette", 1, "piece"], ["huile-olive", 2, "cs"], ["sel", 5, "g"]],
+    "steps": ["Faire revenir oignon, ail, poivrons et épices.", "Ajouter les tomates, mijoter 15 min.", "Creuser des puits, y casser les œufs, couvrir 6 min.", "Servir avec du pain."]
+  },
+  {
+    "id": "veloute-butternut", "name": "Velouté de butternut au lait de coco", "cuisine": "francaise",
+    "description": "Soupe douce et veloutée, avec du pain grillé.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques", "mixeur"], "tags": ["vegan", "soupe"],
+    "ingredients": [["butternut", 1, "piece"], ["oignon-jaune", 1, "piece"], ["lait-coco", 200, "ml"], ["bouillon-legumes", 1, "piece"], ["muscade", 1, "g"], ["baguette", 1, "piece"], ["huile-olive", 1, "cs"]],
+    "steps": ["Éplucher et couper la courge en cubes.", "Faire revenir l'oignon, ajouter la courge et 1 L de bouillon, cuire 25 min.", "Mixer avec le lait de coco et la muscade.", "Servir avec du pain grillé."]
+  },
+  {
+    "id": "hachis-parmentier", "name": "Hachis parmentier", "cuisine": "francaise",
+    "description": "Purée maison et bœuf haché, gratiné.",
+    "baseServings": 4, "prepMinutes": 25, "cookMinutes": 45, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["boeuf", "four", "classique", "sans-gluten"],
+    "ingredients": [["boeuf-hache", 500, "g"], ["pomme-de-terre", 1000, "g"], ["oignon-jaune", 1, "piece"], ["lait-demi-ecreme", 200, "ml"], ["beurre-doux", 40, "g"], ["emmental-rape", 60, "g"], ["muscade", 1, "g"], ["sel", 8, "g"]],
+    "steps": ["Cuire les pommes de terre, les écraser avec lait, beurre et muscade.", "Faire revenir l'oignon et la viande.", "Étaler la viande, couvrir de purée et d'emmental.", "Gratiner 20 min à 200 °C."]
+  },
+  {
+    "id": "gratin-courgettes-pdt", "name": "Gratin de courgettes et pommes de terre", "cuisine": "francaise",
+    "description": "Gratin végétarien léger.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 45, "difficulty": 1, "equipment": ["four"], "tags": ["four", "vegetarien", "sans-gluten"],
+    "ingredients": [["courgette", 3, "piece"], ["pomme-de-terre", 600, "g"], ["creme-liquide", 200, "ml"], ["lait-demi-ecreme", 200, "ml"], ["emmental-rape", 80, "g"], ["ail", 1, "piece"], ["sel", 6, "g"]],
+    "steps": ["Couper courgettes et pommes de terre en rondelles fines.", "Alterner dans un plat frotté à l'ail.", "Verser crème et lait, couvrir d'emmental.", "Cuire 45 min à 190 °C."]
+  },
+  {
+    "id": "saucisses-lentilles", "name": "Saucisses aux lentilles", "cuisine": "francaise",
+    "description": "Plat mijoté de bistrot.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 40, "difficulty": 1, "equipment": ["plaques"], "tags": ["porc", "sans-gluten", "economique"],
+    "ingredients": [["saucisse-toulouse", 4, "piece"], ["lentilles-vertes", 300, "g"], ["carotte", 2, "piece"], ["oignon-jaune", 1, "piece"], ["laurier", 1, "piece"], ["thym", 1, "g"], ["sel", 5, "g"]],
+    "steps": ["Dorer les saucisses.", "Ajouter oignon, carottes en rondelles, lentilles, laurier et thym.", "Couvrir d'eau, cuire 35 min à feu doux."]
+  },
+  {
+    "id": "couscous-legumes", "name": "Couscous aux légumes et pois chiches", "cuisine": "orientale",
+    "description": "Bouillon épicé, semoule et légumes fondants.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 40, "difficulty": 2, "equipment": ["plaques"], "tags": ["vegan"],
+    "ingredients": [["semoule", 300, "g"], ["pois-chiches", 265, "g"], ["carotte", 3, "piece"], ["courgette", 2, "piece"], ["navet", 2, "piece"], ["oignon-jaune", 1, "piece"], ["concentre-tomate", 30, "g"], ["ras-el-hanout", 6, "g"], ["huile-olive", 2, "cs"], ["sel", 8, "g"]],
+    "steps": ["Faire revenir l'oignon avec le ras el hanout et le concentré.", "Ajouter les légumes en tronçons, couvrir d'eau, cuire 30 min.", "Ajouter les pois chiches.", "Préparer la semoule avec un peu de bouillon."]
+  },
+  {
+    "id": "couscous-merguez-poulet", "name": "Couscous poulet-merguez", "cuisine": "orientale",
+    "description": "Le couscous complet des grandes tablées.",
+    "baseServings": 6, "prepMinutes": 25, "cookMinutes": 50, "difficulty": 2, "equipment": ["plaques"], "tags": ["poulet"],
+    "ingredients": [["semoule", 500, "g"], ["cuisse-poulet", 4, "piece"], ["merguez", 6, "piece"], ["pois-chiches", 265, "g"], ["carotte", 3, "piece"], ["courgette", 2, "piece"], ["navet", 2, "piece"], ["oignon-jaune", 1, "piece"], ["concentre-tomate", 30, "g"], ["ras-el-hanout", 8, "g"], ["huile-olive", 2, "cs"], ["sel", 10, "g"]],
+    "steps": ["Dorer le poulet, ajouter oignon, épices et concentré.", "Ajouter les légumes, couvrir d'eau, cuire 40 min.", "Griller les merguez, ajouter les pois chiches au bouillon.", "Servir avec la semoule."]
+  },
+  {
+    "id": "boulgour-legumes-feta", "name": "Boulgour aux légumes rôtis et feta", "cuisine": "mediterraneenne",
+    "description": "Bol tiède et coloré.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques", "four"], "tags": ["vegetarien"],
+    "ingredients": [["boulgour", 250, "g"], ["courgette", 1, "piece"], ["poivron", 1, "piece"], ["aubergine", 1, "piece"], ["oignon-rouge", 1, "piece"], ["feta", 200, "g"], ["huile-olive", 3, "cs"], ["citron", 0.5, "piece"], ["sel", 5, "g"]],
+    "steps": ["Couper les légumes, les rôtir 25 min à 200 °C avec l'huile.", "Cuire le boulgour.", "Mélanger, émietter la feta, arroser de citron."]
+  },
+  {
+    "id": "buddha-bowl-quinoa", "name": "Buddha bowl quinoa et patate douce", "cuisine": "mediterraneenne",
+    "description": "Pois chiches rôtis, avocat, chou rouge.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques", "four"], "tags": ["vegan", "sans-gluten", "equilibre"],
+    "ingredients": [["quinoa", 240, "g"], ["patate-douce", 2, "piece"], ["pois-chiches", 265, "g"], ["avocat", 2, "piece"], ["chou-rouge", 200, "g"], ["citron", 1, "piece"], ["paprika", 2, "g"], ["huile-olive", 3, "cs"], ["sel", 5, "g"]],
+    "steps": ["Rôtir patate douce en cubes et pois chiches au paprika 25 min à 200 °C.", "Cuire le quinoa.", "Émincer le chou rouge, trancher l'avocat.", "Dresser en bols, assaisonner citron-huile."]
+  },
+  {
+    "id": "wraps-poulet", "name": "Wraps au poulet et crudités", "cuisine": "americaine",
+    "description": "Sauce yaourt, salade et tomate.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 10, "difficulty": 1, "equipment": ["plaques"], "tags": ["poulet", "rapide"],
+    "ingredients": [["tortilla", 8, "piece"], ["filet-poulet", 280, "g"], ["salade-laitue", 1, "piece"], ["tomate", 2, "piece"], ["yaourt-nature", 125, "g"], ["citron", 0.5, "piece"], ["paprika", 2, "g"], ["huile-tournesol", 1, "cs"], ["sel", 3, "g"]],
+    "steps": ["Émincer le poulet, le poêler avec le paprika.", "Préparer une sauce yaourt-citron.", "Garnir les tortillas de salade, tomate, poulet et sauce, rouler."]
+  },
+  {
+    "id": "fajitas-haricots", "name": "Fajitas végétariennes aux haricots rouges", "cuisine": "mexicaine",
+    "description": "Poivrons, oignons, haricots et maïs.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "rapide"],
+    "ingredients": [["tortilla", 8, "piece"], ["haricots-rouges", 250, "g"], ["mais-conserve", 285, "g"], ["poivron", 2, "piece"], ["oignon-rouge", 1, "piece"], ["cumin", 3, "g"], ["paprika", 3, "g"], ["citron-vert", 1, "piece"], ["huile-tournesol", 2, "cs"], ["sel", 4, "g"]],
+    "steps": ["Faire sauter poivrons et oignon en lanières avec les épices.", "Ajouter haricots et maïs, réchauffer.", "Garnir les tortillas, arroser de citron vert."]
+  },
+  {
+    "id": "burger-maison", "name": "Burger maison et salade", "cuisine": "americaine",
+    "description": "Steak, cheddar, crudités.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 10, "difficulty": 1, "equipment": ["plaques"], "tags": ["boeuf", "rapide"],
+    "ingredients": [["pain-burger", 4, "piece"], ["steak-hache", 4, "piece"], ["cheddar-tranches", 4, "piece"], ["tomate", 1, "piece"], ["oignon-rouge", 1, "piece"], ["salade-laitue", 1, "piece"], ["ketchup", 40, "g"], ["sel", 3, "g"]],
+    "steps": ["Cuire les steaks, poser le cheddar en fin de cuisson.", "Toaster les pains.", "Monter avec salade, tomate, oignon et ketchup. Servir le reste de salade à côté."]
+  },
+  {
+    "id": "croque-monsieur", "name": "Croque-monsieur et salade verte", "cuisine": "francaise",
+    "description": "Jambon, emmental, pain de mie doré.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 15, "difficulty": 1, "equipment": ["four"], "tags": ["four", "rapide", "economique"],
+    "ingredients": [["pain-mie", 8, "piece"], ["jambon-blanc", 4, "piece"], ["emmental-rape", 100, "g"], ["beurre-doux", 30, "g"], ["salade-laitue", 1, "piece"], ["vinaigre-vin", 1, "cs"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Beurrer le pain, garnir de jambon et d'emmental.", "Refermer, parsemer d'emmental.", "Cuire 12 min à 200 °C. Servir avec la salade vinaigrette."]
+  },
+  {
+    "id": "gnocchi-tomate-mozza", "name": "Gnocchi poêlés tomate-mozzarella", "cuisine": "italienne",
+    "description": "Croustillants dehors, fondants dedans.",
+    "baseServings": 4, "prepMinutes": 5, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "rapide"],
+    "ingredients": [["gnocchi", 1000, "g"], ["sauce-tomate-basilic", 400, "g"], ["mozzarella", 125, "g"], ["basilic", 10, "g", true], ["huile-olive", 2, "cs"]],
+    "steps": ["Poêler les gnocchi dans l'huile 8 min.", "Ajouter la sauce tomate, chauffer.", "Ajouter la mozzarella en morceaux, couvrir 2 min."]
+  },
+  {
+    "id": "pizza-jambon-champignons", "name": "Pizza jambon-champignons", "cuisine": "italienne",
+    "description": "Pizza maison sur pâte prête à dérouler.",
+    "baseServings": 2, "prepMinutes": 10, "cookMinutes": 15, "difficulty": 1, "equipment": ["four"], "tags": ["four", "rapide"],
+    "ingredients": [["pate-pizza", 1, "piece"], ["coulis-tomate", 150, "g"], ["jambon-blanc", 2, "piece"], ["champignons-conserve", 115, "g"], ["mozzarella", 125, "g"], ["origan", 1, "g"]],
+    "steps": ["Dérouler la pâte, étaler le coulis.", "Garnir de jambon, champignons et mozzarella.", "Cuire 15 min à 240 °C, parsemer d'origan."]
+  },
+  {
+    "id": "ratatouille-riz", "name": "Ratatouille et riz", "cuisine": "francaise",
+    "description": "Légumes du soleil mijotés.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 40, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "sans-gluten", "legumes"],
+    "ingredients": [["courgette", 2, "piece"], ["aubergine", 1, "piece"], ["poivron", 2, "piece"], ["tomate", 4, "piece"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["herbes-provence", 3, "g"], ["huile-olive", 4, "cs"], ["riz-long", 250, "g"], ["sel", 6, "g"]],
+    "steps": ["Couper tous les légumes en dés.", "Les faire revenir séparément puis réunir avec ail et herbes.", "Mijoter 30 min à couvert. Servir avec le riz."]
+  },
+  {
+    "id": "riz-cantonais", "name": "Riz cantonais", "cuisine": "asiatique",
+    "description": "Riz sauté, œufs, petits pois et jambon.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["rapide", "economique"],
+    "ingredients": [["riz-long", 300, "g"], ["oeuf", 3, "piece"], ["petits-pois-surgeles", 200, "g"], ["des-jambon", 150, "g"], ["oignon-nouveau", 2, "piece"], ["sauce-soja", 3, "cs"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Cuire le riz, le laisser refroidir.", "Brouiller les œufs, réserver.", "Sauter riz, petits pois, jambon et oignon nouveau.", "Ajouter œufs et sauce soja."]
+  },
+  {
+    "id": "porc-caramel", "name": "Porc au caramel", "cuisine": "asiatique",
+    "description": "Sucré-salé, servi avec du riz.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 35, "difficulty": 2, "equipment": ["plaques"], "tags": ["porc"],
+    "ingredients": [["echine-porc", 600, "g"], ["sucre", 60, "g"], ["sauce-soja", 4, "cs"], ["oignon-jaune", 1, "piece"], ["ail", 2, "piece"], ["riz-long", 300, "g"], ["huile-tournesol", 1, "cs"]],
+    "steps": ["Couper le porc en cubes, le dorer.", "Faire un caramel avec le sucre, ajouter soja, ail, oignon et le porc.", "Mijoter 25 min. Servir avec le riz."]
+  },
+  {
+    "id": "boeuf-bourguignon", "name": "Bœuf bourguignon", "cuisine": "francaise",
+    "description": "Mijoté longuement, carottes et champignons.",
+    "baseServings": 4, "prepMinutes": 25, "cookMinutes": 150, "difficulty": 3, "equipment": ["plaques"], "tags": ["boeuf", "mijote", "classique"],
+    "ingredients": [["boeuf-bourguignon", 600, "g"], ["lardons-fumes", 100, "g"], ["carotte", 3, "piece"], ["champignon-paris", 250, "g"], ["oignon-jaune", 2, "piece"], ["bouillon-legumes", 2, "piece"], ["concentre-tomate", 30, "g"], ["farine-ble", 20, "g"], ["laurier", 2, "piece"], ["thym", 1, "g"], ["pomme-de-terre", 800, "g"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Dorer la viande et les lardons, saupoudrer de farine.", "Ajouter oignons, carottes, concentré, bouillon et aromates.", "Mijoter 2 h à couvert, ajouter les champignons 20 min avant la fin.", "Servir avec des pommes de terre vapeur."]
+  },
+  {
+    "id": "salade-nicoise", "name": "Salade niçoise", "cuisine": "mediterraneenne",
+    "description": "Thon, œufs, haricots verts, pommes de terre.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "sans-gluten", "froid"],
+    "ingredients": [["thon-naturel", 208, "g"], ["oeuf", 4, "piece"], ["haricots-verts-surgeles", 300, "g"], ["pomme-de-terre", 500, "g"], ["tomate", 3, "piece"], ["olives-noires", 75, "g"], ["salade-laitue", 1, "piece"], ["huile-olive", 4, "cs"], ["vinaigre-vin", 2, "cs"], ["sel", 4, "g"]],
+    "steps": ["Cuire pommes de terre, haricots et œufs, refroidir.", "Disposer salade, légumes, œufs, thon et olives.", "Arroser de vinaigrette."]
+  },
+  {
+    "id": "minestrone", "name": "Minestrone", "cuisine": "italienne",
+    "description": "Soupe-repas aux légumes, haricots et pâtes.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 30, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "soupe", "economique"],
+    "ingredients": [["carotte", 2, "piece"], ["courgette", 1, "piece"], ["poireau", 1, "piece"], ["haricots-blancs", 250, "g"], ["tomates-concassees", 400, "g"], ["coquillettes", 120, "g"], ["bouillon-legumes", 2, "piece"], ["ail", 2, "piece"], ["huile-olive", 2, "cs"], ["herbes-provence", 2, "g"]],
+    "steps": ["Faire revenir ail et légumes en dés.", "Ajouter tomates, 1,5 L de bouillon et herbes, cuire 20 min.", "Ajouter pâtes et haricots, cuire 10 min."]
+  },
+  {
+    "id": "pates-creme-champignons", "name": "Pâtes crème-champignons", "cuisine": "francaise",
+    "description": "Sauce onctueuse à l'échalote.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "rapide", "pates"],
+    "ingredients": [["penne", 400, "g"], ["champignon-paris", 500, "g"], ["creme-fraiche-epaisse", 200, "ml"], ["echalote", 2, "piece"], ["persil", 10, "g", true], ["beurre-doux", 20, "g"], ["sel", 8, "g"], ["poivre", 1, "g"]],
+    "steps": ["Cuire les pâtes.", "Faire revenir échalotes et champignons au beurre.", "Ajouter la crème, assaisonner, mélanger aux pâtes."]
+  },
+  {
+    "id": "tofu-brocoli-riz", "name": "Tofu sauté au brocoli et sésame", "cuisine": "asiatique",
+    "description": "Tofu croustillant, laqué soja-gingembre.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan"],
+    "ingredients": [["tofu-nature", 400, "g"], ["brocoli-surgele", 500, "g"], ["sauce-soja", 4, "cs"], ["gingembre", 15, "g"], ["ail", 2, "piece"], ["graines-sesame", 10, "g", true], ["maizena", 10, "g"], ["riz-long", 300, "g"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Cuire le riz.", "Rouler le tofu en dés dans la fécule, le dorer.", "Sauter le brocoli avec ail et gingembre.", "Ajouter tofu et soja, parsemer de sésame."]
+  },
+  {
+    "id": "pdt-chorizo-oeufs", "name": "Poêlée de pommes de terre au chorizo et œufs", "cuisine": "espagnole",
+    "description": "Pommes de terre dorées, chorizo, œuf au plat.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["porc", "sans-gluten", "economique"],
+    "ingredients": [["pomme-de-terre", 1000, "g"], ["chorizo", 100, "g"], ["oeuf", 4, "piece"], ["oignon-jaune", 1, "piece"], ["paprika", 2, "g"], ["huile-olive", 2, "cs"], ["sel", 5, "g"]],
+    "steps": ["Couper les pommes de terre en dés, les dorer 20 min.", "Ajouter oignon et chorizo en dés.", "Cuire les œufs au plat par-dessus."]
+  },
+  {
+    "id": "dinde-creme-moutarde", "name": "Escalopes de dinde crème-moutarde", "cuisine": "francaise",
+    "description": "Avec haricots verts et riz.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 20, "difficulty": 1, "equipment": ["plaques"], "tags": ["volaille", "rapide", "sans-gluten"],
+    "ingredients": [["escalope-dinde", 4, "piece"], ["creme-fraiche-epaisse", 200, "ml"], ["moutarde", 30, "g"], ["haricots-verts-surgeles", 600, "g"], ["riz-long", 200, "g"], ["beurre-doux", 15, "g"], ["sel", 5, "g"]],
+    "steps": ["Cuire riz et haricots verts.", "Dorer les escalopes au beurre.", "Déglacer avec crème et moutarde, napper la viande."]
+  },
+  {
+    "id": "curry-legumes-coco", "name": "Curry de patate douce et épinards", "cuisine": "indienne",
+    "description": "Curry rouge doux, 100 % végétal.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "sans-gluten"],
+    "ingredients": [["patate-douce", 2, "piece"], ["epinards-surgeles", 300, "g"], ["lait-coco", 400, "ml"], ["pate-curry", 30, "g"], ["oignon-jaune", 1, "piece"], ["riz-basmati", 300, "g"], ["huile-tournesol", 1, "cs"], ["sel", 4, "g"]],
+    "steps": ["Faire revenir l'oignon avec la pâte de curry.", "Ajouter patate douce en dés et lait de coco, cuire 15 min.", "Ajouter les épinards, cuire 5 min. Servir avec le riz."]
+  },
+  {
+    "id": "taboule-libanais", "name": "Taboulé libanais", "cuisine": "orientale",
+    "description": "Beaucoup d'herbes, un peu de boulgour.",
+    "baseServings": 4, "prepMinutes": 25, "cookMinutes": 0, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegan", "froid"],
+    "ingredients": [["boulgour", 150, "g"], ["persil", 60, "g"], ["menthe", 20, "g"], ["tomate", 3, "piece"], ["concombre", 1, "piece"], ["oignon-nouveau", 2, "piece"], ["citron", 2, "piece"], ["huile-olive", 4, "cs"], ["pois-chiches", 265, "g"], ["sel", 4, "g"]],
+    "steps": ["Faire gonfler le boulgour à l'eau chaude.", "Ciseler finement herbes, tomates, concombre, oignon.", "Mélanger avec pois chiches, citron et huile."]
+  },
+  {
+    "id": "salade-lentilles-feta", "name": "Salade de lentilles à la feta", "cuisine": "mediterraneenne",
+    "description": "Lentilles vertes, carotte, oignon rouge et feta.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 25, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "sans-gluten", "froid"],
+    "ingredients": [["lentilles-vertes", 250, "g"], ["feta", 200, "g"], ["carotte", 2, "piece"], ["oignon-rouge", 1, "piece"], ["persil", 15, "g"], ["vinaigre-vin", 2, "cs"], ["huile-olive", 3, "cs"], ["moutarde", 5, "g"], ["sel", 4, "g"]],
+    "steps": ["Cuire les lentilles 20 min, refroidir.", "Râper la carotte, émincer l'oignon.", "Mélanger avec la feta émiettée et une vinaigrette moutardée."]
+  },
+  {
+    "id": "pates-sardines-citron", "name": "Spaghetti aux sardines et citron", "cuisine": "mediterraneenne",
+    "description": "Très économique, riche en oméga-3.",
+    "baseServings": 4, "prepMinutes": 5, "cookMinutes": 12, "difficulty": 1, "equipment": ["plaques"], "tags": ["poisson", "rapide", "economique"],
+    "ingredients": [["spaghetti", 400, "g"], ["sardines-huile", 270, "g"], ["citron", 1, "piece"], ["ail", 2, "piece"], ["persil", 15, "g"], ["chapelure", 30, "g", true], ["sel", 8, "g"]],
+    "steps": ["Cuire les spaghetti.", "Faire revenir l'ail dans l'huile des sardines, ajouter les sardines émiettées.", "Mélanger aux pâtes avec zeste et jus de citron, persil et chapelure grillée."]
+  },
+  {
+    "id": "riz-saute-crevettes", "name": "Riz sauté aux crevettes", "cuisine": "asiatique",
+    "description": "Crevettes, légumes et sauce soja.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["fruits-de-mer", "rapide"],
+    "ingredients": [["riz-long", 300, "g"], ["crevettes", 300, "g"], ["legumes-wok", 750, "g"], ["oeuf", 2, "piece"], ["sauce-soja", 3, "cs"], ["ail", 2, "piece"], ["huile-tournesol", 2, "cs"]],
+    "steps": ["Cuire le riz, refroidir.", "Sauter ail, légumes et crevettes.", "Ajouter riz, œufs battus et soja, sauter 3 min."]
+  },
+  {
+    "id": "soupe-pois-casses", "name": "Soupe de pois cassés", "cuisine": "francaise",
+    "description": "Épaisse et rassasiante, avec du pain.",
+    "baseServings": 4, "prepMinutes": 10, "cookMinutes": 50, "difficulty": 1, "equipment": ["plaques", "mixeur"], "tags": ["vegan", "soupe", "economique"],
+    "ingredients": [["pois-casses", 300, "g"], ["carotte", 2, "piece"], ["oignon-jaune", 1, "piece"], ["bouillon-legumes", 2, "piece"], ["laurier", 1, "piece"], ["baguette", 1, "piece"], ["huile-olive", 1, "cs"]],
+    "steps": ["Faire revenir oignon et carottes.", "Ajouter pois cassés, laurier et 1,5 L de bouillon, cuire 45 min.", "Mixer. Servir avec du pain."]
+  },
+  {
+    "id": "galettes-complete", "name": "Galettes complètes", "cuisine": "francaise",
+    "description": "Jambon, emmental, œuf, sur galette de blé noir.",
+    "baseServings": 3, "prepMinutes": 5, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["rapide"],
+    "ingredients": [["galettes-ble-noir", 6, "piece"], ["jambon-blanc", 4, "piece"], ["emmental-rape", 120, "g"], ["oeuf", 6, "piece"], ["beurre-doux", 20, "g"], ["salade-laitue", 1, "piece", true]],
+    "steps": ["Chauffer une galette beurrée à la poêle.", "Garnir d'emmental, de jambon et casser un œuf au centre.", "Replier les bords quand le blanc est pris."]
+  },
+  {
+    "id": "pates-epinards-chevre", "name": "Pâtes aux épinards et chèvre", "cuisine": "francaise",
+    "description": "Crémeux sans crème.",
+    "baseServings": 4, "prepMinutes": 5, "cookMinutes": 15, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "rapide", "pates"],
+    "ingredients": [["penne", 400, "g"], ["pousses-epinard", 200, "g"], ["chevre-buche", 180, "g"], ["ail", 1, "piece"], ["huile-olive", 1, "cs"], ["sel", 8, "g"], ["poivre", 1, "g"]],
+    "steps": ["Cuire les pâtes.", "Faire tomber les épinards avec l'ail.", "Ajouter le chèvre et un peu d'eau de cuisson, mélanger aux pâtes."]
+  },
+  {
+    "id": "cabillaud-pdt-haricots", "name": "Cabillaud, purée et haricots verts", "cuisine": "francaise",
+    "description": "Poisson nacré, purée maison.",
+    "baseServings": 4, "prepMinutes": 15, "cookMinutes": 25, "difficulty": 2, "equipment": ["plaques"], "tags": ["poisson", "sans-gluten"],
+    "ingredients": [["cabillaud-surgele", 500, "g"], ["pomme-de-terre", 800, "g"], ["haricots-verts-surgeles", 400, "g"], ["lait-demi-ecreme", 150, "ml"], ["beurre-doux", 40, "g"], ["citron", 1, "piece"], ["sel", 6, "g"]],
+    "steps": ["Cuire les pommes de terre et les écraser avec lait et beurre.", "Cuire les haricots verts.", "Poêler le cabillaud 4 min par face, arroser de citron."]
+  },
+  {
+    "id": "hachis-vegetal", "name": "Parmentier végétal aux lentilles", "cuisine": "francaise",
+    "description": "Lentilles mijotées et purée à l'huile d'olive.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 40, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["vegan", "four", "sans-gluten", "economique"],
+    "ingredients": [["lentilles-vertes", 250, "g"], ["pomme-de-terre", 1000, "g"], ["carotte", 2, "piece"], ["oignon-jaune", 1, "piece"], ["tomates-concassees", 400, "g"], ["boisson-soja", 200, "ml"], ["huile-olive", 3, "cs"], ["thym", 1, "g"], ["sel", 8, "g"]],
+    "steps": ["Cuire les lentilles avec carottes, oignon, tomates et thym 25 min.", "Préparer une purée avec boisson soja et huile d'olive.", "Monter le parmentier, gratiner 15 min à 200 °C."]
+  },
+  {
+    "id": "omelette-champignons", "name": "Omelette aux champignons et salade", "cuisine": "francaise",
+    "description": "Le dîner en 10 minutes.",
+    "baseServings": 2, "prepMinutes": 5, "cookMinutes": 8, "difficulty": 1, "equipment": ["plaques"], "tags": ["vegetarien", "sans-gluten", "rapide", "oeufs"],
+    "ingredients": [["oeuf", 5, "piece"], ["champignon-paris", 250, "g"], ["ciboulette", 10, "g", true], ["beurre-doux", 15, "g"], ["salade-laitue", 1, "piece"], ["sel", 3, "g"]],
+    "steps": ["Poêler les champignons au beurre.", "Verser les œufs battus, cuire à feu moyen.", "Plier, parsemer de ciboulette, servir avec la salade."]
+  },
+  {
+    "id": "tartiflette", "name": "Tartiflette", "cuisine": "francaise",
+    "description": "Pommes de terre, lardons, oignons et reblochon.",
+    "baseServings": 4, "prepMinutes": 20, "cookMinutes": 40, "difficulty": 2, "equipment": ["plaques", "four"], "tags": ["four", "porc", "sans-gluten", "hiver"],
+    "ingredients": [["pomme-de-terre", 1000, "g"], ["reblochon", 450, "g"], ["lardons-fumes", 200, "g"], ["oignon-jaune", 2, "piece"], ["creme-fraiche-epaisse", 100, "ml"], ["salade-laitue", 1, "piece", true]],
+    "steps": ["Cuire les pommes de terre à l'eau, les couper en rondelles.", "Faire revenir oignons et lardons.", "Alterner dans un plat avec la crème, couvrir de reblochon coupé en deux.", "Cuire 25 min à 200 °C."]
+  }
+]

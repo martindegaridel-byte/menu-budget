@@ -1,0 +1,155 @@
+// SQLite en local. Pour Postgres : changer `provider` et DATABASE_URL, puis
+// régénérer les migrations. Les champs *Json sont du JSON sérialisé (String)
+// pour rester portables ; ils peuvent devenir `Json` sous Postgres.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Utilisateur. Anonyme pour l'instant (cookie) ; email/auth à brancher plus tard.
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  createdAt DateTime @default(now())
+
+  stores    Store[]
+  packages  Package[]
+  pantry    PantryItem[]
+  menus     SavedMenu[]
+  favorites FavoriteRecipe[]
+}
+
+model Ingredient {
+  id            String  @id
+  name          String
+  aisle         String
+  unit          String // g | ml | piece
+  gramsPerPiece Float?
+  animal        String?
+  allergensJson String  @default("[]")
+  staple        Boolean @default(false)
+
+  packages    Package[]
+  recipeLines RecipeIngredient[]
+  pantryItems PantryItem[]
+}
+
+/// Conditionnement vendu. Sans storeId : estimation de l'enseigne (`chain`).
+/// Avec storeId + userId : prix saisi/importé par l'utilisateur pour son magasin (prioritaire).
+model Package {
+  id           String   @id @default(cuid())
+  ingredientId String
+  chain        String
+  storeId      String?
+  userId       String?
+  label        String
+  brand        String?
+  quantity     Float
+  priceCents   Int
+  source       String // estimate | manual | import
+  asOf         String
+  updatedAt    DateTime @updatedAt
+
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  store      Store?     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  user       User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([ingredientId, chain])
+  @@index([storeId])
+}
+
+/// Magasin. Sans userId : magasin par défaut proposé à tous.
+model Store {
+  id         String   @id @default(cuid())
+  userId     String?
+  name       String
+  chain      String
+  format     String
+  city       String?
+  priceIndex Int      @default(100)
+  createdAt  DateTime @default(now())
+
+  user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  packages Package[]
+}
+
+model Recipe {
+  id          String @id
+  name        String
+  description String @default("")
+  cuisine     String
+  baseServings Int
+  prepMinutes Int
+  cookMinutes Int
+  difficulty  Int
+  equipmentJson String @default("[]")
+  tagsJson    String @default("[]")
+  stepsJson   String @default("[]")
+  source      String @default("seed")
+
+  ingredients RecipeIngredient[]
+  favorites   FavoriteRecipe[]
+}
+
+model RecipeIngredient {
+  id           Int     @id @default(autoincrement())
+  recipeId     String
+  ingredientId String
+  quantity     Float
+  unit         String
+  optional     Boolean @default(false)
+  position     Int
+
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+
+  @@index([recipeId])
+}
+
+/// Stock du placard. quantity NULL = « présent en quantité suffisante » (condiments).
+model PantryItem {
+  id           String   @id @default(cuid())
+  userId       String
+  ingredientId String
+  quantity     Float?
+  expiresOn    String?
+  updatedAt    DateTime @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ingredientId])
+}
+
+/// Menu généré, figé (préférences + résultat) pour l'historique.
+model SavedMenu {
+  id              String   @id @default(cuid())
+  userId          String
+  name            String
+  favorite        Boolean  @default(false)
+  preferencesJson String
+  resultJson      String
+  totalCents      Int
+  budgetCents     Int
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model FavoriteRecipe {
+  userId    String
+  recipeId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, recipeId])
+}

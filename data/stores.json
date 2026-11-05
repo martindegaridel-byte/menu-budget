@@ -1,0 +1,14 @@
+{
+  "referenceChain": "intermarche",
+  "formatPriceIndex": {
+    "hyper": 97,
+    "super": 100,
+    "contact": 104,
+    "express": 110,
+    "discount": 92,
+    "autre": 100
+  },
+  "stores": [
+    { "id": "intermarche-super", "name": "Intermarché Super (mon magasin)", "chain": "intermarche", "format": "super", "priceIndex": 100 }
+  ]
+}
