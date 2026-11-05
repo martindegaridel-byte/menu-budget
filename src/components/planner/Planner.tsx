@@ -8,7 +8,7 @@ import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
-import { pantryAfterShopping } from "@/lib/client/shopping";
+import { pantryAfterCooking, pantryAfterPurchase } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
 import type { Profile } from "@/lib/domain/profile";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
@@ -178,7 +178,8 @@ export function Planner({
   const shoppingDone = async () => {
     if (!result) return;
     const { items } = await api.getPantry();
-    await api.putPantry(pantryAfterShopping(items, result.shoppingList));
+    await api.putPantry(pantryAfterPurchase(items, result.shoppingList));
+    await refreshPantry();
   };
 
   const showForm = !result || editing;
@@ -200,17 +201,52 @@ export function Planner({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prefs.allergens.length]);
 
-  // Anti-gaspi : produits du placard qui périment dans les 5 jours (le moteur les utilise en priorité).
+  // Placard : nombre d'articles (badge) et produits qui périment dans les 5 jours (anti-gaspi).
   const [expiring, setExpiring] = useState<string[]>([]);
-  useEffect(() => {
-    api
-      .getPantry()
-      .then(({ items }) => {
-        const today = todayIso();
-        setExpiring(items.filter((i) => i.expiresOn && expiryInfo(i.expiresOn, today).tone !== "neutral").map((i) => ingredientMap.get(i.ingredientId)?.name ?? i.ingredientId));
-      })
-      .catch(() => setExpiring([]));
+  const [pantryCount, setPantryCount] = useState<number | null>(null);
+  const refreshPantry = useCallback(async () => {
+    try {
+      const { items } = await api.getPantry();
+      const today = todayIso();
+      setPantryCount(items.length);
+      setExpiring(items.filter((i) => i.expiresOn && expiryInfo(i.expiresOn, today).tone !== "neutral").map((i) => ingredientMap.get(i.ingredientId)?.name ?? i.ingredientId));
+    } catch {
+      setExpiring([]);
+    }
   }, [ingredientMap]);
+  useEffect(() => {
+    void refreshPantry();
+  }, [refreshPantry]);
+
+  // « Cuisiné » : retire du placard ce que le plat a utilisé (avec « Annuler »).
+  const [cookedByMenu, setCookedByMenu] = usePersistentState<Record<string, number[]>>("mb:cooked", {});
+  const cooked = new Set(cookedByMenu[menuKey] ?? []);
+  const markCooked = (slot: number) =>
+    run(async () => {
+      const r = result?.recipes[slot];
+      if (!r) return;
+      const { items: before } = await api.getPantry();
+      if (cooked.has(slot)) {
+        setCookedByMenu({ [menuKey]: [...cooked].filter((s) => s !== slot) });
+        return;
+      }
+      const single = await api.evaluate({ ...prefs, meals: 1 }, [r.recipeId]);
+      // Ce qui se compte à la pièce est entamé entier (2,5 œufs → 3 œufs).
+      const used = single.shoppingList.lines.map((l) => ({ ingredientId: l.ingredientId, quantity: l.unit === "piece" ? Math.ceil(l.needed - 1e-9) : l.needed }));
+      await api.putPantry(pantryAfterCooking(before, used));
+      setCookedByMenu({ [menuKey]: [...cooked, slot] });
+      await refreshPantry();
+      toast({
+        title: `${r.name} : ingrédients retirés du placard`,
+        tone: "success",
+        onUndo: () =>
+          void run(async () => {
+            await api.putPantry(before);
+            setCookedByMenu({ [menuKey]: [...cooked].filter((s) => s !== slot) });
+            await refreshPantry();
+          }),
+      });
+    });
 
   return (
     <div className="space-y-4">
@@ -240,6 +276,7 @@ export function Planner({
             ingredients={ingredients}
             stores={stores}
             permanent={permanent}
+            pantryCount={pantryCount}
           />
           {llmEnabled && <AiRecipes prefs={prefs} />}
           {result && (
@@ -303,6 +340,8 @@ export function Planner({
                       ingredients={ingredientMap}
                       onSwap={openSwap}
                       onRegenerate={regenerate}
+                      onCooked={markCooked}
+                      cooked={cooked}
                       busy={busy}
                     />
                     <div className="grid grid-cols-2 gap-2">

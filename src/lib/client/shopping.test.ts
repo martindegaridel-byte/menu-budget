@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildShoppingList } from "@/lib/engine/shopping";
 import { seedContext } from "@/lib/engine/test-fixtures";
-import { groupByAisle, pantryAfterShopping, shoppingListText } from "./shopping";
+import { groupByAisle, pantryAfterCooking, pantryAfterPurchase, pantryAfterShopping, shoppingListText } from "./shopping";
 
 const pantry = [
   { ingredientId: "oeuf", quantity: 3 },
@@ -29,5 +29,27 @@ describe("liste de courses (client)", () => {
     expect(get("sel")?.quantity).toBeNull();
     expect(get("spaghetti")?.quantity).toBe(200);
     expect(get("oignon-jaune")).toBeUndefined(); // acheté à l'unité, entièrement utilisé
+  });
+
+  it("après les courses, ajoute les paquets achetés au placard", () => {
+    const next = pantryAfterPurchase(pantry, list);
+    const get = (id: string) => next.find((p) => p.ingredientId === id);
+    expect(get("oeuf")?.quantity).toBe(9); // 3 + boîte de 6
+    expect(get("spaghetti")?.quantity).toBe(500);
+    expect(get("sel")?.quantity).toBeNull();
+  });
+
+  it("après avoir cuisiné un plat, retire ce qu'il a utilisé", () => {
+    const stocked = pantryAfterPurchase(pantry, list);
+    const next = pantryAfterCooking(stocked, [
+      { ingredientId: "oeuf", quantity: 4 },
+      { ingredientId: "spaghetti", quantity: 500 },
+      { ingredientId: "sel", quantity: 10 },
+      { ingredientId: "inconnu", quantity: 1 },
+    ]);
+    const get = (id: string) => next.find((p) => p.ingredientId === id);
+    expect(get("oeuf")?.quantity).toBe(5);
+    expect(get("spaghetti")).toBeUndefined(); // épuisé : retiré du placard
+    expect(get("sel")?.quantity).toBeNull(); // condiment « suffisant » : inchangé
   });
 });

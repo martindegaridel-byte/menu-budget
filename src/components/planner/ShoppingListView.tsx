@@ -144,7 +144,7 @@ export function ShoppingListView({
       <Card className="space-y-3">
         <h3 className="text-title-3 font-semibold">Après les courses</h3>
         <p className="text-body-sm text-muted">
-          Mettez votre placard à jour : ce que le menu consomme est retiré, les restes des paquets achetés sont ajoutés.
+          Ajoutez vos achats au placard. Ensuite, touchez « Cuisiné » sur chaque plat : ses ingrédients sont retirés automatiquement.
         </p>
         {confirm ? (
           <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export function ShoppingListView({
               onClick={async () => {
                 await onShoppingDone();
                 setConfirm(false);
-                setStatus("Placard mis à jour.");
+                setStatus("Achats ajoutés au placard");
               }}
             >
               Confirmer la mise à jour

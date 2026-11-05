@@ -26,7 +26,28 @@ const LEVELS: { value: `${Difficulty}`; label: string }[] = [
   { value: "3", label: "Confirmé" },
 ];
 const TIMES = [15, 20, 30, 45, 60, 90, 300] as const;
-const BUDGET_MAX_CENTS = 15_000;
+
+/**
+ * Repères indicatifs par repas et par personne, d'après les prix estimés du magasin
+ * (paquets entiers, placard vide). Seul, on paie plus cher la portion (paquets
+ * entamés) : solo 3,50 € / 5,50 €, à deux 2,50 € / 4,00 €, à quatre 2,00 € / 3,25 €.
+ */
+const tightPerPortion = (persons: number) => Math.round(150 + 200 / persons);
+const comfortPerPortion = (persons: number) => Math.round(250 + 300 / persons);
+type Viability = { tone: "danger" | "warn" | "accent"; label: string; hint: string };
+function viability(perPortionCents: number, persons: number): Viability {
+  if (perPortionCents < tightPerPortion(persons))
+    return { tone: "danger", label: "Très serré", hint: "Le menu risque de dépasser ou de se limiter à quelques plats très simples. Cochez vos condiments dans le placard pour gagner de la marge." };
+  if (perPortionCents < comfortPerPortion(persons))
+    return { tone: "warn", label: "Serré", hint: "Possible, mais avec moins de variété : surtout des plats à base de pâtes, riz, œufs et légumineuses." };
+  return { tone: "accent", label: "Confortable", hint: "Assez de marge pour des menus variés et équilibrés." };
+}
+const VIABILITY_STYLE = {
+  danger: { text: "text-danger-text", bg: "bg-danger-soft", ring: "ring-danger/30", dot: "bg-danger" },
+  warn: { text: "text-warn-text", bg: "bg-warn-soft", ring: "ring-warn/30", dot: "bg-warn" },
+  accent: { text: "text-accent-text", bg: "bg-accent-soft", ring: "ring-accent/25", dot: "bg-accent" },
+} as const;
+const euros0 = (c: number) => `${Math.round(c / 100)} €`;
 
 /** Champ budget en euros (saisie libre « 25 » ou « 25,50 »). */
 export function BudgetInput({ value, onChange, id, large = false }: { value: number; onChange: (cents: number) => void; id?: string; large?: boolean }) {
@@ -96,8 +117,11 @@ export function PreferencesForm({
   ingredients,
   stores,
   permanent,
+  pantryCount = null,
 }: {
   permanent?: Profile;
+  /** Nombre d'articles enregistrés dans le placard (null = inconnu). */
+  pantryCount?: number | null;
   prefs: Preferences;
   onChange: (p: Preferences) => void;
   onSubmit: () => void;
@@ -110,7 +134,15 @@ export function PreferencesForm({
   const sliderId = useId();
   const storeId = useId();
   const timeId = useId();
-  const perMeal = divideCeil(prefs.budgetCents, Math.max(1, prefs.meals * prefs.persons));
+  const portions = Math.max(1, prefs.meals * prefs.persons);
+  const perMeal = divideCeil(prefs.budgetCents, portions);
+  const via = viability(perMeal, prefs.persons);
+  const vs = VIABILITY_STYLE[via.tone];
+  // Échelle du curseur adaptée au nombre de portions, avec les zones « très serré / serré / confortable ».
+  const tightCents = tightPerPortion(prefs.persons) * portions;
+  const comfortCents = comfortPerPortion(prefs.persons) * portions;
+  const sliderMax = Math.min(1_000_000, Math.max(5_000, Math.ceil((comfortCents * 2) / 1_000) * 1_000, Math.ceil(prefs.budgetCents / 1_000) * 1_000));
+  const pct = (c: number) => `${Math.min(100, (c / sliderMax) * 100)}%`;
   const nExcluded = (permanent?.excludedIngredientIds.length ?? 0) + prefs.excludedIngredientIds.length;
   const nAllergens = permanent?.allergens.length ?? 0;
   const timeLabel = prefs.maxTotalMinutes >= 300 ? "sans limite" : `${prefs.maxTotalMinutes} min max`;
@@ -145,19 +177,46 @@ export function PreferencesForm({
               id={sliderId}
               type="range"
               min={0}
-              max={BUDGET_MAX_CENTS}
+              max={sliderMax}
               step={100}
-              value={Math.min(prefs.budgetCents, BUDGET_MAX_CENTS)}
+              value={Math.min(prefs.budgetCents, sliderMax)}
               onChange={(e) => set("budgetCents", Number(e.target.value))}
-              aria-valuetext={formatEuros(prefs.budgetCents)}
+              aria-valuetext={`${formatEuros(prefs.budgetCents)}, ${via.label.toLowerCase()}`}
               className="mt-4 h-11 w-full cursor-pointer accent-[var(--mb-accent)]"
             />
-            <p className="flex items-baseline justify-between text-body-sm text-muted" aria-live="polite">
-              <span>Soit environ</span>
-              <span>
-                <span className="font-numeric text-title-3 font-semibold tabular-nums text-accent-text">≈ {formatEuros(perMeal)}</span> / repas / pers.
-              </span>
-            </p>
+            {/* Échelle : zones très serré / serré / confortable pour ce nombre de portions */}
+            <div aria-hidden className="relative -mt-1 h-1.5 overflow-hidden rounded-full bg-accent/60">
+              <span className="absolute inset-y-0 left-0 bg-danger/70" style={{ width: pct(tightCents) }} />
+              <span className="absolute inset-y-0 bg-warn/70" style={{ left: pct(tightCents), width: `calc(${pct(comfortCents)} - ${pct(tightCents)})` }} />
+            </div>
+            <div aria-hidden className="relative mt-1.5 h-4 text-[11px] tabular-nums text-subtle">
+              <span className="absolute left-0">0 €</span>
+              {tightCents / sliderMax < 0.85 && tightCents / sliderMax > 0.1 && (
+                <span className="absolute -translate-x-1/2" style={{ left: pct(tightCents) }}>
+                  {euros0(tightCents)}
+                </span>
+              )}
+              {comfortCents / sliderMax < 0.85 && (
+                <span className="absolute -translate-x-1/2" style={{ left: pct(comfortCents) }}>
+                  {euros0(comfortCents)}
+                </span>
+              )}
+              <span className="absolute right-0">{euros0(sliderMax)}</span>
+            </div>
+            <div className={cn("mt-3 rounded-field p-3 ring-1 ring-inset", vs.bg, vs.ring)} aria-live="polite">
+              <p className="flex items-baseline justify-between gap-2">
+                <span className={cn("inline-flex items-center gap-1.5 text-body-sm font-semibold", vs.text)}>
+                  <span aria-hidden className={cn("size-2 rounded-full", vs.dot)} />
+                  {via.label}
+                </span>
+                <span className="text-body-sm text-muted">
+                  <span className={cn("font-numeric text-title-3 font-semibold tabular-nums", vs.text)}>≈ {formatEuros(perMeal)}</span> / repas / pers.
+                </span>
+              </p>
+              <p className="mt-1 text-caption text-muted">
+                {via.hint} <span className="text-subtle">Repère indicatif, d&apos;après les prix estimés du magasin.</span>
+              </p>
+            </div>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <Stepper
@@ -198,6 +257,16 @@ export function PreferencesForm({
               <span className="flex items-center gap-2 text-body-sm font-medium">
                 <Package aria-hidden className="size-4 text-muted" strokeWidth={ICON_STROKE} />
                 Utiliser mon placard
+                {pantryCount !== null && (
+                  <Link
+                    href="/placard"
+                    className="focus-ring relative z-10 inline-flex min-h-6 items-center rounded-full bg-surface-3 px-2 text-caption font-medium tabular-nums text-muted ring-1 ring-inset ring-line hover:text-fg"
+                    aria-label={`${pantryCount} article${pantryCount > 1 ? "s" : ""} dans le placard : ouvrir le placard`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {pantryCount} article{pantryCount > 1 ? "s" : ""}
+                  </Link>
+                )}
               </span>
               <input type="checkbox" role="switch" className="peer sr-only" checked={prefs.usePantry} onChange={(e) => set("usePantry", e.target.checked)} />
               <span

@@ -1,7 +1,9 @@
 "use client";
 import {
   ArrowLeftRight,
+  CheckCircle2,
   ChevronDown,
+  CookingPot,
   ChevronRight,
   Clock,
   Egg,
@@ -118,6 +120,8 @@ export function MenuRecipes({
   ingredients,
   onSwap,
   onRegenerate,
+  onCooked,
+  cooked,
   busy = false,
 }: {
   result: MenuResult;
@@ -125,6 +129,8 @@ export function MenuRecipes({
   ingredients: ReadonlyMap<string, IngredientOption>;
   onSwap: (slot: number) => void;
   onRegenerate?: (slot: number) => void;
+  onCooked?: (slot: number) => void;
+  cooked?: ReadonlySet<number>;
   busy?: boolean;
 }) {
   return (
@@ -133,15 +139,23 @@ export function MenuRecipes({
         const info = recipes.get(r.recipeId);
         const { icon: Icon, tint } = dishVisual(info);
         const href = `/recettes/${r.recipeId}?p=${result.persons}`;
+        const done = cooked?.has(slot) ?? false;
         return (
-          <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className="overflow-hidden">
+          <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className={cn("overflow-hidden transition-opacity duration-200", done && "opacity-70")}>
             <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
               <div aria-hidden className={cn("grid size-20 shrink-0 place-items-center rounded-field bg-gradient-to-br ring-1 ring-inset ring-line sm:size-24", tint)}>
                 <Icon className="size-9" strokeWidth={1.5} />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <p className="text-caption font-medium uppercase tracking-wider text-subtle">Repas {slot + 1}</p>
+                  <p className="inline-flex items-center gap-1.5 text-caption font-medium uppercase tracking-wider text-subtle">
+                    Repas {slot + 1}
+                    {done && (
+                      <span className="inline-flex items-center gap-1 normal-case tracking-normal text-accent-text">
+                        <CheckCircle2 aria-hidden className="size-3.5" strokeWidth={ICON_STROKE} /> cuisiné
+                      </span>
+                    )}
+                  </p>
                   <p className="font-numeric text-title-3 font-semibold tabular-nums">{formatEuros(r.allocatedCents)}</p>
                 </div>
                 <h3 className="text-body font-semibold leading-snug [text-wrap:balance]">
@@ -167,7 +181,7 @@ export function MenuRecipes({
                 Facultatif non acheté pour tenir le budget : {r.skippedOptional.map((id) => ingredients.get(id)?.name ?? id).join(", ")}
               </p>
             )}
-            <div className="grid grid-cols-[1fr_1fr_auto] gap-1 border-t border-line p-1.5">
+            <div className="grid grid-cols-2 gap-1 border-t border-line p-1.5 sm:grid-cols-4">
               {onRegenerate && (
                 <Button variant="ghost" size="sm" icon={RefreshCw} onClick={() => onRegenerate(slot)} disabled={busy} aria-label={`Régénérer ${r.name}`}>
                   Régénérer
@@ -176,10 +190,23 @@ export function MenuRecipes({
               <Button variant="ghost" size="sm" icon={ArrowLeftRight} onClick={() => onSwap(slot)} aria-label={`Choisir un autre plat que ${r.name}`}>
                 Choisir
               </Button>
+              {onCooked && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  icon={done ? CheckCircle2 : CookingPot}
+                  aria-pressed={done}
+                  onClick={() => onCooked(slot)}
+                  disabled={busy}
+                  aria-label={done ? `${r.name} : marqué comme cuisiné (annuler)` : `J'ai cuisiné ${r.name} : retirer ses ingrédients du placard`}
+                >
+                  {done ? "Cuisiné" : "Cuisiné ?"}
+                </Button>
+              )}
               <Link
                 href={href}
                 aria-label={`Voir la recette : ${r.name}`}
-                className="focus-ring inline-flex min-h-11 items-center gap-1 rounded-field px-3 text-body-sm font-medium text-muted hover:bg-surface-2 hover:text-fg"
+                className="focus-ring inline-flex min-h-11 items-center justify-center gap-1 rounded-field px-3 text-body-sm font-medium text-muted hover:bg-surface-2 hover:text-fg"
               >
                 Recette <ChevronRight aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
               </Link>

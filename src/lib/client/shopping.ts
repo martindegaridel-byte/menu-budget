@@ -48,6 +48,44 @@ export function pantryAfterShopping(pantry: readonly PantryItem[], list: Shoppin
   return [...byId.values()];
 }
 
+/** Arrondi au dixième ; null si plus rien. */
+function keep(q: number): number | null {
+  const r = Math.round(q * 10) / 10;
+  return r > 0 ? r : null;
+}
+
+/**
+ * Placard après les courses : on ajoute ce qui a été acheté (paquets entiers).
+ * La consommation est retirée ensuite, plat par plat (voir `pantryAfterCooking`).
+ */
+export function pantryAfterPurchase(pantry: readonly PantryItem[], list: ShoppingList): PantryItem[] {
+  const byId = new Map(pantry.map((p) => [p.ingredientId, { ...p }]));
+  for (const l of list.lines) {
+    if (l.purchased <= 0) continue;
+    const cur = byId.get(l.ingredientId);
+    if (cur && cur.quantity === null) continue; // « en quantité suffisante »
+    const q = keep((cur?.quantity ?? 0) + l.purchased);
+    if (q !== null) byId.set(l.ingredientId, { ingredientId: l.ingredientId, quantity: q, expiresOn: cur?.expiresOn });
+  }
+  return [...byId.values()];
+}
+
+/**
+ * Placard après avoir cuisiné un plat : on retire ce qu'il a utilisé.
+ * Les articles « en quantité suffisante » (condiments) ne bougent pas.
+ */
+export function pantryAfterCooking(pantry: readonly PantryItem[], used: readonly { ingredientId: string; quantity: number }[]): PantryItem[] {
+  const byId = new Map(pantry.map((p) => [p.ingredientId, { ...p }]));
+  for (const u of used) {
+    const cur = byId.get(u.ingredientId);
+    if (!cur || cur.quantity === null) continue;
+    const q = keep(cur.quantity - u.quantity);
+    if (q === null) byId.delete(u.ingredientId);
+    else byId.set(u.ingredientId, { ...cur, quantity: q });
+  }
+  return [...byId.values()];
+}
+
 export function lineQuantityText(l: ShoppingLine): string {
   return formatQuantity(l.needed, l.unit);
 }
