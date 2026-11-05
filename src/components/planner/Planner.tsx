@@ -8,6 +8,7 @@ import { pantryAfterShopping } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
+import { AiRecipes } from "./AiRecipes";
 import { MenuRecipes, MenuSummary, SwapSheet } from "./MenuView";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
@@ -24,10 +25,12 @@ export function Planner({
   ingredients,
   recipes,
   stores,
+  llmEnabled = false,
 }: {
   ingredients: IngredientOption[];
   recipes: RecipeSummary[];
   stores: Store[];
+  llmEnabled?: boolean;
 }) {
   const [storedPrefs, setPrefs] = usePersistentState<Preferences>("mb:prefs", DEFAULT_PREFERENCES);
   const prefs = useMemo(() => {
@@ -142,6 +145,7 @@ export function Planner({
             ingredients={ingredients}
             stores={stores}
           />
+          {llmEnabled && <AiRecipes prefs={prefs} />}
           {result && (
             <Button variant="ghost" className="w-full" onClick={() => setEditing(false)}>
               Revenir au menu actuel

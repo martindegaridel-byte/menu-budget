@@ -61,6 +61,11 @@ export const api = {
     call<{ imported: number; errors: { line: number; message: string }[] }>("/api/prices/import", { body: { storeId, csv } }),
   setUnavailable: (storeId: string, ingredientId: string, unavailable: boolean) =>
     call("/api/prices/unavailable", { body: { storeId, ingredientId, unavailable } }),
+  generateRecipes: (preferences: PreferencesInput, count = 2) =>
+    call<{ recipes: { id: string; name: string; purchaseCents: number; usedCents: number }[]; rejected: { name: string; reason: string }[] }>(
+      "/api/recipes/generate",
+      { body: { preferences, count } },
+    ),
   favorites: () => call<{ recipeIds: string[] }>("/api/favorites"),
   setFavorite: (recipeId: string, favorite: boolean) => call("/api/favorites", { body: { recipeId, favorite } }),
 };
