@@ -31,7 +31,8 @@ déduit avant achat.
   (estimations Intermarché seed, surcharges utilisateur par magasin), import CSV,
   import Open Prices (`openprices.ts` : association pure et testée ; règles dans
   `openprices-rules.ts` ; client HTTP `openprices-client.ts`). Un ingrédient avec des
-  prix `openprices` n'utilise plus les estimations.
+  prix `openprices` n'utilise plus les estimations ; les relevés > 1,5 × l'estimation
+  (marques chères) sont ignorés à l'import.
 - `src/lib/llm/` — `RecipeGenerator` (interface), implémentation Anthropic
   (`claude-opus-5-5`, sortie structurée Zod v4), `validateGeneratedRecipes`.
   Désactivé sauf `RECIPE_GENERATOR_ENABLED=true`.

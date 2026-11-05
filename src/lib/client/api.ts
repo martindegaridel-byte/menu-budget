@@ -33,7 +33,7 @@ export interface OpenPricesImport {
   matchedIngredients: number;
   totalIngredients: number;
   rejectedAsImplausible: number;
-  premium: OpenPricesItem[];
+  ignoredExpensive: number;
   items: OpenPricesItem[];
 }
 export interface OpenPricesItem {

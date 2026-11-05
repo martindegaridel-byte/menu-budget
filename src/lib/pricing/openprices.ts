@@ -33,8 +33,13 @@ export interface OpenPrice {
 export interface MatchOptions {
   /** Prix plus anciens ignorés (AAAA-MM-JJ). */
   since: string;
-  /** Écart maximal toléré avec l'estimation (facteur). */
-  maxRatio?: number;
+  /**
+   * Prix au-delà de `maxAbove` × l'estimation : ignoré (marque chère, bio, produit
+   * bizarre) → on garde le prix habituel. Défaut 1,5.
+   */
+  maxAbove?: number;
+  /** Prix en dessous de l'estimation ÷ `maxBelow` : ignoré (mauvaise association probable). Défaut 3. */
+  maxBelow?: number;
   /** Nombre de formats gardés par ingrédient. */
   maxPackagesPerIngredient?: number;
 }
@@ -49,8 +54,10 @@ export interface MatchReport {
   packages: MatchedPackage[];
   /** Ingrédients pour lesquels un prix réel a été trouvé. */
   matchedIngredientIds: string[];
-  /** Prix écartés car trop éloignés de l'estimation (souvent une mauvaise association). */
+  /** Prix ignorés car anormalement bas (souvent une mauvaise association). */
   rejectedAsImplausible: number;
+  /** Prix ignorés car trop chers par rapport au prix habituel (marques chères, bio…). */
+  rejectedAsExpensive: number;
   considered: number;
 }
 
@@ -154,8 +161,8 @@ function packageLabel(p: OpenPrice, quantity: number, ing: Ingredient): string {
 /**
  * Associe les prix Open Prices d'un magasin aux ingrédients de l'appli.
  * Règles : dernier prix par produit, prix promotionnels ignorés, prix trop anciens
- * ignorés, garde-fou de vraisemblance face à l'estimation, puis on garde les formats
- * au meilleur prix unitaire (un par contenance).
+ * ignorés, prix trop chers (> 1,5 × le prix habituel) ou anormalement bas ignorés,
+ * puis on garde les formats au meilleur prix unitaire (un par contenance).
  */
 export function matchOpenPrices(
   prices: readonly OpenPrice[],
@@ -164,7 +171,8 @@ export function matchOpenPrices(
   storeKey: string,
   opts: MatchOptions,
 ): MatchReport {
-  const maxRatio = opts.maxRatio ?? 3;
+  const maxAbove = opts.maxAbove ?? 1.5;
+  const maxBelow = opts.maxBelow ?? 3;
   const keep = opts.maxPackagesPerIngredient ?? 3;
   const refByIngredient = new Map<string, Package[]>();
   for (const p of referencePackages) refByIngredient.set(p.ingredientId, [...(refByIngredient.get(p.ingredientId) ?? []), p]);
@@ -180,6 +188,7 @@ export function matchOpenPrices(
 
   const byIngredient = new Map<string, { p: OpenPrice; quantity: number; unitPrice: number }[]>();
   let rejected = 0;
+  let expensive = 0;
   for (const p of latest.values()) {
     for (const id of candidateIngredients(p)) {
       const ing = ingredients.get(id);
@@ -188,7 +197,11 @@ export function matchOpenPrices(
       if (!quantity) continue;
       const unitPrice = (p.price * 100) / quantity;
       const ref = bestUnitPrice(refByIngredient.get(id) ?? []);
-      if (ref && (unitPrice > ref * maxRatio || unitPrice < ref / maxRatio)) {
+      if (ref && unitPrice > ref * maxAbove) {
+        expensive++;
+        continue;
+      }
+      if (ref && unitPrice < ref / maxBelow) {
         rejected++;
         continue;
       }
@@ -228,6 +241,7 @@ export function matchOpenPrices(
     packages,
     matchedIngredientIds: [...new Set(packages.map((p) => p.ingredientId))].sort(),
     rejectedAsImplausible: rejected,
+    rejectedAsExpensive: expensive,
     considered: latest.size,
   };
 }

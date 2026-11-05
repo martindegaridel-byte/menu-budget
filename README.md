@@ -107,11 +107,10 @@ la page de votre magasin (ex. `https://prices.openfoodfacts.org/locations/10`) p
 
 - chaque produit est associé à un ingrédient (`src/lib/pricing/openprices-rules.ts`) ;
 - on garde le dernier prix de chaque produit, hors promotions, sur les 24 derniers mois ;
-- un prix plus de 3 fois plus cher ou moins cher que l'estimation est écarté
+- un prix plus de 1,5 fois plus cher que le prix habituel (marque chère, bio…) est
+  ignoré et le prix habituel conservé ; un prix plus de 3 fois moins cher aussi
   (mauvaise association probable) ;
-- les ingrédients trouvés n'utilisent plus que les prix réels ; les autres gardent les
-  estimations. Les prix plus de 1,5 fois plus chers que l'estimation sont signalés
-  (souvent une marque haut de gamme : saisissez la marque distributeur ou supprimez-le).
+- les ingrédients trouvés utilisent les prix réels ; les autres gardent les estimations.
 
 Données Open Prices sous licence [ODbL](https://opendatacommons.org/licenses/odbl/).
 

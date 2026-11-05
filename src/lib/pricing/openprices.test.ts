@@ -47,9 +47,19 @@ describe("Open Prices : association produits → ingrédients", () => {
     expect(r.packages.filter((p) => p.ingredientId === "lait-demi-ecreme").map((p) => p.priceCents)).toEqual([94]);
   });
 
-  it("rejette un prix invraisemblable par rapport à l'estimation", () => {
+  it("ignore les marques trop chères : le prix habituel est conservé", () => {
     const lait = byId(170075);
-    const r = match([{ ...lait, id: 9, product_code: "x", price: 25 }]);
+    // 1,80 € le litre ≈ 1,9 × l'estimation (0,92 €/L) → ignoré.
+    const r = match([{ ...lait, id: 9, product_code: "x", price: 1.8 }]);
+    expect(r.packages).toHaveLength(0);
+    expect(r.rejectedAsExpensive).toBe(1);
+    // 1,30 € le litre ≈ 1,4 × → accepté.
+    expect(match([{ ...lait, id: 10, product_code: "y", price: 1.3 }]).packages).toHaveLength(1);
+  });
+
+  it("ignore un prix anormalement bas (mauvaise association probable)", () => {
+    const lait = byId(170075);
+    const r = match([{ ...lait, id: 11, product_code: "z", price: 0.2 }]);
     expect(r.packages).toHaveLength(0);
     expect(r.rejectedAsImplausible).toBe(1);
   });

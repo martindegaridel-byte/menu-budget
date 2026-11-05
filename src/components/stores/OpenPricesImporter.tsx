@@ -41,7 +41,7 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
         <a href="https://prices.openfoodfacts.org" target="_blank" rel="noreferrer" className="font-medium text-emerald-800 underline dark:text-emerald-300">
           prices.openfoodfacts.org
         </a>
-        , copiez l&apos;adresse de sa page et collez-la ici. Les prix trouvés remplacent les estimations pour « {storeName} ».
+        , copiez l&apos;adresse de sa page et collez-la ici. Les prix trouvés remplacent les estimations pour « {storeName} », sauf s&apos;ils sont nettement plus chers que d&apos;habitude.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor={inputId} className="sr-only">
@@ -67,18 +67,11 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
               {report.fetched} relevés depuis le {new Date(report.since).toLocaleDateString("fr-FR")} à {report.location.name}. Les autres ingrédients gardent
               les estimations.
             </Notice>
-            {report.premium.length > 0 && (
-              <div className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900 ring-1 ring-amber-200 dark:bg-amber-950 dark:text-amber-100 dark:ring-amber-900">
-                <p className="font-medium">À vérifier : prix nettement plus chers que prévu</p>
-                <p className="mb-2">Souvent, seule une marque plus chère a été relevée. Si vous connaissez le prix de la marque distributeur, saisissez-le ci-dessous, ou supprimez ce prix (✕) pour revenir à l&apos;estimation.</p>
-                <ul className="space-y-1">
-                  {report.premium.map((i) => (
-                    <li key={i.ingredientId}>
-                      <span className="font-medium">{i.ingredientName}</span> ({i.ratio}× l&apos;estimation) : {i.packages[0]?.label} à {formatEuros(i.packages[0]?.priceCents ?? 0)}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            {report.ignoredExpensive > 0 && (
+              <p className="text-sm text-stone-600 dark:text-stone-400">
+                {report.ignoredExpensive} prix trop chers par rapport au prix habituel (marques chères, bio…) ont été ignorés : pour ces produits, le prix
+                habituel est conservé.
+              </p>
             )}
             <Button variant="ghost" size="sm" onClick={() => setShowAll((v) => !v)} aria-expanded={showAll}>
               {showAll ? "Masquer le détail" : "Voir tous les prix importés"}

@@ -14,9 +14,6 @@ const BodySchema = z.object({
   months: z.number().int().min(1).max(60).default(24),
 });
 
-/** Seuil au-delà duquel on signale un prix (souvent une marque haut de gamme). */
-const PREMIUM_RATIO = 1.5;
-
 /**
  * Importe les prix réels d'un magasin publiés sur Open Prices (Open Food Facts, ODbL)
  * et les rattache au magasin de l'utilisateur. Remplace l'import précédent.
@@ -88,7 +85,7 @@ export const POST = route(async (req: Request) => {
     matchedIngredients: report.matchedIngredientIds.length,
     totalIngredients: catalog.ingredients.length,
     rejectedAsImplausible: report.rejectedAsImplausible,
-    premium: items.filter((i) => i.ratio !== null && i.ratio > PREMIUM_RATIO),
+    ignoredExpensive: report.rejectedAsExpensive,
     items,
   };
 });
