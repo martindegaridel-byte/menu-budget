@@ -72,7 +72,7 @@ Première installation : `npm install`, `cp .env.example .env`, `npx prisma migr
   profil d'exclusions, contexte moteur.
 - `src/lib/client/` — appels API (`api.ts`), état persistant (`storage.ts`), helpers
   de liste de courses.
-- `data/` — seed JSON (258 ingrédients, 238 recettes, magasins) ; `prisma/` — schéma,
+- `data/` — seed JSON (258 ingrédients, 268 recettes, magasins) ; `prisma/` — schéma,
   migrations, seed ; `docs/` — choix techniques.
 
 ## Conventions
