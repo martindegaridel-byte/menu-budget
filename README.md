@@ -28,6 +28,8 @@ magasins et saisie / import de vos propres prix.
   périment sont prioritaires), condiments cochés.
 - **Magasins** : plusieurs magasins (indice de prix par format), prix saisis à la
   main ou importés en CSV, produits « introuvables ici ».
+- **Exclusions permanentes** : aliments, familles (porc, poisson, champignons…) et
+  allergènes que vous ne mangez jamais, appliqués à tous les menus.
 - **Historique et favoris** (menus et recettes).
 - **IA (optionnelle)** : génération de recettes via l'API Anthropic, sortie JSON
   validée par Zod ; le prix n'est jamais fourni par le LLM.
@@ -48,7 +50,7 @@ cp .env.example .env
 npx prisma migrate dev
 ```
 
-(applique les migrations SQLite et lance le seed : 173 ingrédients, 215 formats, 64 recettes)
+(applique les migrations SQLite et lance le seed : 249 ingrédients, 172 recettes)
 
 ```bash
 npm run dev

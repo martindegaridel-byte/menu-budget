@@ -143,13 +143,42 @@ function canUse(menu: readonly number[], c: number, allowRepeats: boolean) {
   return allowRepeats || !menu.includes(c);
 }
 
+/** Taille du vivier de recettes bon marché utilisé pour chercher le menu le moins cher. */
+const CHEAP_POOL_SIZE = 70;
+
+/**
+ * Recettes les moins chères (coût de la part utilisée, placard déduit) : la recherche du
+ * menu minimal s'y limite, ce qui garde un temps de calcul stable quand la base grandit.
+ */
+function cheapPool(ev: Evaluator, size = CHEAP_POOL_SIZE): number[] {
+  const all = ev.candidates.map((_, i) => i);
+  if (all.length <= size) return all;
+  const estimate = (i: number) => {
+    let used = 0;
+    for (const [id, q] of ev.candidates[i]!.needs) {
+      const item = ev.ctx.pantry.get(id);
+      const fromPantry = item ? (item.quantity === null ? q : Math.min(q, item.quantity)) : 0;
+      used += (q - fromPantry) * (bestUnitPrice(ev.ctx.priceBook.get(id) ?? []) ?? 0);
+    }
+    return used;
+  };
+  const cost = new Map(all.map((i) => [i, estimate(i)]));
+  return all.sort((a, b) => cost.get(a)! - cost.get(b)! || a - b).slice(0, size);
+}
+
 /** Menu de `k` plats au coût minimal : glouton (coût marginal) puis recherche locale. */
-function minCostMenu(ev: Evaluator, k: number, allowRepeats: boolean): number[] | null {
+function minCostMenu(
+  ev: Evaluator,
+  k: number,
+  allowRepeats: boolean,
+  pool: readonly number[] = cheapPool(ev),
+  deadline = Infinity,
+): number[] | null {
   const menu: number[] = [];
   for (let s = 0; s < k; s++) {
     let best = -1;
     let bestEval: Evaluation | null = null;
-    for (let c = 0; c < ev.candidates.length; c++) {
+    for (const c of pool) {
       if (!canUse(menu, c, allowRepeats)) continue;
       const e = ev.evaluate([...menu, c]);
       if (!e.feasible) continue;
@@ -161,13 +190,14 @@ function minCostMenu(ev: Evaluator, k: number, allowRepeats: boolean): number[] 
     if (best < 0) return null;
     menu.push(best);
   }
-  // Recherche locale : remplacer un plat tant que le coût baisse.
+  // Recherche locale : remplacer un plat tant que le coût baisse (dans le temps imparti).
   let improved = true;
-  while (improved) {
+  while (improved && Date.now() < deadline) {
     improved = false;
     const cur = ev.evaluate(menu);
     for (let s = 0; s < k && !improved; s++) {
-      for (let c = 0; c < ev.candidates.length; c++) {
+      if (Date.now() > deadline) break;
+      for (const c of pool) {
         if (c === menu[s] || !canUse(menu, c, allowRepeats)) continue;
         const next = [...menu];
         next[s] = c;
@@ -212,6 +242,7 @@ function improveUnderBudget(ev: Evaluator, start: number[], allowRepeats: boolea
     if (Date.now() > deadline) break;
     let bestMove: { s: number; c: number; e: Evaluation } | null = null;
     for (let s = 0; s < menu.length; s++) {
+      if (Date.now() > deadline) break; // on garde la meilleure amélioration trouvée jusque-là
       for (let c = 0; c < ev.candidates.length; c++) {
         if (c === menu[s] || !canUse(menu, c, allowRepeats)) continue;
         const next = [...menu];
@@ -245,19 +276,23 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
 
   const allowRepeats = candidates.length < prefs.meals;
   const ev = new Evaluator(candidates, ctx, prefs.budgetCents, prefs.meals);
-  const cheapest = minCostMenu(ev, prefs.meals, allowRepeats);
+  const timeLimit = options.timeLimitMs ?? 1000;
+  const pool = cheapPool(ev);
+  const cheapest = minCostMenu(ev, prefs.meals, allowRepeats, pool, started + timeLimit * 0.5);
   if (!cheapest) return noCandidates(prefs, filtered, started);
 
   const cheapestEval = ev.evaluate(cheapest);
   if (cheapestEval.cost > prefs.budgetCents) {
     const result = buildResult(cheapest, prefs, ctx, ev, filtered, started);
     result.status = "over-budget";
-    result.diagnostics.unshift(...overBudgetDiagnostics(prefs, ctx, cheapestEval.cost, ev, allowRepeats, options));
+    result.diagnostics.unshift(
+      ...overBudgetDiagnostics(prefs, ctx, cheapestEval.cost, ev, allowRepeats, options, pool, started + timeLimit * 1.2),
+    );
     return result;
   }
 
   // Points de départ variés, puis recherche locale sous contrainte de budget.
-  const deadline = started + (options.timeLimitMs ?? 800);
+  const deadline = started + timeLimit;
   const byScore = candidates.map((_, i) => i).sort((a, b) => candidates[b]!.score - candidates[a]!.score);
   const floorPerMeal = Math.min(
     ...candidates.map((c) => {
@@ -551,6 +586,8 @@ function overBudgetDiagnostics(
   ev: Evaluator,
   allowRepeats: boolean,
   options: OptimizeOptions,
+  pool: readonly number[],
+  deadline: number,
 ): Diagnostic[] {
   const shortfall = minCost - prefs.budgetCents;
   const diags: Diagnostic[] = [
@@ -579,7 +616,7 @@ function overBudgetDiagnostics(
   const plural = (n: number) => (n > 1 ? "s" : "");
 
   const k = largestFitting(prefs.meals - 1, (n) => {
-    const m = minCostMenu(ev, n, allowRepeats);
+    const m = minCostMenu(ev, n, allowRepeats, pool, deadline);
     return !!m && ev.evaluate(m).cost <= prefs.budgetCents;
   });
   if (k > 0) {
@@ -593,7 +630,7 @@ function overBudgetDiagnostics(
     const f = filterRecipes({ ...prefs, persons: n }, ctx);
     if (f.candidates.length === 0) return false;
     const ev2 = new Evaluator(f.candidates, ctx, prefs.budgetCents, prefs.meals);
-    const m = minCostMenu(ev2, prefs.meals, f.candidates.length < prefs.meals);
+    const m = minCostMenu(ev2, prefs.meals, f.candidates.length < prefs.meals, cheapPool(ev2), deadline);
     return !!m && ev2.evaluate(m).cost <= prefs.budgetCents;
   });
   if (persons > 0) {
