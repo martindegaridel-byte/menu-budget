@@ -52,7 +52,7 @@ Première installation : `npm install`, `cp .env.example .env`, `npx prisma migr
 
 ## Architecture
 
-- `src/app/` — pages (`/` menu, `/placard`, `/exclusions`, `/magasins`, `/historique`,
+- `src/app/` — pages (`/` menu, `/batch` batch cooking, `/placard`, `/exclusions`, `/magasins`, `/historique`,
   `/recettes/[id]`) en composants serveur qui chargent les données puis délèguent à
   des composants client ; routes API dans `src/app/api/*` (validées par Zod).
 - `src/components/` — UI client : `ui.tsx` (Button, Card, Chips, Stepper,

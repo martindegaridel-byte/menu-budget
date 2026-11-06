@@ -14,6 +14,12 @@ export async function getCatalogView(): Promise<{ ingredients: IngredientOption[
       description: r.description,
       cuisine: r.cuisine,
       totalMinutes: r.prepMinutes + r.cookMinutes,
+      prepMinutes: r.prepMinutes,
+      cookMinutes: r.cookMinutes,
+      portions: r.portions,
+      fridgeDays: r.fridgeDays,
+      freezable: r.freezable,
+      reheats: r.reheats,
       difficulty: r.difficulty,
       // Étiquettes de la recette + celles déduites des ingrédients (régime, « rapide »…).
       tags: [...new Set([...r.tags, ...derivedTags(deriveRecipeFacts(r, byId))])],

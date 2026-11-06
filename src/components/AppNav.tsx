@@ -1,12 +1,13 @@
 "use client";
-import { Ban, Carrot, History, Package, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { Ban, Carrot, CookingPot, History, Package, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 
-const LINKS: readonly { href: string; label: string; icon: LucideIcon }[] = [
+const LINKS: readonly { href: string; label: string; icon: LucideIcon; full?: string }[] = [
   { href: "/", label: "Menu", icon: UtensilsCrossed },
+  { href: "/batch", label: "Batch", icon: CookingPot, full: "Batch cooking" },
   { href: "/placard", label: "Placard", icon: Package },
   { href: "/exclusions", label: "Exclusions", icon: Ban },
   { href: "/magasins", label: "Magasins", icon: Store },
@@ -49,7 +50,7 @@ export function SideNav() {
       <Brand className="mb-8 px-2" />
       <nav aria-label="Navigation principale">
         <ul className="space-y-1">
-          {LINKS.map(({ href, label, icon: Icon }) => {
+          {LINKS.map(({ href, label, full, icon: Icon }) => {
             const on = active(href);
             return (
               <li key={href}>
@@ -62,7 +63,7 @@ export function SideNav() {
                   )}
                 >
                   <Icon aria-hidden className="size-5" strokeWidth={ICON_STROKE} />
-                  {label}
+                  {full ?? label}
                 </Link>
               </li>
             );
@@ -82,7 +83,7 @@ export function AppNav() {
   const active = useActive();
   return (
     <nav aria-label="Navigation principale" className="fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(10px,env(safe-area-inset-bottom))] lg:hidden">
-      <ul className="mx-auto flex max-w-[560px] rounded-sheet bg-glass p-1 shadow-lift ring-1 ring-inset ring-line-strong backdrop-blur-xl">
+      <ul className="mx-auto flex max-w-[600px] rounded-sheet bg-glass p-1 shadow-lift ring-1 ring-inset ring-line-strong backdrop-blur-xl">
         {LINKS.map(({ href, label, icon: Icon }) => {
           const on = active(href);
           return (
@@ -91,7 +92,7 @@ export function AppNav() {
                 href={href}
                 aria-current={on ? "page" : undefined}
                 className={cn(
-                  "focus-ring flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-[16px] text-[11px] font-medium transition-colors duration-150",
+                  "focus-ring flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-[16px] text-[10.5px] font-medium tracking-tight transition-colors duration-150",
                   on ? "bg-accent-soft text-accent-text" : "text-muted hover:text-fg",
                 )}
               >

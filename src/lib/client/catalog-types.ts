@@ -15,6 +15,13 @@ export interface RecipeSummary {
   description: string;
   cuisine: string;
   totalMinutes: number;
+  prepMinutes: number;
+  cookMinutes: number;
   difficulty: number;
   tags: string[];
+  /** Conservation (facultatif) : utile au batch cooking. */
+  portions?: number;
+  fridgeDays?: number;
+  freezable?: boolean;
+  reheats?: boolean;
 }
