@@ -85,3 +85,13 @@ describe("remplacer un ingrédient dans un plat", () => {
     expect(excluded.substituted).toEqual([]);
   });
 });
+
+describe("restes de paquets", () => {
+  it("favorise les recettes qui utilisent des produits du placard (hors condiments)", () => {
+    const p = prefs({ persons: 1, maxTotalMinutes: 300, seed: 3 });
+    const score = (pantry: { ingredientId: string; quantity: number | null }[]) =>
+      filterRecipes(p, seedContext({ pantry })).candidates.find((c) => c.recipe.id === "risotto-champignons")!.score;
+    expect(score([{ ingredientId: "riz-arborio", quantity: 250 }])).toBeGreaterThan(score([]));
+    expect(score([{ ingredientId: "sel", quantity: null }])).toBe(score([]));
+  });
+});

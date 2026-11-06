@@ -35,6 +35,7 @@ import type { IngredientOption } from "@/lib/client/catalog-types";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { isPerishable } from "@/lib/domain/perishable";
 import { AISLES, type Aisle, type PantryItem } from "@/lib/domain/schemas";
+import { PantryIdeas } from "./PantryIdeas";
 import { ReceiptImport } from "./ReceiptImport";
 
 const UNIT_LABEL = { g: "g", ml: "ml", piece: "pièce" } as const;
@@ -395,6 +396,13 @@ export function PantryEditor({
           </div>
         )}
       </Card>
+
+      <PantryIdeas
+        stock={items
+          .map((i) => ({ i, ing: byId.get(i.ingredientId) }))
+          .filter((x): x is { i: PantryItem; ing: IngredientOption } => !!x.ing && !x.ing.staple)
+          .map(({ i, ing }) => ({ ing, urgent: !!i.expiresOn && expiryInfo(i.expiresOn, today).tone !== "neutral" }))}
+      />
 
       <ReceiptImport ingredients={ingredients} onAdd={addPurchases} />
 

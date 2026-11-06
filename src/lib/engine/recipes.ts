@@ -171,6 +171,8 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
 }
 
 const EXPIRING_DAYS = 5;
+/** Bonus par produit du placard (hors condiments) utilisé : les restes de paquets passent en priorité. */
+export const LEFTOVER_BONUS = 1.5;
 /** Amplitude du bruit (graine) ajouté au score : assez pour varier, moins qu'un goût déclaré. */
 export const SCORE_NOISE = 5;
 /** Pénalité d'historique : dernier menu, avant-dernier, celui d'avant. */
@@ -205,11 +207,14 @@ export function scoreRecipe(
   if (prefs.diet === "flexitarien" && [...needs.keys()].some((id) => ctx.ingredients.get(id)?.animal === "viande")) {
     score -= 3;
   }
-  // Anti-gaspi : utiliser ce qui périme bientôt.
+  // Anti-gaspi : utiliser ce qui périme bientôt, et les restes de paquets du placard.
+  let leftovers = 0;
   for (const id of needs.keys()) {
     const item = ctx.pantry.get(id);
     if (item?.expiresOn && daysBetween(ctx.today, item.expiresOn) <= EXPIRING_DAYS) score += 4;
+    if (item && item.quantity !== null && item.quantity > 0 && !ctx.ingredients.get(id)?.staple) leftovers++;
   }
+  score += LEFTOVER_BONUS * Math.min(3, leftovers);
   // Plats proposés récemment : pénalisés, d'autant plus qu'ils sont récents.
   score -= historyPenalty(recipe.id, prefs.recentRecipeIds ?? [], prefs.meals ?? 1);
   // Bruit reproductible pour varier les menus d'une graine à l'autre.

@@ -87,6 +87,7 @@ export function MenuSummary({
           <MacroBar n={result.nutritionPerMeal} />
         </div>
       )}
+      <LeftoversNote result={result} />
       {result.diagnostics.length > 0 && (
         <div aria-live="polite" className="space-y-2">
           {result.diagnostics.map((d, i) => (
@@ -164,6 +165,39 @@ export function PrepPlanCard({ plan }: { plan: PrepPlan }) {
         ))}
       </ul>
     </Card>
+  );
+}
+
+/** Restes de paquets après ce menu : ils resteront au placard et serviront en priorité ensuite. */
+function LeftoversNote({ result }: { result: MenuResult }) {
+  const left = result.shoppingList.lines.filter((l) => l.leftover > 0 && !l.staple && l.toBuy > 0).sort((a, b) => a.name.localeCompare(b.name, "fr"));
+  if (left.length === 0) return null;
+  return (
+    <details className="group rounded-field bg-surface-2 ring-1 ring-inset ring-line">
+      <summary className="focus-ring flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-field px-3 text-body-sm [&::-webkit-details-marker]:hidden">
+        <span className="inline-flex items-center gap-2">
+          <Package aria-hidden className="size-4 text-muted" strokeWidth={ICON_STROKE} />
+          <span>
+            Restes après ce menu : <span className="font-semibold tabular-nums">{left.length}</span> produit{left.length > 1 ? "s" : ""}
+          </span>
+        </span>
+        <ChevronDown aria-hidden className="size-4 text-muted transition-transform duration-200 group-open:rotate-180" strokeWidth={ICON_STROKE} />
+      </summary>
+      <div className="px-3 pb-3">
+        <ul className="flex flex-wrap gap-1.5">
+          {left.map((l) => (
+            <li key={l.ingredientId}>
+              <Badge>
+                {l.name} · {formatQuantity(l.leftover, l.unit)}
+              </Badge>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-caption text-subtle">
+          Après « J&apos;ai fait mes courses », ils restent dans votre placard et le prochain menu les utilise en priorité.
+        </p>
+      </div>
+    </details>
   );
 }
 

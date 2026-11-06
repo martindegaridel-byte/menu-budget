@@ -2,6 +2,7 @@ import type { Profile } from "@/lib/domain/profile";
 import type { PriceChange } from "@/lib/pricing/priceChanges";
 import type { PantryItem, PreferencesInput, Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
+import type { PantrySuggestion } from "@/lib/engine/suggest";
 
 export class ApiError extends Error {}
 
@@ -92,6 +93,8 @@ export const api = {
       "/api/recipes/generate",
       { body: { preferences, count } },
     ),
+  suggestFromPantry: (preferences: PreferencesInput, ingredientIds: string[]) =>
+    call<{ suggestions: PantrySuggestion[] }>("/api/recipes/suggest", { body: { preferences, ingredientIds } }),
   getProfile: () => call<Profile>("/api/profile"),
   putProfile: (profile: Profile) => call<Profile>("/api/profile", { method: "PUT", body: profile }),
   favorites: () => call<{ recipeIds: string[] }>("/api/favorites"),

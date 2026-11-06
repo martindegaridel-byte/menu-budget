@@ -8,6 +8,12 @@ export const GenerateRequestSchema = z.object({
   initial: z.array(z.string()).max(21).optional(),
 });
 
+/** « Que faire avec ce que j'ai ? » : recettes qui utilisent ces ingrédients du placard. */
+export const SuggestRequestSchema = z.object({
+  preferences: PreferencesSchema,
+  ingredientIds: z.array(z.string().min(1)).min(1).max(5),
+});
+
 export const EvaluateRequestSchema = z.object({ preferences: PreferencesSchema, recipeIds });
 
 export const SwapRequestSchema = z.object({
