@@ -15,6 +15,7 @@ import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/sc
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
 import { MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
+import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
 
@@ -189,6 +190,17 @@ export function Planner({
   };
 
   const showForm = !result || editing;
+
+  // Accueil en 3 étapes à la première ouverture.
+  const [onboarding, setOnboarding] = useState(false);
+  useEffect(() => {
+    try {
+      const hasMenu = !!JSON.parse(localStorage.getItem("mb:result") ?? "null");
+      if (!localStorage.getItem(ONBOARDED_KEY) && !hasMenu) setOnboarding(true);
+    } catch {
+      /* stockage indisponible : pas d'accueil */
+    }
+  }, []);
 
   // Allergies : une seule source de vérité (profil, onglet Exclusions). Les anciennes
   // allergies saisies dans le formulaire sont transférées une fois dans le profil.
@@ -380,6 +392,20 @@ export function Planner({
       )}
 
       <div aria-live="assertive">{error && <Notice level="error">{error}</Notice>}</div>
+
+      {onboarding && (
+        <Onboarding
+          prefs={prefs}
+          stores={stores}
+          ingredients={ingredients}
+          permanent={permanent}
+          onDone={(p) => {
+            setPrefs(p);
+            setOnboarding(false);
+            void refreshPantry();
+          }}
+        />
+      )}
 
       <SwapSheet
         open={!!swap}
