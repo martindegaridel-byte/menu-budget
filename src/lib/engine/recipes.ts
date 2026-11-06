@@ -42,6 +42,8 @@ export interface PreparedRecipe {
   /** Valeurs nutritionnelles d'une portion (ingrédients essentiels). */
   nutrition: Nutrition | null;
   baseIngredientId: string | null;
+  /** Ingrédients remplacés dans ce plat (substitutions appliquées). */
+  substituted: { from: string; to: string }[];
   /**
    * Nombre de soirs qu'un même plat peut couvrir en batch cooking (1 = un seul soir) :
    * il faut qu'il se réchauffe bien, se garde au frigo, et que ses portions suffisent.
@@ -122,19 +124,26 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
     const optionalNeeds: Needs = new Map();
     const droppedOptional: string[] = [];
     const factor = prefs.persons / recipe.baseServings;
+    const substituted: { from: string; to: string }[] = [];
     for (const line of recipe.ingredients) {
-      const ing = ctx.ingredients.get(line.ingredientId);
-      const violation = ingredientViolation(line.ingredientId, prefs, ctx);
-      const qty = ing ? toBaseQuantity(line.quantity, line.unit, ing) * factor : 0;
-      const available = ctx.priceBook.has(line.ingredientId) || pantryQuantity(ctx.pantry.get(line.ingredientId)) >= qty;
+      const original = ctx.ingredients.get(line.ingredientId);
+      const qty = original ? toBaseQuantity(line.quantity, line.unit, original) * factor : 0;
+      // Substitution demandée : même unité de base, et ingrédient de remplacement autorisé.
+      const sub = (prefs.substitutions ?? []).find((s) => s.recipeId === recipe.id && s.from === line.ingredientId);
+      const target = sub ? ctx.ingredients.get(sub.to) : undefined;
+      const useSub = !!sub && !!target && !!original && target.unit === original.unit && !ingredientViolation(sub.to, prefs, ctx);
+      const ingredientId = useSub ? sub!.to : line.ingredientId;
+      if (useSub) substituted.push({ from: line.ingredientId, to: sub!.to });
+      const violation = ingredientViolation(ingredientId, prefs, ctx);
+      const available = ctx.priceBook.has(ingredientId) || pantryQuantity(ctx.pantry.get(ingredientId)) >= qty;
       if (line.optional) {
-        if (violation || !available) droppedOptional.push(line.ingredientId);
-        else optionalNeeds.set(line.ingredientId, (optionalNeeds.get(line.ingredientId) ?? 0) + qty);
+        if (violation || !available) droppedOptional.push(ingredientId);
+        else optionalNeeds.set(ingredientId, (optionalNeeds.get(ingredientId) ?? 0) + qty);
         continue;
       }
       if (violation) reasons.add(violation);
       else if (!available) reasons.add("indisponible");
-      else needs.set(line.ingredientId, (needs.get(line.ingredientId) ?? 0) + qty);
+      else needs.set(ingredientId, (needs.get(ingredientId) ?? 0) + qty);
     }
 
     if (reasons.size > 0) {
@@ -153,6 +162,7 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       base: facts.base,
       nutrition,
       baseIngredientId: facts.baseIngredientId,
+      substituted,
       maxCover: coverFor(recipe, prefs.persons),
       keepDays: keepDaysFor(recipe),
     });

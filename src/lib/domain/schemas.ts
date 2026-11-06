@@ -270,6 +270,8 @@ export const PreferencesSchema = z.object({
    * réchauffent) et mutualiser les bases (riz, pâtes…) entre les plats.
    */
   batchCooking: z.boolean().default(false),
+  /** Ingrédients remplacés dans un plat (« dans ce plat, poireau → courgette »). */
+  substitutions: z.array(z.object({ recipeId: id, from: id, to: id })).max(60).default([]),
   /** Batch cooking : durée maximale de la session de préparation (minutes). */
   batchSessionMinutes: z.number().int().min(60).max(360).default(180),
 });

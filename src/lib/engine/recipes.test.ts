@@ -62,3 +62,26 @@ describe("computeRecipeCost", () => {
     expect(two.usedCents).toBeLessThanOrEqual(two.purchaseCents);
   });
 });
+
+describe("remplacer un ingrédient dans un plat", () => {
+  const ctx2 = seedContext();
+  const base = prefs({ persons: 2, maxTotalMinutes: 300 });
+  const find = (p: typeof base, id: string) => filterRecipes(p, ctx2).candidates.find((c) => c.recipe.id === id)!;
+
+  it("remplace l'ingrédient en gardant la quantité (même unité)", () => {
+    const before = find(base, "veloute-poireaux");
+    const after = find({ ...base, substitutions: [{ recipeId: "veloute-poireaux", from: "poireau", to: "courgette" }] }, "veloute-poireaux");
+    expect(before.needs.has("poireau")).toBe(true);
+    expect(after.needs.has("poireau")).toBe(false);
+    expect(after.needs.get("courgette")).toBeCloseTo(before.needs.get("poireau")!);
+    expect(after.substituted).toEqual([{ from: "poireau", to: "courgette" }]);
+  });
+
+  it("ignore un remplacement impossible (autre unité ou aliment exclu)", () => {
+    const otherUnit = find({ ...base, substitutions: [{ recipeId: "veloute-poireaux", from: "poireau", to: "oeuf" }] }, "veloute-poireaux");
+    expect(otherUnit.needs.has("poireau")).toBe(true);
+    const excluded = find({ ...base, excludedIngredientIds: ["courgette"], substitutions: [{ recipeId: "veloute-poireaux", from: "poireau", to: "courgette" }] }, "veloute-poireaux");
+    expect(excluded.needs.has("poireau")).toBe(true);
+    expect(excluded.substituted).toEqual([]);
+  });
+});

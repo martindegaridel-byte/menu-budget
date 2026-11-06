@@ -4,6 +4,7 @@ import {
   CheckCircle2,
   ChevronDown,
   CookingPot,
+  Replace,
   ChevronRight,
   Clock,
   Egg,
@@ -173,6 +174,7 @@ export function MenuRecipes({
   onSwap,
   onRegenerate,
   onCooked,
+  onSubstitute,
   cooked,
   busy = false,
 }: {
@@ -182,6 +184,7 @@ export function MenuRecipes({
   onSwap: (slot: number) => void;
   onRegenerate?: (slot: number) => void;
   onCooked?: (slot: number) => void;
+  onSubstitute?: (slot: number) => void;
   cooked?: ReadonlySet<number>;
   busy?: boolean;
 }) {
@@ -241,12 +244,21 @@ export function MenuRecipes({
                 {r.nutrition && <MacroBar n={r.nutrition} compact className="mt-2" />}
               </div>
             </div>
+            {(r.substituted ?? []).length > 0 && (
+              <p className="flex flex-wrap gap-1.5 px-4 pb-2">
+                {r.substituted.map((s) => (
+                  <Badge key={s.from} icon={Replace}>
+                    {ingredients.get(s.from)?.name ?? s.from} → {ingredients.get(s.to)?.name ?? s.to}
+                  </Badge>
+                ))}
+              </p>
+            )}
             {r.skippedOptional.length > 0 && (
               <p className="px-4 pb-2 text-caption text-subtle">
                 Facultatif non acheté pour tenir le budget : {r.skippedOptional.map((id) => ingredients.get(id)?.name ?? id).join(", ")}
               </p>
             )}
-            <div className="grid grid-cols-2 gap-1 border-t border-line p-1.5 sm:grid-cols-4">
+            <div className="grid grid-cols-3 gap-1 border-t border-line p-1.5 sm:grid-cols-5">
               {onRegenerate && (
                 <Button variant="ghost" size="sm" icon={RefreshCw} onClick={() => onRegenerate(slot)} disabled={busy} aria-label={`Régénérer ${r.name}`}>
                   Régénérer
@@ -266,6 +278,11 @@ export function MenuRecipes({
                   aria-label={done ? `${r.name} : marqué comme cuisiné (annuler)` : `J'ai cuisiné ${r.name} : retirer ses ingrédients du placard`}
                 >
                   {done ? "Cuisiné" : "Cuisiné ?"}
+                </Button>
+              )}
+              {onSubstitute && (
+                <Button variant="ghost" size="sm" icon={Replace} onClick={() => onSubstitute(slot)} disabled={busy} aria-label={`Remplacer un ingrédient dans ${r.name}`}>
+                  Ingrédient
                 </Button>
               )}
               <Link

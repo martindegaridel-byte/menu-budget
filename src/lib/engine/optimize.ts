@@ -29,6 +29,8 @@ export interface MenuRecipe {
   pantryIngredientIds: string[];
   /** Valeurs nutritionnelles d'une portion (estimation). */
   nutrition: Nutrition | null;
+  /** Ingrédients remplacés dans ce plat. */
+  substituted: { from: string; to: string }[];
 }
 
 export interface Diagnostic {
@@ -609,6 +611,7 @@ function buildResult(
       skippedOptional: [...c.optionalNeeds.keys()].filter((id) => !extras[k]?.has(id)),
       pantryIngredientIds: [...recipeNeeds[k]!.keys()].filter((id) => (lineById.get(id)?.fromPantry ?? 0) > 0),
       nutrition: c.nutrition,
+      substituted: c.substituted,
     };
   });
   let prepPlan: PrepPlan | null = null;

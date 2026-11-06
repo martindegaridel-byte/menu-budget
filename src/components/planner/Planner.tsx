@@ -12,10 +12,12 @@ import { pantryAfterCooking, pantryAfterPurchase } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
 import type { Profile } from "@/lib/domain/profile";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
+import { formatEuros } from "@/lib/engine/money";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
 import { MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
+import { SubstituteSheet } from "./SubstituteSheet";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
 
@@ -95,7 +97,8 @@ export function Planner({
   /** Nouveau menu (nouvelle graine, historique transmis) ; avec `initial`, réoptimise le menu courant. */
   const generate = (p: Preferences, initial?: string[]) =>
     run(async () => {
-      const next = initial ? { ...p, recentRecipeIds: [] } : { ...p, seed: newSeed(), recentRecipeIds: recent };
+      // Nouveau menu : nouvelle graine, historique transmis, remplacements d'ingrédients remis à zéro.
+      const next = initial ? { ...p, recentRecipeIds: [] } : { ...p, seed: newSeed(), recentRecipeIds: recent, substitutions: [] };
       setPrefs({ ...next, recentRecipeIds: [] });
       const r = await api.generate(next, initial);
       if (!initial) remember(r.recipes.map((x) => x.recipeId), r.recipes.length);
@@ -190,6 +193,29 @@ export function Planner({
   };
 
   const showForm = !result || editing;
+
+  // Remplacer un ingrédient dans un plat (le prix du menu est recalculé, avec « Annuler »).
+  const [subSlot, setSubSlot] = useState<number | null>(null);
+  const applySubstitutions = (subs: Preferences["substitutions"], message: string) =>
+    run(async () => {
+      const before = prefs;
+      const beforeTotal = result?.totalCents ?? 0;
+      const next = { ...prefs, substitutions: subs };
+      setPrefs(next);
+      const r = await api.evaluate({ ...next, meals: recipeIds.length }, recipeIds);
+      setResult(r);
+      const delta = r.totalCents - beforeTotal;
+      toast({
+        title: message,
+        description: delta === 0 ? "Le total ne change pas." : `Total ${delta > 0 ? "+" : "−"}${formatEuros(Math.abs(delta))} : ${formatEuros(r.totalCents)}.`,
+        tone: "success",
+        onUndo: () =>
+          void run(async () => {
+            setPrefs(before);
+            setResult(await api.evaluate({ ...before, meals: recipeIds.length }, recipeIds));
+          }),
+      });
+    });
 
   // Accueil en 3 étapes à la première ouverture.
   const [onboarding, setOnboarding] = useState(false);
@@ -360,6 +386,7 @@ export function Planner({
                       onSwap={openSwap}
                       onRegenerate={regenerate}
                       onCooked={markCooked}
+                      onSubstitute={setSubSlot}
                       cooked={cooked}
                       busy={busy}
                     />
@@ -403,6 +430,30 @@ export function Planner({
             setPrefs(p);
             setOnboarding(false);
             void refreshPantry();
+          }}
+        />
+      )}
+
+      {subSlot !== null && result?.recipes[subSlot] && (
+        <SubstituteSheet
+          open
+          onClose={() => setSubSlot(null)}
+          recipeName={result.recipes[subSlot]!.name}
+          ingredientIds={recipeMap.get(result.recipes[subSlot]!.recipeId)?.ingredientIds ?? []}
+          substituted={result.recipes[subSlot]!.substituted ?? []}
+          ingredients={ingredientMap}
+          excluded={new Set([...permanent.excludedIngredientIds, ...prefs.excludedIngredientIds])}
+          onPick={(from, to) => {
+            const recipeId = result.recipes[subSlot]!.recipeId;
+            applySubstitutions(
+              [...prefs.substitutions.filter((s) => !(s.recipeId === recipeId && s.from === from)), { recipeId, from, to }],
+              `${ingredientMap.get(from)?.name ?? from} → ${ingredientMap.get(to)?.name ?? to}`,
+            );
+          }}
+          onReset={(from) => {
+            const recipeId = result.recipes[subSlot]!.recipeId;
+            setSubSlot(null);
+            applySubstitutions(prefs.substitutions.filter((s) => !(s.recipeId === recipeId && s.from === from)), `${ingredientMap.get(from)?.name ?? from} rétabli`);
           }}
         />
       )}

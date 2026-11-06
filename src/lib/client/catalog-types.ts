@@ -7,6 +7,9 @@ export interface IngredientOption {
   aisle: Aisle;
   unit: BaseUnit;
   staple: boolean;
+  /** Familles (base:riz, porc, fromage…) : pour proposer des remplaçants proches. */
+  tags?: string[];
+  animal?: string | null;
 }
 
 export interface RecipeSummary {
@@ -19,6 +22,8 @@ export interface RecipeSummary {
   cookMinutes: number;
   difficulty: number;
   tags: string[];
+  /** Ingrédients de la recette hors condiments (pour « Remplacer un ingrédient »). */
+  ingredientIds: string[];
   /** Conservation (facultatif) : utile au batch cooking. */
   portions?: number;
   fridgeDays?: number;
