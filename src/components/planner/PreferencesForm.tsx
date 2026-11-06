@@ -118,8 +118,11 @@ export function PreferencesForm({
   stores,
   permanent,
   pantryCount = null,
+  monthHint = null,
 }: {
   permanent?: Profile;
+  /** Budget mensuel : reste du mois et suggestion pour la semaine (null si non fixé). */
+  monthHint?: { remainingCents: number; weeklyCents: number } | null;
   /** Nombre d'articles enregistrés dans le placard (null = inconnu). */
   pantryCount?: number | null;
   prefs: Preferences;
@@ -203,6 +206,23 @@ export function PreferencesForm({
               )}
               <span className="absolute right-0">{euros0(sliderMax)}</span>
             </div>
+            {monthHint && (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+                <p className="text-body-sm">
+                  Ce mois-ci, il vous reste <span className="font-semibold tabular-nums">{formatEuros(monthHint.remainingCents)}</span>, soit ≈{" "}
+                  <span className="font-semibold tabular-nums">{formatEuros(monthHint.weeklyCents)}</span> pour cette semaine.
+                </p>
+                {monthHint.weeklyCents > 0 && monthHint.weeklyCents !== prefs.budgetCents && (
+                  <button
+                    type="button"
+                    onClick={() => set("budgetCents", monthHint.weeklyCents)}
+                    className="focus-ring min-h-11 rounded-full bg-accent-soft px-3 text-caption font-semibold text-accent-text ring-1 ring-inset ring-accent/30"
+                  >
+                    Utiliser {formatEuros(monthHint.weeklyCents)}
+                  </button>
+                )}
+              </div>
+            )}
             <div className={cn("mt-3 rounded-field p-3 ring-1 ring-inset", vs.bg, vs.ring)} aria-live="polite">
               <p className="flex items-baseline justify-between gap-2">
                 <span className={cn("inline-flex items-center gap-1.5 text-body-sm font-semibold", vs.text)}>

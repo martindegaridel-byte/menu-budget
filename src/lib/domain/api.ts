@@ -26,6 +26,8 @@ export const SaveMenuRequestSchema = z.object({
 export const UpdateMenuRequestSchema = z.object({
   name: z.string().trim().min(1).max(80).optional(),
   favorite: z.boolean().optional(),
+  /** Montant réellement payé (centimes), null pour l'effacer. */
+  actualCents: z.number().int().nonnegative().max(1_000_000).nullable().optional(),
 });
 
 export const PantryPutSchema = z.object({ items: z.array(PantryItemSchema).max(500) });

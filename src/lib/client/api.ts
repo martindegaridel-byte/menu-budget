@@ -21,6 +21,8 @@ export interface SavedMenuSummary {
   favorite: boolean;
   totalCents: number;
   budgetCents: number;
+  /** Montant réellement payé, si saisi. */
+  actualCents: number | null;
   createdAt: string;
   persons: number;
   recipeNames: string[];
@@ -56,7 +58,7 @@ export const api = {
   listMenus: () => call<{ menus: SavedMenuSummary[] }>("/api/menus"),
   getMenu: (id: string) =>
     call<{ id: string; name: string; preferences: PreferencesInput; result: MenuResult }>(`/api/menus/${id}`),
-  updateMenu: (id: string, data: { name?: string; favorite?: boolean }) =>
+  updateMenu: (id: string, data: { name?: string; favorite?: boolean; actualCents?: number | null }) =>
     call(`/api/menus/${id}`, { method: "PATCH", body: data }),
   deleteMenu: (id: string) => call(`/api/menus/${id}`, { method: "DELETE" }),
   getPantry: () => call<{ items: PantryItem[] }>("/api/pantry"),

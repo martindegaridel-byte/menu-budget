@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { CalendarClock, ListChecks, Pencil, RefreshCw, Star, UtensilsCrossed } from "lucide-react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
+import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
@@ -217,6 +218,25 @@ export function Planner({
       });
     });
 
+  // Budget mensuel (fixé dans l'Historique) : ce qu'il reste ce mois-ci et pour la semaine.
+  const [monthHint, setMonthHint] = useState<{ remainingCents: number; weeklyCents: number } | null>(null);
+  useEffect(() => {
+    let monthly: number | null = null;
+    try {
+      monthly = JSON.parse(localStorage.getItem(MONTHLY_BUDGET_KEY) ?? "null") as number | null;
+    } catch {
+      monthly = null;
+    }
+    if (!monthly) return;
+    api
+      .listMenus()
+      .then(({ menus }) => {
+        const s = monthBudgetStatus(monthly!, menus);
+        setMonthHint({ remainingCents: s.remainingCents, weeklyCents: s.weeklyCents });
+      })
+      .catch(() => setMonthHint(null));
+  }, []);
+
   // Accueil en 3 étapes à la première ouverture.
   const [onboarding, setOnboarding] = useState(false);
   useEffect(() => {
@@ -321,6 +341,7 @@ export function Planner({
             stores={stores}
             permanent={permanent}
             pantryCount={pantryCount}
+            monthHint={monthHint}
           />
           {llmEnabled && <AiRecipes prefs={prefs} />}
           {result && (

@@ -14,7 +14,7 @@ export const GET = route(async () => {
     where: { userId },
     orderBy: { createdAt: "desc" },
     take: 100,
-    select: { id: true, name: true, favorite: true, totalCents: true, budgetCents: true, createdAt: true, resultJson: true },
+    select: { id: true, name: true, favorite: true, totalCents: true, budgetCents: true, actualCents: true, createdAt: true, resultJson: true },
   });
   return {
     menus: menus.map(({ resultJson, ...m }) => {

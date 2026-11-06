@@ -162,6 +162,8 @@ model SavedMenu {
   resultJson      String
   totalCents      Int
   budgetCents     Int
+  /// Montant réellement payé (ticket de caisse), saisi après les courses
+  actualCents     Int?
   createdAt       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
