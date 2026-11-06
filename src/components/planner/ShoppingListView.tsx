@@ -1,9 +1,10 @@
 "use client";
-import { Check, Copy, PackageCheck, Share2, ShoppingBasket } from "lucide-react";
-import { useState } from "react";
+import { Check, Copy, PackageCheck, Share2, ShoppingBasket, ShoppingCart } from "lucide-react";
+import { useCallback, useState } from "react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { Button, Card, Notice, cx } from "@/components/ui";
+import { StoreMode } from "./StoreMode";
 import { describePicks, groupByAisle, shoppingListText } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
 import { formatEuros } from "@/lib/engine/money";
@@ -30,6 +31,8 @@ export function ShoppingListView({
   const toast = useToast();
   const setStatus = (title: string) => toast({ title, tone: "success" });
   const [confirm, setConfirm] = useState(false);
+  const [storeMode, setStoreMode] = useState(false);
+  const closeStore = useCallback(() => setStoreMode(false), []);
 
   const toggle = (id: string) => {
     const next = new Set(checked);
@@ -86,6 +89,12 @@ export function ShoppingListView({
           </Button>
         </div>
       </Card>
+      {toBuy.length > 0 && (
+        <Button size="lg" fullWidth icon={ShoppingCart} onClick={() => setStoreMode(true)}>
+          Mode magasin
+        </Button>
+      )}
+      {storeMode && <StoreMode lines={toBuy} checked={checked} onToggle={toggle} onClose={closeStore} storeName={storeName} />}
 
       {groupByAisle(toBuy).map((g) => (
         <Card key={g.aisle} aria-labelledby={`aisle-${g.aisle}`}>
