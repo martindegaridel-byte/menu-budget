@@ -2,7 +2,7 @@ import type { Nutrition, Preferences } from "@/lib/domain/schemas";
 import { allocateCents, divideCeil, formatEuros, type Cents } from "./money";
 import { HIGH_PROTEIN_GRAMS, energyShares } from "./nutrition";
 import { bestUnitPrice } from "./packaging";
-import { filterRecipes, REJECTION_LABELS, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
+import { filterRecipes, REJECTION_LABELS, sessionMinutesFor, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
 import { createRng } from "./rng";
 import { buildShoppingList, mergeNeeds, type CoverCache } from "./shopping";
 import type { EngineContext, Needs, ShoppingList } from "./types";
@@ -54,6 +54,12 @@ export interface PrepPlan {
   cookOnce: { recipeId: string; name: string; slots: number[]; fridgeDays: number | null }[];
   /** Bases communes à cuire ensemble (riz, pâtes…), quantité totale en unité de base. */
   sharedBases: { ingredientId: string; name: string; unit: "g" | "ml" | "piece"; quantity: number; slots: number[] }[];
+  /** Durée estimée de la session qui prépare tout le menu (minutes). */
+  sessionMinutes: number;
+  /** Soirs (0 = jour de la session) dont la portion passe au congélateur. */
+  freezeSlots: number[];
+  /** Soirs dont le plat ne tient pas jusque-là (à cuisiner frais) : vide si tout va bien. */
+  freshSlots: number[];
 }
 
 export interface MenuResult {
@@ -102,6 +108,10 @@ const OVER_CAP_PENALTY = 6;
 const DUPLICATE_PENALTY = 8;
 /** Batch cooking : bonus par soir couvert sans recuisiner, et par plat qui partage la base d'un autre. */
 const BATCH_REPEAT_BONUS = 1.5;
+/** Batch cooking : session trop longue, plat qui ne tient pas jusqu'à son soir, ingrédients partagés. */
+const SESSION_OVER_PENALTY = 10;
+const KEEP_PENALTY = 25;
+const SHARED_INGREDIENT_BONUS = 1;
 const SHARED_BASE_BONUS = 3;
 /** Bases qui se cuisent à l'avance (pas le pain ni les pâtes à tarte). */
 const COOKABLE_BASES = new Set(["pates", "riz", "pommes-de-terre", "cereales", "legumineuses"]);
@@ -130,6 +140,8 @@ class Evaluator {
     readonly meals: number,
     /** Batch cooking : un plat peut couvrir plusieurs soirs ; les bases communes sont favorisées. */
     readonly batch = false,
+    /** Batch cooking : durée maximale de la session (minutes). */
+    readonly sessionLimit = 180,
   ) {}
 
   /** Peut-on (encore) ajouter la recette `c` à ce menu ? */
@@ -194,7 +206,24 @@ class Evaluator {
       score += BATCH_REPEAT_BONUS * (covered - 1); // une cuisson de moins
       score -= DUPLICATE_PENALTY * (n - covered);
     }
-    if (this.batch) for (const n of sharedBase.values()) if (n > 1) score += SHARED_BASE_BONUS * (n - 1);
+    if (this.batch) {
+      for (const n of sharedBase.values()) if (n > 1) score += SHARED_BASE_BONUS * (n - 1);
+      const distinct = [...seen.keys()].map((i) => this.candidates[i]!);
+      // 1) Tout se prépare en une session qui tient dans le temps choisi.
+      const session = sessionMinutesFor(distinct.map((c) => c.recipe));
+      if (session > this.sessionLimit) score -= SESSION_OVER_PENALTY + (session - this.sessionLimit) / 4;
+      // 2) Chaque plat doit tenir jusqu'à son soir (les plus fragiles d'abord).
+      const caps = menu.map((i) => this.candidates[i]!.keepDays).sort((a, b) => a - b);
+      caps.forEach((cap, day) => {
+        if (cap < day) score -= KEEP_PENALTY;
+      });
+      // 3) Ingrédients communs : moins de courses, épluchage et découpe groupés.
+      const uses = new Map<string, number>();
+      for (const c of distinct) for (const id of c.needs.keys()) if (!this.ctx.ingredients.get(id)?.staple) uses.set(id, (uses.get(id) ?? 0) + 1);
+      let shared = 0;
+      for (const n of uses.values()) if (n > 1) shared += n - 1;
+      score += SHARED_INGREDIENT_BONUS * Math.min(10, shared);
+    }
     return score;
   }
 }
@@ -209,8 +238,9 @@ function batchOrder(menu: readonly number[], ev: Evaluator): number[] {
   const groups = new Map<number, number>();
   for (const i of menu) groups.set(i, (groups.get(i) ?? 0) + 1);
   return [...groups.entries()]
-    .map(([i, n], order) => ({ i, n, order, base: ev.candidates[i]!.baseIngredientId ?? "\uffff" }))
-    .sort((a, b) => a.base.localeCompare(b.base) || a.order - b.order)
+    .map(([i, n], order) => ({ i, n, order, keep: ev.candidates[i]!.keepDays, base: ev.candidates[i]!.baseIngredientId ?? "\uffff" }))
+    // Les plats qui se gardent le moins d'abord ; puis les plats qui partagent une base.
+    .sort((a, b) => a.keep - b.keep || a.base.localeCompare(b.base) || a.order - b.order)
     .flatMap(({ i, n }) => Array.from({ length: n }, () => i));
 }
 
@@ -346,7 +376,7 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   if (candidates.length === 0) return noCandidates(prefs, filtered, started);
 
   const allowRepeats = candidates.length < prefs.meals;
-  const ev = new Evaluator(candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
+  const ev = new Evaluator(candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking, prefs.batchSessionMinutes);
   const timeLimit = options.timeLimitMs ?? 1000;
   const pool = cheapPool(ev);
   const cheapest = minCostMenu(ev, prefs.meals, allowRepeats, pool, started + timeLimit * 0.5);
@@ -414,7 +444,7 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
 export function evaluateMenu(recipeIds: readonly string[], prefs: Preferences, ctx: EngineContext): MenuResult {
   const started = Date.now();
   const filtered = filterRecipes(prefs, ctx);
-  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
+  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking, prefs.batchSessionMinutes);
   const indices: number[] = [];
   const invalid: string[] = [];
   for (const id of recipeIds) {
@@ -463,7 +493,7 @@ export function swapOptions(
   limit = 12,
 ): SwapOption[] {
   const filtered = filterRecipes(prefs, ctx);
-  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, recipeIds.length, prefs.batchCooking);
+  const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, recipeIds.length, prefs.batchCooking, prefs.batchSessionMinutes);
   const idx = recipeIds.map((id) => filtered.candidates.findIndex((c) => c.recipe.id === id));
   const current = ev.evaluate(idx.filter((i) => i >= 0));
   const options: SwapOption[] = [];
@@ -605,7 +635,16 @@ function buildResult(
         const ing = ctx.ingredients.get(id);
         return { ingredientId: id, name: ing?.name ?? id, unit: ing?.unit ?? "g", quantity: Math.round(b.quantity), slots: b.slots };
       });
-    prepPlan = { cookOnce, sharedBases };
+    const distinct = [...new Set(menu)].map((i) => ev.candidates[i]!);
+    const freezeSlots: number[] = [];
+    const freshSlots: number[] = [];
+    menu.forEach((i, day) => {
+      const c = ev.candidates[i]!;
+      if (day <= (c.recipe.fridgeDays ?? 1) || (day <= 1 && c.keepDays >= day)) return;
+      if (c.recipe.freezable && c.recipe.reheats) freezeSlots.push(day);
+      else if (c.keepDays < day) freshSlots.push(day);
+    });
+    prepPlan = { cookOnce, sharedBases, sessionMinutes: sessionMinutesFor(distinct.map((c) => c.recipe)), freezeSlots, freshSlots };
   }
   const known = recipes.map((r) => r.nutrition).filter((n): n is Nutrition => !!n);
   const nutritionPerMeal: Nutrition | null =
@@ -762,7 +801,7 @@ function overBudgetDiagnostics(
   const persons = largestFitting(prefs.persons - 1, (n) => {
     const f = filterRecipes({ ...prefs, persons: n }, ctx);
     if (f.candidates.length === 0) return false;
-    const ev2 = new Evaluator(f.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking);
+    const ev2 = new Evaluator(f.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking, prefs.batchSessionMinutes);
     const m = minCostMenu(ev2, prefs.meals, f.candidates.length < prefs.meals, cheapPool(ev2), deadline);
     return !!m && ev2.evaluate(m).cost <= prefs.budgetCents;
   });

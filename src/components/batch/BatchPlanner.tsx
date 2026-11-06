@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Badge, Button, Card, CardHeader, Chip, EmptyState, Segmented, useToast } from "@/components/ds";
+import { Badge, Button, Card, CardHeader, Chip, EmptyState, Segmented, Stepper, useToast } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { api } from "@/lib/client/api";
 import type { RecipeSummary } from "@/lib/client/catalog-types";
@@ -28,28 +28,27 @@ import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"] as const;
 const SESSION_DAYS = [
-  { value: "0", label: "Dimanche" },
-  { value: "6", label: "Samedi" },
-  { value: "3", label: "Mercredi" },
+  { value: "1", label: "Lun" },
+  { value: "2", label: "Mar" },
+  { value: "3", label: "Mer" },
+  { value: "4", label: "Jeu" },
+  { value: "5", label: "Ven" },
+  { value: "6", label: "Sam" },
+  { value: "0", label: "Dim" },
 ] as const;
-/** Temps pour réchauffer une portion de restes. */
+const SESSION_LENGTHS = [
+  { value: "120", label: "2 h" },
+  { value: "150", label: "2 h 30" },
+  { value: "180", label: "3 h" },
+] as const;
+/** Temps pour réchauffer une portion. */
 const REHEAT_MINUTES = 5;
-/** Temps gagné le soir quand la base (riz, pâtes…) est déjà cuite. */
-const BASE_SAVING = 15;
 const newSeed = () => Math.floor(Math.random() * 2_147_483_647);
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const duration = (min: number) => (min < 60 ? `${min} min` : `${Math.floor(min / 60)} h${min % 60 ? ` ${String(min % 60).padStart(2, "0")}` : ""}`);
 
 /** Un plat convient au batch cooking s'il se réchauffe bien et se garde au moins 2 jours. */
 export const isBatchFriendly = (r: RecipeSummary) => r.reheats === true && (r.fridgeDays ?? 0) >= 2;
-
-interface Evening {
-  slot: number;
-  recipe: MenuResult["recipes"][number];
-  kind: "session" | "leftover" | "base" | "tonight";
-  /** Soir où le plat a été cuisiné (pour les restes). */
-  from?: number;
-}
 
 export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
   const [storedPrefs, setPrefs] = usePersistentState<Preferences>("mb:prefs", DEFAULT_PREFERENCES);
@@ -64,6 +63,7 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
   const [filter, setFilter] = useState<"tous" | "vegetarien" | "rapide">("tous");
   const toast = useToast();
   const byId = useMemo(() => new Map(recipes.map((r) => [r.id, r])), [recipes]);
+  const set = <K extends keyof Preferences>(k: K, v: Preferences[K]) => setPrefs({ ...prefs, [k]: v });
 
   const generate = async () => {
     setBusy(true);
@@ -83,58 +83,72 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
   };
 
   const plan = result?.prepPlan ?? null;
-  const hasBatch = !!result && result.recipes.length > 0 && !!plan;
+  const hasBatch = !!result && result.recipes.length > 0 && !!plan && typeof plan.sessionMinutes === "number";
+  const dayName = (slot: number) => capitalize(DAYS[(Number(sessionDay) + slot) % 7]!);
 
-  // Soir par soir : cuisiné pendant la session, restes, ou à cuisiner le soir même.
-  const evenings: Evening[] = useMemo(() => {
-    if (!result || !plan) return [];
-    const sharedSlots = new Set(plan.sharedBases.flatMap((b) => b.slots));
-    return result.recipes.map((recipe, slot) => {
-      const group = plan.cookOnce.find((g) => g.slots.includes(slot));
-      if (group && group.slots[0] !== slot) return { slot, recipe, kind: "leftover", from: group.slots[0] };
-      if (group) return { slot, recipe, kind: "session" };
-      if (sharedSlots.has(slot)) return { slot, recipe, kind: "base" };
-      return { slot, recipe, kind: "tonight" };
-    });
-  }, [result, plan]);
+  // Plats distincts de la session : les bases d'abord, puis les cuissons les plus longues (lancées en premier).
+  const dishes = useMemo(() => {
+    if (!result) return [];
+    const slotsById = new Map<string, number[]>();
+    result.recipes.forEach((r, k) => slotsById.set(r.recipeId, [...(slotsById.get(r.recipeId) ?? []), k]));
+    return [...slotsById.entries()]
+      .map(([id, slots]) => ({ id, slots, name: result.recipes[slots[0]!]!.name, info: byId.get(id) }))
+      .sort((a, b) => (b.info?.cookMinutes ?? 0) - (a.info?.cookMinutes ?? 0));
+  }, [result, byId]);
 
-  const sessionDishes = evenings.filter((e) => e.kind === "session" && plan?.cookOnce.some((g) => g.slots[0] === e.slot));
-  const sessionMinutes = useMemo(() => {
-    // Préparations actives en série ; les cuissons se chevauchent (on compte la plus longue).
-    const active = sessionDishes.reduce((a, e) => a + (byId.get(e.recipe.recipeId)?.prepMinutes ?? 15), 0);
-    const longestCook = Math.max(0, ...sessionDishes.map((e) => byId.get(e.recipe.recipeId)?.cookMinutes ?? 20), plan?.sharedBases.length ? 15 : 0);
-    return active + longestCook + (plan?.sharedBases.length ?? 0) * 5;
-  }, [sessionDishes, byId, plan]);
-  /** Temps en cuisine le soir : réchauffer, finir un plat dont la base est prête, ou tout cuisiner. */
-  const eveningMinutes = (e: Evening) =>
-    e.kind === "leftover" || e.kind === "session" ? REHEAT_MINUTES : e.kind === "base" ? Math.max(10, e.recipe.totalMinutes - BASE_SAVING) : e.recipe.totalMinutes;
-  const weekMinutes = evenings.reduce((a, e) => a + eveningMinutes(e), 0);
-  const classicMinutes = evenings.reduce((a, e) => a + e.recipe.totalMinutes, 0);
+  const freeze = new Set(plan?.freezeSlots ?? []);
+  const fresh = new Set(plan?.freshSlots ?? []);
+  const sessionMinutes = plan?.sessionMinutes ?? 0;
+  const eveningsMinutes = (result?.recipes.length ?? 1) > 1 ? ((result?.recipes.length ?? 1) - 1) * REHEAT_MINUTES : 0;
+  const classicMinutes = result?.recipes.reduce((a, r) => a + r.totalMinutes, 0) ?? 0;
+  const lastDay = result ? dayName(result.recipes.length - 1) : "";
 
-  const dayName = (slot: number) => capitalize(DAYS[(Number(sessionDay) + 1 + slot) % 7]!);
   const friendly = recipes
     .filter(isBatchFriendly)
     .filter((r) => (filter === "vegetarien" ? r.tags.includes("vegetarien") : filter === "rapide" ? r.prepMinutes <= 15 : true))
-    .sort((a, b) => (b.fridgeDays ?? 0) - (a.fridgeDays ?? 0) || a.name.localeCompare(b.name, "fr"));
+    .sort((a, b) => Number(b.freezable ?? false) - Number(a.freezable ?? false) || (b.fridgeDays ?? 0) - (a.fridgeDays ?? 0) || a.name.localeCompare(b.name, "fr"));
 
   return (
     <div className="space-y-4">
-      {/* Réglages express */}
-      <Card className="space-y-4">
+      {/* Réglages de la session */}
+      <Card className="space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <p className="text-caption text-muted">Avec vos réglages du menu</p>
+            <p className="text-caption text-muted">Budget et personnes (réglages du menu)</p>
             <p className="text-body font-semibold tabular-nums">
-              {formatEuros(prefs.budgetCents)} · {prefs.meals} soirs · {prefs.persons} pers.
+              {formatEuros(prefs.budgetCents)} · {prefs.persons} pers.
             </p>
           </div>
           <Link href="/" className="link inline-flex min-h-11 items-center gap-1 text-body-sm">
             <Pencil aria-hidden className="size-4" strokeWidth={ICON_STROKE} /> Modifier
           </Link>
         </div>
+        <Stepper
+          label="Soirs à couvrir"
+          value={prefs.meals}
+          min={2}
+          max={14}
+          onChange={(v) => set("meals", v)}
+          shortcuts={[
+            { value: 5, label: "5 soirs" },
+            { value: 7, label: "Semaine" },
+          ]}
+        />
         <div>
-          <p className="mb-2 text-caption font-medium text-muted">Jour de la session de préparation</p>
-          <Segmented label="Jour de la session de préparation" value={sessionDay} onChange={setSessionDay} options={SESSION_DAYS} />
+          <p className="mb-2 text-caption font-medium text-muted">Jour de la session</p>
+          <Segmented label="Jour de la session" value={sessionDay} onChange={setSessionDay} options={SESSION_DAYS} className="[&>button]:px-1.5" />
+        </div>
+        <div>
+          <p className="mb-2 text-caption font-medium text-muted">Temps maximum en cuisine pour la session</p>
+          <Segmented
+            label="Temps maximum de la session"
+            value={String(prefs.batchSessionMinutes)}
+            onChange={(v) => set("batchSessionMinutes", Number(v))}
+            options={SESSION_LENGTHS}
+          />
+          <p className="mt-1.5 text-caption text-subtle">
+            On choisit des plats qui partagent des ingrédients et qui se cuisent en même temps, pour tout préparer dans ce temps-là.
+          </p>
         </div>
         <Button icon={Sparkles} fullWidth size="lg" loading={busy} onClick={generate}>
           {hasBatch ? "Nouveau menu batch cooking" : "Générer mon menu batch cooking"}
@@ -146,117 +160,106 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
           <EmptyState
             icon={CookingPot}
             title={result?.recipes.length ? "Votre menu actuel n'est pas en batch cooking" : "Pas encore de menu batch cooking"}
-            description="Générez un menu : on choisit des plats qui se gardent et se réchauffent, on mutualise les bases (riz, pâtes…) et on vous donne le plan de la session."
+            description="Choisissez le jour et le temps dont vous disposez : on compose les repas des soirs suivants, à préparer en une seule session."
           />
         </Card>
       ) : (
         <>
-          {/* Résumé du gain de temps */}
           <dl className="grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-card bg-surface p-3 shadow-soft ring-1 ring-inset ring-line">
+            <div className={cn("rounded-card p-3 shadow-soft ring-1 ring-inset", sessionMinutes <= prefs.batchSessionMinutes ? "bg-surface ring-line" : "bg-warn-soft ring-warn/30")}>
               <dt className="text-caption text-muted">Session</dt>
               <dd className="text-title-3 font-semibold tabular-nums">≈ {duration(sessionMinutes)}</dd>
             </div>
             <div className="rounded-card bg-surface p-3 shadow-soft ring-1 ring-inset ring-line">
               <dt className="text-caption text-muted">Les soirs</dt>
-              <dd className="text-title-3 font-semibold tabular-nums">{duration(weekMinutes)}</dd>
+              <dd className="text-title-3 font-semibold tabular-nums">{REHEAT_MINUTES} min</dd>
             </div>
             <div className="rounded-card bg-accent-soft p-3 ring-1 ring-inset ring-accent/25">
               <dt className="text-caption text-muted">Temps gagné</dt>
-              <dd className="text-title-3 font-semibold tabular-nums text-accent-text">{duration(Math.max(0, classicMinutes - weekMinutes - sessionMinutes))}</dd>
+              <dd className="text-title-3 font-semibold tabular-nums text-accent-text">{duration(Math.max(0, classicMinutes - sessionMinutes - eveningsMinutes))}</dd>
             </div>
           </dl>
+          <p className="-mt-2 text-center text-caption text-subtle">
+            {result!.recipes.length} repas, du {DAYS[Number(sessionDay)]} soir au {lastDay.toLowerCase()} soir, pour {formatEuros(result!.totalCents)}.
+          </p>
 
-          {/* La session de préparation */}
+          {/* La session */}
           <Card aria-labelledby="session-title">
             <CardHeader
               icon={ChefHat}
               title={<span id="session-title">Session du {DAYS[Number(sessionDay)]}</span>}
-              description="Dans cet ordre : les cuissons longues tournent pendant que vous préparez la suite."
+              description="Dans cet ordre : lancez d'abord ce qui cuit longtemps, préparez la suite pendant ce temps."
             />
             <ol className="space-y-2">
               {plan!.sharedBases.map((b, k) => (
-                <Step key={b.ingredientId} n={k + 1} icon={Wheat} title={`Cuire ${formatQuantity(b.quantity, b.unit)} de ${b.name.toLowerCase()}`}>
-                  Pour les soirs {b.slots.map((s) => s + 1).join(", ")}. Laissez refroidir puis répartissez en boîtes.
+                <Step key={b.ingredientId} n={k + 1} icon={Wheat} title={`Cuire ${formatQuantity(b.quantity, b.unit)} de ${b.name.toLowerCase()} en une fois`}>
+                  Pour {b.slots.length} repas. Laissez refroidir puis répartissez dans les boîtes.
                 </Step>
               ))}
-              {sessionDishes.map((e, k) => {
-                const info = byId.get(e.recipe.recipeId);
-                const group = plan!.cookOnce.find((g) => g.slots[0] === e.slot)!;
-                return (
-                  <Step key={e.slot} n={plan!.sharedBases.length + k + 1} icon={CookingPot} title={`${e.recipe.name} pour ${group.slots.length} soirs`} href={`/recettes/${e.recipe.recipeId}?p=${result!.persons * group.slots.length}`}>
-                    {info ? `${info.prepMinutes} min de préparation, ${info.cookMinutes} min de cuisson. ` : ""}Préparez {group.slots.length * result!.persons} portions, puis gardez-les en boîtes séparées.
-                  </Step>
-                );
-              })}
-              <Step n={plan!.sharedBases.length + sessionDishes.length + 1} icon={Refrigerator} title="Ranger">
-                Étiquetez chaque boîte avec le soir prévu. Au frigo pour les premiers soirs ; au congélateur ce qui va au-delà de la durée de conservation.
+              {dishes.map((d, k) => (
+                <Step
+                  key={d.id}
+                  n={plan!.sharedBases.length + k + 1}
+                  icon={CookingPot}
+                  title={`${d.name}${d.slots.length > 1 ? ` · ${d.slots.length} repas` : ""}`}
+                  href={`/recettes/${d.id}?p=${result!.persons * d.slots.length}`}
+                >
+                  {d.info ? `${d.info.prepMinutes} min de préparation, ${d.info.cookMinutes} min de cuisson. ` : ""}
+                  {d.slots.length * result!.persons} portion{d.slots.length * result!.persons > 1 ? "s" : ""} pour {d.slots.map(dayName).join(", ").toLowerCase()}.
+                </Step>
+              ))}
+              <Step n={plan!.sharedBases.length + dishes.length + 1} icon={Refrigerator} title="Ranger">
+                Une boîte par repas, étiquetée avec le jour.{freeze.size > 0 ? ` Au congélateur : ${[...freeze].map(dayName).join(", ").toLowerCase()}.` : " Tout va au frigo."}
               </Step>
             </ol>
-            <p className="mt-3 text-caption text-subtle">Estimation : préparations à la suite, cuissons en parallèle.</p>
+            <p className="mt-3 text-caption text-subtle">Estimation : préparations à la suite, jusqu&apos;à 3 cuissons en même temps (four et 2 feux).</p>
           </Card>
 
           {/* Soir par soir */}
           <Card aria-labelledby="week-title">
             <CardHeader icon={CalendarDays} title={<span id="week-title">Soir par soir</span>} />
             <ol className="space-y-2">
-              {evenings.map((e) => (
-                <li key={e.slot} className="flex items-center gap-3 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
-                  <span className="w-20 shrink-0">
-                    <span className="block text-caption text-subtle">Soir {e.slot + 1}</span>
-                    <span className="block text-body-sm font-semibold">{dayName(e.slot)}</span>
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <Link href={`/recettes/${e.recipe.recipeId}?p=${result!.persons}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
-                      {e.recipe.name}
-                    </Link>
-                    <span className="mt-1 flex flex-wrap gap-1.5">
-                      {e.kind === "leftover" && (
-                        <Badge tone="accent" icon={Flame}>
-                          Réchauffer · {REHEAT_MINUTES} min
-                        </Badge>
-                      )}
-                      {e.kind === "session" && (
-                        <Badge tone="accent" icon={CookingPot}>
-                          Prêt · réchauffer {REHEAT_MINUTES} min
-                        </Badge>
-                      )}
-                      {e.kind === "base" && (
-                        <Badge icon={Wheat}>
-                          Base prête · {eveningMinutes(e)} min
-                        </Badge>
-                      )}
-                      {e.kind === "tonight" && <Badge icon={Timer}>À cuisiner · {e.recipe.totalMinutes} min</Badge>}
+              {result!.recipes.map((r, slot) => {
+                const info = byId.get(r.recipeId);
+                return (
+                  <li key={slot} className="flex items-center gap-3 rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+                    <span className="w-20 shrink-0">
+                      <span className="block text-caption text-subtle">{slot === 0 ? "Ce soir" : `J+${slot}`}</span>
+                      <span className="block text-body-sm font-semibold">{dayName(slot)}</span>
                     </span>
-                  </span>
-                </li>
-              ))}
+                    <span className="min-w-0 flex-1">
+                      <Link href={`/recettes/${r.recipeId}?p=${result!.persons}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
+                        {r.name}
+                      </Link>
+                      <span className="mt-1 flex flex-wrap gap-1.5">
+                        {fresh.has(slot) ? (
+                          <Badge tone="warn" icon={Timer}>
+                            À cuisiner ce soir · {r.totalMinutes} min
+                          </Badge>
+                        ) : slot === 0 ? (
+                          <Badge tone="accent" icon={UtensilsCrossed}>
+                            Tout juste prêt
+                          </Badge>
+                        ) : freeze.has(slot) ? (
+                          <Badge tone="accent" icon={Snowflake}>
+                            Congelé · sortir la veille
+                          </Badge>
+                        ) : info?.reheats === false ? (
+                          <Badge tone="accent" icon={Refrigerator}>
+                            Prêt · à manger en premier
+                          </Badge>
+                        ) : (
+                          <Badge tone="accent" icon={Flame}>
+                            Réchauffer · {REHEAT_MINUTES} min
+                          </Badge>
+                        )}
+                      </span>
+                    </span>
+                  </li>
+                );
+              })}
             </ol>
           </Card>
-
-          {/* Conservation */}
-          {plan!.cookOnce.length > 0 && (
-            <Card aria-labelledby="storage-title">
-              <CardHeader icon={Refrigerator} title={<span id="storage-title">Conservation</span>} />
-              <ul className="space-y-2">
-                {plan!.cookOnce.map((g) => {
-                  const info = byId.get(g.recipeId);
-                  return (
-                    <li key={g.recipeId} className="rounded-field bg-surface-2 p-3 text-body-sm ring-1 ring-inset ring-line">
-                      <p className="font-medium">{g.name}</p>
-                      <p className="mt-1 flex flex-wrap gap-1.5">
-                        {g.fridgeDays !== null && <Badge icon={Refrigerator}>{g.fridgeDays} jours au frigo</Badge>}
-                        {info?.freezable && <Badge icon={Snowflake}>Se congèle</Badge>}
-                        <Badge icon={CalendarDays}>
-                          {g.slots.map((s) => dayName(s).slice(0, 3)).join(", ")}
-                        </Badge>
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Card>
-          )}
         </>
       )}
 

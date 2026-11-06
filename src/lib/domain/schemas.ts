@@ -270,6 +270,8 @@ export const PreferencesSchema = z.object({
    * réchauffent) et mutualiser les bases (riz, pâtes…) entre les plats.
    */
   batchCooking: z.boolean().default(false),
+  /** Batch cooking : durée maximale de la session de préparation (minutes). */
+  batchSessionMinutes: z.number().int().min(60).max(360).default(180),
 });
 export type Preferences = z.infer<typeof PreferencesSchema>;
 export type PreferencesInput = z.input<typeof PreferencesSchema>;

@@ -47,6 +47,35 @@ export interface PreparedRecipe {
    * il faut qu'il se réchauffe bien, se garde au frigo, et que ses portions suffisent.
    */
   maxCover: number;
+  /** Batch cooking : nombre de jours après la session où le plat peut encore être servi. */
+  keepDays: number;
+}
+
+/** Au-delà, on considère le plat « sans limite » (il se congèle). */
+export const FREEZER_DAYS = 99;
+
+/**
+ * Jours après la session où le plat peut être servi : la durée au frigo, ou sans limite
+ * s'il se congèle et se réchauffe ; un plat qui ne se réchauffe pas se mange au plus
+ * le lendemain ; sans données de conservation, le jour même ou le lendemain.
+ */
+export function keepDaysFor(recipe: Pick<Recipe, "fridgeDays" | "freezable" | "reheats">): number {
+  if (recipe.reheats === undefined && recipe.fridgeDays === undefined) return 1;
+  const fridge = recipe.fridgeDays ?? 1;
+  if (recipe.reheats && recipe.freezable) return FREEZER_DAYS;
+  return recipe.reheats ? fridge : Math.min(fridge, 1);
+}
+
+/**
+ * Durée estimée d'une session qui prépare ces plats : les préparations s'enchaînent,
+ * les cuissons se chevauchent (au plus 3 en même temps : four + 2 feux).
+ */
+export function sessionMinutesFor(recipes: readonly Pick<Recipe, "prepMinutes" | "cookMinutes">[]): number {
+  if (recipes.length === 0) return 0;
+  const prep = recipes.reduce((a, r) => a + r.prepMinutes, 0);
+  const cooks = recipes.map((r) => r.cookMinutes);
+  const cookSpan = Math.max(Math.max(...cooks), Math.ceil(cooks.reduce((a, c) => a + c, 0) / 3));
+  return prep + cookSpan;
 }
 
 /** Au plus 3 soirs pour un même plat, même s'il se garde plus longtemps (on garde de la variété). */
@@ -125,6 +154,7 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       nutrition,
       baseIngredientId: facts.baseIngredientId,
       maxCover: coverFor(recipe, prefs.persons),
+      keepDays: keepDaysFor(recipe),
     });
   }
   return { candidates, rejected };

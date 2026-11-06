@@ -355,7 +355,7 @@ export function PreferencesForm({
                 Batch cooking
               </span>
               <span className="mt-0.5 block text-caption text-muted">
-                Cuisiner une fois pour 2 ou 3 soirs (plats qui se gardent et se réchauffent) et partager les bases : le riz ou les pâtes se cuisent en une fois.
+                Tout préparer en une session (réglable dans l&apos;onglet Batch) : des plats qui se gardent, partagent leurs ingrédients et se cuisent en même temps.
               </span>
             </span>
             <input type="checkbox" role="switch" className="peer sr-only" checked={prefs.batchCooking} onChange={(e) => set("batchCooking", e.target.checked)} />
