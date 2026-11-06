@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { AppNav, MobileHeader, SideNav } from "@/components/AppNav";
-import { THEME_INIT_SCRIPT, ToastProvider } from "@/components/ds";
+import { ToastProvider } from "@/components/ds";
+import { APPEARANCE_INIT_SCRIPT } from "@/lib/client/appearance";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,7 +24,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr" data-theme="dark" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        {/* Thème et personnalisation appliqués avant l'affichage (évite un éclair de couleurs). */}
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_INIT_SCRIPT }} />
       </head>
       <body>
         <ToastProvider>

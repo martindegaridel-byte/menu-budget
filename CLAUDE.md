@@ -15,7 +15,7 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
    explicitement.** Une refonte d'interface ne touche qu'à `src/components/`,
    `src/app/**/page.tsx`, `src/app/layout.tsx`, `src/app/globals.css` et aux
    helpers purement visuels.
-2. **Design** : thème sombre par défaut, accent vert émeraude, icônes
+2. **Design** : thème sombre et accent vert émeraude par défaut (personnalisables dans `/personnaliser` : accents et ambiances définis dans `globals.css`, contrastes AA vérifiés), icônes
    **lucide-react** (aucun emoji dans l'interface ni la navigation).
 3. **Accessibilité** : mobile-first, cibles tactiles ≥ 44 px, contrastes AA minimum,
    labels sur tous les champs, focus visible, navigation au clavier,
@@ -52,7 +52,7 @@ Première installation : `npm install`, `cp .env.example .env`, `npx prisma migr
 
 ## Architecture
 
-- `src/app/` — pages (`/` menu, `/batch` batch cooking, `/placard`, `/exclusions`, `/magasins`, `/historique`,
+- `src/app/` — pages (`/` menu, `/batch` batch cooking, `/placard`, `/exclusions`, `/magasins`, `/historique`, `/personnaliser`,
   `/recettes/[id]`) en composants serveur qui chargent les données puis délèguent à
   des composants client ; routes API dans `src/app/api/*` (validées par Zod).
 - `src/components/` — UI client : `ui.tsx` (Button, Card, Chips, Stepper,

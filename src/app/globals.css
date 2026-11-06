@@ -33,6 +33,11 @@
   --mb-focus: #34d399;
   --mb-overlay: rgba(5, 8, 7, 0.6);
 
+  /* Coins */
+  --mb-radius-field: 12px;
+  --mb-radius-card: 16px;
+  --mb-radius-sheet: 20px;
+
   /* Profondeur */
   --mb-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 1px rgba(0, 0, 0, 0.25);
   --mb-shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -68,6 +73,208 @@
   --mb-glass: rgba(255, 255, 255, 0.75);
 }
 
+/* ---------------------------------------------------------------------
+   Personnalisation (page « Personnaliser ») : accents et ambiances.
+   Émeraude et Forêt sont les valeurs par défaut ci-dessus.
+   --------------------------------------------------------------------- */
+:root[data-accent="ocean"] {
+  --mb-accent: #38bdf8;
+  --mb-accent-2: #0ea5e9;
+  --mb-accent-fg: #082f49;
+  --mb-accent-soft: rgba(56, 189, 248, 0.12);
+  --mb-accent-text: #7dd3fc;
+  --mb-focus: #38bdf8;
+}
+:root[data-theme="light"][data-accent="ocean"] {
+  --mb-accent-soft: rgba(14, 165, 233, 0.12);
+  --mb-accent-text: #075985;
+  --mb-focus: #0284c7;
+}
+:root[data-accent="indigo"] {
+  --mb-accent: #a5b4fc;
+  --mb-accent-2: #818cf8;
+  --mb-accent-fg: #1e1b4b;
+  --mb-accent-soft: rgba(129, 140, 248, 0.12);
+  --mb-accent-text: #a5b4fc;
+  --mb-focus: #818cf8;
+}
+:root[data-theme="light"][data-accent="indigo"] {
+  --mb-accent-soft: rgba(99, 102, 241, 0.12);
+  --mb-accent-text: #4338ca;
+  --mb-focus: #4f46e5;
+}
+:root[data-accent="violet"] {
+  --mb-accent: #c4b5fd;
+  --mb-accent-2: #a78bfa;
+  --mb-accent-fg: #2e1065;
+  --mb-accent-soft: rgba(167, 139, 250, 0.12);
+  --mb-accent-text: #c4b5fd;
+  --mb-focus: #a78bfa;
+}
+:root[data-theme="light"][data-accent="violet"] {
+  --mb-accent-soft: rgba(139, 92, 246, 0.12);
+  --mb-accent-text: #6d28d9;
+  --mb-focus: #7c3aed;
+}
+:root[data-accent="rose"] {
+  --mb-accent: #f9a8d4;
+  --mb-accent-2: #f472b6;
+  --mb-accent-fg: #500724;
+  --mb-accent-soft: rgba(244, 114, 182, 0.12);
+  --mb-accent-text: #f9a8d4;
+  --mb-focus: #f472b6;
+}
+:root[data-theme="light"][data-accent="rose"] {
+  --mb-accent-soft: rgba(236, 72, 153, 0.12);
+  --mb-accent-text: #be185d;
+  --mb-focus: #db2777;
+}
+:root[data-accent="corail"] {
+  --mb-accent: #fda4af;
+  --mb-accent-2: #fb7185;
+  --mb-accent-fg: #4c0519;
+  --mb-accent-soft: rgba(251, 113, 133, 0.12);
+  --mb-accent-text: #fda4af;
+  --mb-focus: #fb7185;
+}
+:root[data-theme="light"][data-accent="corail"] {
+  --mb-accent-soft: rgba(244, 63, 94, 0.12);
+  --mb-accent-text: #be123c;
+  --mb-focus: #e11d48;
+}
+:root[data-accent="orange"] {
+  --mb-accent: #fb923c;
+  --mb-accent-2: #f97316;
+  --mb-accent-fg: #431407;
+  --mb-accent-soft: rgba(251, 146, 60, 0.12);
+  --mb-accent-text: #fdba74;
+  --mb-focus: #fb923c;
+}
+:root[data-theme="light"][data-accent="orange"] {
+  --mb-accent-soft: rgba(249, 115, 22, 0.12);
+  --mb-accent-text: #9a3412;
+  --mb-focus: #ea580c;
+}
+:root[data-accent="ambre"] {
+  --mb-accent: #fbbf24;
+  --mb-accent-2: #f59e0b;
+  --mb-accent-fg: #451a03;
+  --mb-accent-soft: rgba(251, 191, 36, 0.12);
+  --mb-accent-text: #fcd34d;
+  --mb-focus: #fbbf24;
+}
+:root[data-theme="light"][data-accent="ambre"] {
+  --mb-accent-soft: rgba(245, 158, 11, 0.12);
+  --mb-accent-text: #92400e;
+  --mb-focus: #d97706;
+}
+:root[data-accent="citron"] {
+  --mb-accent: #a3e635;
+  --mb-accent-2: #84cc16;
+  --mb-accent-fg: #1a2e05;
+  --mb-accent-soft: rgba(163, 230, 53, 0.12);
+  --mb-accent-text: #bef264;
+  --mb-focus: #a3e635;
+}
+:root[data-theme="light"][data-accent="citron"] {
+  --mb-accent-soft: rgba(132, 204, 22, 0.12);
+  --mb-accent-text: #3f6212;
+  --mb-focus: #65a30d;
+}
+:root[data-accent="turquoise"] {
+  --mb-accent: #2dd4bf;
+  --mb-accent-2: #14b8a6;
+  --mb-accent-fg: #042f2e;
+  --mb-accent-soft: rgba(45, 212, 191, 0.12);
+  --mb-accent-text: #5eead4;
+  --mb-focus: #2dd4bf;
+}
+:root[data-theme="light"][data-accent="turquoise"] {
+  --mb-accent-soft: rgba(20, 184, 166, 0.12);
+  --mb-accent-text: #115e59;
+  --mb-focus: #0d9488;
+}
+:root[data-accent="ardoise"] {
+  --mb-accent: #cbd5e1;
+  --mb-accent-2: #94a3b8;
+  --mb-accent-fg: #0f172a;
+  --mb-accent-soft: rgba(148, 163, 184, 0.12);
+  --mb-accent-text: #cbd5e1;
+  --mb-focus: #94a3b8;
+}
+:root[data-theme="light"][data-accent="ardoise"] {
+  --mb-accent-soft: rgba(100, 116, 139, 0.12);
+  --mb-accent-text: #334155;
+  --mb-focus: #475569;
+}
+:root:not([data-theme="light"])[data-surface="nuit"] {
+  --mb-canvas: #09090b;
+  --mb-surface: #141416;
+  --mb-surface-2: #1c1c1f;
+  --mb-surface-3: #26262a;
+  --mb-glass: rgba(20, 20, 22, 0.72);
+}
+:root[data-theme="light"][data-surface="nuit"] {
+  --mb-canvas: #f4f4f5;
+  --mb-surface: #ffffff;
+  --mb-surface-2: #ececee;
+  --mb-surface-3: #e2e2e6;
+  --mb-glass: rgba(255, 255, 255, 0.75);
+}
+:root:not([data-theme="light"])[data-surface="ardoise"] {
+  --mb-canvas: #0b1020;
+  --mb-surface: #131a2e;
+  --mb-surface-2: #1a2338;
+  --mb-surface-3: #232e46;
+  --mb-glass: rgba(19, 26, 46, 0.72);
+}
+:root[data-theme="light"][data-surface="ardoise"] {
+  --mb-canvas: #f1f5f9;
+  --mb-surface: #ffffff;
+  --mb-surface-2: #e8eef5;
+  --mb-surface-3: #dbe3ee;
+  --mb-glass: rgba(255, 255, 255, 0.75);
+}
+:root:not([data-theme="light"])[data-surface="prune"] {
+  --mb-canvas: #120b14;
+  --mb-surface: #1c1320;
+  --mb-surface-2: #251a2a;
+  --mb-surface-3: #2f2235;
+  --mb-glass: rgba(28, 19, 32, 0.72);
+}
+:root[data-theme="light"][data-surface="prune"] {
+  --mb-canvas: #faf5fb;
+  --mb-surface: #ffffff;
+  --mb-surface-2: #f2e8f4;
+  --mb-surface-3: #e9dcec;
+  --mb-glass: rgba(255, 255, 255, 0.75);
+}
+:root:not([data-theme="light"])[data-surface="moka"] {
+  --mb-canvas: #120e0b;
+  --mb-surface: #1c1612;
+  --mb-surface-2: #251e18;
+  --mb-surface-3: #30271f;
+  --mb-glass: rgba(28, 22, 18, 0.72);
+}
+:root[data-theme="light"][data-surface="moka"] {
+  --mb-canvas: #faf6f0;
+  --mb-surface: #fffdf9;
+  --mb-surface-2: #f3ece2;
+  --mb-surface-3: #e9dfd2;
+  --mb-glass: rgba(255, 253, 249, 0.75);
+}
+/* Coins : doux (défaut), très arrondis, nets */
+:root[data-corners="arrondi"] {
+  --mb-radius-field: 16px;
+  --mb-radius-card: 24px;
+  --mb-radius-sheet: 28px;
+}
+:root[data-corners="net"] {
+  --mb-radius-field: 6px;
+  --mb-radius-card: 8px;
+  --mb-radius-sheet: 12px;
+}
+
 /* Tokens exposés à Tailwind : bg-canvas, bg-surface, border-line, text-muted,
    rounded-field / rounded-card / rounded-sheet, shadow-soft / shadow-lift… */
 @theme inline {
@@ -95,9 +302,9 @@
   --color-overlay: var(--mb-overlay);
   --color-glass: var(--mb-glass);
 
-  --radius-field: 12px;
-  --radius-card: 16px;
-  --radius-sheet: 20px;
+  --radius-field: var(--mb-radius-field);
+  --radius-card: var(--mb-radius-card);
+  --radius-sheet: var(--mb-radius-sheet);
 
   --shadow-soft: var(--mb-shadow-soft);
   --shadow-lift: var(--mb-shadow-lift);
@@ -106,18 +313,18 @@
   --font-numeric: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; /* chiffres tabulaires via tabular-nums */
 
   /* Échelle typographique : titres 28 / 22 / 18, corps 16 / 15, légendes 13 */
-  --text-title-1: 28px;
-  --text-title-1--line-height: 34px;
-  --text-title-2: 22px;
-  --text-title-2--line-height: 28px;
-  --text-title-3: 18px;
-  --text-title-3--line-height: 24px;
-  --text-body: 16px;
-  --text-body--line-height: 24px;
-  --text-body-sm: 15px;
-  --text-body-sm--line-height: 22px;
-  --text-caption: 13px;
-  --text-caption--line-height: 18px;
+  --text-title-1: 1.75rem;
+  --text-title-1--line-height: 2.125rem;
+  --text-title-2: 1.375rem;
+  --text-title-2--line-height: 1.75rem;
+  --text-title-3: 1.125rem;
+  --text-title-3--line-height: 1.5rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.375rem;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.125rem;
 
   --animate-toast-in: mb-toast-in 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
   --animate-pop: mb-pop 160ms cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -163,7 +370,7 @@ body {
   background: var(--mb-canvas);
   color: var(--mb-fg);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
@@ -186,6 +393,16 @@ body {
   .link {
     @apply rounded font-medium text-accent-text underline decoration-accent/40 underline-offset-4 hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus;
   }
+}
+
+/* Animations réduites : réglage « Réduire les animations » ou préférence du système */
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
