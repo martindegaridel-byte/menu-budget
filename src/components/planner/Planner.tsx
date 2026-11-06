@@ -1,10 +1,11 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CalendarClock, ListChecks, Pencil, RefreshCw, Star, UtensilsCrossed } from "lucide-react";
+import { CalendarClock, ListChecks, Pencil, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
+import { recordPurchases, relevantHikes } from "@/lib/client/priceAlerts";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
@@ -103,6 +104,7 @@ export function Planner({
       setPrefs({ ...next, recentRecipeIds: [] });
       const r = await api.generate(next, initial);
       if (!initial) remember(r.recipes.map((x) => x.recipeId), r.recipes.length);
+      recordPurchases(r.shoppingList.lines.filter((l) => l.toBuy > 0).map((l) => l.ingredientId));
       setResult(r);
       setEditing(false);
       setTab("menu");
@@ -237,6 +239,10 @@ export function Planner({
       .catch(() => setMonthHint(null));
   }, []);
 
+  // Alertes de prix : hausses sur les produits achetés souvent (dernier import Open Prices).
+  const [hikes, setHikes] = useState<ReturnType<typeof relevantHikes>>(null);
+  useEffect(() => setHikes(relevantHikes()), []);
+
   // Accueil en 3 étapes à la première ouverture.
   const [onboarding, setOnboarding] = useState(false);
   useEffect(() => {
@@ -320,6 +326,29 @@ export function Planner({
             <h1 className="text-title-1 font-semibold tracking-tight">Vos repas sur mesure</h1>
             <p className="text-body-sm text-muted">Un budget, quelques goûts : on compose des plats dont le coût en caisse le respecte, placard compris.</p>
           </header>
+          {hikes && (
+            <div role="status" className="flex items-start gap-3 rounded-card bg-danger-soft p-3.5 ring-1 ring-inset ring-danger/30">
+              <TrendingUp aria-hidden className="mt-0.5 size-5 shrink-0 text-danger-text" strokeWidth={ICON_STROKE} />
+              <div className="text-body-sm">
+                <p className="font-semibold">Hausse de prix sur des produits que vous achetez souvent</p>
+                <ul className="mt-1 space-y-0.5 text-muted">
+                  {hikes.alerts.slice(0, 3).map((h) => (
+                    <li key={h.ingredientId}>
+                      <span className="text-fg">{h.name}</span> +{h.pct} %{h.alternative ? ` · essayez ${h.alternative.name.toLowerCase()}` : ""}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                onClick={() => setHikes(null)}
+                aria-label="Masquer les alertes de prix"
+                className="focus-ring -m-1 ml-auto grid size-11 shrink-0 place-items-center rounded-full text-muted hover:text-fg"
+              >
+                <X aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+              </button>
+            </div>
+          )}
           {expiring.length > 0 && prefs.usePantry && (
             <div role="status" className="flex items-start gap-3 rounded-card bg-warn-soft p-3.5 ring-1 ring-inset ring-warn/30">
               <CalendarClock aria-hidden className="mt-0.5 size-5 shrink-0 text-warn-text" strokeWidth={ICON_STROKE} />

@@ -37,7 +37,7 @@ const json = <T>(s: string, fallback: T): T => {
   }
 };
 
-function toPackage(p: {
+export function toPackage(p: {
   id: string;
   ingredientId: string;
   label: string;

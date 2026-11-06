@@ -2,7 +2,9 @@ import { z } from "zod";
 import { bestUnitPrice } from "@/lib/engine/packaging";
 import { matchOpenPrices, parseLocationId } from "@/lib/pricing/openprices";
 import { fetchOpenPrices, fetchOpenPricesLocation, OPEN_PRICES_BASE } from "@/lib/pricing/openprices-client";
-import { getCatalog, getStore } from "@/lib/server/catalog";
+import { priceChanges } from "@/lib/pricing/priceChanges";
+import { resolvePriceBook } from "@/lib/pricing/priceBook";
+import { getCatalog, getStore, toPackage } from "@/lib/server/catalog";
 import { prisma } from "@/lib/server/db";
 import { HttpError, parseBody, route } from "@/lib/server/http";
 import { getCurrentUserId } from "@/lib/server/user";
@@ -40,6 +42,11 @@ export const POST = route(async (req: Request) => {
 
   const catalog = await getCatalog();
   const report = matchOpenPrices(prices, catalog.ingredientsById, catalog.referencePackages, store.id, { since });
+
+  // Alertes de prix : comparaison avec l'import précédent (variations d'au moins 10 %).
+  const previous = (await prisma.package.findMany({ where: { userId, storeId: store.id, source: "openprices" } })).map(toPackage);
+  const book = resolvePriceBook({ referencePackages: catalog.referencePackages, store, storePackages: report.packages });
+  const changes = priceChanges(previous, report.packages, catalog.ingredientsById, book);
 
   await prisma.$transaction([
     prisma.package.deleteMany({ where: { userId, storeId: store.id, source: "openprices" } }),
@@ -86,6 +93,7 @@ export const POST = route(async (req: Request) => {
     totalIngredients: catalog.ingredients.length,
     rejectedAsImplausible: report.rejectedAsImplausible,
     ignoredExpensive: report.rejectedAsExpensive,
+    priceChanges: changes,
     items,
   };
 });

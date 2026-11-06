@@ -1,6 +1,7 @@
 "use client";
 import { Download, ScanLine } from "lucide-react";
-import { CardHeader } from "@/components/ds";
+import { Badge, CardHeader } from "@/components/ds";
+import { savePriceAlerts } from "@/lib/client/priceAlerts";
 import { useId, useState } from "react";
 import { Button, Card, Notice } from "@/components/ui";
 import { api, type OpenPricesImport } from "@/lib/client/api";
@@ -24,6 +25,7 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
     try {
       const r = await api.importOpenPrices(storeId, value);
       setReport(r);
+      savePriceAlerts(storeName, r.priceChanges ?? []);
       setSaved({ ...saved, [storeId]: value });
       onImported();
     } catch (e) {
@@ -67,6 +69,25 @@ export function OpenPricesImporter({ storeId, storeName, onImported }: { storeId
               {report.fetched} relevés depuis le {new Date(report.since).toLocaleDateString("fr-FR")} à {report.location.name}. Les autres ingrédients gardent
               les estimations.
             </Notice>
+            {(report.priceChanges ?? []).length > 0 && (
+              <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
+                <p className="mb-2 text-body-sm font-semibold">Depuis le dernier import</p>
+                <ul className="space-y-1.5 text-body-sm">
+                  {report.priceChanges.map((c) => (
+                    <li key={c.ingredientId} className="flex flex-wrap items-center justify-between gap-2">
+                      <span>
+                        {c.name}
+                        {c.alternative && <span className="block text-caption text-muted">Alternative moins chère : {c.alternative.name}</span>}
+                      </span>
+                      <Badge tone={c.pct > 0 ? "danger" : "accent"}>
+                        {c.pct > 0 ? "+" : "−"}
+                        {Math.abs(c.pct)} %
+                      </Badge>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {report.ignoredExpensive > 0 && (
               <p className="text-body-sm text-muted">
                 {report.ignoredExpensive} prix trop chers par rapport au prix habituel (marques chères, bio…) ont été ignorés : pour ces produits, le prix

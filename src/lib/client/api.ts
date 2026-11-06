@@ -1,4 +1,5 @@
 import type { Profile } from "@/lib/domain/profile";
+import type { PriceChange } from "@/lib/pricing/priceChanges";
 import type { PantryItem, PreferencesInput, Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 
@@ -37,6 +38,8 @@ export interface OpenPricesImport {
   totalIngredients: number;
   rejectedAsImplausible: number;
   ignoredExpensive: number;
+  /** Variations d'au moins 10 % depuis l'import précédent. */
+  priceChanges: PriceChange[];
   items: OpenPricesItem[];
 }
 export interface OpenPricesItem {
