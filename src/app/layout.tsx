@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { AppNav, MobileHeader, SideNav } from "@/components/AppNav";
+import { PwaSupport } from "@/components/PwaSupport";
 import { ToastProvider } from "@/components/ds";
 import { APPEARANCE_INIT_SCRIPT } from "@/lib/client/appearance";
 import "./globals.css";
@@ -9,11 +10,19 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Menu Budget — repas sur mesure à petit prix",
   description: "Composez vos repas selon votre budget, vos goûts et votre placard, avec la liste de courses.",
+  manifest: "/manifest.webmanifest",
+  applicationName: "Menu Budget",
+  appleWebApp: { capable: true, title: "Menu Budget", statusBarStyle: "black-translucent" },
+  icons: {
+    icon: [{ url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f5f8f6" },
     { media: "(prefers-color-scheme: dark)", color: "#0b0f0e" },
@@ -35,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Aller au contenu
           </a>
+          <PwaSupport />
           <MobileHeader />
           <SideNav />
           <div className="lg:pl-64">

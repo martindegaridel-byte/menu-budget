@@ -104,6 +104,12 @@ export function Planner({
       requestAnimationFrame(() => resultRef.current?.focus());
     });
 
+  // Raccourci de l'appli installée : /?courses=1 ouvre directement la liste de courses.
+  const coursesParam = search.get("courses");
+  useEffect(() => {
+    if (coursesParam) setTab("courses");
+  }, [coursesParam]);
+
   // Ouverture d'un menu de l'historique : /?menu=<id>
   const menuParam = search.get("menu");
   useEffect(() => {
