@@ -24,6 +24,11 @@
   "license": "CC BY-SA 3.0",
   "page": "https://commons.wikimedia.org/wiki/File:Parmigiana_di_melanzane-cer.JPG"
  },
+ "bananes-poelees-miel": {
+  "author": "Andy Li",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Caramel_Hazelnut_Banana_Bread_with_Yoghurt_-_Moksha_Caff%C3%A8_2023-09-13.jpg"
+ },
  "banh-mi-tofu": {
   "author": "Andy Li",
   "license": "CC0",
@@ -84,6 +89,11 @@
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:B%C3%BAn_%C4%91%E1%BA%ADu_m%E1%BA%AFm_t%C3%B4m.jpg"
  },
+ "bol-yaourt-muesli": {
+  "author": "Papathanasiouk",
+  "license": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Home_prepared_yoghurt_and_muesli_with_berries.JPG"
+ },
  "bolognaise-lentilles": {
   "author": "Katrin Gilger",
   "license": "CC BY-SA 2.0",
@@ -118,6 +128,11 @@
   "author": "Bopuc",
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Brandade_de_morue_%C3%A0_la_pur%C3%A9e_de_pommes_de_terre_et_%C5%93ufs_b%C3%A9n%C3%A9dictes.jpg"
+ },
+ "brownie": {
+  "author": "JefferySAC",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chocolate-brownie-hachatw.jpg"
  },
  "buddha-bowl-quinoa": {
   "author": "PizzaMan",
@@ -199,6 +214,16 @@
   "license": "CC BY 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Brussels_sprouts_-_Mussel_Bar_-_Ballston_-_2018_-_Sarah_Stierch_01.jpg"
  },
+ "clafoutis-fruits-rouges": {
+  "author": "Popo le Chien",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clafoutis_cerises.jpg"
+ },
+ "clementines-cannelle": {
+  "author": "Rhododendrites",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Clementines_(01014)s.jpg"
+ },
  "colin-provencale": {
   "author": "Armineaghayan",
   "license": "CC BY-SA 4.0",
@@ -213,6 +238,16 @@
   "author": "Arnaud 25",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Colombo_004.jpg"
+ },
+ "compote-pommes-poires": {
+  "author": "Taken",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Apple-sauce-544676.jpg"
+ },
+ "cookies-chocolat": {
+  "author": "Evan-Amos",
+  "license": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Choc-Chip-Cookie.jpg"
  },
  "courgettes-farcies": {
   "author": "Justwiki",
@@ -234,10 +269,25 @@
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Chicken_couscous_in_Tangier.jpg"
  },
+ "creme-dessert-chocolat": {
+  "author": "Thomson200",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Swiss_MIss_Chocolate_Vanilla_Swirl_pudding_cup.jpg"
+ },
+ "crepes-petit-dej": {
+  "author": "Line 1921",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cr%C3%AApe_%C3%A0_la_confiture_de_fruit.jpg"
+ },
  "crepes-salees": {
   "author": "Geoff Peters from Vancouver, BC, Canada",
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Ham_and_cheese_crepe_(3275485711).jpg"
+ },
+ "crepes-sucrees": {
+  "author": "Ka23 13",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:CrepeSuzette_20220507_205653.jpg"
  },
  "croque-monsieur": {
   "author": "Ruth Hartnup",
@@ -248,6 +298,11 @@
   "author": "Arnaud 25",
   "license": "Public domain",
   "page": "https://commons.wikimedia.org/wiki/File:Tartiflette_2.jpg"
+ },
+ "crumble-pommes": {
+  "author": "Jonathan Harker",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:British_apple_crumble_05.jpg"
  },
  "curry-japonais-legumes": {
   "author": "Ocdp",
@@ -304,6 +359,11 @@
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Hummus,_falafel,_pita_bread,_and_mafrouka_at_Agasi,_Lajpat_Nagar_(July_2025).jpg"
  },
+ "far-breton": {
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Far_breton_03.jpg"
+ },
  "fasolada": {
   "author": "Miansari66",
   "license": "CC0",
@@ -324,15 +384,30 @@
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Crispy_skin_Kuterra_salmon_with_locally_foraged_BC_mushroom_barley_risotto,_blistered_kale,_and_fennel_orange_puree.jpg"
  },
+ "flan-patissier": {
+  "author": "Shanti, shanti",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Custard_tart_emerging_from_wrapper.jpg"
+ },
  "foies-volaille-persillade": {
   "author": "Marie from Malang, East Java, Indonesia",
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Balsamic_Chicken_Livers_(16023748071).jpg"
  },
+ "fondant-chocolat": {
+  "author": "Rogi.Official",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fondant_au_Chocolat_1.jpg"
+ },
  "frittata-spaghetti": {
   "author": "Key West Wedding Photography",
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Frittata_04.jpg"
+ },
+ "fromage-blanc-kiwi-miel": {
+  "author": "Brenda Godinez cravethebenefits",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Chia_jars_with_bleuberries_(Unsplash).jpg"
  },
  "galette-sarrasin-champignons": {
   "author": "Melinda Legendre",
@@ -353,6 +428,16 @@
   "author": "GwennVienn",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Mac_MG_5988.jpg"
+ },
+ "gateau-poires": {
+  "author": "Arnaud 25",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:G%C3%A2teau_de_m%C3%A9nage_09.jpg"
+ },
+ "gateau-yaourt": {
+  "author": "Infrogmation of New Orleans",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Earl_Grey_Tea_Greek_Yogurt_Cake.jpg"
  },
  "gigantes-plaki": {
   "author": "Hevesli",
@@ -378,6 +463,11 @@
   "author": "Alpha",
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Baked_Gnocchi_with_Taleggio_Cheese_and_Crispy_Sage_at_Il_Fornaio_in_Kilda.jpg"
+ },
+ "granola-maison": {
+  "author": "Karen and Brad Emerson",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Homemade_granola_(12272245254).jpg"
  },
  "gratin-chou-fleur": {
   "author": "Andy / Andrew Fogg from near Cambridge, UK",
@@ -549,6 +639,21 @@
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Byblos_Harbour,_Millwall,_London_(3639283205).jpg"
  },
+ "mousse-chocolat": {
+  "author": "Bin im Garten",
+  "license": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mousse_au_Chocolat_2010_006.JPG"
+ },
+ "muffins-banane-avoine": {
+  "author": "Shisma",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Banana_bread_slices.jpg"
+ },
+ "muffins-myrtilles": {
+  "author": "W.carter",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Plain_vanilla_muffin_in_Tuntorp.jpg"
+ },
  "mujaddara": {
   "author": "Tamorlan",
   "license": "CC BY-SA 3.0",
@@ -578,6 +683,11 @@
   "author": "Andy Li",
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Scrambled_eggs_on_toast_-_Joe%27s_Cafe_2024-04-14.jpg"
+ },
+ "oeufs-coque-mouillettes": {
+  "author": "Syced",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Mouillette.jpg"
  },
  "oeufs-poches-tomate-chorizo": {
   "author": "Andy Li",
@@ -619,6 +729,11 @@
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Nargesi_omelette.jpg"
  },
+ "overnight-oats": {
+  "author": "Original description was: I, VirtualSteve took this photo…",
+  "license": "CC BY-SA 2.5",
+  "page": "https://commons.wikimedia.org/wiki/File:Muesli.jpg"
+ },
  "pad-thai-crevettes": {
   "author": "P1898",
   "license": "CC BY 4.0",
@@ -633,6 +748,16 @@
   "author": "2020 kamilo",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Paella_kamilo.jpg"
+ },
+ "pain-perdu": {
+  "author": "Ocdp",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:French_toast_001.jpg"
+ },
+ "pancakes": {
+  "author": "Infrogmation of New Orleans",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Plate_with_pancakes_with_syrup.jpg"
  },
  "pasta-e-ceci": {
   "author": "valtercirillo",
@@ -709,6 +834,11 @@
   "license": "Public domain",
   "page": "https://commons.wikimedia.org/wiki/File:BakedPotatoWithButter.jpg"
  },
+ "peches-fromage-blanc": {
+  "author": "Evelyn-rose",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peach-Melba-1.jpg"
+ },
  "penne-arrabbiata": {
   "author": "Petar Milošević",
   "license": "CC BY-SA 4.0",
@@ -774,6 +904,11 @@
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Scallops,_crispy_prosciutto,_peas,_and_lemon_confit_-_Auckland,_New_Zealand.jpg"
  },
+ "poires-chocolat": {
+  "author": "Comrade Foot from Taastrup, Greater Copenhagen Region, De…",
+  "license": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Poire_belle_H%C3%A9l%C3%A8ne.jpg"
+ },
  "poisson-pane-puree": {
   "author": "Superbass",
   "license": "CC BY-SA 4.0",
@@ -794,6 +929,11 @@
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Lunch_of_polenta,_sausages_and_tomato_sauce.jpg"
  },
+ "pommes-au-four": {
+  "author": "Andrey Korzun",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
+ },
  "porc-caramel": {
   "author": "Baoothersks",
   "license": "CC BY-SA 4.0",
@@ -803,6 +943,16 @@
   "author": "대경라이프",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Jeyuk-bokkeum_4.jpg"
+ },
+ "porridge-avoine-pomme": {
+  "author": "Shisma",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Apple_cinnamon_oatmeal.jpg"
+ },
+ "porridge-banane": {
+  "author": "Shisma",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Banana_oatmeal_2.jpg"
  },
  "potage-potimarron": {
   "author": "Cala cala_maffia",
@@ -868,6 +1018,11 @@
   "author": "Arnaud 25",
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Poulet_yassa_01.jpg"
+ },
+ "quatre-quarts": {
+  "author": "Kimberly Vardeman",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Almond_pound_cake,_angled_profile.jpg"
  },
  "quesadillas-poulet": {
   "author": "Photograph by Mike Peel ( www.mikepeel.net )",
@@ -939,6 +1094,11 @@
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Pea_Risotto_with_Lemon_and_Basil_(4355548435).jpg"
  },
+ "riz-au-lait": {
+  "author": "Silar",
+  "license": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:02023_1271_Rice_puddings.jpg"
+ },
  "riz-cantonais": {
   "author": "Peachyeung316",
   "license": "CC BY-SA 4.0",
@@ -958,6 +1118,11 @@
   "author": "Grendelkhan",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Pineapple_fried_rice_at_Banana_Leaf_in_Milpitas,_California.jpg"
+ },
+ "rochers-coco": {
+  "author": "snowpea&bokchoi",
+  "license": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sofra_Coconut_macaroon,_October_2009.jpg"
  },
  "roti-porc-pdt": {
   "author": "Sara Goldsmith",
@@ -993,6 +1158,11 @@
   "author": "Arnaud 25",
   "license": "CC BY-SA 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Salade_de_ch%C3%A8vre_chaud_002.jpg"
+ },
+ "salade-fruits": {
+  "author": "dnm",
+  "license": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Fruktsallad_(Fruit_salad).jpg"
  },
  "salade-grecque-boulgour": {
   "author": "https://www.flickr.com/photos/zone41/",
@@ -1044,10 +1214,20 @@
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Salmon,_tomato,_mashed_potato,_broccoli,_mushrooms,_and_corn_-_Massachusetts.jpg"
  },
+ "semoule-au-lait": {
+  "author": "Dezidor",
+  "license": "CC BY 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Krupicov%C3%A1_ka%C5%A1e.jpeg"
+ },
  "shakshuka": {
   "author": "Joe Mahoney",
   "license": "CC BY 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Shakshuka1.jpg"
+ },
+ "smoothie-banane-fruits-rouges": {
+  "author": "Katrin Gilger",
+  "license": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Banana,_Berries_%26_Buttermilk_(4389522814).jpg"
  },
  "sopa-tortilla-haricots": {
   "author": "Wikiwrimo",
@@ -1159,6 +1339,11 @@
   "license": "CC BY-SA 2.0",
   "page": "https://commons.wikimedia.org/wiki/File:Tamagodon.jpg"
  },
+ "tarte-pommes": {
+  "author": "W.carter",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Apple_cake_with_vanilla_ice_cream_2.jpg"
+ },
  "tarte-tomate-moutarde": {
   "author": "Benoît Prieur",
   "license": "CC0",
@@ -1178,6 +1363,16 @@
   "author": "Sarah Stierch",
   "license": "CC BY 4.0",
   "page": "https://commons.wikimedia.org/wiki/File:Avocado_toast_at_the_girl_%26_the_fig_-_Sarah_Stierch.jpg"
+ },
+ "tartines-cacahuete-banane": {
+  "author": "Daderot",
+  "license": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Peanut_butter_and_banana_on_toasted_homemade_bread_-_Massachusetts.jpg"
+ },
+ "tiramisu": {
+  "author": "Anna.Massini",
+  "license": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dolce_Tiramis%C3%B9_monoporzione.jpg"
  },
  "tofu-braise-coreen": {
   "author": "Melsj",
@@ -1243,5 +1438,10 @@
   "author": "Andy Li",
   "license": "CC0",
   "page": "https://commons.wikimedia.org/wiki/File:Chicken_yakisoba_-_Korpan.jpg"
+ },
+ "yaourt-grec-miel-amandes": {
+  "author": "ProjectManhattan",
+  "license": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Greek_yoghurt_with_honey.jpg"
  }
 }

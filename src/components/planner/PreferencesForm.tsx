@@ -140,7 +140,9 @@ export function PreferencesForm({
   const lunch = prefs.lunchPortions ?? 0;
   const eaters = prefs.persons + lunch;
   const portions = Math.max(1, prefs.meals * eaters);
-  const perMeal = divideCeil(prefs.budgetCents, portions);
+  // Repère : un dessert ≈ 0,60 € et un petit-déjeuner ≈ 0,70 € par personne, pris sur le budget des dîners.
+  const extrasEstimate = prefs.persons * (60 * (prefs.desserts ?? 0) + 70 * (prefs.breakfasts ?? 0));
+  const perMeal = divideCeil(Math.max(0, prefs.budgetCents - extrasEstimate), portions);
   const via = viability(perMeal, eaters);
   const vs = VIABILITY_STYLE[via.tone];
   // Échelle du curseur adaptée au nombre de portions, avec les zones « très serré / serré / confortable ».
@@ -167,7 +169,7 @@ export function PreferencesForm({
         icon={Wallet}
         title="Budget et repas"
         defaultOpen
-        summary={`${formatEuros(prefs.budgetCents)} · ${prefs.meals} repas · ${prefs.persons} pers.${lunch ? ` + ${lunch} midi` : ""} · ≈ ${formatEuros(perMeal)} / repas`}
+        summary={`${formatEuros(prefs.budgetCents)} · ${prefs.meals} repas · ${prefs.persons} pers.${lunch ? ` + ${lunch} midi` : ""}${prefs.desserts ? ` · ${prefs.desserts} dessert${prefs.desserts > 1 ? "s" : ""}` : ""}${prefs.breakfasts ? ` · ${prefs.breakfasts} p'tit déj` : ""} · ≈ ${formatEuros(perMeal)} / repas`}
       >
         <div className="space-y-5">
           <div>
@@ -278,6 +280,31 @@ export function PreferencesForm({
               />
               <p className="mt-1.5 text-caption text-muted">Chaque dîner est cuisiné en plus grande quantité : la gamelle du lendemain est comprise dans le budget.</p>
             </div>
+            <Stepper
+              label="Desserts"
+              value={prefs.desserts ?? 0}
+              min={0}
+              max={14}
+              onChange={(v) => set("desserts", v)}
+              shortcuts={[
+                { value: 0, label: "Aucun" },
+                { value: prefs.meals, label: "1 par dîner" },
+              ]}
+            />
+            <Stepper
+              label="Petits-déjeuners"
+              value={prefs.breakfasts ?? 0}
+              min={0}
+              max={14}
+              onChange={(v) => set("breakfasts", v)}
+              shortcuts={[
+                { value: 0, label: "Aucun" },
+                { value: 7, label: "Semaine" },
+              ]}
+            />
+            <p className="-mt-3 text-caption text-muted sm:col-span-2">
+              Pour {prefs.persons} personne{prefs.persons > 1 ? "s" : ""}, compris dans le budget : les dîners passent en priorité, puis desserts et petits-déjeuners profitent des ingrédients déjà achetés.
+            </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Magasin" htmlFor={storeId} icon={StoreIcon}>

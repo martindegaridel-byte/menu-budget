@@ -150,21 +150,37 @@ function ingredientViolation(ingredientId: string, prefs: Constraints, ctx: Engi
   return null;
 }
 
-/** Applique les contraintes dures et calcule les besoins de chaque recette pour `persons`. */
-export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterResult {
+/** Type de plat : dîner (par défaut), dessert ou petit-déjeuner (étiquette de la recette). */
+export type Course = "plat" | "dessert" | "petit-dejeuner";
+export function courseOf(recipe: Pick<Recipe, "tags">): Course {
+  if (recipe.tags.includes("dessert")) return "dessert";
+  if (recipe.tags.includes("petit-dejeuner")) return "petit-dejeuner";
+  return "plat";
+}
+
+/** Temps maximal d'un dessert ou petit-déjeuner : souvent préparé à l'avance, il n'est pas limité par celui des dîners. */
+export const EXTRA_MIN_MINUTES = 60;
+
+/**
+ * Applique les contraintes dures et calcule les besoins de chaque recette du type demandé :
+ * dîners pour `persons` (+ portions du midi), desserts et petits-déjeuners pour `persons`.
+ */
+export function filterRecipes(prefs: Preferences, ctx: EngineContext, course: Course = "plat"): FilterResult {
   const candidates: PreparedRecipe[] = [];
   const rejected: FilterResult["rejected"] = [];
+  const maxMinutes = course === "plat" ? prefs.maxTotalMinutes : Math.max(prefs.maxTotalMinutes, EXTRA_MIN_MINUTES);
 
   for (const recipe of ctx.recipes) {
+    if (courseOf(recipe) !== course) continue;
     const reasons = new Set<RejectionReason>();
-    if (recipe.prepMinutes + recipe.cookMinutes > prefs.maxTotalMinutes) reasons.add("temps");
+    if (recipe.prepMinutes + recipe.cookMinutes > maxMinutes) reasons.add("temps");
     if (recipe.difficulty > prefs.maxDifficulty) reasons.add("difficulte");
     if (!recipe.equipment.every((e) => prefs.equipment.includes(e))) reasons.add("equipement");
 
     const needs: Needs = new Map();
     const optionalNeeds: Needs = new Map();
     const droppedOptional: string[] = [];
-    const portions = portionsPerMeal(prefs);
+    const portions = course === "plat" ? portionsPerMeal(prefs) : prefs.persons;
     const factor = portions / recipe.baseServings;
     const substituted: { from: string; to: string }[] = [];
     for (const line of recipe.ingredients) {

@@ -231,3 +231,54 @@ describe("mode fin de mois", () => {
     expect(cheap.diagnostics[0]!.code).toBe("cheapest-mode");
   });
 });
+
+describe("desserts et petits-déjeuners", () => {
+  it("les ajoute sans jamais dépasser le budget, et les dîners restent des plats", () => {
+    for (const seed of [1, 2, 3, 4]) {
+      const p = prefs({ budgetCents: 6000, meals: 5, persons: 2, desserts: 3, breakfasts: 4, seed });
+      const res = optimizeMenu(p, ctx);
+      expect(res.totalCents).toBeLessThanOrEqual(6000);
+      expect(res.totalCents).toBe(res.shoppingList.totalCents);
+      expect(res.recipes).toHaveLength(5);
+      expect(res.recipes.every((r) => !ctx.recipes.find((x) => x.id === r.recipeId)!.tags.some((t) => t === "dessert" || t === "petit-dejeuner"))).toBe(true);
+      expect(res.extras.filter((e) => e.course === "dessert")).toHaveLength(3);
+      expect(res.extras.filter((e) => e.course === "petit-dejeuner")).toHaveLength(4);
+      const sum = [...res.recipes, ...res.extras].reduce((a, r) => a + r.allocatedCents, 0);
+      expect(sum).toBe(res.totalCents);
+    }
+  });
+
+  it("varie les desserts", () => {
+    const res = optimizeMenu(prefs({ budgetCents: 6000, meals: 5, persons: 2, desserts: 4 }), ctx);
+    expect(new Set(res.extras.map((e) => e.recipeId)).size).toBe(4);
+  });
+
+  it("en prévoit moins quand le budget est trop juste, et le dit", () => {
+    const base = optimizeMenu(prefs({ budgetCents: 2000, meals: 5, persons: 2 }), ctx);
+    const res = optimizeMenu(prefs({ budgetCents: base.totalCents + 50, meals: 5, persons: 2, desserts: 7 }), ctx);
+    expect(res.totalCents).toBeLessThanOrEqual(base.totalCents + 50);
+    expect(res.extras.length).toBeLessThan(7);
+    expect(res.diagnostics.some((d) => d.code === "extras")).toBe(true);
+  });
+
+  it("respecte le régime et les allergies", () => {
+    const p = prefs({ budgetCents: 6000, meals: 4, persons: 2, desserts: 4, breakfasts: 4, diet: "vegan", allergens: ["gluten"] });
+    const res = optimizeMenu(p, ctx);
+    for (const e of res.extras) {
+      const r = ctx.recipes.find((x) => x.id === e.recipeId)!;
+      for (const l of r.ingredients.filter((x) => !x.optional)) {
+        const ing = ctx.ingredients.get(l.ingredientId)!;
+        expect(ing.allergens).not.toContain("gluten");
+        expect(ing.animal === null || ing.animal === undefined).toBe(true);
+      }
+    }
+  });
+
+  it("garde les desserts quand on réévalue le menu", () => {
+    const p = prefs({ budgetCents: 5000, meals: 4, persons: 2, desserts: 2 });
+    const res = optimizeMenu(p, ctx);
+    const again = evaluateMenu([...res.recipes, ...res.extras].map((r) => r.recipeId), { ...p, persons: 3 }, ctx);
+    expect(again.extras.map((e) => e.recipeId)).toEqual(res.extras.map((e) => e.recipeId));
+    expect(again.recipes).toHaveLength(4);
+  });
+});

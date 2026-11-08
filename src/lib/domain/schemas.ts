@@ -21,6 +21,7 @@ export const AISLES = {
   cremerie: "Crèmerie, œufs & fromages",
   vegetal: "Rayon végétal",
   "epicerie-salee": "Épicerie salée",
+  "epicerie-sucree": "Épicerie sucrée & petit-déjeuner",
   conserves: "Conserves",
   monde: "Produits du monde",
   condiments: "Huiles, condiments & épices",
@@ -280,6 +281,10 @@ export const PreferencesSchema = z.object({
   lunchPortions: z.number().int().min(0).max(12).default(0),
   /** Mode « fin de mois » : le menu le moins cher possible (placard d'abord). */
   cheapestMode: z.boolean().default(false),
+  /** Desserts à prévoir sur la période (compris dans le budget). */
+  desserts: z.number().int().min(0).max(14).default(0),
+  /** Petits-déjeuners à prévoir sur la période (compris dans le budget). */
+  breakfasts: z.number().int().min(0).max(14).default(0),
   /** Batch cooking : durée maximale de la session de préparation (minutes). */
   batchSessionMinutes: z.number().int().min(60).max(360).default(180),
 });

@@ -9,10 +9,14 @@ import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
 import { Button, Card, Notice } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption } from "@/lib/client/catalog-types";
+
 import { usePersistentState } from "@/lib/client/storage";
 import type { Preferences, Store, StoreFormat } from "@/lib/domain/schemas";
 import { formatEuros } from "@/lib/engine/money";
 import { formatQuantity } from "@/lib/engine/units";
+
+/** Magasins proposés à tous (non supprimables). */
+const SHARED_STORES = new Set(["super-u-saint-pierre", "intermarche-super"]);
 
 const CHAINS = ["Intermarché", "E.Leclerc", "Carrefour", "Auchan", "Super U", "Lidl", "Aldi", "Monoprix", "Franprix", "Netto", "Autre"];
 const FORMATS: [StoreFormat, string][] = [
@@ -94,14 +98,14 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
                     </span>
                   </span>
                 </label>
-                {s.id !== "intermarche-super" && (
+                {!SHARED_STORES.has(s.id) && (
                   <IconButton
                     icon={Trash2}
                     label={`Supprimer ${s.name}`}
                     className="text-muted hover:bg-danger-soft hover:text-danger-text"
                     onClick={async () => {
                       await api.deleteStore(s.id);
-                      if (s.id === activeId) setPrefs({ ...prefs, storeId: "intermarche-super" });
+                      if (s.id === activeId) setPrefs({ ...prefs, storeId: DEFAULT_PREFERENCES.storeId });
                       await reload();
                     }}
                   />

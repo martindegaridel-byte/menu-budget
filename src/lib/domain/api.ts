@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ScheduleSchema } from "@/lib/reminders";
 import { PantryItemSchema, PreferencesSchema, StoreFormatSchema } from "./schemas";
 
-const recipeIds = z.array(z.string().min(1)).min(1).max(21);
+const recipeIds = z.array(z.string().min(1)).min(1).max(50); // dîners + desserts + petits-déjeuners
 
 export const GenerateRequestSchema = z.object({
   preferences: PreferencesSchema,

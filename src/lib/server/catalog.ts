@@ -15,7 +15,7 @@ import { loadSeedData } from "@/lib/data/seed";
 import { resolvePriceBook, type PriceProvider } from "@/lib/pricing/priceBook";
 import { prisma } from "./db";
 
-export const DEFAULT_STORE_ID = "intermarche-super";
+export const DEFAULT_STORE_ID = "super-u-saint-pierre";
 export const REFERENCE_CHAIN = "intermarche";
 
 interface Catalog {

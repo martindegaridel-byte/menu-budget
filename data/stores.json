@@ -9,6 +9,7 @@
     "autre": 100
   },
   "stores": [
-    { "id": "intermarche-super", "name": "Intermarché Super (mon magasin)", "chain": "intermarche", "format": "super", "priceIndex": 100 }
+    { "id": "super-u-saint-pierre", "name": "Super U Saint-Pierre (mon magasin)", "chain": "systeme-u", "format": "super", "city": "Marseille 5e, 95 bd Sakakini", "priceIndex": 100 },
+    { "id": "intermarche-super", "name": "Intermarché Super", "chain": "intermarche", "format": "super", "priceIndex": 100 }
   ]
 }

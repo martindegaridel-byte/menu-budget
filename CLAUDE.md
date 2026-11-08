@@ -3,7 +3,9 @@
 Application web mobile-first : l'utilisateur donne un **budget**, un nombre de
 **repas** (1 repas = 1 plat, en pratique des dîners) et ses contraintes ; l'app
 compose des menus dont le coût **en caisse** respecte strictement le budget, puis
-génère la liste de courses. Prix de référence : **Intermarché** (Super par défaut),
+génère la liste de courses, avec en option desserts et petits-déjeuners (compris dans le
+budget). Magasin par défaut : **Super U Saint-Pierre** (Marseille 5e), mêmes prix estimés que
+la référence **Intermarché** (indice 100),
 multi-magasins, avec import des prix réels **Open Prices**. Le **placard** de
 l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliquent
 à tous les menus.
@@ -81,7 +83,9 @@ utilisateur.
   profil d'exclusions, contexte moteur.
 - `src/lib/client/` — appels API (`api.ts`), état persistant (`storage.ts`), helpers
   de liste de courses.
-- `data/` — seed JSON (258 ingrédients, 268 recettes, magasins) ; `prisma/` — schéma,
+- `data/` — seed JSON (278 ingrédients, 313 recettes dont desserts et petits-déjeuners
+  repérés par l'étiquette `dessert` / `petit-dejeuner`, magasins), photos des plats dans
+  `public/photos/` (crédits dans `data/recipe-photos.json`) ; `prisma/` — schéma,
   migrations, seed ; `docs/` — choix techniques.
 
 ## Conventions

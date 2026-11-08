@@ -12,10 +12,12 @@ import type { MenuResult } from "@/lib/engine/optimize";
 import type { RecipeBrowseItem } from "@/lib/server/views";
 import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
 
-type Filter = "vegetarien" | "vegan" | "rapide" | "sans-gluten" | "proteine" | "batch" | "favoris" | "bien-notees";
+type Filter = "vegetarien" | "vegan" | "rapide" | "sans-gluten" | "proteine" | "batch" | "favoris" | "bien-notees" | "desserts" | "petit-dej";
 const FILTERS: { id: Filter; label: string; test: (r: RecipeBrowseItem) => boolean }[] = [
   { id: "favoris", label: "Favoris", test: (r) => r.favorite },
   { id: "bien-notees", label: "Bien notées", test: (r) => (r.stars ?? 0) >= 4 },
+  { id: "desserts", label: "Desserts", test: (r) => r.tags.includes("dessert") },
+  { id: "petit-dej", label: "Petit-déjeuner", test: (r) => r.tags.includes("petit-dejeuner") },
   { id: "rapide", label: "Rapide", test: (r) => r.tags.includes("rapide") },
   { id: "vegetarien", label: "Végétarien", test: (r) => r.tags.includes("vegetarien") },
   { id: "vegan", label: "Vegan", test: (r) => r.tags.includes("vegan") },
@@ -86,7 +88,9 @@ export function RecipeBrowser({ recipes: initial }: { recipes: RecipeBrowseItem[
       } catch {
         /* pas de menu en cours */
       }
-      const ids = [...(current?.recipes.map((x) => x.recipeId) ?? []), r.id].slice(0, 21);
+      const dinners = current?.recipes.map((x) => x.recipeId) ?? [];
+      const sides = current?.extras?.map((x) => x.recipeId) ?? [];
+      const ids = [...dinners.slice(0, 21), ...sides, r.id].slice(0, 50);
       const result = await api.evaluate({ ...prefs, meals: ids.length }, ids);
       try {
         localStorage.setItem("mb:result", JSON.stringify(result));

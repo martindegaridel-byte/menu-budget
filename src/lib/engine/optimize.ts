@@ -2,7 +2,7 @@ import type { Nutrition, Preferences } from "@/lib/domain/schemas";
 import { allocateCents, divideCeil, formatEuros, type Cents } from "./money";
 import { HIGH_PROTEIN_GRAMS, energyShares } from "./nutrition";
 import { bestUnitPrice } from "./packaging";
-import { filterRecipes, portionsPerMeal, REJECTION_LABELS, sessionMinutesFor, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
+import { courseOf, filterRecipes, portionsPerMeal, REJECTION_LABELS, sessionMinutesFor, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
 import { createRng } from "./rng";
 import { buildShoppingList, mergeNeeds, type CoverCache } from "./shopping";
 import type { EngineContext, Needs, ShoppingList } from "./types";
@@ -39,6 +39,17 @@ export interface MenuRecipe {
   seasonal: boolean;
 }
 
+/** Dessert ou petit-déjeuner ajouté au menu (compris dans le budget). */
+export interface ExtraRecipe {
+  recipeId: string;
+  name: string;
+  course: "dessert" | "petit-dejeuner";
+  totalMinutes: number;
+  allocatedCents: Cents;
+  pantryIngredientIds: string[];
+  seasonal: boolean;
+}
+
 export interface Diagnostic {
   level: "info" | "warning" | "error";
   code:
@@ -51,7 +62,8 @@ export interface Diagnostic {
     | "recipe-no-longer-valid"
     | "unavailable"
     | "nutrition-goal"
-    | "cheapest-mode";
+    | "cheapest-mode"
+    | "extras";
   message: string;
 }
 
@@ -87,6 +99,8 @@ export interface MenuResult {
   /** Plan de préparation (batch cooking activé), sinon null. */
   prepPlan: PrepPlan | null;
   recipes: MenuRecipe[];
+  /** Desserts et petits-déjeuners (vide si aucun demandé). */
+  extras: ExtraRecipe[];
   shoppingList: ShoppingList;
   diagnostics: Diagnostic[];
   /** Graine utilisée : la même graine et les mêmes réglages redonnent le même menu. */
@@ -380,7 +394,7 @@ function improveUnderBudget(ev: Evaluator, start: number[], allowRepeats: boolea
  * en caisse (paquets entiers, placard déduit) est ≤ budget, en maximisant les goûts
  * et la variété. Si c'est impossible, renvoie le menu le moins cher et explique pourquoi.
  */
-export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: OptimizeOptions = {}): MenuResult {
+function optimizeDinners(prefs: Preferences, ctx: EngineContext, options: OptimizeOptions = {}): MenuResult {
   const started = Date.now();
   const filtered = filterRecipes(prefs, ctx);
   const { candidates } = filtered;
@@ -457,6 +471,120 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   return buildResult(batchOrder(chosen.menu, ev), prefs, ctx, ev, filtered, started);
 }
 
+/* ------------------------------------------------------------------ */
+/* Desserts et petits-déjeuners                                         */
+/* ------------------------------------------------------------------ */
+
+/** Poids du coût (par euro) face au score pour choisir un dessert ou un petit-déjeuner. */
+const EXTRA_COST_WEIGHT = 1.5;
+/** Pénalité pour reprendre un dessert déjà prévu (on préfère varier). */
+const EXTRA_REPEAT_PENALTY = 4;
+
+/**
+ * Compose le menu : les dîners d'abord (avec une réserve de budget pour les desserts et
+ * petits-déjeuners demandés), puis desserts et petits-déjeuners choisis un par un selon leur
+ * coût réel en plus des courses déjà prévues (œufs, lait… déjà achetés coûtent moins cher).
+ * Le total en caisse ne dépasse jamais le budget : s'il ne suffit pas, on en prévoit moins.
+ */
+export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: OptimizeOptions = {}): MenuResult {
+  const wanted = { dessert: prefs.desserts ?? 0, "petit-dejeuner": prefs.breakfasts ?? 0 };
+  if (wanted.dessert + wanted["petit-dejeuner"] === 0) return optimizeDinners(prefs, ctx, options);
+
+  const pools = {
+    dessert: filterRecipes(prefs, ctx, "dessert").candidates,
+    "petit-dejeuner": filterRecipes(prefs, ctx, "petit-dejeuner").candidates,
+  };
+  const coverCache: CoverCache = new Map();
+  const costOf = (n: Needs) => buildShoppingList(n, ctx, coverCache).totalCents;
+  // Réserve : les moins chers de chaque type, seuls (borne haute, les ingrédients partagés coûteront moins).
+  let reserve = 0;
+  for (const course of ["dessert", "petit-dejeuner"] as const) {
+    const costs = pools[course].map((c) => costOf(c.needs)).sort((a, b) => a - b);
+    for (let k = 0; k < wanted[course] && costs.length; k++) reserve += costs[k % Math.min(costs.length, 3)]!;
+  }
+  const dinnerPool = new Map(filterRecipes(prefs, ctx).candidates.map((c) => [c.recipe.id, c]));
+  const rng = createRng(prefs.seed + 7);
+  const noise = new Map([...pools.dessert, ...pools["petit-dejeuner"]].map((c) => [c.recipe.id, rng() * 3]));
+
+  /** Dîners avec une réserve donnée, puis ajout glouton des desserts et petits-déjeuners. */
+  const attempt = (reserveCents: number) => {
+    let dinners = optimizeDinners({ ...prefs, budgetCents: Math.max(0, prefs.budgetCents - reserveCents) }, ctx, options);
+    if (dinners.status !== "ok") dinners = optimizeDinners(prefs, ctx, options);
+    const dinnerIds = dinners.recipes.map((r) => r.recipeId);
+    const needs: Needs = new Map();
+    for (const id of dinnerIds) mergeNeeds(needs, new Map(dinnerPool.get(id)?.needs ?? []));
+    const chosen: string[] = [];
+    const missing = { dessert: 0, "petit-dejeuner": 0 };
+    let current = costOf(needs);
+    // Desserts et petits-déjeuners en alternance : si le budget manque, on en retire un peu des deux.
+    const slots: ("dessert" | "petit-dejeuner")[] = [];
+    for (let k = 0; k < Math.max(wanted.dessert, wanted["petit-dejeuner"]); k++) {
+      if (k < wanted.dessert) slots.push("dessert");
+      if (k < wanted["petit-dejeuner"]) slots.push("petit-dejeuner");
+    }
+    for (const course of slots) {
+      if (missing[course] > 0) {
+        missing[course]++;
+        continue;
+      }
+      const pick = (allowRepeat: boolean) => {
+        let best: { c: PreparedRecipe; value: number; cost: number } | null = null;
+        for (const c of pools[course]) {
+          const repeats = chosen.filter((id) => id === c.recipe.id).length;
+          if (repeats > 0 && !allowRepeat) continue;
+          const cost = costOf(mergeNeeds(new Map(needs), c.needs));
+          if (cost > prefs.budgetCents) continue;
+          const value = c.score + (noise.get(c.recipe.id) ?? 0) - EXTRA_COST_WEIGHT * ((cost - current) / 100) - EXTRA_REPEAT_PENALTY * repeats;
+          if (!best || value > best.value) best = { c, value, cost };
+        }
+        return best;
+      };
+      // On varie d'abord ; on ne reprend un dessert déjà prévu que si aucun autre ne tient dans le budget.
+      const best = pick(false) ?? pick(true);
+      if (!best) {
+        missing[course] = 1;
+        continue;
+      }
+      mergeNeeds(needs, best.c.needs);
+      current = best.cost;
+      chosen.push(best.c.recipe.id);
+    }
+    return { dinners, dinnerIds, chosen, missing };
+  };
+
+  let run = attempt(reserve);
+  // Il en manque : on réserve davantage (dîners un peu plus économiques), jusqu'à deux fois.
+  for (let tries = 0; tries < 2 && run.missing.dessert + run.missing["petit-dejeuner"] > 0 && run.dinners.status === "ok"; tries++) {
+    reserve = Math.round(reserve * 1.6) + 300;
+    const next = attempt(reserve);
+    if (next.dinners.status !== "ok" || next.dinners.recipes.length === 0) break;
+    if (next.chosen.length > run.chosen.length) run = next;
+  }
+  const { dinners, dinnerIds, chosen, missing } = run;
+  if (dinners.status === "no-candidates" || dinnerIds.length === 0) return dinners;
+
+  const result = evaluateMenu([...dinnerIds, ...chosen], prefs, ctx);
+  result.meals = prefs.meals;
+  result.seed = dinners.seed;
+  result.stats = dinners.stats;
+  const keep = new Set(["recipe-no-longer-valid", "over-budget"]);
+  result.diagnostics = [...dinners.diagnostics.filter((d) => !keep.has(d.code) && d.code !== "pantry-savings"), ...result.diagnostics.filter((d) => d.code === "pantry-savings" || keep.has(d.code))];
+  const lacking = [
+    missing.dessert && `${missing.dessert} dessert${missing.dessert > 1 ? "s" : ""}`,
+    missing["petit-dejeuner"] && `${missing["petit-dejeuner"]} petit${missing["petit-dejeuner"] > 1 ? "s" : ""}-déjeuner${missing["petit-dejeuner"] > 1 ? "s" : ""}`,
+  ].filter(Boolean);
+  if (lacking.length) {
+    result.diagnostics.unshift({
+      level: "warning",
+      code: "extras",
+      message: `Le budget ne permet pas d'ajouter ${lacking.join(" et ")} de plus : les dîners passent en priorité.`,
+    });
+  } else if ((pools.dessert.length === 0 && wanted.dessert) || (pools["petit-dejeuner"].length === 0 && wanted["petit-dejeuner"])) {
+    result.diagnostics.unshift({ level: "warning", code: "extras", message: "Aucun dessert ou petit-déjeuner ne respecte vos critères (régime, allergies, exclusions)." });
+  }
+  return result;
+}
+
 /**
  * Recalcule un menu donné (ids de recettes) avec de nouvelles préférences
  * (nb de personnes, budget, magasin…), sans réoptimiser.
@@ -465,15 +593,38 @@ export function evaluateMenu(recipeIds: readonly string[], prefs: Preferences, c
   const started = Date.now();
   const filtered = filterRecipes(prefs, ctx);
   const ev = new Evaluator(filtered.candidates, ctx, prefs.budgetCents, prefs.meals, prefs.batchCooking, prefs.batchSessionMinutes);
+  const sidePool = new Map(
+    [...filterRecipes(prefs, ctx, "dessert").candidates, ...filterRecipes(prefs, ctx, "petit-dejeuner").candidates].map((c) => [c.recipe.id, c]),
+  );
   const indices: number[] = [];
+  const sides: PreparedRecipe[] = [];
   const invalid: string[] = [];
   for (const id of recipeIds) {
     const i = filtered.candidates.findIndex((c) => c.recipe.id === id);
+    const side = sidePool.get(id);
     if (i >= 0) indices.push(i);
+    else if (side) sides.push(side);
     else invalid.push(id);
   }
   if (indices.length === 0) return noCandidates(prefs, filtered, started);
-  const result = buildResult(indices, { ...prefs, meals: indices.length }, ctx, ev, filtered, started);
+  // Les plats facultatifs (pain, fromage…) ne s'achètent qu'avec ce qui reste une fois desserts et petits-déjeuners payés.
+  const dinnerNeeds: Needs = new Map();
+  for (const i of indices) mergeNeeds(dinnerNeeds, new Map(ev.candidates[i]!.needs));
+  const withSides = new Map(dinnerNeeds);
+  for (const c of sides) mergeNeeds(withSides, c.needs);
+  const sidesCost = sides.length
+    ? buildShoppingList(withSides, ctx, ev.coverCache).totalCents - buildShoppingList(dinnerNeeds, ctx, ev.coverCache).totalCents
+    : 0;
+  const result = buildResult(
+    indices,
+    { ...prefs, meals: indices.length },
+    ctx,
+    ev,
+    filtered,
+    started,
+    enrichOptional(indices, ev, prefs.budgetCents - sidesCost, ctx),
+    sides,
+  );
   result.meals = prefs.meals;
   if (invalid.length > 0) {
     result.diagnostics.unshift({
@@ -594,18 +745,20 @@ function buildResult(
   filtered: FilterResult,
   started: number,
   extras: readonly Needs[] = enrichOptional(menu, ev, prefs.budgetCents, ctx),
+  sides: readonly PreparedRecipe[] = [],
 ): MenuResult {
   const recipeNeeds = menu.map((i, k) => mergeNeeds(new Map(ev.candidates[i]!.needs), extras[k] ?? new Map()));
+  const sideNeeds = sides.map((c) => c.needs);
   const needs: Needs = new Map();
-  for (const n of recipeNeeds) mergeNeeds(needs, n);
+  for (const n of [...recipeNeeds, ...sideNeeds]) mergeNeeds(needs, n);
   const list = buildShoppingList(needs, ctx, ev.coverCache);
   const total = list.totalCents;
   const lineById = new Map(list.lines.map((l) => [l.ingredientId, l]));
 
   // Poids d'attribution : part achetée × meilleur prix unitaire.
-  const weights = menu.map((_, k) => {
+  const weights = [...recipeNeeds, ...sideNeeds].map((itemNeeds) => {
     let w = 0;
-    for (const [id, q] of recipeNeeds[k]!) {
+    for (const [id, q] of itemNeeds) {
       const line = lineById.get(id);
       if (!line || line.needed <= 0) continue;
       w += q * (line.toBuy / line.needed) * (bestUnitPrice(ctx.priceBook.get(id) ?? []) ?? 0);
@@ -613,6 +766,16 @@ function buildResult(
     return w;
   });
   const allocated = allocateCents(total, weights);
+  const extrasOut: ExtraRecipe[] = sides.map((c, k) => ({
+    recipeId: c.recipe.id,
+    name: c.recipe.name,
+    course: courseOf(c.recipe) === "petit-dejeuner" ? "petit-dejeuner" : "dessert",
+    totalMinutes: c.recipe.prepMinutes + c.recipe.cookMinutes,
+    allocatedCents: allocated[menu.length + k]!,
+    pantryIngredientIds: [...c.needs.keys()].filter((id) => (lineById.get(id)?.fromPantry ?? 0) > 0),
+    seasonal: c.seasonal,
+  }));
+  const dinnersCents = allocated.slice(0, menu.length).reduce((a, b) => a + b, 0);
 
   const recipes: MenuRecipe[] = menu.map((i, k) => {
     const c = ev.candidates[i]!;
@@ -732,11 +895,12 @@ function buildResult(
     budgetCents: prefs.budgetCents,
     totalCents: total,
     remainingCents: prefs.budgetCents - total,
-    perPersonPerMealCents: divideCeil(total, portionsPerMeal(prefs) * Math.max(1, menu.length)),
+    perPersonPerMealCents: divideCeil(dinnersCents, portionsPerMeal(prefs) * Math.max(1, menu.length)),
     pantrySavingsCents,
     nutritionPerMeal,
     prepPlan,
     recipes,
+    extras: extrasOut,
     shoppingList: list,
     diagnostics,
     seed: prefs.seed,
@@ -764,6 +928,7 @@ function noCandidates(prefs: Preferences, filtered: FilterResult, started: numbe
     nutritionPerMeal: null,
     prepPlan: null,
     recipes: [],
+    extras: [],
     shoppingList: { lines: [], totalCents: 0, usedCostCents: 0, unavailable: [] },
     diagnostics: [
       {

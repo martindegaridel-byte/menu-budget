@@ -17,7 +17,7 @@ import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/sc
 import { formatEuros } from "@/lib/engine/money";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
-import { BalanceCard, MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
+import { BalanceCard, ExtrasCard, MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
 import { SubstituteSheet } from "./SubstituteSheet";
 import { WeekPlanner } from "./WeekPlanner";
@@ -39,12 +39,15 @@ function pickWeighted<T>(items: readonly T[], top = 5): T | undefined {
   return pool[0];
 }
 
+const FAVORITE_STORE_ID = "super-u-saint-pierre";
+const FAVORITE_STORE_KEY = "mb:favorite-store-v1";
+
 export const DEFAULT_PREFERENCES: Preferences = PreferencesSchema.parse({
   budgetCents: 2000,
   meals: 5,
   persons: 1,
   maxTotalMinutes: 45,
-  storeId: "intermarche-super",
+  storeId: "super-u-saint-pierre",
 });
 
 export function Planner({
@@ -65,6 +68,18 @@ export function Planner({
     const parsed = PreferencesSchema.safeParse(storedPrefs);
     return parsed.success ? parsed.data : DEFAULT_PREFERENCES;
   }, [storedPrefs]);
+  // Super U Saint-Pierre devient le magasin favori (une seule fois : un autre choix ensuite est respecté).
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(FAVORITE_STORE_KEY)) return;
+      localStorage.setItem(FAVORITE_STORE_KEY, "1");
+      // Mise à jour fonctionnelle : s'applique après la lecture des réglages enregistrés, sans les écraser.
+      setPrefs((prev) => ({ ...prev, storeId: FAVORITE_STORE_ID }));
+    } catch {
+      /* stockage indisponible */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [result, setResult] = usePersistentState<MenuResult | null>("mb:result", null);
   // Recettes proposées récemment (la plus récente d'abord) : le moteur évite de les reproposer.
   const [recent, setRecent] = usePersistentState<string[]>("mb:recent", []);
@@ -81,6 +96,9 @@ export function Planner({
   const ingredientMap = useMemo(() => new Map(ingredients.map((i) => [i.id, i])), [ingredients]);
   const storeName = stores.find((s) => s.id === prefs.storeId)?.name;
   const recipeIds = result?.recipes.map((r) => r.recipeId) ?? [];
+  // Desserts et petits-déjeuners : envoyés après les dîners, le moteur les reconnaît à leur type.
+  const extraIds = result?.extras?.map((e) => e.recipeId) ?? [];
+  const allIds = [...recipeIds, ...extraIds];
   const menuKey = recipeIds.join(",") + `|${result?.persons ?? 0}`;
 
   const run = useCallback(async (fn: () => Promise<void>) => {
@@ -128,7 +146,7 @@ export function Planner({
       const saved = await api.getMenu(menuParam);
       const p = PreferencesSchema.parse(saved.preferences);
       setPrefs(p);
-      setResult(await api.evaluate(p, saved.result.recipes.map((r) => r.recipeId)));
+      setResult(await api.evaluate(p, [...saved.result.recipes, ...(saved.result.extras ?? [])].map((r) => r.recipeId)));
       setEditing(false);
       window.history.replaceState(null, "", "/");
     });
@@ -142,7 +160,7 @@ export function Planner({
     if (!result || recipeIds.length === 0) return;
     if (liveTimer.current) clearTimeout(liveTimer.current);
     liveTimer.current = setTimeout(() => {
-      void run(async () => setResult(await api.evaluate({ ...p, meals: recipeIds.length }, recipeIds)));
+      void run(async () => setResult(await api.evaluate({ ...p, meals: recipeIds.length }, allIds)));
     }, 350);
   };
 
@@ -169,12 +187,12 @@ export function Planner({
       }
       const ids = [...before];
       ids[slot] = pick.recipeId;
-      setResult(await api.evaluate({ ...prefs, meals: ids.length }, ids));
+      setResult(await api.evaluate({ ...prefs, meals: ids.length }, [...ids, ...extraIds]));
       remember([pick.recipeId], ids.length);
       toast({
         title: `${pick.name} remplace ${result?.recipes[slot]?.name ?? "le plat"}`,
         tone: "success",
-        onUndo: () => void run(async () => setResult(await api.evaluate({ ...prefs, meals: before.length }, before))),
+        onUndo: () => void run(async () => setResult(await api.evaluate({ ...prefs, meals: before.length }, [...before, ...extraIds]))),
       });
     });
   const pickSwap = (recipeId: string) => {
@@ -182,12 +200,23 @@ export function Planner({
     const ids = [...recipeIds];
     ids[swap.slot] = recipeId;
     setSwap(null);
-    void run(async () => setResult(await api.evaluate({ ...prefs, meals: ids.length }, ids)));
+    void run(async () => setResult(await api.evaluate({ ...prefs, meals: ids.length }, [...ids, ...extraIds])));
+  };
+
+  /** Dessert ou petit-déjeuner compatible : régime (étiquettes dérivées) et aliments exclus. */
+  const allowedExtra = (r: RecipeSummary) => {
+    const excluded = new Set([...permanent.excludedIngredientIds, ...prefs.excludedIngredientIds]);
+    if (r.ingredientIds.some((id) => excluded.has(id))) return false;
+    if (prefs.diet === "vegan" && !r.tags.includes("vegan")) return false;
+    if (prefs.diet === "vegetarien" && !r.tags.includes("vegetarien") && !r.tags.includes("vegan")) return false;
+    if (prefs.allergens.includes("gluten") && !r.tags.includes("sans-gluten")) return false;
+    if (prefs.allergens.includes("lait") && !r.tags.includes("sans-lactose")) return false;
+    return true;
   };
 
   const save = () =>
     run(async () => {
-      await api.saveMenu({ ...prefs, meals: recipeIds.length, recentRecipeIds: [] }, recipeIds);
+      await api.saveMenu({ ...prefs, meals: recipeIds.length, recentRecipeIds: [] }, allIds);
       toast({ title: "Menu enregistré dans l'historique", tone: "success" });
     });
 
@@ -208,7 +237,7 @@ export function Planner({
       const beforeTotal = result?.totalCents ?? 0;
       const next = { ...prefs, substitutions: subs };
       setPrefs(next);
-      const r = await api.evaluate({ ...next, meals: recipeIds.length }, recipeIds);
+      const r = await api.evaluate({ ...next, meals: recipeIds.length }, allIds);
       setResult(r);
       const delta = r.totalCents - beforeTotal;
       toast({
@@ -218,7 +247,7 @@ export function Planner({
         onUndo: () =>
           void run(async () => {
             setPrefs(before);
-            setResult(await api.evaluate({ ...before, meals: recipeIds.length }, recipeIds));
+            setResult(await api.evaluate({ ...before, meals: recipeIds.length }, allIds));
           }),
       });
     });
@@ -457,6 +486,17 @@ export function Planner({
                       cooked={cooked}
                       busy={busy}
                     />
+                    <ExtrasCard
+                      result={result}
+                      recipes={recipeMap}
+                      busy={busy}
+                      allowed={allowedExtra}
+                      onReplace={(k, id) => {
+                        const next = [...extraIds];
+                        next[k] = id;
+                        void run(async () => setResult(await api.evaluate({ ...prefs, meals: recipeIds.length }, [...recipeIds, ...next])));
+                      }}
+                    />
                     <BalanceCard result={result} />
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="secondary" icon={RefreshCw} onClick={() => generate(prefs)} disabled={busy}>
@@ -481,7 +521,7 @@ export function Planner({
                     />
                     <StoreCompare
                       prefs={prefs}
-                      recipeIds={recipeIds}
+                      recipeIds={allIds}
                       menuKey={menuKey}
                       storeCount={stores.length}
                       onPick={(storeId) => {

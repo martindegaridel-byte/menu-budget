@@ -1,6 +1,7 @@
 "use client";
 import {
   ArrowLeftRight,
+  CakeSlice,
   CheckCircle2,
   ChevronDown,
   CookingPot,
@@ -17,7 +18,8 @@ import {
   Wheat,
 } from "lucide-react";
 import Link from "next/link";
-import { Badge } from "@/components/ds";
+import { useState } from "react";
+import { Badge, IconButton } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { DishThumb } from "@/components/DishThumb";
 import { MacroBar } from "@/components/MacroBar";
@@ -418,6 +420,88 @@ export function BalanceCard({ result }: { result: MenuResult }) {
         ))}
       </ul>
       <p className="text-caption text-subtle">Repères indicatifs (1 portion de légumes ≈ 80 g), d&apos;après les recommandations du PNNS.</p>
+    </Card>
+  );
+}
+
+const COURSE_LABEL = { dessert: "Dessert", "petit-dejeuner": "Petit-déjeuner" } as const;
+
+/** Desserts et petits-déjeuners du menu (compris dans le budget), avec « Changer ». */
+export function ExtrasCard({
+  result,
+  recipes,
+  allowed,
+  onReplace,
+  busy,
+}: {
+  result: MenuResult;
+  recipes: ReadonlyMap<string, RecipeSummary>;
+  /** Recette compatible avec les critères (régime, exclusions). */
+  allowed: (r: RecipeSummary) => boolean;
+  onReplace: (index: number, recipeId: string) => void;
+  busy?: boolean;
+}) {
+  const [picking, setPicking] = useState<number | null>(null);
+  const extras = result.extras ?? [];
+  if (extras.length === 0) return null;
+  const total = extras.reduce((a, e) => a + e.allocatedCents, 0);
+  const current = picking !== null ? extras[picking] : undefined;
+  const choices = current
+    ? [...recipes.values()].filter((r) => r.tags.includes(current.course) && r.id !== current.recipeId && allowed(r)).sort((a, b) => a.name.localeCompare(b.name, "fr"))
+    : [];
+  return (
+    <Card className="space-y-3" aria-labelledby="extras-titre">
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 id="extras-titre" className="inline-flex items-center gap-2 text-body font-semibold">
+          <CakeSlice aria-hidden className="size-5 text-accent-text" strokeWidth={ICON_STROKE} /> Desserts et petits-déjeuners
+        </h2>
+        <p className="font-numeric text-body-sm font-semibold tabular-nums text-muted">{formatEuros(total)}</p>
+      </div>
+      <ul className="divide-y divide-line">
+        {extras.map((e, k) => (
+          <li key={`${e.recipeId}-${k}`} className="flex items-center gap-3 py-2">
+            <DishThumb recipeId={e.recipeId} tags={recipes.get(e.recipeId)?.tags} className="size-14" iconClassName="size-6" />
+            <div className="min-w-0 flex-1">
+              <p className="text-caption font-medium uppercase tracking-wider text-subtle">{COURSE_LABEL[e.course]}</p>
+              <Link href={`/recettes/${e.recipeId}?p=${result.persons}`} className="focus-ring line-clamp-2 rounded font-medium leading-snug hover:text-accent-text">
+                {e.name}
+              </Link>
+              <p className="text-caption text-muted tabular-nums">
+                {e.totalMinutes} min · {formatEuros(e.allocatedCents)}
+                {e.pantryIngredientIds.length > 0 && ` · ${e.pantryIngredientIds.length} du placard`}
+              </p>
+            </div>
+            <IconButton icon={ArrowLeftRight} label={`Changer ${e.name}`} disabled={busy} onClick={() => setPicking(k)} className="text-accent-text" />
+          </li>
+        ))}
+      </ul>
+      <p className="text-caption text-subtle">Compris dans le total et dans la liste de courses.</p>
+      <Sheet open={picking !== null} onClose={() => setPicking(null)} title={current ? `Remplacer « ${current.name} »` : "Remplacer"}>
+        {choices.length === 0 ? (
+          <p className="text-body-sm text-muted">Aucune autre recette compatible avec vos critères.</p>
+        ) : (
+          <ul className="space-y-2">
+            {choices.map((r) => (
+              <li key={r.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (picking !== null) onReplace(picking, r.id);
+                    setPicking(null);
+                  }}
+                  className="focus-ring flex min-h-16 w-full items-center gap-3 rounded-field bg-surface-2 p-2 text-left ring-1 ring-inset ring-line transition-colors duration-150 hover:bg-surface-3"
+                >
+                  <DishThumb recipeId={r.id} tags={r.tags} className="size-12" iconClassName="size-5" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-medium">{r.name}</span>
+                    <span className="text-caption text-muted">{r.totalMinutes} min</span>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Sheet>
     </Card>
   );
 }

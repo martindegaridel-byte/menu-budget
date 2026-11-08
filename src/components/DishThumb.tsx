@@ -1,5 +1,5 @@
 "use client";
-import { Egg, Fish, Leaf, Salad, Soup, UtensilsCrossed, Wheat, type LucideIcon } from "lucide-react";
+import { CakeSlice, Coffee, Egg, Fish, Leaf, Salad, Soup, UtensilsCrossed, Wheat, type LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/components/ds/cn";
 import { recipePhoto } from "@/lib/photos";
@@ -7,6 +7,8 @@ import { recipePhoto } from "@/lib/photos";
 /** Icône + teinte selon les étiquettes, quand le plat n'a pas de photo. */
 function dishVisual(tags: readonly string[]): { icon: LucideIcon; tint: string } {
   const t = new Set(tags);
+  if (t.has("dessert")) return { icon: CakeSlice, tint: "bg-rose-500/15 text-rose-500" };
+  if (t.has("petit-dejeuner")) return { icon: Coffee, tint: "bg-amber-500/15 text-amber-600" };
   if (t.has("poisson") || t.has("fruits-de-mer")) return { icon: Fish, tint: "bg-sky-500/15 text-sky-500" };
   if (t.has("soupe")) return { icon: Soup, tint: "bg-orange-500/15 text-orange-500" };
   if (t.has("vegan")) return { icon: Leaf, tint: "bg-emerald-500/15 text-emerald-500" };
