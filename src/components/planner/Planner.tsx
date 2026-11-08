@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CalendarClock, ListChecks, Pencil, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
+import { CalendarClock, CalendarDays, ListChecks, Pencil, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
@@ -20,6 +20,7 @@ import { AiRecipes } from "./AiRecipes";
 import { MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
 import { SubstituteSheet } from "./SubstituteSheet";
+import { WeekPlanner } from "./WeekPlanner";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
 
@@ -67,7 +68,7 @@ export function Planner({
   // Recettes proposées récemment (la plus récente d'abord) : le moteur évite de les reproposer.
   const [recent, setRecent] = usePersistentState<string[]>("mb:recent", []);
   const toast = useToast();
-  const [tab, setTab] = useState<"menu" | "courses">("menu");
+  const [tab, setTab] = useState<"menu" | "semaine" | "courses">("menu");
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -405,8 +406,8 @@ export function Planner({
 
           {result.recipes.length > 0 && (
             <>
-              <div role="tablist" aria-label="Affichage" className="grid grid-cols-2 gap-1 rounded-[14px] bg-surface-2 p-1 ring-1 ring-inset ring-line">
-                {(["menu", "courses"] as const).map((t) => (
+              <div role="tablist" aria-label="Affichage" className="grid grid-cols-3 gap-1 rounded-[14px] bg-surface-2 p-1 ring-1 ring-inset ring-line">
+                {(["menu", "semaine", "courses"] as const).map((t) => (
                   <button
                     key={t}
                     role="tab"
@@ -419,8 +420,14 @@ export function Planner({
                       tab === t ? "bg-surface-3 text-fg shadow-soft ring-1 ring-inset ring-line-strong" : "text-muted hover:text-fg",
                     )}
                   >
-                    {t === "menu" ? <UtensilsCrossed aria-hidden className="size-4" strokeWidth={ICON_STROKE} /> : <ListChecks aria-hidden className="size-4" strokeWidth={ICON_STROKE} />}
-                    {t === "menu" ? "Menu" : `Courses (${result.shoppingList.lines.filter((l) => l.toBuy > 0).length})`}
+                    {t === "menu" ? (
+                      <UtensilsCrossed aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+                    ) : t === "semaine" ? (
+                      <CalendarDays aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+                    ) : (
+                      <ListChecks aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+                    )}
+                    {t === "menu" ? "Menu" : t === "semaine" ? "Semaine" : `Courses (${result.shoppingList.lines.filter((l) => l.toBuy > 0).length})`}
                   </button>
                 ))}
               </div>
@@ -449,6 +456,8 @@ export function Planner({
                       </Button>
                     </div>
                   </div>
+                ) : tab === "semaine" ? (
+                  <WeekPlanner result={result} menuKey={menuKey} />
                 ) : (
                   <ShoppingListView
                     list={result.shoppingList}
