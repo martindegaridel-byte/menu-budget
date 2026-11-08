@@ -1,10 +1,10 @@
 /* Service worker de Popote : l'appli reste utilisable hors connexion.
  * - Pages : réseau d'abord, sinon la dernière version en cache (le menu et la liste
  *   de courses sont gardés dans le navigateur, donc consultables au magasin).
- * - Fichiers statiques (/_next/static, icônes) : cache d'abord.
+ * - Fichiers statiques (/_next/static, icônes, photos des plats) : cache d'abord.
  * - API : jamais mises en cache (prix et calculs toujours à jour).
  */
-const VERSION = "mb-v3";
+const VERSION = "mb-v4";
 const PAGES = ["/", "/batch", "/placard", "/historique"];
 
 self.addEventListener("install", (event) => {
@@ -23,7 +23,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin || url.pathname.startsWith("/api/")) return;
 
-  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/")) {
+  if (url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icons/") || url.pathname.startsWith("/photos/")) {
     event.respondWith(
       caches.match(req).then(
         (hit) =>

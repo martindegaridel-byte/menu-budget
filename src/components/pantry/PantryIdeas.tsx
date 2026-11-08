@@ -1,6 +1,7 @@
 "use client";
 import { ChevronRight, Lightbulb, Search } from "lucide-react";
 import Link from "next/link";
+import { DishThumb } from "@/components/DishThumb";
 import { useState } from "react";
 import { Badge, Button, Chip, CollapsibleCard } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
@@ -73,6 +74,7 @@ export function PantryIdeas({ stock }: { stock: { ing: IngredientOption; urgent:
                   {results.map((r) => (
                     <li key={r.recipeId}>
                       <Link href={`/recettes/${r.recipeId}`} className="focus-ring flex min-h-16 items-center gap-3 rounded-field px-1 py-2 hover:bg-surface-2">
+                        <DishThumb recipeId={r.recipeId} className="size-14" iconClassName="size-6" />
                         <span className="min-w-0 flex-1">
                           <span className="block font-medium">{r.name}</span>
                           <span className="text-caption text-muted">

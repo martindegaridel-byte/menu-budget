@@ -10,6 +10,7 @@ import { nutritionPerPortion } from "@/lib/engine/nutrition";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
 import { toBaseQuantity, formatQuantity } from "@/lib/engine/units";
+import { recipePhoto } from "@/lib/photos";
 import { getCatalog } from "@/lib/server/catalog";
 import { prisma } from "@/lib/server/db";
 import { getCurrentUserId } from "@/lib/server/user";
@@ -33,6 +34,7 @@ export default async function RecipePage({
     prisma.recipeRating.findUnique({ where: { userId_recipeId: { userId, recipeId: id } } }),
   ]);
   const favorite = !!fav;
+  const photo = recipePhoto(recipe.id);
 
   const lines = recipe.ingredients.map((l) => {
     const ing = catalog.ingredientsById.get(l.ingredientId)!;
@@ -48,6 +50,19 @@ export default async function RecipePage({
         <ChevronLeft aria-hidden className="size-4" strokeWidth={1.75} />
         Retour au menu
       </Link>
+      {photo && (
+        <figure className="-mx-4 sm:mx-0">
+          {/* eslint-disable-next-line @next/next/no-img-element -- photo déjà redimensionnée (WebP 640×480) */}
+          <img src={photo.src} alt={`Photo d'illustration : ${recipe.name}`} className="aspect-[4/3] w-full bg-surface-2 object-cover sm:rounded-card" />
+          <figcaption className="mt-1 px-4 text-[11px] text-subtle sm:px-0">
+            Photo d&apos;illustration :{" "}
+            <a href={photo.page} target="_blank" rel="noopener noreferrer" className="underline decoration-line-strong underline-offset-2 hover:text-muted">
+              {photo.author}
+            </a>
+            , {photo.license}, via Wikimedia Commons
+          </figcaption>
+        </figure>
+      )}
       <header className="space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div>

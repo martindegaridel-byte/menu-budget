@@ -1,6 +1,7 @@
 "use client";
 import { ArrowDownWideNarrow, ChevronRight, Clock, Heart, Plus, Search, SlidersHorizontal, Star, X } from "lucide-react";
 import Link from "next/link";
+import { DishThumb } from "@/components/DishThumb";
 import { useMemo, useState } from "react";
 import { Badge, Chip, EmptyState, IconButton, useToast } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
@@ -209,7 +210,8 @@ export function RecipeBrowser({ recipes: initial }: { recipes: RecipeBrowseItem[
       ) : (
         <ul className="space-y-2">
           {shown.map((r) => (
-            <li key={r.id} className="flex items-center gap-2 rounded-card bg-surface p-2 pl-3 shadow-soft ring-1 ring-inset ring-line">
+            <li key={r.id} className="flex items-center gap-2 rounded-card bg-surface p-2 shadow-soft ring-1 ring-inset ring-line">
+              <DishThumb recipeId={r.id} className="size-16" iconClassName="size-7" />
               <Link href={`/recettes/${r.id}`} className="focus-ring min-w-0 flex-1 rounded py-1">
                 <span className="block truncate font-medium">{r.name}</span>
                 <span className="mt-1 flex flex-wrap items-center gap-1.5">

@@ -7,25 +7,19 @@ import {
   Replace,
   ChevronRight,
   Clock,
-  Egg,
-  Fish,
   Gauge,
   Info,
-  Leaf,
   Package,
   RefreshCw,
-  Salad,
   Scale,
-  Soup,
   Sparkles,
   Sprout,
-  UtensilsCrossed,
   Wheat,
-  type LucideIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
+import { DishThumb } from "@/components/DishThumb";
 import { MacroBar } from "@/components/MacroBar";
 import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/ui";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
@@ -37,18 +31,6 @@ import { formatQuantity } from "@/lib/engine/units";
 import { BudgetInput } from "./PreferencesForm";
 
 const LEVEL = ["", "Facile", "Moyen", "Difficile"];
-
-/** Illustration du plat (pas de photo dans la base) : icône + teinte selon ses étiquettes. */
-function dishVisual(info?: RecipeSummary): { icon: LucideIcon; tint: string } {
-  const t = new Set(info?.tags ?? []);
-  if (t.has("poisson") || t.has("fruits-de-mer")) return { icon: Fish, tint: "bg-sky-500/15 text-sky-500" };
-  if (t.has("soupe")) return { icon: Soup, tint: "bg-orange-500/15 text-orange-500" };
-  if (t.has("vegan")) return { icon: Leaf, tint: "bg-emerald-500/15 text-emerald-500" };
-  if (t.has("oeufs")) return { icon: Egg, tint: "bg-yellow-500/15 text-yellow-500" };
-  if (t.has("vegetarien")) return { icon: Salad, tint: "bg-lime-500/15 text-lime-600" };
-  if (t.has("pates") || t.has("riz")) return { icon: Wheat, tint: "bg-amber-500/15 text-amber-500" };
-  return { icon: UtensilsCrossed, tint: "bg-accent/15 text-accent-text" };
-}
 
 export function MenuSummary({
   result,
@@ -230,7 +212,6 @@ export function MenuRecipes({
     <ol className="space-y-3" aria-label="Plats du menu">
       {result.recipes.map((r, slot) => {
         const info = recipes.get(r.recipeId);
-        const { icon: Icon, tint } = dishVisual(info);
         const href = `/recettes/${r.recipeId}?p=${result.persons + (result.lunchPortions ?? 0)}`;
         const done = cooked?.has(slot) ?? false;
         const group = result.prepPlan?.cookOnce.find((g) => g.slots.includes(slot));
@@ -238,9 +219,7 @@ export function MenuRecipes({
         return (
           <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className={cn("overflow-hidden transition-opacity duration-200", done && "opacity-70")}>
             <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
-              <div aria-hidden className={cn("grid size-20 shrink-0 place-items-center rounded-field ring-1 ring-inset ring-line sm:size-24", tint)}>
-                <Icon className="size-9" strokeWidth={1.5} />
-              </div>
+              <DishThumb recipeId={r.recipeId} tags={info?.tags} className="size-20 sm:size-24" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
                   <p className="inline-flex items-center gap-1.5 text-caption font-medium uppercase tracking-wider text-subtle">
