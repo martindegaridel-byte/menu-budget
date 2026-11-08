@@ -1,5 +1,5 @@
 "use client";
-import { Ban, Carrot, CookingPot, History, Package, Palette, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { Ban, BookOpen, Carrot, CookingPot, History, Package, Palette, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ds";
@@ -8,6 +8,7 @@ import { useAppearance } from "@/lib/client/use-appearance";
 
 export const NAV_LINKS: readonly { href: string; label: string; icon: LucideIcon; full?: string }[] = [
   { href: "/", label: "Menu", icon: UtensilsCrossed },
+  { href: "/recettes", label: "Recettes", icon: BookOpen },
   { href: "/batch", label: "Batch", icon: CookingPot, full: "Batch cooking" },
   { href: "/placard", label: "Placard", icon: Package },
   { href: "/exclusions", label: "Exclusions", icon: Ban },

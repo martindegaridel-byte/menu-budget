@@ -56,7 +56,7 @@ export const DEFAULT_APPEARANCE: Appearance = {
   text: "normal",
   corners: "doux",
   reduceMotion: false,
-  hiddenNav: [],
+  hiddenNav: ["/magasins"],
   navLabels: true,
 };
 

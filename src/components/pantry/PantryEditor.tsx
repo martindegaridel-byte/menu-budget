@@ -257,7 +257,7 @@ export function PantryEditor({
         </div>
         {QUICK_ADD.some((id) => byId.has(id) && !has.has(id)) && (
           <div
-            className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+            className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [&>*]:shrink-0"
             role="group"
             aria-label="Ajout rapide"
           >
