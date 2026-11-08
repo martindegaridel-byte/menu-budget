@@ -171,6 +171,8 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
 }
 
 const EXPIRING_DAYS = 5;
+/** Effet d'une note sur le score : 5 ★ très favorisée … 1 ★ quasiment écartée. */
+export const RATING_BONUS: Record<number, number> = { 5: 5, 4: 3, 3: 0, 2: -5, 1: -12 };
 /** Bonus par produit du placard (hors condiments) utilisé : les restes de paquets passent en priorité. */
 export const LEFTOVER_BONUS = 1.5;
 /** Amplitude du bruit (graine) ajouté au score : assez pour varier, moins qu'un goût déclaré. */
@@ -197,7 +199,7 @@ export function scoreRecipe(
   recipe: Recipe,
   needs: Needs,
   prefs: Pick<Preferences, "likedCuisines" | "favoriteIngredientIds" | "diet" | "seed"> &
-    Partial<Pick<Preferences, "recentRecipeIds" | "meals">>,
+    Partial<Pick<Preferences, "recentRecipeIds" | "meals" | "ratings">>,
   ctx: EngineContext,
 ): number {
   let score = 10;
@@ -215,6 +217,9 @@ export function scoreRecipe(
     if (item && item.quantity !== null && item.quantity > 0 && !ctx.ingredients.get(id)?.staple) leftovers++;
   }
   score += LEFTOVER_BONUS * Math.min(3, leftovers);
+  // Vos notes : ce que vous avez aimé revient plus souvent, ce que vous n'avez pas aimé presque jamais.
+  const stars = prefs.ratings?.[recipe.id];
+  if (stars) score += RATING_BONUS[stars] ?? 0;
   // Plats proposés récemment : pénalisés, d'autant plus qu'ils sont récents.
   score -= historyPenalty(recipe.id, prefs.recentRecipeIds ?? [], prefs.meals ?? 1);
   // Bruit reproductible pour varier les menus d'une graine à l'autre.

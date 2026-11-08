@@ -19,7 +19,17 @@ export async function saveProfile(userId: string, profile: Profile): Promise<voi
   });
 }
 
-/** Préférences du menu + exclusions permanentes de l'utilisateur (toujours appliquées côté serveur). */
+/** Notes de l'utilisateur : recette → étoiles. */
+export async function getRatings(userId: string): Promise<Record<string, number>> {
+  const rows = await prisma.recipeRating.findMany({ where: { userId }, select: { recipeId: true, stars: true } });
+  return Object.fromEntries(rows.map((r) => [r.recipeId, r.stars]));
+}
+
+/**
+ * Préférences du menu + exclusions permanentes et notes de l'utilisateur (toujours
+ * prises côté serveur, jamais reprises du client).
+ */
 export async function withProfile(userId: string, prefs: Preferences): Promise<Preferences> {
-  return applyProfile(prefs, await getProfile(userId));
+  const [profile, ratings] = await Promise.all([getProfile(userId), getRatings(userId)]);
+  return { ...applyProfile(prefs, profile), ratings };
 }

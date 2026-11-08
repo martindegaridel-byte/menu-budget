@@ -5,6 +5,7 @@ import { FavoriteButton } from "@/components/FavoriteButton";
 import { Badge } from "@/components/ds";
 import { MacroBar } from "@/components/MacroBar";
 import { RecipeStorage } from "@/components/RecipeStorage";
+import { RecipeActions } from "@/components/recipe/RecipeActions";
 import { nutritionPerPortion } from "@/lib/engine/nutrition";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
@@ -27,7 +28,11 @@ export default async function RecipePage({
   const persons = Math.min(12, Math.max(1, Number(p) || recipe.baseServings));
   const factor = persons / recipe.baseServings;
   const userId = await getCurrentUserId();
-  const favorite = !!(await prisma.favoriteRecipe.findUnique({ where: { userId_recipeId: { userId, recipeId: id } } }));
+  const [fav, rating] = await Promise.all([
+    prisma.favoriteRecipe.findUnique({ where: { userId_recipeId: { userId, recipeId: id } } }),
+    prisma.recipeRating.findUnique({ where: { userId_recipeId: { userId, recipeId: id } } }),
+  ]);
+  const favorite = !!fav;
 
   const lines = recipe.ingredients.map((l) => {
     const ing = catalog.ingredientsById.get(l.ingredientId)!;
@@ -74,6 +79,16 @@ export default async function RecipePage({
           </div>
         )}
       </header>
+
+      <RecipeActions
+        recipeId={recipe.id}
+        recipeName={recipe.name}
+        persons={persons}
+        ingredients={lines.map((l) => ({ id: l.ingredientId, name: l.ing.name, quantity: formatQuantity(l.qty, l.ing.unit), optional: l.optional }))}
+        steps={recipe.steps}
+        initialStars={rating?.stars ?? null}
+        initialNote={rating?.note ?? ""}
+      />
 
       <section aria-labelledby="ing-title" className="rounded-card bg-surface p-4 shadow-soft ring-1 ring-inset ring-line sm:p-5">
         <h2 id="ing-title" className="mb-2 text-title-3 font-semibold">

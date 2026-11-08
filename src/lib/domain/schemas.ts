@@ -270,6 +270,8 @@ export const PreferencesSchema = z.object({
    * réchauffent) et mutualiser les bases (riz, pâtes…) entre les plats.
    */
   batchCooking: z.boolean().default(false),
+  /** Notes de l'utilisateur (recette → 1 à 5 étoiles), ajoutées côté serveur. */
+  ratings: z.record(z.string(), z.number().int().min(1).max(5)).default({}),
   /** Ingrédients remplacés dans un plat (« dans ce plat, poireau → courgette »). */
   substitutions: z.array(z.object({ recipeId: id, from: id, to: id })).max(60).default([]),
   /** Batch cooking : durée maximale de la session de préparation (minutes). */

@@ -1,5 +1,4 @@
 import {
-  IngredientSchema,
   PackageSchema,
   PantryItemSchema,
   RecipeSchema,

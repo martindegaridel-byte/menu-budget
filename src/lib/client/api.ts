@@ -97,6 +97,8 @@ export const api = {
     call<{ suggestions: PantrySuggestion[] }>("/api/recipes/suggest", { body: { preferences, ingredientIds } }),
   getProfile: () => call<Profile>("/api/profile"),
   putProfile: (profile: Profile) => call<Profile>("/api/profile", { method: "PUT", body: profile }),
+  ratings: () => call<{ ratings: { recipeId: string; stars: number; note: string }[] }>("/api/ratings"),
+  rateRecipe: (recipeId: string, stars: number | null, note?: string) => call<{ ok: true }>("/api/ratings", { method: "PUT", body: { recipeId, stars, note } }),
   favorites: () => call<{ recipeIds: string[] }>("/api/favorites"),
   setFavorite: (recipeId: string, favorite: boolean) => call("/api/favorites", { body: { recipeId, favorite } }),
 };

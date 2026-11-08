@@ -63,4 +63,11 @@ export const UnavailableSchema = z.object({
   unavailable: z.boolean(),
 });
 
+export const RatingPutSchema = z.object({
+  recipeId: z.string().min(1),
+  /** null : retirer la note. */
+  stars: z.number().int().min(1).max(5).nullable(),
+  note: z.string().trim().max(500).optional(),
+});
+
 export const FavoriteRecipeSchema = z.object({ recipeId: z.string().min(1), favorite: z.boolean() });

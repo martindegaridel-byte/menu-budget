@@ -95,3 +95,18 @@ describe("restes de paquets", () => {
     expect(score([{ ingredientId: "sel", quantity: null }])).toBe(score([]));
   });
 });
+
+describe("notes des recettes", () => {
+  const ctx3 = seedContext();
+  const score = (ratings: Record<string, number>) =>
+    filterRecipes(prefs({ persons: 1, maxTotalMinutes: 300, seed: 5, ratings }), ctx3).candidates.find((c) => c.recipe.id === "khichdi")!.score;
+
+  it("favorise une recette bien notée et écarte presque une recette mal notée", () => {
+    const neutral = score({});
+    expect(score({ khichdi: 5 })).toBeGreaterThan(score({ khichdi: 4 }));
+    expect(score({ khichdi: 4 })).toBeGreaterThan(neutral);
+    expect(score({ khichdi: 3 })).toBe(neutral);
+    expect(score({ khichdi: 1 })).toBeLessThan(score({ khichdi: 2 }));
+    expect(score({ khichdi: 2 })).toBeLessThan(neutral);
+  });
+});
