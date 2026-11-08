@@ -142,6 +142,8 @@ export const IngredientSchema = z.object({
    * pour 100 g / 100 ml, ou pour 1 pièce si l'unité de base est « piece ».
    */
   nutrition: NutritionSchema.optional(),
+  /** Mois de pleine saison en France (1–12), pour les produits frais de saison. */
+  season: z.array(z.number().int().min(1).max(12)).optional(),
 });
 export type Ingredient = z.infer<typeof IngredientSchema>;
 
@@ -274,6 +276,10 @@ export const PreferencesSchema = z.object({
   ratings: z.record(z.string(), z.number().int().min(1).max(5)).default({}),
   /** Ingrédients remplacés dans un plat (« dans ce plat, poireau → courgette »). */
   substitutions: z.array(z.object({ recipeId: id, from: id, to: id })).max(60).default([]),
+  /** Portions en plus cuisinées le soir pour le lendemain midi (0 = aucune). */
+  lunchPortions: z.number().int().min(0).max(12).default(0),
+  /** Mode « fin de mois » : le menu le moins cher possible (placard d'abord). */
+  cheapestMode: z.boolean().default(false),
   /** Batch cooking : durée maximale de la session de préparation (minutes). */
   batchSessionMinutes: z.number().int().min(60).max(360).default(180),
 });

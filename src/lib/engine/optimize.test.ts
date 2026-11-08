@@ -220,3 +220,14 @@ describe("performance", () => {
     expect(Date.now() - t0).toBeLessThan(2000);
   });
 });
+
+describe("mode fin de mois", () => {
+  it("compose le menu le moins cher, sans dépasser le budget", () => {
+    const p = prefs({ budgetCents: 4000, meals: 5, persons: 2, seed: 4 });
+    const normal = optimizeMenu(p, ctx);
+    const cheap = optimizeMenu({ ...p, cheapestMode: true }, ctx);
+    expect(cheap.totalCents).toBeLessThanOrEqual(normal.totalCents);
+    expect(cheap.totalCents).toBeLessThanOrEqual(4000);
+    expect(cheap.diagnostics[0]!.code).toBe("cheapest-mode");
+  });
+});

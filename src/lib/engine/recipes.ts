@@ -44,6 +44,10 @@ export interface PreparedRecipe {
   baseIngredientId: string | null;
   /** Ingrédients remplacés dans ce plat (substitutions appliquées). */
   substituted: { from: string; to: string }[];
+  /** Grammes de fruits et légumes par portion (équilibre de la semaine). */
+  vegGrams: number;
+  /** Au moins un produit de saison et aucun hors saison. */
+  seasonal: boolean;
   /**
    * Nombre de soirs qu'un même plat peut couvrir en batch cooking (1 = un seul soir) :
    * il faut qu'il se réchauffe bien, se garde au frigo, et que ses portions suffisent.
@@ -78,6 +82,43 @@ export function sessionMinutesFor(recipes: readonly Pick<Recipe, "prepMinutes" |
   const cooks = recipes.map((r) => r.cookMinutes);
   const cookSpan = Math.max(Math.max(...cooks), Math.ceil(cooks.reduce((a, c) => a + c, 0) / 3));
   return prep + cookSpan;
+}
+
+/** Aromates, condiments et agrumes : ne comptent pas comme portion de légumes. */
+const NOT_VEGETABLES = new Set(["ail", "gingembre", "citron", "citron-vert", "persil", "coriandre", "basilic", "ciboulette", "menthe", "estragon", "aneth", "piment-frais", "citronnelle", "oignon-nouveau"]);
+const VEG_EXTRA = new Set([
+  "petits-pois-surgeles", "haricots-verts-surgeles", "epinards-surgeles", "legumes-wok", "ratatouille-surgelee", "brocoli-surgele", "choux-bruxelles-surgeles",
+  "petits-pois-carottes-surgeles", "legumes-potage-surgeles", "tomates-concassees", "mais-conserve", "petits-pois-conserve", "champignons-conserve", "ananas-conserve", "gaspacho",
+]);
+
+/** Fruits et légumes (frais, surgelés, en conserve) par portion, en grammes. */
+export function vegetableGrams(needs: Needs, ctx: EngineContext, portions: number): number {
+  let g = 0;
+  for (const [id, q] of needs) {
+    const ing = ctx.ingredients.get(id);
+    if (!ing || NOT_VEGETABLES.has(id) || ing.unit === "piece") continue;
+    if (ing.aisle === "fruits-legumes" || VEG_EXTRA.has(id)) g += q;
+  }
+  return Math.round(g / Math.max(1, portions));
+}
+
+/** Portions cuisinées par repas : les convives, plus les portions pour le lendemain midi. */
+export function portionsPerMeal(prefs: Pick<Preferences, "persons"> & Partial<Pick<Preferences, "lunchPortions">>): number {
+  return prefs.persons + (prefs.lunchPortions ?? 0);
+}
+
+/** Saisonnalité d'une recette ce mois-ci : produits frais de saison / hors saison utilisés. */
+export function seasonality(needs: Needs, ctx: EngineContext): { inSeason: number; outOfSeason: number } {
+  const month = Number(ctx.today.slice(5, 7));
+  let inSeason = 0;
+  let outOfSeason = 0;
+  for (const id of needs.keys()) {
+    const season = ctx.ingredients.get(id)?.season;
+    if (!season?.length) continue;
+    if (season.includes(month)) inSeason++;
+    else outOfSeason++;
+  }
+  return { inSeason, outOfSeason };
 }
 
 /** Au plus 3 soirs pour un même plat, même s'il se garde plus longtemps (on garde de la variété). */
@@ -123,7 +164,8 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
     const needs: Needs = new Map();
     const optionalNeeds: Needs = new Map();
     const droppedOptional: string[] = [];
-    const factor = prefs.persons / recipe.baseServings;
+    const portions = portionsPerMeal(prefs);
+    const factor = portions / recipe.baseServings;
     const substituted: { from: string; to: string }[] = [];
     for (const line of recipe.ingredients) {
       const original = ctx.ingredients.get(line.ingredientId);
@@ -151,7 +193,7 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       continue;
     }
     const facts = deriveRecipeFacts(recipe, ctx.ingredients);
-    const nutrition = nutritionPerPortion(needs, ctx.ingredients, prefs.persons);
+    const nutrition = nutritionPerPortion(needs, ctx.ingredients, portions);
     candidates.push({
       recipe,
       needs,
@@ -163,7 +205,12 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext): FilterRes
       nutrition,
       baseIngredientId: facts.baseIngredientId,
       substituted,
-      maxCover: coverFor(recipe, prefs.persons),
+      vegGrams: vegetableGrams(needs, ctx, portions),
+      seasonal: (() => {
+        const s = seasonality(needs, ctx);
+        return s.inSeason > 0 && s.outOfSeason === 0;
+      })(),
+      maxCover: coverFor(recipe, portions),
       keepDays: keepDaysFor(recipe),
     });
   }
@@ -175,6 +222,9 @@ const EXPIRING_DAYS = 5;
 export const RATING_BONUS: Record<number, number> = { 5: 5, 4: 3, 3: 0, 2: -5, 1: -12 };
 /** Bonus par produit du placard (hors condiments) utilisé : les restes de paquets passent en priorité. */
 export const LEFTOVER_BONUS = 1.5;
+/** Saison : +1 par produit de saison (3 au plus), −1,5 par produit hors saison (2 au plus). */
+export const SEASON_BONUS = 1;
+export const OUT_OF_SEASON_PENALTY = 1.5;
 /** Amplitude du bruit (graine) ajouté au score : assez pour varier, moins qu'un goût déclaré. */
 export const SCORE_NOISE = 5;
 /** Pénalité d'historique : dernier menu, avant-dernier, celui d'avant. */
@@ -217,6 +267,9 @@ export function scoreRecipe(
     if (item && item.quantity !== null && item.quantity > 0 && !ctx.ingredients.get(id)?.staple) leftovers++;
   }
   score += LEFTOVER_BONUS * Math.min(3, leftovers);
+  // Saison : fruits et légumes de saison favorisés (meilleurs, souvent moins chers), hors saison évités.
+  const season = seasonality(needs, ctx);
+  score += SEASON_BONUS * Math.min(3, season.inSeason) - OUT_OF_SEASON_PENALTY * Math.min(2, season.outOfSeason);
   // Vos notes : ce que vous avez aimé revient plus souvent, ce que vous n'avez pas aimé presque jamais.
   const stars = prefs.ratings?.[recipe.id];
   if (stars) score += RATING_BONUS[stars] ?? 0;

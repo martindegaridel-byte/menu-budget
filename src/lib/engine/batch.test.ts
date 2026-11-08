@@ -99,11 +99,12 @@ describe("semaine en batch cooking : une session pour tout", () => {
       const needs = new Map(filterRecipes(p, ctx).candidates.map((c) => [c.recipe.id, [...c.needs.keys()].filter((id) => !ctx.ingredients.get(id)?.staple)]));
       const uses = new Map<string, number>();
       for (const id of new Set(ids)) for (const ing of needs.get(id) ?? []) uses.set(ing, (uses.get(ing) ?? 0) + 1);
-      return [...uses.values()].filter((n) => n > 1).length;
+      // Rapporté au nombre de plats distincts : en batch, un plat couvre plusieurs soirs.
+      return [...uses.values()].filter((n) => n > 1).length / Math.max(1, new Set(ids).size);
     };
     let batch = 0;
     let normal = 0;
-    for (const seed of [1, 2, 3]) {
+    for (const seed of [1, 2, 3, 4, 5, 6]) {
       const base = { budgetCents: 3500, meals: 7, persons: 1, maxTotalMinutes: 90, seed };
       batch += shared(optimizeMenu(prefs({ ...base, batchCooking: true }), ctx).recipes.map((r) => r.recipeId));
       normal += shared(optimizeMenu(prefs(base), ctx).recipes.map((r) => r.recipeId));

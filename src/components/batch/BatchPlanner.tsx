@@ -202,7 +202,7 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
                   n={plan!.sharedBases.length + k + 1}
                   icon={CookingPot}
                   title={`${d.name}${d.slots.length > 1 ? ` · ${d.slots.length} repas` : ""}`}
-                  href={`/recettes/${d.id}?p=${result!.persons * d.slots.length}`}
+                  href={`/recettes/${d.id}?p=${(result!.persons + (result!.lunchPortions ?? 0)) * d.slots.length}`}
                 >
                   {d.info ? `${d.info.prepMinutes} min de préparation, ${d.info.cookMinutes} min de cuisson. ` : ""}
                   {d.slots.length * result!.persons} portion{d.slots.length * result!.persons > 1 ? "s" : ""} pour {d.slots.map(dayName).join(", ").toLowerCase()}.
@@ -228,7 +228,7 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
                       <span className="block text-body-sm font-semibold">{dayName(slot)}</span>
                     </span>
                     <span className="min-w-0 flex-1">
-                      <Link href={`/recettes/${r.recipeId}?p=${result!.persons}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
+                      <Link href={`/recettes/${r.recipeId}?p=${result!.persons + (result!.lunchPortions ?? 0)}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
                         {r.name}
                       </Link>
                       <span className="mt-1 flex flex-wrap gap-1.5">

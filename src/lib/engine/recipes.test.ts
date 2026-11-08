@@ -110,3 +110,23 @@ describe("notes des recettes", () => {
     expect(score({ khichdi: 2 })).toBeLessThan(neutral);
   });
 });
+
+describe("portions pour le lendemain midi", () => {
+  it("augmente les quantités et répartit le coût par portion", () => {
+    const ctx4 = seedContext();
+    const find = (lunchPortions: number) => filterRecipes(prefs({ persons: 1, lunchPortions, maxTotalMinutes: 300 }), ctx4).candidates.find((c) => c.recipe.id === "khichdi")!;
+    expect(find(1).needs.get("riz-basmati")).toBeCloseTo(find(0).needs.get("riz-basmati")! * 2);
+    expect(find(1).nutrition!.kcal).toBeCloseTo(find(0).nutrition!.kcal, -1); // même portion
+  });
+});
+
+describe("saison des fruits et légumes", () => {
+  it("favorise un plat de saison et pénalise un plat hors saison", () => {
+    const at = (today: string) => {
+      const c = { ...seedContext(), today };
+      return filterRecipes(prefs({ persons: 1, maxTotalMinutes: 300, seed: 9 }), c).candidates.find((x) => x.recipe.id === "veloute-butternut")!;
+    };
+    expect(at("2026-11-15").seasonal).toBe(true);
+    expect(at("2026-11-15").score).toBeGreaterThan(at("2026-07-15").score);
+  });
+});

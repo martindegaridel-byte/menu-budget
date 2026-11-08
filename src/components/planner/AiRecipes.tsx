@@ -46,7 +46,7 @@ export function AiRecipes({ prefs }: { prefs: Preferences }) {
           <ul className="space-y-1 text-body-sm">
             {res.recipes.map((r) => (
               <li key={r.id} className="flex justify-between gap-2">
-                <Link href={`/recettes/${r.id}?p=${prefs.persons}`} className="link">
+                <Link href={`/recettes/${r.id}?p=${prefs.persons + (prefs.lunchPortions ?? 0)}`} className="link">
                   {r.name}
                 </Link>
                 <span className="tabular-nums">{formatEuros(r.purchaseCents)} en caisse</span>

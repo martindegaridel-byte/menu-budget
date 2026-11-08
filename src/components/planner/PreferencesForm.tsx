@@ -137,13 +137,15 @@ export function PreferencesForm({
   const sliderId = useId();
   const storeId = useId();
   const timeId = useId();
-  const portions = Math.max(1, prefs.meals * prefs.persons);
+  const lunch = prefs.lunchPortions ?? 0;
+  const eaters = prefs.persons + lunch;
+  const portions = Math.max(1, prefs.meals * eaters);
   const perMeal = divideCeil(prefs.budgetCents, portions);
-  const via = viability(perMeal, prefs.persons);
+  const via = viability(perMeal, eaters);
   const vs = VIABILITY_STYLE[via.tone];
   // Échelle du curseur adaptée au nombre de portions, avec les zones « très serré / serré / confortable ».
-  const tightCents = tightPerPortion(prefs.persons) * portions;
-  const comfortCents = comfortPerPortion(prefs.persons) * portions;
+  const tightCents = tightPerPortion(eaters) * portions;
+  const comfortCents = comfortPerPortion(eaters) * portions;
   const sliderMax = Math.min(1_000_000, Math.max(5_000, Math.ceil((comfortCents * 2) / 1_000) * 1_000, Math.ceil(prefs.budgetCents / 1_000) * 1_000));
   const pct = (c: number) => `${Math.min(100, (c / sliderMax) * 100)}%`;
   const nExcluded = (permanent?.excludedIngredientIds.length ?? 0) + prefs.excludedIngredientIds.length;
@@ -165,7 +167,7 @@ export function PreferencesForm({
         icon={Wallet}
         title="Budget et repas"
         defaultOpen
-        summary={`${formatEuros(prefs.budgetCents)} · ${prefs.meals} repas · ${prefs.persons} pers. · ≈ ${formatEuros(perMeal)} / repas`}
+        summary={`${formatEuros(prefs.budgetCents)} · ${prefs.meals} repas · ${prefs.persons} pers.${lunch ? ` + ${lunch} midi` : ""} · ≈ ${formatEuros(perMeal)} / repas`}
       >
         <div className="space-y-5">
           <div>
@@ -262,6 +264,20 @@ export function PreferencesForm({
                 { value: 4, label: "Coloc" },
               ]}
             />
+            <div className="sm:col-span-2">
+              <Stepper
+                label="Portions en plus pour le midi du lendemain"
+                value={lunch}
+                min={0}
+                max={Math.max(prefs.persons, lunch)}
+                onChange={(v) => set("lunchPortions", v)}
+                shortcuts={[
+                  { value: 0, label: "Aucune" },
+                  { value: prefs.persons, label: prefs.persons > 1 ? "Pour tous" : "Pour moi" },
+                ]}
+              />
+              <p className="mt-1.5 text-caption text-muted">Chaque dîner est cuisiné en plus grande quantité : la gamelle du lendemain est comprise dans le budget.</p>
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Magasin" htmlFor={storeId} icon={StoreIcon}>

@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CalendarClock, CalendarDays, ListChecks, Pencil, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
+import { CalendarClock, CalendarDays, ListChecks, Pencil, PiggyBank, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
@@ -17,7 +17,7 @@ import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/sc
 import { formatEuros } from "@/lib/engine/money";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
-import { MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
+import { BalanceCard, MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
 import { SubstituteSheet } from "./SubstituteSheet";
 import { WeekPlanner } from "./WeekPlanner";
@@ -102,7 +102,8 @@ export function Planner({
     run(async () => {
       // Nouveau menu : nouvelle graine, historique transmis, remplacements d'ingrédients remis à zéro.
       const next = initial ? { ...p, recentRecipeIds: [] } : { ...p, seed: newSeed(), recentRecipeIds: recent, substitutions: [] };
-      setPrefs({ ...next, recentRecipeIds: [] });
+      // Le mode « fin de mois » ne vaut que pour ce menu : il n'est pas mémorisé.
+      setPrefs({ ...next, recentRecipeIds: [], cheapestMode: false });
       const r = await api.generate(next, initial);
       if (!initial) remember(r.recipes.map((x) => x.recipeId), r.recipes.length);
       recordPurchases(r.shoppingList.lines.filter((l) => l.toBuy > 0).map((l) => l.ingredientId));
@@ -373,6 +374,9 @@ export function Planner({
             pantryCount={pantryCount}
             monthHint={monthHint}
           />
+          <Button variant="secondary" icon={PiggyBank} fullWidth disabled={busy} onClick={() => generate({ ...prefs, cheapestMode: true })}>
+            Mode fin de mois : le moins cher possible
+          </Button>
           {llmEnabled && <AiRecipes prefs={prefs} />}
           {result && (
             <Button variant="ghost" className="w-full" onClick={() => setEditing(false)}>
@@ -388,6 +392,11 @@ export function Planner({
               <h1 className="text-title-1 font-semibold tracking-tight">
                 {result.recipes.length} repas · {result.persons} pers.
               </h1>
+              {(result.lunchPortions ?? 0) > 0 && (
+                <p className="text-body-sm text-muted">
+                  + {result.lunchPortions} portion{result.lunchPortions > 1 ? "s" : ""} pour le midi du lendemain
+                </p>
+              )}
             </div>
             <Button variant="secondary" size="sm" icon={Pencil} onClick={() => setEditing(true)}>
               Modifier les critères
@@ -447,6 +456,7 @@ export function Planner({
                       cooked={cooked}
                       busy={busy}
                     />
+                    <BalanceCard result={result} />
                     <div className="grid grid-cols-2 gap-2">
                       <Button variant="secondary" icon={RefreshCw} onClick={() => generate(prefs)} disabled={busy}>
                         Autre menu

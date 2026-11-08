@@ -104,7 +104,7 @@ export function WeekPlanner({ result, menuKey, onChange }: { result: MenuResult;
                 <p className="text-caption text-muted">{dateFmt.format(parse(e.date))}</p>
               </div>
               <div className="min-w-0 flex-1">
-                <Link href={`/recettes/${r.recipeId}?p=${result.persons}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
+                <Link href={`/recettes/${r.recipeId}?p=${result.persons + (result.lunchPortions ?? 0)}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
                   {r.name}
                 </Link>
                 <Badge icon={Clock} className="mt-1">

@@ -2,7 +2,7 @@ import type { Nutrition, Preferences } from "@/lib/domain/schemas";
 import { allocateCents, divideCeil, formatEuros, type Cents } from "./money";
 import { HIGH_PROTEIN_GRAMS, energyShares } from "./nutrition";
 import { bestUnitPrice } from "./packaging";
-import { filterRecipes, REJECTION_LABELS, sessionMinutesFor, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
+import { filterRecipes, portionsPerMeal, REJECTION_LABELS, sessionMinutesFor, type FilterResult, type PreparedRecipe, type RejectionReason } from "./recipes";
 import { createRng } from "./rng";
 import { buildShoppingList, mergeNeeds, type CoverCache } from "./shopping";
 import type { EngineContext, Needs, ShoppingList } from "./types";
@@ -31,6 +31,12 @@ export interface MenuRecipe {
   nutrition: Nutrition | null;
   /** Ingrédients remplacés dans ce plat. */
   substituted: { from: string; to: string }[];
+  /** Protéine principale (déduite des ingrédients). */
+  protein: string | null;
+  /** Grammes de fruits et légumes par portion. */
+  vegGrams: number;
+  /** Plat de saison ce mois-ci. */
+  seasonal: boolean;
 }
 
 export interface Diagnostic {
@@ -44,7 +50,8 @@ export interface Diagnostic {
     | "suggest-persons"
     | "recipe-no-longer-valid"
     | "unavailable"
-    | "nutrition-goal";
+    | "nutrition-goal"
+    | "cheapest-mode";
   message: string;
 }
 
@@ -67,6 +74,8 @@ export interface PrepPlan {
 export interface MenuResult {
   status: MenuStatus;
   persons: number;
+  /** Portions en plus pour le lendemain midi. */
+  lunchPortions: number;
   meals: number;
   budgetCents: Cents;
   totalCents: Cents;
@@ -385,6 +394,15 @@ export function optimizeMenu(prefs: Preferences, ctx: EngineContext, options: Op
   if (!cheapest) return noCandidates(prefs, filtered, started);
 
   const cheapestEval = ev.evaluate(cheapest);
+  if (prefs.cheapestMode && cheapestEval.cost <= prefs.budgetCents) {
+    const result = buildResult(batchOrder(cheapest, ev), prefs, ctx, ev, filtered, started);
+    result.diagnostics.unshift({
+      level: "info",
+      code: "cheapest-mode",
+      message: `Mode fin de mois : le menu le moins cher possible avec votre placard, soit ${formatEuros(result.totalCents)} (≈ ${formatEuros(result.perPersonPerMealCents)} la portion).`,
+    });
+    return result;
+  }
   if (cheapestEval.cost > prefs.budgetCents) {
     const result = buildResult(batchOrder(cheapest, ev), prefs, ctx, ev, filtered, started);
     result.status = "over-budget";
@@ -605,13 +623,16 @@ function buildResult(
       totalMinutes: c.recipe.prepMinutes + c.recipe.cookMinutes,
       difficulty: c.recipe.difficulty,
       allocatedCents: allocated[k]!,
-      perPersonCents: divideCeil(allocated[k]!, prefs.persons),
+      perPersonCents: divideCeil(allocated[k]!, portionsPerMeal(prefs)),
       standaloneCents: buildShoppingList(recipeNeeds[k]!, ctx, ev.coverCache).totalCents,
       droppedOptional: c.droppedOptional,
       skippedOptional: [...c.optionalNeeds.keys()].filter((id) => !extras[k]?.has(id)),
       pantryIngredientIds: [...recipeNeeds[k]!.keys()].filter((id) => (lineById.get(id)?.fromPantry ?? 0) > 0),
       nutrition: c.nutrition,
       substituted: c.substituted,
+      protein: c.protein,
+      vegGrams: c.vegGrams,
+      seasonal: c.seasonal,
     };
   });
   let prepPlan: PrepPlan | null = null;
@@ -706,11 +727,12 @@ function buildResult(
   return {
     status: total <= prefs.budgetCents ? "ok" : "over-budget",
     persons: prefs.persons,
+    lunchPortions: prefs.lunchPortions ?? 0,
     meals: prefs.meals,
     budgetCents: prefs.budgetCents,
     totalCents: total,
     remainingCents: prefs.budgetCents - total,
-    perPersonPerMealCents: divideCeil(total, prefs.persons * Math.max(1, menu.length)),
+    perPersonPerMealCents: divideCeil(total, portionsPerMeal(prefs) * Math.max(1, menu.length)),
     pantrySavingsCents,
     nutritionPerMeal,
     prepPlan,
@@ -732,6 +754,7 @@ function noCandidates(prefs: Preferences, filtered: FilterResult, started: numbe
   return {
     status: "no-candidates",
     persons: prefs.persons,
+    lunchPortions: prefs.lunchPortions ?? 0,
     meals: prefs.meals,
     budgetCents: prefs.budgetCents,
     totalCents: 0,

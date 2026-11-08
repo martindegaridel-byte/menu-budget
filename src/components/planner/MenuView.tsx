@@ -10,12 +10,15 @@ import {
   Egg,
   Fish,
   Gauge,
+  Info,
   Leaf,
   Package,
   RefreshCw,
   Salad,
+  Scale,
   Soup,
   Sparkles,
+  Sprout,
   UtensilsCrossed,
   Wheat,
   type LucideIcon,
@@ -28,6 +31,7 @@ import { BudgetGauge, Button, Card, Notice, Sheet, Stepper } from "@/components/
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { CUISINES, type Cuisine } from "@/lib/domain/schemas";
 import { formatEuros } from "@/lib/engine/money";
+import { weekBalance } from "@/lib/client/balance";
 import type { MenuResult, PrepPlan, SwapOption } from "@/lib/engine/optimize";
 import { formatQuantity } from "@/lib/engine/units";
 import { BudgetInput } from "./PreferencesForm";
@@ -227,7 +231,7 @@ export function MenuRecipes({
       {result.recipes.map((r, slot) => {
         const info = recipes.get(r.recipeId);
         const { icon: Icon, tint } = dishVisual(info);
-        const href = `/recettes/${r.recipeId}?p=${result.persons}`;
+        const href = `/recettes/${r.recipeId}?p=${result.persons + (result.lunchPortions ?? 0)}`;
         const done = cooked?.has(slot) ?? false;
         const group = result.prepPlan?.cookOnce.find((g) => g.slots.includes(slot));
         const leftover = group && group.slots[0] !== slot;
@@ -268,13 +272,18 @@ export function MenuRecipes({
                   <Badge icon={Clock}>{leftover ? "5 min" : `${r.totalMinutes} min`}</Badge>
                   <Badge>{LEVEL[r.difficulty]}</Badge>
                   <Badge>{CUISINES[r.cuisine as Cuisine] ?? r.cuisine}</Badge>
+                  {r.seasonal && (
+                    <Badge tone="accent" icon={Sprout}>
+                      De saison
+                    </Badge>
+                  )}
                   {r.pantryIngredientIds.length > 0 && (
                     <Badge tone="accent" icon={Package}>
                       {r.pantryIngredientIds.length} du placard
                     </Badge>
                   )}
                 </div>
-                {result.persons > 1 && <p className="mt-1.5 text-caption text-muted tabular-nums">≈ {formatEuros(r.perPersonCents)} / pers.</p>}
+                {result.persons + (result.lunchPortions ?? 0) > 1 && <p className="mt-1.5 text-caption text-muted tabular-nums">≈ {formatEuros(r.perPersonCents)} / portion</p>}
                 {r.nutrition && <MacroBar n={r.nutrition} compact className="mt-2" />}
               </div>
             </div>
@@ -390,5 +399,46 @@ export function SwapSheet({
         </ul>
       )}
     </Sheet>
+  );
+}
+
+/** Équilibre de la semaine : légumes, poisson, légumineuses, viande rouge. */
+export function BalanceCard({ result }: { result: MenuResult }) {
+  // Menus enregistrés avant cette fonction : pas de données d'équilibre.
+  if (result.recipes.length < 2 || result.recipes.some((r) => typeof r.vegGrams !== "number")) return null;
+  const b = weekBalance(result.recipes);
+  const stats: [string, string][] = [
+    ["Légumes / repas", `${b.vegPortionsPerMeal.toLocaleString("fr-FR")} portion${b.vegPortionsPerMeal >= 2 ? "s" : ""}`],
+    ["Poisson", `${b.fish} repas`],
+    ["Légumineuses", `${b.legumes} repas`],
+    ["Viande rouge", `${b.redMeat} repas`],
+  ];
+  return (
+    <Card className="space-y-3" aria-labelledby="equilibre-titre">
+      <h2 id="equilibre-titre" className="inline-flex items-center gap-2 text-body font-semibold">
+        <Scale aria-hidden className="size-5 text-accent-text" strokeWidth={ICON_STROKE} /> Équilibre de la semaine
+      </h2>
+      <dl className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {stats.map(([k, v]) => (
+          <div key={k} className="rounded-field bg-surface-2 p-2.5 ring-1 ring-inset ring-line">
+            <dt className="text-caption text-muted">{k}</dt>
+            <dd className="font-semibold tabular-nums">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <ul className="space-y-1.5">
+        {b.tips.map((t) => (
+          <li key={t.text} className="flex items-start gap-2 text-body-sm">
+            {t.tone === "good" ? (
+              <CheckCircle2 aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-text" strokeWidth={ICON_STROKE} />
+            ) : (
+              <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-warn-text" strokeWidth={ICON_STROKE} />
+            )}
+            <span>{t.text}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="text-caption text-subtle">Repères indicatifs (1 portion de légumes ≈ 80 g), d&apos;après les recommandations du PNNS.</p>
+    </Card>
   );
 }
