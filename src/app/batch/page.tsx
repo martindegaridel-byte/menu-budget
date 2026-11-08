@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { getCatalogView } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Batch cooking — Menu Budget" };
+export const metadata = { title: "Batch cooking — Popote" };
 
 export default async function BatchPage() {
   const { recipes } = await getCatalogView();

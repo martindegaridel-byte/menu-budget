@@ -24,4 +24,4 @@ export function restoreDeviceSettings(storage: Pick<Storage, "setItem">, setting
   return n;
 }
 
-export const backupFileName = (d = new Date()) => `menu-budget-${d.toISOString().slice(0, 10)}.json`;
+export const backupFileName = (d = new Date()) => `popote-${d.toISOString().slice(0, 10)}.json`;

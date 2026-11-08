@@ -59,7 +59,7 @@ export function composeNotification(schedule: readonly ReminderEntry[], expiring
   }
   if (!dinner && lines.length === 0) return null;
   return {
-    title: dinner ? `Ce soir : ${dinner.text}` : "Menu Budget",
+    title: dinner ? `Ce soir : ${dinner.text}` : "Popote",
     body: lines.length ? lines.join(" ") : "Bon appétit ! Touchez pour voir la recette.",
     url: dinner?.url ?? (soon.length ? "/placard" : (thaw[0]?.url ?? "/")),
   };

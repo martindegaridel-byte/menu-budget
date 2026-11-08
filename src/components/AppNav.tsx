@@ -1,8 +1,9 @@
 "use client";
-import { Ban, BookOpen, Carrot, CookingPot, History, Package, Palette, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { Ban, BookOpen, CookingPot, History, Package, Palette, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ds";
+import { PopoteLogo } from "@/components/PopoteLogo";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { useAppearance } from "@/lib/client/use-appearance";
 
@@ -24,10 +25,10 @@ function useActive() {
 export function Brand({ className }: { className?: string }) {
   return (
     <Link href="/" className={cn("focus-ring inline-flex items-center gap-2.5 rounded-field", className)}>
-      <span className="grid size-9 place-items-center rounded-field bg-gradient-to-br from-accent to-accent-2 text-accent-fg shadow-soft">
-        <Carrot aria-hidden className="size-5" strokeWidth={ICON_STROKE} />
+      <span className="grid size-9 place-items-center rounded-field bg-accent-2 text-accent-fg">
+        <PopoteLogo className="size-6" />
       </span>
-      <span className="text-title-3 font-semibold tracking-tight text-fg">Menu Budget</span>
+      <span className="font-display text-[1.4rem] font-semibold leading-none tracking-tight text-fg">Popote</span>
     </Link>
   );
 }
@@ -35,7 +36,7 @@ export function Brand({ className }: { className?: string }) {
 /** En-tête mobile (marque, personnalisation, thème) ; caché sur grand écran où la barre latérale prend le relais. */
 export function MobileHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-glass pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:hidden">
+    <header className="sticky top-0 z-20 border-b border-line bg-canvas pt-[env(safe-area-inset-top)] lg:hidden">
       <div className="mx-auto flex max-w-[720px] items-center justify-between px-4 py-1.5">
         <Brand />
         <span className="flex items-center">
@@ -63,7 +64,7 @@ export function SideNav() {
       on ? "bg-accent-soft text-accent-text" : "text-muted hover:bg-surface-2 hover:text-fg",
     );
   return (
-    <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col border-r border-line bg-surface/60 px-4 py-5 backdrop-blur-xl lg:flex">
+    <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col border-r border-line bg-surface px-4 py-5 lg:flex">
       <Brand className="mb-8 px-2" />
       <nav aria-label="Navigation principale">
         <ul className="space-y-1">

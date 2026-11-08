@@ -4,7 +4,7 @@ import { StoresManager } from "@/components/stores/StoresManager";
 import { getCatalogView } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Magasins et prix — Menu Budget" };
+export const metadata = { title: "Magasins et prix — Popote" };
 
 export default async function StoresPage() {
   const { ingredients } = await getCatalogView();

@@ -4,7 +4,7 @@ import { HistoryList } from "@/components/history/HistoryList";
 import { getCatalogView } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Historique et favoris — Menu Budget" };
+export const metadata = { title: "Historique et favoris — Popote" };
 
 export default async function HistoryPage() {
   const { recipes } = await getCatalogView();

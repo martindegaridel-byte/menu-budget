@@ -1,8 +1,9 @@
 "use client";
-import { ArrowLeft, ArrowRight, Carrot, Check, HeartPulse, Package, Store as StoreIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, HeartPulse, Package, Store as StoreIcon } from "lucide-react";
 import { useId, useState } from "react";
 import { Button, Chip, Segmented, Stepper, useToast } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
+import { PopoteLogo } from "@/components/PopoteLogo";
 import { api } from "@/lib/client/api";
 import type { IngredientOption } from "@/lib/client/catalog-types";
 import type { Profile } from "@/lib/domain/profile";
@@ -76,8 +77,8 @@ export function Onboarding({
       <div className="mx-auto flex w-full max-w-lg flex-1 flex-col px-5 pb-[max(20px,env(safe-area-inset-bottom))] pt-[max(20px,env(safe-area-inset-top))]">
         <div className="mb-6 flex items-center justify-between">
           <span className="inline-flex items-center gap-2 text-body font-semibold">
-            <span className="grid size-9 place-items-center rounded-field bg-gradient-to-br from-accent to-accent-2 text-accent-fg">
-              <Carrot aria-hidden className="size-5" strokeWidth={ICON_STROKE} />
+            <span className="grid size-9 place-items-center rounded-field bg-accent-2 text-accent-fg">
+              <PopoteLogo className="size-6" />
             </span>
             Bienvenue
           </span>

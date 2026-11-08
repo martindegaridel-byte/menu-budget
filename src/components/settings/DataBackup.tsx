@@ -21,7 +21,7 @@ export function DataBackup() {
       // Sur téléphone : feuille de partage (Fichiers, AirDrop, mail…) ; sinon téléchargement classique.
       if (navigator.canShare?.({ files: [file] })) {
         try {
-          await navigator.share({ files: [file], title: "Sauvegarde Menu Budget" });
+          await navigator.share({ files: [file], title: "Sauvegarde Popote" });
           return;
         } catch (e) {
           if (e instanceof DOMException && e.name === "AbortError") return;
@@ -61,7 +61,7 @@ export function DataBackup() {
       toast({ title: "Données restaurées", tone: "success" });
       if (settings) setTimeout(() => window.location.reload(), 1500);
     } catch (e) {
-      const msg = e instanceof SyntaxError ? "Ce fichier n'est pas une sauvegarde Menu Budget." : e instanceof Error ? e.message : "Fichier illisible.";
+      const msg = e instanceof SyntaxError ? "Ce fichier n'est pas une sauvegarde Popote." : e instanceof Error ? e.message : "Fichier illisible.";
       setSummary(null);
       toast({ title: "Restauration impossible", description: msg, tone: "error" });
     } finally {

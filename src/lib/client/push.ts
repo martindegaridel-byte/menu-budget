@@ -42,7 +42,7 @@ export async function enableReminders(schedule: ReminderEntry[]): Promise<void> 
   const reg = (await navigator.serviceWorker.getRegistration()) ?? (await navigator.serviceWorker.register("/sw.js"));
   await navigator.serviceWorker.ready;
   const permission = await Notification.requestPermission();
-  if (permission !== "granted") throw new Error("Notifications refusées : autorisez-les dans les réglages du téléphone pour Menu Budget.");
+  if (permission !== "granted") throw new Error("Notifications refusées : autorisez-les dans les réglages du téléphone pour Popote.");
   const { publicKey } = await json<{ publicKey: string }>(await fetch("/api/push"));
   const sub = (await reg.pushManager.getSubscription()) ?? (await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(publicKey) }));
   const body = sub.toJSON();

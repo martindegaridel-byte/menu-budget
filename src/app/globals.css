@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* =====================================================================
-   Design system « Menu Budget »
+   Design system « Popote »
    Thème sombre par défaut ; thème clair via <html data-theme="light">.
    Les composants de src/components/ds/ n'utilisent que ces tokens.
    ===================================================================== */
@@ -9,7 +9,91 @@
 :root {
   color-scheme: dark;
 
-  /* Couleurs — thème sombre */
+  /* Couleurs — thème sombre « Fonte » (gris chaud de cocotte), accent Tomate */
+  --mb-canvas: #15110f;
+  --mb-surface: #1e1916;
+  --mb-surface-2: #27211d;
+  --mb-surface-3: #322a25;
+  --mb-line: rgba(244, 236, 224, 0.07);
+  --mb-line-strong: rgba(244, 236, 224, 0.14);
+  --mb-fg: #f4ece0;
+  --mb-muted: #bcae9f; /* 8,0:1 sur surface */
+  --mb-subtle: #a09385; /* 5,8:1 sur surface, 5,3:1 sur surface-2 — légendes */
+  --mb-accent: #ff7b5c;
+  --mb-accent-2: #f0603f;
+  --mb-accent-fg: #2b0b04; /* texte sur bouton principal : 5,6:1 */
+  --mb-accent-soft: rgba(255, 123, 92, 0.14);
+  --mb-accent-text: #ff9c84; /* 8,6:1 */
+  --mb-warn: #f2c14e;
+  --mb-warn-soft: rgba(242, 193, 78, 0.14);
+  --mb-warn-text: #f2c14e;
+  --mb-danger: #ff6b81;
+  --mb-danger-soft: rgba(255, 107, 129, 0.14);
+  --mb-danger-text: #ff6b81;
+  --mb-focus: #ffb347;
+  --mb-overlay: rgba(10, 7, 5, 0.62);
+
+  /* Coins */
+  --mb-radius-field: 10px;
+  --mb-radius-card: 14px;
+  --mb-radius-sheet: 20px;
+
+  /* Profondeur : ombres franches, pas d'effet verre */
+  --mb-shadow-soft: 0 1px 0 rgba(0, 0, 0, 0.35);
+  --mb-shadow-lift: 0 10px 24px -10px rgba(0, 0, 0, 0.7), 0 2px 0 rgba(0, 0, 0, 0.3);
+  --mb-glass: #1e1916;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  /* Thème clair « Papier » : crème de livre de cuisine */
+  --mb-canvas: #f6efe3;
+  --mb-surface: #fffaf3;
+  --mb-surface-2: #f1e8da;
+  --mb-surface-3: #e7dbc9;
+  --mb-line: rgba(36, 28, 22, 0.1);
+  --mb-line-strong: rgba(36, 28, 22, 0.2);
+  --mb-fg: #241c16;
+  --mb-muted: #5a4c40; /* 8,0:1 */
+  --mb-subtle: #6b5d50; /* 6,1:1 */
+  --mb-accent: #e2553a;
+  --mb-accent-2: #b93d26;
+  --mb-accent-fg: #ffffff; /* 5,6:1 sur accent-2 */
+  --mb-accent-soft: rgba(226, 85, 58, 0.12);
+  --mb-accent-text: #a3351e; /* 6,6:1 */
+  --mb-warn: #e0a526;
+  --mb-warn-soft: rgba(224, 165, 38, 0.2);
+  --mb-warn-text: #8a5a00;
+  --mb-danger: #d6264f;
+  --mb-danger-soft: rgba(214, 38, 79, 0.12);
+  --mb-danger-text: #b3123a;
+  --mb-focus: #b93d26;
+  --mb-overlay: rgba(36, 28, 22, 0.35);
+  --mb-shadow-soft: 0 1px 0 rgba(36, 28, 22, 0.08);
+  --mb-shadow-lift: 0 10px 24px -10px rgba(36, 28, 22, 0.22), 0 2px 0 rgba(36, 28, 22, 0.06);
+  --mb-glass: #fffaf3;
+}
+
+/* ---------------------------------------------------------------------
+   Personnalisation (page « Personnaliser ») : accents et ambiances.
+   Tomate et Fonte sont les valeurs par défaut ci-dessus.
+   --------------------------------------------------------------------- */
+:root[data-accent="emeraude"] {
+  --mb-accent: #34d399;
+  --mb-accent-2: #10b981;
+  --mb-accent-fg: #04291b;
+  --mb-accent-soft: rgba(52, 211, 153, 0.12);
+  --mb-accent-text: #6ee7b7;
+  --mb-focus: #34d399;
+}
+:root[data-theme="light"][data-accent="emeraude"] {
+  --mb-accent-2: #047857;
+  --mb-accent-fg: #ffffff;
+  --mb-accent-soft: rgba(16, 185, 129, 0.12);
+  --mb-accent-text: #047857;
+  --mb-focus: #059669;
+}
+:root:not([data-theme="light"])[data-surface="foret"] {
   --mb-canvas: #0b0f0e;
   --mb-surface: #131a18;
   --mb-surface-2: #1a2321;
@@ -17,66 +101,20 @@
   --mb-line: rgba(255, 255, 255, 0.06);
   --mb-line-strong: rgba(255, 255, 255, 0.12);
   --mb-fg: #ecf2ef;
-  --mb-muted: #a3b0ab; /* 7,9:1 sur surface */
-  --mb-subtle: #84928d; /* 5,5:1 sur surface, 5,0:1 sur surface-2 — légendes */
-  --mb-accent: #34d399;
-  --mb-accent-2: #10b981;
-  --mb-accent-fg: #04291b; /* texte sur bouton principal : ≥ 6,2:1 */
-  --mb-accent-soft: rgba(52, 211, 153, 0.12);
-  --mb-accent-text: #6ee7b7;
-  --mb-warn: #f5b544;
-  --mb-warn-soft: rgba(245, 181, 68, 0.14);
-  --mb-warn-text: #f5b544;
-  --mb-danger: #f87171;
-  --mb-danger-soft: rgba(248, 113, 113, 0.14);
-  --mb-danger-text: #f87171;
-  --mb-focus: #34d399;
-  --mb-overlay: rgba(5, 8, 7, 0.6);
-
-  /* Coins */
-  --mb-radius-field: 12px;
-  --mb-radius-card: 16px;
-  --mb-radius-sheet: 20px;
-
-  /* Profondeur */
-  --mb-shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 1px rgba(0, 0, 0, 0.25);
-  --mb-shadow-lift: 0 12px 32px -12px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
-  --mb-glass: rgba(19, 26, 24, 0.72);
+  --mb-muted: #a3b0ab;
+  --mb-subtle: #84928d;
+  --mb-glass: #131a18;
 }
-
-:root[data-theme="light"] {
-  color-scheme: light;
+:root[data-theme="light"][data-surface="foret"] {
   --mb-canvas: #f5f8f6;
   --mb-surface: #ffffff;
   --mb-surface-2: #eef3f0;
   --mb-surface-3: #e3eae6;
-  --mb-line: rgba(11, 15, 14, 0.08);
-  --mb-line-strong: rgba(11, 15, 14, 0.16);
   --mb-fg: #0b0f0e;
-  --mb-muted: #46534f; /* 8,0:1 sur blanc */
-  --mb-subtle: #5d6b66; /* 5,6:1 */
-  --mb-accent: #34d399;
-  --mb-accent-2: #10b981;
-  --mb-accent-fg: #04291b;
-  --mb-accent-soft: rgba(16, 185, 129, 0.12);
-  --mb-accent-text: #047857; /* 5,5:1 sur blanc */
-  --mb-warn: #f5b544;
-  --mb-warn-soft: rgba(245, 181, 68, 0.2);
-  --mb-warn-text: #92400e;
-  --mb-danger: #f87171;
-  --mb-danger-soft: rgba(248, 113, 113, 0.16);
-  --mb-danger-text: #b91c1c;
-  --mb-focus: #059669;
-  --mb-overlay: rgba(11, 15, 14, 0.35);
-  --mb-shadow-soft: 0 1px 2px rgba(11, 15, 14, 0.06), 0 1px 1px rgba(11, 15, 14, 0.04);
-  --mb-shadow-lift: 0 12px 32px -12px rgba(11, 15, 14, 0.18), 0 2px 8px rgba(11, 15, 14, 0.06);
-  --mb-glass: rgba(255, 255, 255, 0.75);
+  --mb-muted: #46534f;
+  --mb-subtle: #5d6b66;
+  --mb-glass: #ffffff;
 }
-
-/* ---------------------------------------------------------------------
-   Personnalisation (page « Personnaliser ») : accents et ambiances.
-   Émeraude et Forêt sont les valeurs par défaut ci-dessus.
-   --------------------------------------------------------------------- */
 :root[data-accent="ocean"] {
   --mb-accent: #38bdf8;
   --mb-accent-2: #0ea5e9;
@@ -212,56 +250,56 @@
   --mb-surface: #141416;
   --mb-surface-2: #1c1c1f;
   --mb-surface-3: #26262a;
-  --mb-glass: rgba(20, 20, 22, 0.72);
+  --mb-glass: #141416;
 }
 :root[data-theme="light"][data-surface="nuit"] {
   --mb-canvas: #f4f4f5;
   --mb-surface: #ffffff;
   --mb-surface-2: #ececee;
   --mb-surface-3: #e2e2e6;
-  --mb-glass: rgba(255, 255, 255, 0.75);
+  --mb-glass: #ffffff;
 }
 :root:not([data-theme="light"])[data-surface="ardoise"] {
   --mb-canvas: #0b1020;
   --mb-surface: #131a2e;
   --mb-surface-2: #1a2338;
   --mb-surface-3: #232e46;
-  --mb-glass: rgba(19, 26, 46, 0.72);
+  --mb-glass: #131a2e;
 }
 :root[data-theme="light"][data-surface="ardoise"] {
   --mb-canvas: #f1f5f9;
   --mb-surface: #ffffff;
   --mb-surface-2: #e8eef5;
   --mb-surface-3: #dbe3ee;
-  --mb-glass: rgba(255, 255, 255, 0.75);
+  --mb-glass: #ffffff;
 }
 :root:not([data-theme="light"])[data-surface="prune"] {
   --mb-canvas: #120b14;
   --mb-surface: #1c1320;
   --mb-surface-2: #251a2a;
   --mb-surface-3: #2f2235;
-  --mb-glass: rgba(28, 19, 32, 0.72);
+  --mb-glass: #1c1320;
 }
 :root[data-theme="light"][data-surface="prune"] {
   --mb-canvas: #faf5fb;
   --mb-surface: #ffffff;
   --mb-surface-2: #f2e8f4;
   --mb-surface-3: #e9dcec;
-  --mb-glass: rgba(255, 255, 255, 0.75);
+  --mb-glass: #ffffff;
 }
 :root:not([data-theme="light"])[data-surface="moka"] {
   --mb-canvas: #120e0b;
   --mb-surface: #1c1612;
   --mb-surface-2: #251e18;
   --mb-surface-3: #30271f;
-  --mb-glass: rgba(28, 22, 18, 0.72);
+  --mb-glass: #1c1612;
 }
 :root[data-theme="light"][data-surface="moka"] {
   --mb-canvas: #faf6f0;
   --mb-surface: #fffdf9;
   --mb-surface-2: #f3ece2;
   --mb-surface-3: #e9dfd2;
-  --mb-glass: rgba(255, 253, 249, 0.75);
+  --mb-glass: #fffdf9;
 }
 /* Coins : doux (défaut), très arrondis, nets */
 :root[data-corners="arrondi"] {
@@ -309,7 +347,7 @@
   --shadow-soft: var(--mb-shadow-soft);
   --shadow-lift: var(--mb-shadow-lift);
 
-  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
   --font-numeric: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif; /* chiffres tabulaires via tabular-nums */
 
   /* Échelle typographique : titres 28 / 22 / 18, corps 16 / 15, légendes 13 */
@@ -374,6 +412,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Titres en serif, façon livre de recettes */
+h1,
+h2,
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
 }
 
 ::selection {

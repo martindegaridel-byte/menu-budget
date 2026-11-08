@@ -5,14 +5,15 @@ import { AppNav, MobileHeader, SideNav } from "@/components/AppNav";
 import { PwaSupport } from "@/components/PwaSupport";
 import { ToastProvider } from "@/components/ds";
 import { APPEARANCE_INIT_SCRIPT } from "@/lib/client/appearance";
+import "@fontsource-variable/fraunces";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Menu Budget — repas sur mesure à petit prix",
-  description: "Composez vos repas selon votre budget, vos goûts et votre placard, avec la liste de courses.",
+  title: "Popote — la cuisine maison à petit prix",
+  description: "Vos dîners faits maison selon votre budget, vos goûts et votre placard, avec la liste de courses.",
   manifest: "/manifest.webmanifest",
-  applicationName: "Menu Budget",
-  appleWebApp: { capable: true, title: "Menu Budget", statusBarStyle: "black-translucent" },
+  applicationName: "Popote",
+  appleWebApp: { capable: true, title: "Popote", statusBarStyle: "black-translucent" },
   icons: {
     icon: [{ url: "/icons/favicon-32.png", sizes: "32x32", type: "image/png" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
@@ -24,8 +25,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f8f6" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0f0e" },
+    { media: "(prefers-color-scheme: light)", color: "#f6efe3" },
+    { media: "(prefers-color-scheme: dark)", color: "#15110f" },
   ],
 };
 

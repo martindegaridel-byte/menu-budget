@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { AppearanceSettings } from "@/components/settings/AppearanceSettings";
 import { DataBackup } from "@/components/settings/DataBackup";
 
-export const metadata = { title: "Personnaliser — Menu Budget" };
+export const metadata = { title: "Personnaliser — Popote" };
 
 export default function PersonnaliserPage() {
   return (

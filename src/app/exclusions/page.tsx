@@ -8,7 +8,7 @@ import { getCurrentUserId } from "@/lib/server/user";
 import { getCatalogView } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Mes exclusions — Menu Budget" };
+export const metadata = { title: "Mes exclusions — Popote" };
 
 export default async function ExclusionsPage() {
   const userId = await getCurrentUserId();

@@ -38,16 +38,16 @@ import { BudgetInput } from "./PreferencesForm";
 
 const LEVEL = ["", "Facile", "Moyen", "Difficile"];
 
-/** Illustration du plat (pas de photo dans la base) : icône + dégradé selon ses étiquettes. */
+/** Illustration du plat (pas de photo dans la base) : icône + teinte selon ses étiquettes. */
 function dishVisual(info?: RecipeSummary): { icon: LucideIcon; tint: string } {
   const t = new Set(info?.tags ?? []);
-  if (t.has("poisson") || t.has("fruits-de-mer")) return { icon: Fish, tint: "from-sky-400/25 to-sky-400/5 text-sky-300" };
-  if (t.has("soupe")) return { icon: Soup, tint: "from-orange-400/25 to-orange-400/5 text-orange-300" };
-  if (t.has("vegan")) return { icon: Leaf, tint: "from-accent/30 to-accent/5 text-accent-text" };
-  if (t.has("oeufs")) return { icon: Egg, tint: "from-yellow-300/25 to-yellow-300/5 text-yellow-200" };
-  if (t.has("vegetarien")) return { icon: Salad, tint: "from-lime-400/25 to-lime-400/5 text-lime-300" };
-  if (t.has("pates") || t.has("riz")) return { icon: Wheat, tint: "from-amber-300/25 to-amber-300/5 text-amber-200" };
-  return { icon: UtensilsCrossed, tint: "from-rose-400/25 to-rose-400/5 text-rose-300" };
+  if (t.has("poisson") || t.has("fruits-de-mer")) return { icon: Fish, tint: "bg-sky-500/15 text-sky-500" };
+  if (t.has("soupe")) return { icon: Soup, tint: "bg-orange-500/15 text-orange-500" };
+  if (t.has("vegan")) return { icon: Leaf, tint: "bg-emerald-500/15 text-emerald-500" };
+  if (t.has("oeufs")) return { icon: Egg, tint: "bg-yellow-500/15 text-yellow-500" };
+  if (t.has("vegetarien")) return { icon: Salad, tint: "bg-lime-500/15 text-lime-600" };
+  if (t.has("pates") || t.has("riz")) return { icon: Wheat, tint: "bg-amber-500/15 text-amber-500" };
+  return { icon: UtensilsCrossed, tint: "bg-accent/15 text-accent-text" };
 }
 
 export function MenuSummary({
@@ -238,7 +238,7 @@ export function MenuRecipes({
         return (
           <Card as="li" key={`${r.recipeId}-${slot}`} padded={false} className={cn("overflow-hidden transition-opacity duration-200", done && "opacity-70")}>
             <div className="flex gap-3 p-3 sm:gap-4 sm:p-4">
-              <div aria-hidden className={cn("grid size-20 shrink-0 place-items-center rounded-field bg-gradient-to-br ring-1 ring-inset ring-line sm:size-24", tint)}>
+              <div aria-hidden className={cn("grid size-20 shrink-0 place-items-center rounded-field ring-1 ring-inset ring-line sm:size-24", tint)}>
                 <Icon className="size-9" strokeWidth={1.5} />
               </div>
               <div className="min-w-0 flex-1">

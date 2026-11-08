@@ -55,7 +55,7 @@ export function RemindersCard({ schedule }: { schedule: ReminderEntry[] }) {
       ) : support === "unsupported" ? (
         <p className="text-body-sm text-muted">Ce navigateur ne permet pas les notifications. Essayez avec Chrome, Safari (appli installée) ou Firefox.</p>
       ) : support === "denied" ? (
-        <p className="text-body-sm text-muted">Les notifications sont bloquées pour Menu Budget : autorisez-les dans les réglages du téléphone ou du navigateur.</p>
+        <p className="text-body-sm text-muted">Les notifications sont bloquées pour Popote : autorisez-les dans les réglages du téléphone ou du navigateur.</p>
       ) : enabled ? (
         <div className="flex flex-wrap gap-2">
           <Button variant="secondary" icon={Send} loading={busy} onClick={() => void run(sendTestReminder, "Notification de test envoyée")}>

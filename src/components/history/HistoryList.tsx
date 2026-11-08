@@ -52,7 +52,7 @@ export function HistoryList({ recipes }: { recipes: RecipeSummary[] }) {
           action={
             <Link
               href="/"
-              className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-field bg-gradient-to-b from-accent to-accent-2 px-5 font-semibold text-accent-fg shadow-soft hover:brightness-110"
+              className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-field bg-accent-2 px-5 font-semibold text-accent-fg shadow-soft hover:brightness-110"
             >
               <UtensilsCrossed aria-hidden className="size-[18px]" strokeWidth={ICON_STROKE} />
               Composer un menu

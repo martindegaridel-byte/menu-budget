@@ -52,7 +52,7 @@ const compact = (iso: string) => iso.replace(/-/g, "");
 /** Fichier calendrier : un événement par soir (19 h – 20 h, heure locale). */
 export function buildIcs(evenings: readonly PlannedEvening[], opts: { origin: string; persons: number; now?: Date }): string {
   const stamp = (opts.now ?? new Date()).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Menu Budget//FR", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"];
+  const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Popote//FR", "CALSCALE:GREGORIAN", "METHOD:PUBLISH"];
   for (const e of evenings) {
     const url = `${opts.origin}/recettes/${e.recipeId}?p=${opts.persons}`;
     lines.push(

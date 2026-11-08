@@ -4,7 +4,7 @@ import { PantryEditor } from "@/components/pantry/PantryEditor";
 import { getCatalogView } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Mon placard — Menu Budget" };
+export const metadata = { title: "Mon placard — Popote" };
 
 export default async function PantryPage() {
   const { ingredients } = await getCatalogView();

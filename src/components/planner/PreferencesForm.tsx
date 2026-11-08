@@ -415,7 +415,7 @@ export function PreferencesForm({
         <button
           type="submit"
           disabled={loading}
-          className="focus-ring flex min-h-12 w-full items-center justify-center gap-2 rounded-card sm:min-h-14 bg-gradient-to-b from-accent to-accent-2 text-body font-semibold text-accent-fg shadow-lift transition-[filter,transform] duration-150 hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
+          className="focus-ring flex min-h-12 w-full items-center justify-center gap-2 rounded-card sm:min-h-14 bg-accent-2 text-body font-semibold text-accent-fg shadow-lift transition-[filter,transform] duration-150 hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
         >
           {loading ? <Loader2 aria-hidden className="size-5 animate-spin" strokeWidth={ICON_STROKE} /> : <Sparkles aria-hidden className="size-5" strokeWidth={ICON_STROKE} />}
           {loading ? "Composition en cours…" : "Générer mon menu"}

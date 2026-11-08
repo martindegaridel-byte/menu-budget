@@ -1,4 +1,4 @@
-# Menu Budget — CLAUDE.md
+# Popote (ex-Menu Budget) — CLAUDE.md
 
 Application web mobile-first : l'utilisateur donne un **budget**, un nombre de
 **repas** (1 repas = 1 plat, en pratique des dîners) et ses contraintes ; l'app
@@ -15,8 +15,11 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
    explicitement.** Une refonte d'interface ne touche qu'à `src/components/`,
    `src/app/**/page.tsx`, `src/app/layout.tsx`, `src/app/globals.css` et aux
    helpers purement visuels.
-2. **Design** : thème sombre et accent vert émeraude par défaut (personnalisables dans `/personnaliser` : accents et ambiances définis dans `globals.css`, contrastes AA vérifiés), icônes
-   **lucide-react** (aucun emoji dans l'interface ni la navigation).
+2. **Design** : identité « Popote », style bistrot / carnet de cuisine. Thème sombre « Fonte »
+   (gris chaud) et accent **Tomate** par défaut, thème clair « Papier » (crème) ; titres en serif
+   Fraunces, aplats (pas de dégradés ni d'effet verre). Personnalisable dans `/personnaliser`
+   (accents et ambiances définis dans `globals.css`, contrastes AA vérifiés). Icônes
+   **lucide-react** (aucun emoji dans l'interface ni la navigation), logo `PopoteLogo`.
 3. **Accessibilité** : mobile-first, cibles tactiles ≥ 44 px, contrastes AA minimum,
    labels sur tous les champs, focus visible, navigation au clavier,
    `prefers-reduced-motion` respecté.

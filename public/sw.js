@@ -1,10 +1,10 @@
-/* Service worker de Menu Budget : l'appli reste utilisable hors connexion.
+/* Service worker de Popote : l'appli reste utilisable hors connexion.
  * - Pages : réseau d'abord, sinon la dernière version en cache (le menu et la liste
  *   de courses sont gardés dans le navigateur, donc consultables au magasin).
  * - Fichiers statiques (/_next/static, icônes) : cache d'abord.
  * - API : jamais mises en cache (prix et calculs toujours à jour).
  */
-const VERSION = "mb-v2";
+const VERSION = "mb-v3";
 const PAGES = ["/", "/batch", "/placard", "/historique"];
 
 self.addEventListener("install", (event) => {
@@ -53,7 +53,7 @@ self.addEventListener("fetch", (event) => {
 
 /* Rappels : affichage des notifications envoyées par le serveur. */
 self.addEventListener("push", (event) => {
-  let data = { title: "Menu Budget", body: "", url: "/" };
+  let data = { title: "Popote", body: "", url: "/" };
   try {
     data = { ...data, ...event.data.json() };
   } catch {

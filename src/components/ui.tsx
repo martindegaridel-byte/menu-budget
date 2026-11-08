@@ -73,7 +73,7 @@ export function BudgetGauge({ total, budget }: { total: number; budget: number }
   const ratio = budget > 0 ? total / budget : total > 0 ? 2 : 0;
   const pct = Math.min(100, Math.round(ratio * 100));
   const over = total > budget;
-  const color = over ? "bg-danger" : ratio > 0.9 ? "bg-warn" : "bg-gradient-to-r from-accent-2 to-accent";
+  const color = over ? "bg-danger" : ratio > 0.9 ? "bg-warn" : "bg-accent";
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between gap-2">

@@ -5,7 +5,7 @@ import { getCurrentUserId } from "@/lib/server/user";
 import { getRecipeBrowseData } from "@/lib/server/views";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Recettes — Menu Budget" };
+export const metadata = { title: "Recettes — Popote" };
 
 export default async function RecipesPage() {
   const userId = await getCurrentUserId();

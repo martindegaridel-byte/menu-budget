@@ -42,7 +42,7 @@ export function AppearanceSettings() {
           <p className="text-caption text-muted">Votre menu</p>
           <p className="text-title-3 font-semibold">5 repas · 19,82 €</p>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-3">
-            <div className="h-full w-4/5 rounded-full bg-gradient-to-r from-accent-2 to-accent" />
+            <div className="h-full w-4/5 rounded-full bg-accent" />
           </div>
           <div className="mt-3 flex flex-wrap gap-2" aria-hidden>
             <Chip state="selected" tabIndex={-1}>
