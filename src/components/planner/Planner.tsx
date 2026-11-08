@@ -323,8 +323,8 @@ export function Planner({
       {showForm ? (
         <>
           <header className="space-y-1.5">
-            <h1 className="text-title-1 font-semibold tracking-tight">Vos repas sur mesure</h1>
-            <p className="text-body-sm text-muted">Un budget, quelques goûts : on compose des plats dont le coût en caisse le respecte, placard compris.</p>
+            <h1 className="text-title-2 font-semibold tracking-tight sm:text-title-1">Vos repas sur mesure</h1>
+            <p className="text-caption text-muted sm:text-body-sm">Un budget, quelques goûts : on compose des plats dont le coût en caisse le respecte, placard compris.</p>
           </header>
           {hikes && (
             <div role="status" className="flex items-start gap-3 rounded-card bg-danger-soft p-3.5 ring-1 ring-inset ring-danger/30">

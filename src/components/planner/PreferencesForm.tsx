@@ -82,9 +82,9 @@ export function BudgetInput({ value, onChange, id, large = false }: { value: num
               setError("Montant invalide (ex. 25 ou 25,50)");
             }
           }}
-          className={cn("input pr-10 font-numeric font-semibold tabular-nums", large && "min-h-16 rounded-card text-[34px] leading-none tracking-tight")}
+          className={cn("input pr-10 font-numeric font-semibold tabular-nums", large && "min-h-14 rounded-card text-[28px] leading-none tracking-tight sm:min-h-16 sm:text-[34px]")}
         />
-        <span aria-hidden className={cn("pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-semibold text-muted", large && "text-title-2")}>
+        <span aria-hidden className={cn("pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-semibold text-muted", large && "text-title-3 sm:text-title-2")}>
           €
         </span>
       </div>
@@ -234,7 +234,7 @@ export function PreferencesForm({
                 </span>
               </p>
               <p className="mt-1 text-caption text-muted">
-                {via.hint} <span className="text-subtle">Repère indicatif, d&apos;après les prix estimés du magasin.</span>
+                {via.hint} <span className="hidden text-subtle sm:inline">Repère indicatif, d&apos;après les prix estimés du magasin.</span>
               </p>
             </div>
           </div>
@@ -395,11 +395,11 @@ export function PreferencesForm({
       </CollapsibleCard>
 
       {/* Bouton principal collant */}
-      <div className="sticky bottom-[96px] z-20 pt-2 lg:bottom-4">
+      <div className="sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-20 pt-2 lg:bottom-4">
         <button
           type="submit"
           disabled={loading}
-          className="focus-ring flex min-h-14 w-full items-center justify-center gap-2 rounded-card bg-gradient-to-b from-accent to-accent-2 text-body font-semibold text-accent-fg shadow-lift transition-[filter,transform] duration-150 hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
+          className="focus-ring flex min-h-12 w-full items-center justify-center gap-2 rounded-card sm:min-h-14 bg-gradient-to-b from-accent to-accent-2 text-body font-semibold text-accent-fg shadow-lift transition-[filter,transform] duration-150 hover:brightness-110 active:scale-[0.99] disabled:opacity-60"
         >
           {loading ? <Loader2 aria-hidden className="size-5 animate-spin" strokeWidth={ICON_STROKE} /> : <Sparkles aria-hidden className="size-5" strokeWidth={ICON_STROKE} />}
           {loading ? "Composition en cours…" : "Générer mon menu"}

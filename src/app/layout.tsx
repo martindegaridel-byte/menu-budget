@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MobileHeader />
           <SideNav />
           <div className="lg:pl-64">
-            <main id="contenu" className="mx-auto max-w-[720px] px-4 pb-32 pt-5 lg:pb-16 lg:pt-10">
+            <main id="contenu" className="mx-auto max-w-[720px] px-4 pb-[calc(120px+env(safe-area-inset-bottom))] pt-4 lg:pb-16 lg:pt-10">
               {children}
             </main>
           </div>

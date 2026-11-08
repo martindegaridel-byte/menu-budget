@@ -461,7 +461,7 @@ export function PantryEditor({
 
       {/* Barre d'enregistrement : seulement s'il y a des modifications, au-dessus de la navigation. */}
       {dirty && (
-        <div className="sticky bottom-[96px] z-20 lg:bottom-4">
+        <div className="sticky bottom-[calc(72px+env(safe-area-inset-bottom))] z-20 lg:bottom-4">
           <div className="flex animate-toast-in items-center justify-between gap-3 rounded-card bg-glass p-2 pl-4 shadow-lift ring-1 ring-inset ring-line-strong backdrop-blur-xl">
             <span className="text-body-sm text-muted">
               Modifications non enregistrées

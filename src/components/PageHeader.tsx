@@ -10,7 +10,7 @@ export function PageHeader({ icon: Icon, title, description, action }: { icon: L
         <Icon aria-hidden className="size-[22px]" strokeWidth={ICON_STROKE} />
       </span>
       <div className="min-w-0 flex-1">
-        <h1 className="text-title-1 font-semibold tracking-tight">{title}</h1>
+        <h1 className="text-title-2 font-semibold tracking-tight sm:text-title-1">{title}</h1>
         {description && <p className="mt-1 text-body-sm text-muted">{description}</p>}
       </div>
       {action}

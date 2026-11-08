@@ -34,7 +34,7 @@ export function Brand({ className }: { className?: string }) {
 /** En-tête mobile (marque, personnalisation, thème) ; caché sur grand écran où la barre latérale prend le relais. */
 export function MobileHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-glass backdrop-blur-xl lg:hidden">
+    <header className="sticky top-0 z-20 border-b border-line bg-glass pt-[env(safe-area-inset-top)] backdrop-blur-xl lg:hidden">
       <div className="mx-auto flex max-w-[720px] items-center justify-between px-4 py-1.5">
         <Brand />
         <span className="flex items-center">
@@ -97,7 +97,7 @@ export function AppNav() {
   const [appearance] = useAppearance();
   const links = NAV_LINKS.filter((l) => l.href === "/" || !appearance.hiddenNav.includes(l.href));
   return (
-    <nav aria-label="Navigation principale" className="fixed inset-x-0 bottom-0 z-30 px-3 pb-[max(10px,env(safe-area-inset-bottom))] lg:hidden">
+    <nav aria-label="Navigation principale" className="fixed inset-x-0 bottom-0 z-30 px-2 pb-[max(6px,env(safe-area-inset-bottom))] lg:hidden">
       <ul className="mx-auto flex max-w-[600px] rounded-sheet bg-glass p-1 shadow-lift ring-1 ring-inset ring-line-strong backdrop-blur-xl">
         {links.map(({ href, label, icon: Icon }) => {
           const on = active(href);
@@ -109,7 +109,7 @@ export function AppNav() {
                 aria-label={appearance.navLabels ? undefined : label}
                 className={cn(
                   "focus-ring flex flex-col items-center justify-center gap-0.5 rounded-[16px] text-[10.5px] font-medium tracking-tight transition-colors duration-150",
-                  appearance.navLabels ? "min-h-14" : "min-h-12",
+                  appearance.navLabels ? "min-h-[52px]" : "min-h-11",
                   on ? "bg-accent-soft text-accent-text" : "text-muted hover:text-fg",
                 )}
               >
