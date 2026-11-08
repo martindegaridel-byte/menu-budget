@@ -20,7 +20,7 @@ const PLAT = "plat|cuisine|salade|sandwich|pizza|quiche|soupe|veloute|chips|bisc
 const FRESH = `${PLAT}|boite|bocal|conserve|surgel|provencale|grecque|\\b(1|3|4) (2|4)\\b|\\bml\\b|\\bcl\\b`;
 
 /** Exclusions communes à toutes les règles (desserts, sauces, produits bébé…). */
-export const GLOBAL_NOT = "sorbet|glace|vinaigrette|croques?|babybio|bebe|assiette|aperitif|tartare|papillote|rata\\b|preparee?s?\\b";
+export const GLOBAL_NOT = "\\bet (son|sa|ses) |sorbet|glace|vinaigrette|croques?|babybio|bebe|assiette|aperitif|tartare|papillote|rata\\b|preparee?s?\\b";
 
 export const OPEN_PRICES_RULES: Record<string, MatchRule> = {
   // Fruits & légumes

@@ -1,4 +1,5 @@
 import type { Profile } from "@/lib/domain/profile";
+import type { BarcodeMatch } from "@/lib/pricing/barcode";
 import type { PriceChange } from "@/lib/pricing/priceChanges";
 import type { PantryItem, PreferencesInput, Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
@@ -95,6 +96,7 @@ export const api = {
     ),
   suggestFromPantry: (preferences: PreferencesInput, ingredientIds: string[]) =>
     call<{ suggestions: PantrySuggestion[] }>("/api/recipes/suggest", { body: { preferences, ingredientIds } }),
+  barcode: (code: string) => call<BarcodeMatch>(`/api/barcode/${encodeURIComponent(code)}`),
   getProfile: () => call<Profile>("/api/profile"),
   putProfile: (profile: Profile) => call<Profile>("/api/profile", { method: "PUT", body: profile }),
   ratings: () => call<{ ratings: { recipeId: string; stars: number; note: string }[] }>("/api/ratings"),

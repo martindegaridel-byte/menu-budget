@@ -89,6 +89,11 @@ function compile(id: string, rule: MatchRule) {
   return c;
 }
 
+/** Produit à écarter d'office (plat préparé, dessert, sauce…), quel que soit l'ingrédient. */
+export function isExcludedProduct(rawName: string): boolean {
+  return globalNot.test(normalizeName(rawName));
+}
+
 /** Ingrédients candidats pour un prix (selon nom et catégories). */
 export function candidateIngredients(p: OpenPrice): string[] {
   const rawName = p.product?.product_name || p.product_name || "";

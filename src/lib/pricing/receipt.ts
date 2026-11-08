@@ -1,5 +1,5 @@
 import type { BaseUnit } from "@/lib/domain/schemas";
-import { candidatesForName, normalizeName } from "./openprices";
+import { candidatesForName, isExcludedProduct, normalizeName } from "./openprices";
 
 /**
  * Lecture d'un ticket de caisse collé en texte (copié depuis une photo ou un ticket
@@ -115,10 +115,13 @@ export function parseReceipt(text: string, ingredients: readonly ReceiptIngredie
 
     // 1) Règles de l'import Open Prices ; 2) sinon, mots du nom de l'ingrédient.
     let candidates = candidatesForName(label).filter((id) => byId.has(id));
-    if (candidates.length === 0) {
+    if (candidates.length === 0 && !isExcludedProduct(label)) {
       const lt = new Set(tokens(label));
+      const hit = (t: string) => lt.has(t) || [...lt].some((w) => w.length >= 5 && (w.startsWith(t) || t.startsWith(w)));
       candidates = index
-        .map((i) => ({ id: i.id, score: i.toks.filter((t) => lt.has(t) || [...lt].some((w) => w.length >= 5 && (w.startsWith(t) || t.startsWith(w)))).length / Math.max(1, i.toks.length) }))
+        // Le mot principal de l'ingrédient (« crème » dans « crème liquide ») doit être présent.
+        .filter((i) => i.toks.length > 0 && hit(i.toks[0]!))
+        .map((i) => ({ id: i.id, score: i.toks.filter(hit).length / Math.max(1, i.toks.length) }))
         .filter((x) => x.score >= 0.5)
         .sort((a, b) => b.score - a.score)
         .map((x) => x.id);

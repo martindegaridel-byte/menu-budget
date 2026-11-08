@@ -8,6 +8,7 @@ import {
   Package,
   Plus,
   Save,
+  ScanBarcode,
   Search,
   Trash2,
   X,
@@ -35,6 +36,7 @@ import type { IngredientOption } from "@/lib/client/catalog-types";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { isPerishable } from "@/lib/domain/perishable";
 import { AISLES, type Aisle, type PantryItem } from "@/lib/domain/schemas";
+import { BarcodeScanner } from "./BarcodeScanner";
 import { PantryIdeas } from "./PantryIdeas";
 import { ReceiptImport } from "./ReceiptImport";
 
@@ -69,6 +71,7 @@ export function PantryEditor({
   const [sort, setSort] = useState<Sort>("peremption");
   const [collapsed, setCollapsed] = useState<Set<Aisle>>(new Set());
   const [loadError, setLoadError] = useState(false);
+  const [scanning, setScanning] = useState(false);
   const toast = useToast();
   const addId = useId();
   const filterId = useId();
@@ -255,6 +258,10 @@ export function PantryEditor({
             Ajouter
           </Button>
         </div>
+        <Button variant="secondary" fullWidth icon={ScanBarcode} onClick={() => setScanning(true)}>
+          Scanner un code-barres
+        </Button>
+        {scanning && <BarcodeScanner ingredients={ingredients} onAdd={(item) => addPurchases([item])} onClose={() => setScanning(false)} />}
         {QUICK_ADD.some((id) => byId.has(id) && !has.has(id)) && (
           <div
             className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [&>*]:shrink-0"
