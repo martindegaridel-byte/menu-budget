@@ -98,6 +98,12 @@ crée les tables (`prisma db push`), charge ingrédients, prix et recettes, puis
 l'appli. Chaque `git push` sur `main` est remis en ligne automatiquement ; les données
 des utilisateurs (placard, menus, prix) sont conservées. En local, rien ne change : SQLite.
 
+**Rappels du soir** (notifications) : une tâche quotidienne Vercel (`vercel.json`, vers
+17 h) appelle `/api/cron/reminders`. Les clés d'envoi sont générées et gardées dans la base
+au premier usage ; aucune configuration n'est nécessaire (variable `CRON_SECRET`
+facultative pour réserver la tâche à Vercel). Sur iPhone, les notifications demandent
+l'appli installée sur l'écran d'accueil (iOS 16.4 ou plus).
+
 Sur le téléphone : ouvrir l'adresse `https://…vercel.app`, puis « Sur l'écran
 d'accueil » (iPhone, bouton Partager) ou « Installer l'application » (Android, menu ⋮).
 

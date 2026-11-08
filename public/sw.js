@@ -4,7 +4,7 @@
  * - Fichiers statiques (/_next/static, icônes) : cache d'abord.
  * - API : jamais mises en cache (prix et calculs toujours à jour).
  */
-const VERSION = "mb-v1";
+const VERSION = "mb-v2";
 const PAGES = ["/", "/batch", "/placard", "/historique"];
 
 self.addEventListener("install", (event) => {
@@ -50,3 +50,36 @@ self.addEventListener("fetch", (event) => {
     );
   }
 });
+
+/* Rappels : affichage des notifications envoyées par le serveur. */
+self.addEventListener("push", (event) => {
+  let data = { title: "Menu Budget", body: "", url: "/" };
+  try {
+    data = { ...data, ...event.data.json() };
+  } catch {
+    /* notification sans contenu */
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: "/icons/icon-192.png",
+      badge: "/icons/favicon-32.png",
+      data: { url: data.url },
+      tag: "menu-budget-rappel",
+      renotify: true,
+    }),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const url = new URL(event.notification.data?.url || "/", self.location.origin).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((wins) => {
+      const win = wins.find((w) => w.url.startsWith(self.location.origin));
+      if (win) return win.focus().then(() => win.navigate(url));
+      return self.clients.openWindow(url);
+    }),
+  );
+});
+

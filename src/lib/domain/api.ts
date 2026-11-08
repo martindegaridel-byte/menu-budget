@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ScheduleSchema } from "@/lib/reminders";
 import { PantryItemSchema, PreferencesSchema, StoreFormatSchema } from "./schemas";
 
 const recipeIds = z.array(z.string().min(1)).min(1).max(21);
@@ -69,5 +70,13 @@ export const RatingPutSchema = z.object({
   stars: z.number().int().min(1).max(5).nullable(),
   note: z.string().trim().max(500).optional(),
 });
+
+const PushSubscriptionShape = z.object({
+  endpoint: z.string().url().max(1000),
+  keys: z.object({ p256dh: z.string().min(1).max(200), auth: z.string().min(1).max(100) }),
+});
+export const PushSubscribeSchema = z.object({ subscription: PushSubscriptionShape, schedule: ScheduleSchema.default([]) });
+export const PushScheduleSchema = z.object({ endpoint: z.string().url().max(1000), schedule: ScheduleSchema });
+export const PushEndpointSchema = z.object({ endpoint: z.string().url().max(1000) });
 
 export const FavoriteRecipeSchema = z.object({ recipeId: z.string().min(1), favorite: z.boolean() });

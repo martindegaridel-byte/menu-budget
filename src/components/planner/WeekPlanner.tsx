@@ -8,6 +8,8 @@ import { todayIso } from "@/lib/client/expiry";
 import { buildIcs, move, plannedEvenings, planningFor, PLANNING_KEY, type Planning } from "@/lib/client/planning";
 import { usePersistentState } from "@/lib/client/storage";
 import type { MenuResult } from "@/lib/engine/optimize";
+import { scheduleFromPlanning } from "@/lib/reminders";
+import { RemindersCard } from "./RemindersCard";
 
 const dayFmt = new Intl.DateTimeFormat("fr-FR", { weekday: "long", timeZone: "UTC" });
 const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "short", timeZone: "UTC" });
@@ -21,6 +23,7 @@ export function WeekPlanner({ result, menuKey, onChange }: { result: MenuResult;
   const listRef = useRef<HTMLOListElement>(null);
   const toast = useToast();
   const evenings = plannedEvenings(planning, result.recipes);
+  const schedule = scheduleFromPlanning(evenings, { freezeSlots: result.prepPlan?.freezeSlots ?? [], persons: result.persons });
 
   const save = (p: Planning) => {
     setStored(p);
@@ -71,6 +74,7 @@ export function WeekPlanner({ result, menuKey, onChange }: { result: MenuResult;
           Ajouter à mon calendrier
         </Button>
       </Card>
+      <RemindersCard schedule={schedule} />
       <p className="text-caption text-subtle">Glissez la poignée ou utilisez les flèches pour changer de jour.</p>
       <ol ref={listRef} className="space-y-2" aria-label="Planning des dîners">
         {evenings.map((e) => {
