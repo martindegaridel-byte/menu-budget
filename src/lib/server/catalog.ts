@@ -12,6 +12,7 @@ import {
   type Store,
 } from "@/lib/domain/schemas";
 import type { EngineContext } from "@/lib/engine/types";
+import { loadSeedData } from "@/lib/data/seed";
 import { resolvePriceBook, type PriceProvider } from "@/lib/pricing/priceBook";
 import { prisma } from "./db";
 
@@ -50,25 +51,21 @@ export function toPackage(p: {
   return PackageSchema.parse({ ...p, brand: p.brand ?? undefined });
 }
 
-/** Ingrédients, recettes et prix de référence (mis en cache 60 s). */
+/**
+ * Ingrédients, recettes et prix de référence (mis en cache 60 s).
+ * Le catalogue de base vient des fichiers data/ inclus dans l'appli (déjà en mémoire,
+ * validés par Zod) : la base n'est interrogée que pour les recettes ajoutées ensuite
+ * (IA, recettes personnelles). Bien plus rapide en ligne, surtout au démarrage.
+ */
 export async function getCatalog(): Promise<Catalog> {
   if (catalogCache && Date.now() - catalogCache.loadedAt < CATALOG_TTL_MS) return catalogCache;
-  const [ingRows, recipeRows, pkgRows] = await Promise.all([
-    prisma.ingredient.findMany({ orderBy: { name: "asc" } }),
-    prisma.recipe.findMany({ include: { ingredients: { orderBy: { position: "asc" } } }, orderBy: { name: "asc" } }),
-    prisma.package.findMany({ where: { userId: null, storeId: null, chain: REFERENCE_CHAIN } }),
-  ]);
-  const ingredients = ingRows.map((i) =>
-    IngredientSchema.parse({
-      ...i,
-      gramsPerPiece: i.gramsPerPiece ?? undefined,
-      allergens: json(i.allergensJson, []),
-      tags: json(i.tagsJson, []),
-      nutrition: i.nutritionJson ? json(i.nutritionJson, undefined) : undefined,
-    }),
-  );
-  const recipes = recipeRows.map((r) =>
-    RecipeSchema.parse({
+  const data = loadSeedData();
+  const extraRows = await prisma.recipe.findMany({
+    where: { source: { not: "seed" } },
+    include: { ingredients: { orderBy: { position: "asc" } } },
+  });
+  const extra = extraRows.flatMap((r) => {
+    const parsed = RecipeSchema.safeParse({
       ...r,
       equipment: json(r.equipmentJson, []),
       tags: json(r.tagsJson, []),
@@ -77,19 +74,19 @@ export async function getCatalog(): Promise<Catalog> {
       fridgeDays: r.fridgeDays ?? undefined,
       freezable: r.freezable ?? undefined,
       reheats: r.reheats ?? undefined,
-      ingredients: r.ingredients.map((l) => ({
-        ingredientId: l.ingredientId,
-        quantity: l.quantity,
-        unit: l.unit,
-        optional: l.optional,
-      })),
-    }),
-  );
+      ingredients: r.ingredients.map((l) => ({ ingredientId: l.ingredientId, quantity: l.quantity, unit: l.unit, optional: l.optional })),
+    });
+    return parsed.success ? [parsed.data] : [];
+  });
+  const byName = (a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name, "fr");
+  const ingredients = [...data.ingredients].sort(byName);
+  const seedIds = new Set(data.recipes.map((r) => r.id));
+  const recipes = [...data.recipes, ...extra.filter((r) => !seedIds.has(r.id))].sort(byName);
   catalogCache = {
     ingredients,
     ingredientsById: new Map(ingredients.map((i) => [i.id, i])),
     recipes,
-    referencePackages: pkgRows.map(toPackage),
+    referencePackages: data.packages,
     loadedAt: Date.now(),
   };
   return catalogCache;
