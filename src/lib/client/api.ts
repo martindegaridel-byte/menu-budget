@@ -28,6 +28,10 @@ export interface SavedMenuSummary {
   actualCents: number | null;
   createdAt: string;
   persons: number;
+  /** Portions servies (repas × personnes, midis compris). */
+  portions: number;
+  /** Valeur des ingrédients pris dans le placard. */
+  pantrySavingsCents: number;
   recipeNames: string[];
 }
 
@@ -56,6 +60,14 @@ export const api = {
     call<MenuResult>("/api/menu/generate", { body: { preferences, initial } }),
   evaluate: (preferences: PreferencesInput, recipeIds: string[]) =>
     call<MenuResult>("/api/menu/evaluate", { body: { preferences, recipeIds } }),
+  compareStores: (preferences: PreferencesInput, recipeIds: string[]) =>
+    call<{ stores: { storeId: string; name: string; format: string; totalCents: number; missing: number }[]; currentStoreId: string | null }>(
+      "/api/menu/compare",
+      { body: { preferences, recipeIds } },
+    ),
+  exportData: () => call<Record<string, unknown>>("/api/export"),
+  importData: (backup: unknown) =>
+    call<{ imported: { stores: number; prices: number; pantry: number; menus: number; favorites: number; ratings: number } }>("/api/import", { body: backup }),
   swap: (preferences: PreferencesInput, recipeIds: string[], slot: number) =>
     call<{ options: SwapOption[] }>("/api/menu/swap", { body: { preferences, recipeIds, slot } }),
   saveMenu: (preferences: PreferencesInput, recipeIds: string[], favorite = false) =>

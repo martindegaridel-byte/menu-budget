@@ -53,3 +53,30 @@ export function monthBudgetStatus(monthlyCents: number, menus: readonly Spending
     ratio: monthlyCents > 0 ? spentCents / monthlyCents : 0,
   };
 }
+
+/** Repère de comparaison : un plat livré ou à emporter, par portion (indicatif). */
+export const TAKEAWAY_PORTION_CENTS = 1200;
+
+export interface SavingsMenu extends SpendingMenu {
+  budgetCents: number;
+  portions: number;
+  pantrySavingsCents: number;
+}
+
+/** Bilan : dépenses, coût moyen par portion, économies sous le budget, grâce au placard et face à un plat livré. */
+export function savingsSummary(menus: readonly SavingsMenu[]) {
+  let spentCents = 0;
+  let portions = 0;
+  let underBudgetCents = 0;
+  let pantryCents = 0;
+  for (const m of menus) {
+    const spent = spentOf(m);
+    spentCents += spent;
+    portions += m.portions;
+    underBudgetCents += Math.max(0, m.budgetCents - spent);
+    pantryCents += m.pantrySavingsCents;
+  }
+  const perPortionCents = portions ? Math.round(spentCents / portions) : 0;
+  const vsTakeawayCents = Math.max(0, TAKEAWAY_PORTION_CENTS * portions - spentCents);
+  return { menus: menus.length, portions, spentCents, perPortionCents, underBudgetCents, pantryCents, vsTakeawayCents };
+}

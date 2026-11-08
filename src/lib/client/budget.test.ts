@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { monthBudgetStatus, monthlySpending } from "./budget";
+import { monthBudgetStatus, monthlySpending, savingsSummary, TAKEAWAY_PORTION_CENTS } from "./budget";
 
 const now = new Date(2026, 10, 15); // 15 novembre 2026
 const menus = [
@@ -30,5 +30,27 @@ describe("suivi des dépenses", () => {
     const s = monthBudgetStatus(3000, menus, now);
     expect(s.remainingCents).toBe(0);
     expect(s.overCents).toBe(1150);
+  });
+});
+
+describe("bilan des économies", () => {
+  it("additionne placard, marge sous le budget et compare à un plat livré", () => {
+    const s = savingsSummary([
+      { createdAt: "2026-10-01", totalCents: 2000, actualCents: 1800, budgetCents: 2500, portions: 10, pantrySavingsCents: 300 },
+      { createdAt: "2026-10-08", totalCents: 3100, actualCents: null, budgetCents: 3000, portions: 10, pantrySavingsCents: 0 },
+    ]);
+    expect(s).toEqual({
+      menus: 2,
+      portions: 20,
+      spentCents: 4900,
+      perPortionCents: 245,
+      underBudgetCents: 700,
+      pantryCents: 300,
+      vsTakeawayCents: 20 * TAKEAWAY_PORTION_CENTS - 4900,
+    });
+  });
+
+  it("aucun menu : tout à zéro", () => {
+    expect(savingsSummary([]).perPortionCents).toBe(0);
   });
 });

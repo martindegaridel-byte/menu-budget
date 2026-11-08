@@ -76,7 +76,7 @@ export function MenuSummary({
       {result.recipes.length > 0 && (
         <dl className="grid grid-cols-2 gap-2">
           <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
-            <dt className="text-caption text-muted">Par personne et par repas</dt>
+            <dt className="text-caption text-muted">{(result.lunchPortions ?? 0) > 0 ? "Par portion (midis compris)" : "Par personne et par repas"}</dt>
             <dd className="font-numeric text-title-3 font-semibold tabular-nums">≈ {formatEuros(result.perPersonPerMealCents)}</dd>
           </div>
           <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">

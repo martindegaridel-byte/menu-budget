@@ -1,22 +1,23 @@
 "use client";
-import { CalendarRange, PiggyBank } from "lucide-react";
+import { CalendarRange, HandCoins, PiggyBank } from "lucide-react";
 import { useId } from "react";
 import { Card, CardHeader } from "@/components/ds";
 import { cn } from "@/components/ds/cn";
 import { BudgetInput } from "@/components/planner/PreferencesForm";
-import { MONTHLY_BUDGET_KEY, monthBudgetStatus, monthlySpending, type SpendingMenu } from "@/lib/client/budget";
+import { MONTHLY_BUDGET_KEY, monthBudgetStatus, monthlySpending, savingsSummary, TAKEAWAY_PORTION_CENTS, type SavingsMenu } from "@/lib/client/budget";
 import { usePersistentState } from "@/lib/client/storage";
 import { formatEuros } from "@/lib/engine/money";
 
 const monthFmt = new Intl.DateTimeFormat("fr-FR", { month: "short" });
 
 /** Budget mensuel et dépenses des 6 derniers mois (prévu / réel). */
-export function SpendingOverview({ menus }: { menus: readonly SpendingMenu[] }) {
+export function SpendingOverview({ menus }: { menus: readonly SavingsMenu[] }) {
   const [monthly, setMonthly] = usePersistentState<number | null>(MONTHLY_BUDGET_KEY, null);
   const inputId = useId();
   const months = monthlySpending(menus);
   const max = Math.max(1, ...months.map((m) => Math.max(m.plannedCents, m.actualCents)));
   const status = monthly ? monthBudgetStatus(monthly, menus) : null;
+  const savings = savingsSummary(menus);
   const tone = !status ? "accent" : status.ratio > 1 ? "danger" : status.ratio > 0.85 ? "warn" : "accent";
 
   return (
@@ -64,6 +65,30 @@ export function SpendingOverview({ menus }: { menus: readonly SpendingMenu[] }) 
             <p className="text-body-sm text-muted">Fixez un budget mensuel : l&apos;appli vous dira ce qu&apos;il reste pour la semaine.</p>
           )}
         </div>
+      </Card>
+
+      <Card>
+        <CardHeader
+          icon={HandCoins}
+          title="Vos économies"
+          description={`Sur vos ${savings.menus} menu${savings.menus > 1 ? "s" : ""} enregistré${savings.menus > 1 ? "s" : ""} (${savings.portions} portions).`}
+        />
+        <dl className="grid grid-cols-2 gap-2">
+          {(
+            [
+              ["Coût moyen par portion", formatEuros(savings.perPortionCents)],
+              ["Restés sous le budget", formatEuros(savings.underBudgetCents)],
+              ["Grâce au placard", formatEuros(savings.pantryCents)],
+              [`Face à un plat livré (≈ ${formatEuros(TAKEAWAY_PORTION_CENTS)})`, formatEuros(savings.vsTakeawayCents)],
+            ] as const
+          ).map(([k, v], i) => (
+            <div key={k} className={cn("rounded-field p-3 ring-1 ring-inset", i === 3 ? "bg-accent-soft ring-accent/30" : "bg-surface-2 ring-line")}>
+              <dt className="text-caption text-muted">{k}</dt>
+              <dd className={cn("font-numeric text-title-3 font-semibold tabular-nums", i === 3 && "text-accent-text")}>{v}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-2 text-caption text-subtle">Dépense = ticket saisi, sinon coût prévu. Le plat livré est un repère indicatif.</p>
       </Card>
 
       <Card>

@@ -18,8 +18,14 @@ export const GET = route(async () => {
   });
   return {
     menus: menus.map(({ resultJson, ...m }) => {
-      const r = JSON.parse(resultJson) as { recipes: { name: string }[]; persons: number };
-      return { ...m, persons: r.persons, recipeNames: r.recipes.map((x) => x.name) };
+      const r = JSON.parse(resultJson) as { recipes: { name: string }[]; persons: number; lunchPortions?: number; pantrySavingsCents?: number };
+      return {
+        ...m,
+        persons: r.persons,
+        portions: r.recipes.length * (r.persons + (r.lunchPortions ?? 0)),
+        pantrySavingsCents: r.pantrySavingsCents ?? 0,
+        recipeNames: r.recipes.map((x) => x.name),
+      };
     }),
   };
 });

@@ -23,6 +23,7 @@ import { SubstituteSheet } from "./SubstituteSheet";
 import { WeekPlanner } from "./WeekPlanner";
 import { PreferencesForm } from "./PreferencesForm";
 import { ShoppingListView } from "./ShoppingListView";
+import { StoreCompare } from "./StoreCompare";
 
 /** Nouvelle graine à chaque génération (gardée dans le résultat pour pouvoir le reproduire). */
 const newSeed = () => Math.floor(Math.random() * 2_147_483_647);
@@ -469,14 +470,26 @@ export function Planner({
                 ) : tab === "semaine" ? (
                   <WeekPlanner result={result} menuKey={menuKey} />
                 ) : (
-                  <ShoppingListView
-                    list={result.shoppingList}
-                    meals={result.recipes.length}
-                    persons={result.persons}
-                    storeName={storeName}
-                    menuKey={menuKey}
-                    onShoppingDone={shoppingDone}
-                  />
+                  <div className="space-y-3">
+                    <ShoppingListView
+                      list={result.shoppingList}
+                      meals={result.recipes.length}
+                      persons={result.persons}
+                      storeName={storeName}
+                      menuKey={menuKey}
+                      onShoppingDone={shoppingDone}
+                    />
+                    <StoreCompare
+                      prefs={prefs}
+                      recipeIds={recipeIds}
+                      menuKey={menuKey}
+                      storeCount={stores.length}
+                      onPick={(storeId) => {
+                        liveAdjust({ ...prefs, storeId });
+                        toast({ title: `Magasin : ${stores.find((s) => s.id === storeId)?.name ?? storeId}`, tone: "success" });
+                      }}
+                    />
+                  </div>
                 )}
               </div>
             </>

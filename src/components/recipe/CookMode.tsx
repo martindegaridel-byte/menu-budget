@@ -1,9 +1,38 @@
 "use client";
-import { BellRing, Check, ChefHat, ChevronLeft, ChevronRight, Pause, Play, Timer, X } from "lucide-react";
+import { BellRing, Check, ChefHat, ChevronLeft, ChevronRight, Mic, MicOff, Pause, Play, Timer, Volume2, VolumeX, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Button, IconButton } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { findTimers, formatClock } from "@/lib/client/timers";
+import { forSpeech, parseVoiceCommand, type VoiceCommand } from "@/lib/client/voice";
+
+/** Reconnaissance vocale du navigateur (Chrome, Safari) : types minimaux, l'API n'est pas dans le DOM standard. */
+interface Recognition {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onresult: ((e: { resultIndex: number; results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> }) => void) | null;
+  onerror: ((e: { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+type RecognitionCtor = new () => Recognition;
+const recognitionCtor = (): RecognitionCtor | null => {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { SpeechRecognition?: RecognitionCtor; webkitSpeechRecognition?: RecognitionCtor };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+};
+
+function say(text: string) {
+  if (typeof window === "undefined" || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "fr-FR";
+  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.toLowerCase().startsWith("fr"));
+  if (voice) u.voice = voice;
+  window.speechSynthesis.speak(u);
+}
 
 interface RunningTimer {
   id: number;
@@ -39,7 +68,8 @@ function beep() {
 
 /**
  * Mode cuisine : ingrédients à cocher, puis une étape par écran en gros texte,
- * minuteurs en un geste (durées repérées dans l'étape), écran maintenu allumé.
+ * minuteurs en un geste (durées repérées dans l'étape), écran maintenu allumé,
+ * lecture à voix haute et commandes vocales.
  */
 export function CookMode({
   recipeName,
@@ -123,6 +153,86 @@ export function CookMode({
   const step = screen >= 1 && screen <= steps.length ? steps[screen - 1]! : null;
   const stepTimers = step ? findTimers(step) : [];
 
+  // Lecture à voix haute de l'écran courant, et commandes vocales (« suivant », « précédent », « répète »…).
+  const [canSpeak, setCanSpeak] = useState(false);
+  const [canListen, setCanListen] = useState(false);
+  const [speaking, setSpeaking] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [heard, setHeard] = useState<string | null>(null);
+  useEffect(() => {
+    setCanSpeak(typeof window !== "undefined" && "speechSynthesis" in window);
+    setCanListen(recognitionCtor() !== null);
+    return () => window.speechSynthesis?.cancel();
+  }, []);
+  const screenText = useCallback(() => {
+    if (screen === 0) return `Ingrédients : ${ingredients.map((i) => `${forSpeech(i.quantity)} ${i.name}`).join(", ")}.`;
+    if (screen === last) return "Terminé. Bon appétit !";
+    return `Étape ${screen}. ${forSpeech(steps[screen - 1] ?? "")}`;
+  }, [screen, last, ingredients, steps]);
+  useEffect(() => {
+    if (speaking) say(screenText());
+  }, [speaking, screenText]);
+
+  const onCommand = useRef<(c: VoiceCommand) => void>(() => undefined);
+  onCommand.current = (c) => {
+    if (c === "next") go(1);
+    else if (c === "previous") go(-1);
+    else if (c === "repeat") say(screenText());
+    else if (c === "timer" && stepTimers[0]) {
+      start(stepTimers[0].label, stepTimers[0].seconds, screen);
+      say(`Minuteur de ${stepTimers[0].label} lancé.`);
+    } else if (c === "stop") {
+      window.speechSynthesis?.cancel();
+      setSpeaking(false);
+    }
+  };
+  useEffect(() => {
+    const Ctor = recognitionCtor();
+    if (!listening || !Ctor) return;
+    let active = true;
+    const rec = new Ctor();
+    rec.lang = "fr-FR";
+    rec.continuous = true;
+    rec.interimResults = false;
+    rec.onresult = (e) => {
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        const r = e.results[i]!;
+        // Pendant la lecture, le micro entend le téléphone (« ensuite… ») : on ignore.
+        if (!r.isFinal || window.speechSynthesis?.speaking) continue;
+        const text = r[0]?.transcript ?? "";
+        const cmd = parseVoiceCommand(text);
+        setHeard(cmd ? text.trim() : null);
+        if (cmd) onCommand.current(cmd);
+      }
+    };
+    rec.onerror = (e) => {
+      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        active = false;
+        setListening(false);
+        setHeard("Micro refusé : autorisez-le dans les réglages du navigateur.");
+      }
+    };
+    // Le navigateur coupe l'écoute après un silence : on la relance tant qu'elle est demandée.
+    rec.onend = () => {
+      if (!active) return;
+      try {
+        rec.start();
+      } catch {
+        /* déjà relancée */
+      }
+    };
+    try {
+      rec.start();
+    } catch {
+      setListening(false);
+    }
+    return () => {
+      active = false;
+      rec.onend = null;
+      rec.stop();
+    };
+  }, [listening]);
+
   return (
     <div
       role="dialog"
@@ -145,8 +255,39 @@ export function CookMode({
             {screen === 0 ? `Ingrédients · ${persons} pers.` : screen === last ? "Terminé" : `Étape ${screen} sur ${steps.length}`}
           </p>
         </div>
+        {canSpeak && (
+          <IconButton
+            icon={speaking ? Volume2 : VolumeX}
+            label={speaking ? "Arrêter la lecture à voix haute" : "Lire les étapes à voix haute"}
+            aria-pressed={speaking}
+            className={cn(speaking && "bg-accent-soft text-accent-text")}
+            onClick={() => {
+              if (speaking) window.speechSynthesis.cancel();
+              setSpeaking(!speaking);
+            }}
+          />
+        )}
+        {canListen && (
+          <IconButton
+            icon={listening ? Mic : MicOff}
+            label={listening ? "Arrêter les commandes vocales" : "Commandes vocales : dites « suivant », « précédent », « répète »"}
+            aria-pressed={listening}
+            className={cn(listening && "bg-accent-soft text-accent-text")}
+            onClick={() => {
+              setHeard(null);
+              setListening(!listening);
+            }}
+          />
+        )}
         <IconButton icon={X} label="Quitter le mode cuisine" onClick={onClose} />
       </header>
+      {listening && (
+        <p className="flex items-center gap-2 border-b border-line bg-accent-soft px-4 py-2 text-caption text-accent-text" aria-live="polite">
+          <Mic aria-hidden className="size-4 shrink-0 animate-pulse" strokeWidth={ICON_STROKE} />
+          {heard ? `Compris : « ${heard} »` : "À l'écoute : « suivant », « précédent », « répète », « minuteur », « stop »."}
+        </p>
+      )}
+      {!listening && heard && <p className="border-b border-line px-4 py-2 text-caption text-warn-text">{heard}</p>}
       <div className="h-1 bg-surface-3" aria-hidden>
         <div className="h-full bg-accent transition-[width] duration-300" style={{ width: `${(screen / last) * 100}%` }} />
       </div>
