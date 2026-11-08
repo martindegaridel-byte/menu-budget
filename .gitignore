@@ -48,3 +48,6 @@ prisma/*.db.bak-*
 
 # Livres de cuisine (sources privées) : jamais envoyés sur GitHub
 livres/
+
+# Schéma Postgres généré pour l'hébergement en ligne (scripts/vercel-build.mjs)
+prisma/postgres/

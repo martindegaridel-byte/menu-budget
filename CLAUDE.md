@@ -50,6 +50,12 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
 
 Première installation : `npm install`, `cp .env.example .env`, `npx prisma migrate dev`.
 
+**En ligne (Vercel + Neon Postgres)** : `npm run vercel-build` (lancé par Vercel) génère
+`prisma/postgres/schema.prisma` depuis `prisma/schema.prisma`, fait `prisma db push`,
+le seed puis `next build`. Tout changement du schéma Prisma doit rester compatible
+Postgres (pas de SQL spécifique à SQLite) ; le seed ne doit jamais effacer de données
+utilisateur.
+
 ## Architecture
 
 - `src/app/` — pages (`/` menu, `/batch` batch cooking, `/placard`, `/exclusions`, `/magasins`, `/historique`, `/personnaliser`,

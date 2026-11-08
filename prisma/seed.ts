@@ -9,7 +9,7 @@ async function main() {
   await prisma.$transaction(async (tx) => {
     // Les estimations de l'enseigne sont rechargées ; les prix utilisateur (userId non nul) sont conservés.
     await tx.package.deleteMany({ where: { userId: null } });
-    await tx.recipeIngredient.deleteMany({});
+    await tx.recipeIngredient.deleteMany({ where: { recipeId: { in: data.recipes.map((r) => r.id) } } });
 
     for (const i of data.ingredients) {
       const row = {
@@ -75,7 +75,7 @@ async function main() {
       const row = { name: s.name, chain: s.chain, format: s.format, city: s.city ?? null, priceIndex: s.priceIndex };
       await tx.store.upsert({ where: { id: s.id }, create: { id: s.id, ...row }, update: row });
     }
-  }, { timeout: 60_000 });
+  }, { timeout: 300_000, maxWait: 30_000 });
 
   console.log(
     `Seed OK : ${data.ingredients.length} ingrédients, ${data.packages.length} conditionnements, ${data.recipes.length} recettes, ${data.stores.length} magasin(s).`,

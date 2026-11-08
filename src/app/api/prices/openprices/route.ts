@@ -9,6 +9,9 @@ import { prisma } from "@/lib/server/db";
 import { HttpError, parseBody, route } from "@/lib/server/http";
 import { getCurrentUserId } from "@/lib/server/user";
 
+/** L'import peut prendre une trentaine de secondes (hébergement en ligne : délai allongé). */
+export const maxDuration = 60;
+
 const BodySchema = z.object({
   storeId: z.string().min(1),
   location: z.string().trim().min(1).max(200),

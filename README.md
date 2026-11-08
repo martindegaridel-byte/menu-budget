@@ -83,6 +83,24 @@ Un bouton « Proposer 2 recettes » apparaît alors sous le formulaire. Les rece
 sont rejetées si elles utilisent un ingrédient inconnu ou interdit ; leur coût est
 calculé par le moteur.
 
+### Mettre l'appli en ligne (pour l'utiliser sur téléphone)
+
+L'appli se met en ligne gratuitement sur **Vercel**, avec une base **Postgres (Neon)** :
+
+1. Sur [vercel.com](https://vercel.com), « Continue with GitHub ».
+2. « Add New… » → « Project » → importer le dépôt `menu-budget` → « Deploy ».
+3. Dans le projet : onglet **Storage** → « Create Database » → **Neon** → accepter →
+   « Connect » au projet (la variable `DATABASE_URL` est ajoutée automatiquement).
+4. Onglet **Deployments** → « … » sur le dernier déploiement → **Redeploy**.
+
+Le script `vercel-build` (`scripts/vercel-build.mjs`) génère alors le schéma Postgres,
+crée les tables (`prisma db push`), charge ingrédients, prix et recettes, puis construit
+l'appli. Chaque `git push` sur `main` est remis en ligne automatiquement ; les données
+des utilisateurs (placard, menus, prix) sont conservées. En local, rien ne change : SQLite.
+
+Sur le téléphone : ouvrir l'adresse `https://…vercel.app`, puis « Sur l'écran
+d'accueil » (iPhone, bouton Partager) ou « Installer l'application » (Android, menu ⋮).
+
 ### Passer à Postgres
 
 Dans `prisma/schema.prisma`, remplacez `provider = "sqlite"` par `"postgresql"`,
