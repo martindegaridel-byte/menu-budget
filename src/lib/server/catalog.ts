@@ -17,6 +17,8 @@ import { prisma } from "./db";
 
 export const DEFAULT_STORE_ID = "super-u-saint-pierre";
 export const REFERENCE_CHAIN = "intermarche";
+/** Magasin de l'enseigne de référence (ses relevés servent de repli aux autres magasins proposés). */
+export const REFERENCE_STORE_ID = "intermarche-super";
 
 interface Catalog {
   ingredients: Ingredient[];
@@ -123,7 +125,12 @@ export const prismaPriceProvider: PriceProvider = {
     // Prix réels partagés pour ce magasin (relevés Open Prices) ; vos propres prix d'un ingrédient passent avant.
     const mine = own.map(toPackage);
     const mineIds = new Set(mine.map((p) => p.ingredientId));
-    const shared = scaleToObserved(catalog.referencePackages, loadSeedData().storePrices[storeId] ?? []).filter((p) => !mineIds.has(p.ingredientId));
+    // Un magasin proposé à tous sans relevé pour un ingrédient reprend le niveau réel de l'enseigne de référence.
+    const observed = loadSeedData().storePrices;
+    const storeObserved = observed[storeId] ?? [];
+    const ownIds = new Set(storeObserved.map((p) => p.ingredientId));
+    const fallback = storeId in observed && storeId !== REFERENCE_STORE_ID ? (observed[REFERENCE_STORE_ID] ?? []).filter((p) => !ownIds.has(p.ingredientId)) : [];
+    const shared = scaleToObserved(catalog.referencePackages, [...storeObserved, ...fallback]).filter((p) => !mineIds.has(p.ingredientId));
     return resolvePriceBook({
       referencePackages: catalog.referencePackages,
       store,

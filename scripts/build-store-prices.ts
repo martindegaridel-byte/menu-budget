@@ -19,7 +19,8 @@ interface Target {
   /** Magasin lui-même sur Open Prices (prioritaire). */
   ownLocation: number | null;
   /** Autres magasins de l'enseigne, même format. */
-  locations: { id: number; city: string }[];
+  /** `near` : magasins proches, prioritaires (médiane des proches s'il y en a au moins un). */
+  locations: { id: number; city: string; near?: boolean }[];
 }
 
 const TARGETS: Target[] = [
@@ -39,6 +40,30 @@ const TARGETS: Target[] = [
       { id: 90, city: "La Madeleine" },
     ],
   },
+  {
+    storeId: "intermarche-super",
+    ownLocation: null,
+    locations: [
+      // Région grenobloise d'abord…
+      { id: 10, city: "Grenoble", near: true },
+      { id: 34, city: "Bresson", near: true },
+      { id: 35, city: "Grenoble", near: true },
+      { id: 2889, city: "Domène", near: true },
+      { id: 1542, city: "Grenoble", near: true },
+      { id: 932, city: "Le Bourg-d'Oisans", near: true },
+      { id: 2611, city: "Varces", near: true },
+      { id: 1166, city: "Vizille", near: true },
+      // … puis plus loin (Super et magasins classiques, sans Express ni Contact).
+      { id: 6915, city: "Lyon 8e" },
+      { id: 5985, city: "Craponne" },
+      { id: 1817, city: "Amplepuis" },
+      { id: 6835, city: "Bourg-de-Thizy" },
+      { id: 3806, city: "Gap" },
+      { id: 1303, city: "Rennes" },
+      { id: 2217, city: "Clichy" },
+      { id: 3269, city: "Jarville-la-Malgrange" },
+    ],
+  },
 ];
 
 /** Relevés plus anciens ignorés. */
@@ -56,7 +81,7 @@ const words = (s: string) =>
 const STOP = new Set(["de", "du", "des", "la", "le", "les", "en", "au", "aux", "a", "d", "l", "et", "a", "conserve", "surgele", "surgeles", "frais", "fraiche", "sec", "secs"]);
 const stem = (w: string) => w.slice(0, 5);
 /** Mots qui signalent un plat préparé ou un autre produit (s'ils ne sont pas dans le nom de l'ingrédient). */
-const DISH = new Set(["hache", "haches", "bouillon", "cubes", "gnocchi", "gnocchis", "pizza", "salade", "sandwich", "chips", "soupe", "veloute", "quiche", "tarte", "brioche", "biscuit", "biscuits", "gateau", "sauce", "plat", "cuisine", "cuisines", "emince", "emincee", "emiette", "nuggets", "pane", "panes", "croquettes", "gratin", "lasagnes", "raviolis", "ravioles", "tortellini", "girasoli", "torti", "nem", "nems", "bol", "poelee", "tartinade", "tartinades", "houmous", "taboule", "escalope", "bruschetta", "lit", "burger", "wrap", "feuillete", "aperitif", "friture", "dessert", "boisson", "jus", "creme", "yaourt", "fromage", "fourre", "fourree", "tarama", "caramelisees", "caramelise", "aromatise", "aromatisee"]);
+const DISH = new Set(["hache", "haches", "bouillon", "cubes", "gnocchi", "gnocchis", "pizza", "salade", "sandwich", "chips", "soupe", "veloute", "quiche", "tarte", "brioche", "biscuit", "biscuits", "gateau", "sauce", "plat", "cuisine", "cuisines", "emince", "emincee", "emiette", "nuggets", "pane", "panes", "croquettes", "gratin", "lasagnes", "raviolis", "ravioles", "tortellini", "girasoli", "torti", "nem", "nems", "bol", "poelee", "tartinade", "tartinades", "houmous", "taboule", "escalope", "bruschetta", "lit", "burger", "wrap", "feuillete", "aperitif", "friture", "dessert", "boisson", "jus", "creme", "yaourt", "fromage", "fourre", "fourree", "tarama", "puree", "sugo", "bio", "caramelisees", "caramelise", "aromatise", "aromatisee"]);
 /** Premiers mots d'ingrédients trop génériques pour signaler un autre aliment. */
 const GENERIC_HEADS = new Set(["sauce", "pate", "pates", "huile", "lait", "pain", "pains", "poudre", "filet", "filets", "fond", "fumet", "double", "graines", "petits", "blanc", "creme", "fromage", "dos", "cuisses", "noix", "melange", "mini", "boisson", "yaourt", "sucre", "jus"]);
 
@@ -106,13 +131,15 @@ async function main() {
     }
 
     // Regroupement par ingrédient et contenance (arrondie à 5 %).
-    const groups = new Map<string, { own?: MatchedPackage; all: MatchedPackage[] }>();
+    const nearIds = new Set(t.locations.filter((l) => l.near).map((l) => l.id));
+    const groups = new Map<string, { own?: MatchedPackage; all: MatchedPackage[]; near: MatchedPackage[] }>();
     for (const [locId, pkgs] of perLocation) {
       for (const p of pkgs) {
         const key = `${p.ingredientId}|${Math.round(Math.log(p.quantity) / Math.log(1.05))}`;
-        const g = groups.get(key) ?? { all: [] };
+        const g = groups.get(key) ?? { all: [], near: [] };
         if (locId === t.ownLocation) g.own = p;
         else g.all.push(p);
+        if (nearIds.has(locId)) g.near.push(p);
         groups.set(key, g);
       }
     }
@@ -120,7 +147,7 @@ async function main() {
     const packages: { ingredientId: string; label: string; brand?: string; quantity: number; priceCents: number; asOf: string; stores: number }[] = [];
     for (const g of groups.values()) {
       const ref = g.own ?? g.all.sort((a, b) => a.priceCents - b.priceCents)[Math.floor(g.all.length / 2)]!;
-      const priceCents = g.own ? g.own.priceCents : median(g.all.map((p) => p.priceCents));
+      const priceCents = g.own ? g.own.priceCents : median((g.near.length ? g.near : g.all).map((p) => p.priceCents));
       packages.push({
         ingredientId: ref.ingredientId,
         label: ref.label,
