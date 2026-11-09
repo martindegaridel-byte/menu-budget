@@ -2,6 +2,7 @@ import { z } from "zod";
 import ingredientsJson from "../../../data/ingredients.json";
 import recipesJson from "../../../data/recipes.json";
 import storesJson from "../../../data/stores.json";
+import storePricesJson from "../../../data/store-prices.json";
 import {
   IngredientSchema,
   PackageSchema,
@@ -48,6 +49,26 @@ const SeedStoresFileSchema = z.object({
   stores: z.array(StoreSchema),
 });
 
+/** Prix réels relevés (Open Prices) partagés pour un magasin proposé à tous. */
+const SeedStorePricesSchema = z.record(
+  z.string(),
+  z.object({
+    source: z.string(),
+    generatedAt: z.string(),
+    packages: z.array(
+      z.object({
+        ingredientId: z.string().min(1),
+        label: z.string().min(1),
+        brand: z.string().optional(),
+        quantity: z.number().positive(),
+        priceCents: z.number().int().min(0),
+        asOf: z.string(),
+        stores: z.number().int().min(1),
+      }),
+    ),
+  }),
+);
+
 export interface SeedData {
   chain: string;
   asOf: string;
@@ -57,6 +78,8 @@ export interface SeedData {
   recipes: Recipe[];
   stores: Store[];
   formatPriceIndex: Partial<Record<StoreFormat, number>>;
+  /** Prix réels partagés par magasin (relevés Open Prices de l'enseigne). */
+  storePrices: Record<string, Package[]>;
 }
 
 let cache: SeedData | null = null;
@@ -96,6 +119,24 @@ export function loadSeedData(): SeedData {
       }),
     );
   const stores = SeedStoresFileSchema.parse(storesJson);
+  const known = new Set(ingredients.map((i) => i.id));
+  const storePrices: Record<string, Package[]> = {};
+  for (const [storeId, block] of Object.entries(SeedStorePricesSchema.parse(storePricesJson))) {
+    storePrices[storeId] = block.packages
+      .filter((p) => known.has(p.ingredientId))
+      .map((p, i) =>
+        PackageSchema.parse({
+          id: `shared:${storeId}:${p.ingredientId}:${i}`,
+          ingredientId: p.ingredientId,
+          label: p.label,
+          brand: p.brand,
+          quantity: p.quantity,
+          priceCents: p.priceCents,
+          source: "openprices",
+          asOf: p.asOf,
+        }),
+      );
+  }
   cache = {
     chain: ing.chain,
     asOf: ing.asOf,
@@ -104,6 +145,7 @@ export function loadSeedData(): SeedData {
     recipes,
     stores: stores.stores,
     formatPriceIndex: stores.formatPriceIndex,
+    storePrices,
   };
   return cache;
 }

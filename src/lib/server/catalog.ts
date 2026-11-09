@@ -12,7 +12,7 @@ import {
 } from "@/lib/domain/schemas";
 import type { EngineContext } from "@/lib/engine/types";
 import { loadSeedData } from "@/lib/data/seed";
-import { resolvePriceBook, type PriceProvider } from "@/lib/pricing/priceBook";
+import { resolvePriceBook, scaleToObserved, type PriceProvider } from "@/lib/pricing/priceBook";
 import { prisma } from "./db";
 
 export const DEFAULT_STORE_ID = "super-u-saint-pierre";
@@ -120,10 +120,14 @@ export const prismaPriceProvider: PriceProvider = {
           prisma.unavailableIngredient.findMany({ where: { storeId, userId } }),
         ])
       : [[], []];
+    // Prix réels partagés pour ce magasin (relevés Open Prices) ; vos propres prix d'un ingrédient passent avant.
+    const mine = own.map(toPackage);
+    const mineIds = new Set(mine.map((p) => p.ingredientId));
+    const shared = scaleToObserved(catalog.referencePackages, loadSeedData().storePrices[storeId] ?? []).filter((p) => !mineIds.has(p.ingredientId));
     return resolvePriceBook({
       referencePackages: catalog.referencePackages,
       store,
-      storePackages: own.map(toPackage),
+      storePackages: [...shared, ...mine],
       unavailableIngredientIds: unavailable.map((u) => u.ingredientId),
     });
   },

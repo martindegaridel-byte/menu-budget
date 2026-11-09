@@ -1,0 +1,1213 @@
+{
+ "super-u-saint-pierre": {
+  "source": "Open Prices (prices.openfoodfacts.org, licence ODbL)",
+  "generatedAt": "2026-11-09",
+  "since": "2025-05-01",
+  "locations": [
+   2517,
+   1331,
+   11,
+   1387,
+   2016,
+   127,
+   410,
+   5392,
+   3762,
+   77,
+   90
+  ],
+  "packages": [
+   {
+    "ingredientId": "ail-semoule",
+    "label": "Ail semoule Ducros 110g — 140 g",
+    "brand": "Ducros",
+    "quantity": 140,
+    "priceCents": 218,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "aubergine",
+    "label": "AUBERGINE — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 419,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "banane",
+    "label": "BANANE CAVENDISH — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 220,
+    "asOf": "2025-06-08",
+    "stores": 1
+   },
+   {
+    "ingredientId": "basilic",
+    "label": "Basilic Maxi Format Ducros — 29 g",
+    "brand": "Ducros",
+    "quantity": 29,
+    "priceCents": 209,
+    "asOf": "2026-08-19",
+    "stores": 2
+   },
+   {
+    "ingredientId": "beurre-cacahuete",
+    "label": "Beurre de cacahuètes, 350g — 350 g",
+    "brand": "U",
+    "quantity": 350,
+    "priceCents": 333,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "beurre-doux",
+    "label": "Beurre doux plaquette de 125g — 125 g",
+    "brand": "U",
+    "quantity": 125,
+    "priceCents": 160,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "beurre-doux",
+    "label": "Beurre tendre à tartiner doux 82% de matière grasse barquette de 250g — 250 g",
+    "brand": "U",
+    "quantity": 250,
+    "priceCents": 251,
+    "asOf": "2026-04-02",
+    "stores": 3
+   },
+   {
+    "ingredientId": "boisson-soja",
+    "label": "Boisson soja nature — 1 L",
+    "brand": "U",
+    "quantity": 1000,
+    "priceCents": 88,
+    "asOf": "2026-04-01",
+    "stores": 1
+   },
+   {
+    "ingredientId": "bouillon-legumes",
+    "label": "Knorr Bouillon de Légumes 15 Tablettes 150g — 15 pièces",
+    "brand": "Knorr",
+    "quantity": 15,
+    "priceCents": 172,
+    "asOf": "2026-10-04",
+    "stores": 2
+   },
+   {
+    "ingredientId": "cacahuetes",
+    "label": "Cacahuètes grillées à sec sachet de 150g — 150 g",
+    "brand": "U",
+    "quantity": 150,
+    "priceCents": 96,
+    "asOf": "2025-12-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "cacahuetes",
+    "label": "Cacahuètes grillées à sec étui de 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 282,
+    "asOf": "2025-12-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "cannelle",
+    "label": "Cannelle moulue format classique 30g — 30 g",
+    "brand": "U",
+    "quantity": 30,
+    "priceCents": 95,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "cannelle",
+    "label": "Fuchs · Cannelle moulue — 35 g",
+    "brand": "Fuchs",
+    "quantity": 35,
+    "priceCents": 160,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "capres",
+    "label": "Baltic Capres Verre — 100 g",
+    "brand": "Baltic",
+    "quantity": 100,
+    "priceCents": 226,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "capres",
+    "label": "Crespo · Câpres — 198 g",
+    "brand": "Crespo",
+    "quantity": 198,
+    "priceCents": 289,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "chapelure",
+    "label": "Tipiak · Chapelure dorée — 250 g",
+    "brand": "Tipiak",
+    "quantity": 250,
+    "priceCents": 119,
+    "asOf": "2026-04-21",
+    "stores": 1
+   },
+   {
+    "ingredientId": "citronnelle",
+    "label": "Excel Fruits · Citronnelle — 100 g",
+    "brand": "Excel Fruits",
+    "quantity": 100,
+    "priceCents": 199,
+    "asOf": "2026-03-17",
+    "stores": 1
+   },
+   {
+    "ingredientId": "comte",
+    "label": "Entremont · Comté 8 tranches — 120 g",
+    "brand": "Entremont",
+    "quantity": 120,
+    "priceCents": 287,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "comte",
+    "label": "Comté AOP au lait cru 34%de matière grasse 250g — 250 g",
+    "brand": "U",
+    "quantity": 250,
+    "priceCents": 395,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "comte",
+    "label": "Comté AOP au lait cru 34%mg, 400g — 400 g",
+    "brand": "U",
+    "quantity": 400,
+    "priceCents": 576,
+    "asOf": "2025-12-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "concentre-tomate",
+    "label": "Prix Mini · Double concentré de tomates — 280 g",
+    "brand": "Prix Mini",
+    "quantity": 280,
+    "priceCents": 133,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "concentre-tomate",
+    "label": "Prix Mini · Double concentré de tomates — 440 g",
+    "brand": "Prix Mini",
+    "quantity": 440,
+    "priceCents": 133,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "coquillettes",
+    "label": "Coquillette qualité supérieure — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 80,
+    "asOf": "2025-08-14",
+    "stores": 1
+   },
+   {
+    "ingredientId": "coquillettes",
+    "label": "Ebro Foods · Coquillettes — 1 kg",
+    "brand": "Ebro Foods",
+    "quantity": 1000,
+    "priceCents": 203,
+    "asOf": "2026-03-18",
+    "stores": 1
+   },
+   {
+    "ingredientId": "creme-fraiche-epaisse",
+    "label": "U · Crème fraîche épaisse 30%MG - 190g — 190 ml",
+    "brand": "U",
+    "quantity": 190,
+    "priceCents": 87,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "creme-fraiche-epaisse",
+    "label": "U · Crème fraîche épaisse 30%mg — 450 ml",
+    "brand": "U",
+    "quantity": 450,
+    "priceCents": 185,
+    "asOf": "2026-04-02",
+    "stores": 2
+   },
+   {
+    "ingredientId": "creme-legere",
+    "label": "U · Crème fraîche épaisse légère 15%MG - 450g — 450 ml",
+    "brand": "U",
+    "quantity": 450,
+    "priceCents": 154,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "creme-legere",
+    "label": "Crème légère liquide stérilisée T, 12%mg, 3x20cl — 600 ml",
+    "brand": "U",
+    "quantity": 600,
+    "priceCents": 209,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "creme-legere",
+    "label": "Bridelice · Crème Légère Semi Épaisse 18% MG — 800 ml",
+    "brand": "Bridelice",
+    "quantity": 800,
+    "priceCents": 294,
+    "asOf": "2026-08-12",
+    "stores": 1
+   },
+   {
+    "ingredientId": "crevettes",
+    "label": "Crevettes nordiques entières cuites 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 567,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "cumin",
+    "label": "Cumin moulu format classique, 36g — 36 g",
+    "brand": "U",
+    "quantity": 36,
+    "priceCents": 81,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "escalope-dinde",
+    "label": "Le gaulois · Escalope de dinde — 720 g",
+    "brand": "Le gaulois",
+    "quantity": 720,
+    "priceCents": 1209,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "farine-ble",
+    "label": "U · Farine de blé type 65 bio — 1 kg",
+    "brand": "U",
+    "quantity": 1000,
+    "priceCents": 91,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "feta",
+    "label": "Saveurs U · Féta grecque AOP au lait de brebis pasteurisé 24,2%mg, 200g — 200 g",
+    "brand": "Saveurs U",
+    "quantity": 200,
+    "priceCents": 265,
+    "asOf": "2026-09-09",
+    "stores": 2
+   },
+   {
+    "ingredientId": "flageolets",
+    "label": "U · Flageolets verts extra-fins - Boîte 265g — 265 g",
+    "brand": "U",
+    "quantity": 265,
+    "priceCents": 107,
+    "asOf": "2026-03-18",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fond-veau",
+    "label": "Fond de veau dégraissé 100g — 100 g",
+    "brand": "U",
+    "quantity": 100,
+    "priceCents": 235,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fond-veau",
+    "label": "Fond de veau pot 110g — 110 g",
+    "brand": "U",
+    "quantity": 110,
+    "priceCents": 231,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fond-veau",
+    "label": "MAGGI Fond de Veau - Boîte de 240g — 240 g",
+    "brand": "Maggi",
+    "quantity": 240,
+    "priceCents": 442,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fromage-blanc",
+    "label": "Fromage blanc frais nature, 0%MG, 6x60g — 360 g",
+    "brand": "U",
+    "quantity": 360,
+    "priceCents": 117,
+    "asOf": "2026-08-12",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fromage-blanc",
+    "label": "Fromage blanc nature 3,0%mg pot 900g — 900 g",
+    "brand": "U",
+    "quantity": 900,
+    "priceCents": 185,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "fromage-blanc",
+    "label": "Fromage blanc nature 7,6%MG - 1kg — 1 kg",
+    "brand": "U",
+    "quantity": 1000,
+    "priceCents": 225,
+    "asOf": "2026-02-27",
+    "stores": 2
+   },
+   {
+    "ingredientId": "fumet-poisson",
+    "label": "Fumet de poisson pot de 90g — 90 g",
+    "brand": "U",
+    "quantity": 90,
+    "priceCents": 227,
+    "asOf": "2026-08-19",
+    "stores": 2
+   },
+   {
+    "ingredientId": "gingembre",
+    "label": "GINGEMBRE CHINE — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 699,
+    "asOf": "2026-03-17",
+    "stores": 1
+   },
+   {
+    "ingredientId": "gingembre-poudre",
+    "label": "Gingembre moulu format classique 26g — 26 g",
+    "brand": "U",
+    "quantity": 26,
+    "priceCents": 129,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "graines-sesame",
+    "label": "Daco Bello · Graines de sésame — 125 g",
+    "brand": "Daco Bello",
+    "quantity": 125,
+    "priceCents": 159,
+    "asOf": "2026-03-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "graines-sesame",
+    "label": "Mon fournil · Graines de sésame bio — 450 g",
+    "brand": "Mon fournil",
+    "quantity": 450,
+    "priceCents": 759,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "haricots-blancs",
+    "label": "Prix Mini · Haricots blancs — 530 g",
+    "brand": "Prix Mini",
+    "quantity": 530,
+    "priceCents": 109,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "haricots-rouges",
+    "label": "Vivien Paille · Haricots rouges — 500 g",
+    "brand": "Vivien Paille",
+    "quantity": 500,
+    "priceCents": 200,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "harissa",
+    "label": "Sicam · Harissa du Cap Bon — 70 g",
+    "brand": "Sicam",
+    "quantity": 70,
+    "priceCents": 70,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "herbes-provence",
+    "label": "Albert Ménès · Herbes de Provence — 35 g",
+    "brand": "Albert Ménès",
+    "quantity": 35,
+    "priceCents": 299,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "herbes-provence",
+    "label": "Ducros · Herbes de Provence — 40 g",
+    "brand": "Ducros",
+    "quantity": 40,
+    "priceCents": 209,
+    "asOf": "2025-08-14",
+    "stores": 1
+   },
+   {
+    "ingredientId": "huile-olive",
+    "label": "Huile d'olive Bouteille 50cL — 500 ml",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 515,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "huile-olive",
+    "label": "Huile d'olive vierge extra Bouteille 1L — 1 L",
+    "brand": "U",
+    "quantity": 1000,
+    "priceCents": 756,
+    "asOf": "2026-10-04",
+    "stores": 2
+   },
+   {
+    "ingredientId": "huile-olive",
+    "label": "Huile d'olive vierge extra Bouteille 1,5 litre — 1.5 L",
+    "brand": "U",
+    "quantity": 1500,
+    "priceCents": 1370,
+    "asOf": "2026-03-15",
+    "stores": 1
+   },
+   {
+    "ingredientId": "huile-tournesol",
+    "label": "Prix Mini · Huile de tournesol — 3 L",
+    "brand": "Prix Mini",
+    "quantity": 3000,
+    "priceCents": 535,
+    "asOf": "2026-10-04",
+    "stores": 2
+   },
+   {
+    "ingredientId": "ketchup",
+    "label": "Ketchup nature 340g — 340 g",
+    "brand": "U",
+    "quantity": 340,
+    "priceCents": 121,
+    "asOf": "2026-08-09",
+    "stores": 2
+   },
+   {
+    "ingredientId": "ketchup",
+    "label": "Ketchup allegé -50% de sucre 540g — 540 g",
+    "brand": "U",
+    "quantity": 540,
+    "priceCents": 176,
+    "asOf": "2026-08-28",
+    "stores": 3
+   },
+   {
+    "ingredientId": "ketchup",
+    "label": "Ketchup nature 560g — 560 g",
+    "brand": "U",
+    "quantity": 560,
+    "priceCents": 116,
+    "asOf": "2026-08-28",
+    "stores": 4
+   },
+   {
+    "ingredientId": "lait-coco",
+    "label": "U · Lait de coco 200ml — 200 ml",
+    "brand": "U",
+    "quantity": 200,
+    "priceCents": 95,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "lait-coco",
+    "label": "U · Lait de Coco — 400 ml",
+    "brand": "U",
+    "quantity": 400,
+    "priceCents": 162,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "lait-coco",
+    "label": "SUZI WAN · Lait de coco — 500 ml",
+    "brand": "SUZI WAN",
+    "quantity": 500,
+    "priceCents": 302,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "lait-demi-ecreme",
+    "label": "Bocage · Lait stérilisé UHT demi-écrémé — 1 L",
+    "brand": "Bocage",
+    "quantity": 1000,
+    "priceCents": 94,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "lait-demi-ecreme",
+    "label": "Lait de France · Lait stérilisé U.H.T. demi-écrémé — 6 L",
+    "brand": "Lait de France",
+    "quantity": 6000,
+    "priceCents": 602,
+    "asOf": "2026-08-09",
+    "stores": 2
+   },
+   {
+    "ingredientId": "lentilles-corail",
+    "label": "U · Lentilles corail — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 249,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "levure-chimique",
+    "label": "Sainte Lucie · Levure chimique — 50 g",
+    "brand": "Sainte Lucie",
+    "quantity": 50,
+    "priceCents": 63,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "maquereau-conserve",
+    "label": "Filets de maquereaux au muscadet et aromates boîte de 176g — 176 g",
+    "brand": "U",
+    "quantity": 176,
+    "priceCents": 169,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "mascarpone",
+    "label": "Mascarpone au lait pasteurisé 36%, 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 319,
+    "asOf": "2026-02-24",
+    "stores": 1
+   },
+   {
+    "ingredientId": "mayonnaise",
+    "label": "Lesieur · Mayonnaise Classique à l'huile de colza — 175 g",
+    "brand": "Lesieur",
+    "quantity": 175,
+    "priceCents": 92,
+    "asOf": "2026-08-19",
+    "stores": 2
+   },
+   {
+    "ingredientId": "mayonnaise",
+    "label": "Lesieur · Mayonnaise classique — 475 g",
+    "brand": "Lesieur",
+    "quantity": 475,
+    "priceCents": 255,
+    "asOf": "2026-03-15",
+    "stores": 1
+   },
+   {
+    "ingredientId": "mayonnaise",
+    "label": "Amora · Mayonnaise de Dijon — 710 g",
+    "brand": "Amora",
+    "quantity": 710,
+    "priceCents": 314,
+    "asOf": "2026-08-19",
+    "stores": 2
+   },
+   {
+    "ingredientId": "moutarde",
+    "label": "Moutarde forte de Dijon verre décoré de 195g — 195 g",
+    "brand": "U",
+    "quantity": 195,
+    "priceCents": 128,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "moutarde",
+    "label": "Moutarde de Dijon verre de whisky Elisa 31cl, 280g — 280 g",
+    "brand": "U",
+    "quantity": 280,
+    "priceCents": 211,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "moutarde",
+    "label": "Moutarde de Dijon bocal atlas de 37cl, 370g — 370 g",
+    "brand": "U",
+    "quantity": 370,
+    "priceCents": 99,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "mozzarella",
+    "label": "Mozzarella au lait pasteurisé 18%mg — 125 g",
+    "brand": "U",
+    "quantity": 125,
+    "priceCents": 99,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "navet",
+    "label": "NAVET FRANCE — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 289,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "noix-cajou",
+    "label": "Juste Bio · La noix de cajou à l'italienne — 150 g",
+    "brand": "Juste Bio",
+    "quantity": 150,
+    "priceCents": 330,
+    "asOf": "2026-08-24",
+    "stores": 1
+   },
+   {
+    "ingredientId": "noix-cajou",
+    "label": "sun · Noix de cajou grillées — 250 g",
+    "brand": "sun",
+    "quantity": 250,
+    "priceCents": 559,
+    "asOf": "2025-12-13",
+    "stores": 1
+   },
+   {
+    "ingredientId": "nuoc-mam",
+    "label": "Sauce nuoc mam 150ml — 150 ml",
+    "brand": "U",
+    "quantity": 150,
+    "priceCents": 121,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "oignons-frits",
+    "label": "Ducros · Oignons frits — 130 g",
+    "brand": "Ducros",
+    "quantity": 130,
+    "priceCents": 230,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "oignons-frits",
+    "label": "Columbia · Oignons frits — 280 g",
+    "brand": "Columbia",
+    "quantity": 280,
+    "priceCents": 505,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "olives-noires",
+    "label": "Olives noires entières façon grecque bocal de 235g — 235 g",
+    "brand": "U",
+    "quantity": 235,
+    "priceCents": 178,
+    "asOf": "2026-08-19",
+    "stores": 2
+   },
+   {
+    "ingredientId": "olives-vertes",
+    "label": "Olives vertes dénoyautées bocal de 37cl - 160g — 160 g",
+    "brand": "U",
+    "quantity": 160,
+    "priceCents": 89,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "olives-vertes",
+    "label": "Tramier · Olives vertes dénoyautées sachet — 230 g",
+    "brand": "Tramier",
+    "quantity": 230,
+    "priceCents": 131,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "olives-vertes",
+    "label": "Barco · Olives vertes dénoyautées — 720 g",
+    "brand": "Barco",
+    "quantity": 720,
+    "priceCents": 389,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pain-hot-dog",
+    "label": "La Fournée Dorée · 6 pains hot dog — 6 pièces",
+    "brand": "La Fournée Dorée",
+    "quantity": 6,
+    "priceCents": 239,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pain-mie",
+    "label": "Harrys · Pain de mie longue conservation — 250 g",
+    "brand": "Harrys",
+    "quantity": 250,
+    "priceCents": 90,
+    "asOf": "2025-06-08",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pain-mie",
+    "label": "Pain de mie nature extra moelleux sans sucres ajoutés - x24 tranches — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 119,
+    "asOf": "2026-04-21",
+    "stores": 3
+   },
+   {
+    "ingredientId": "pain-mie",
+    "label": "Pain de mie grandes tranches aux céréales - 14 tranches - 550g — 550 g",
+    "brand": "U",
+    "quantity": 550,
+    "priceCents": 134,
+    "asOf": "2026-04-02",
+    "stores": 1
+   },
+   {
+    "ingredientId": "patate-douce",
+    "label": "PATATE DOUCE EGYPTE — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 249,
+    "asOf": "2026-03-17",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pate-curry",
+    "label": "Ayam · Pate de curry jaune thai — 100 g",
+    "brand": "Ayam",
+    "quantity": 100,
+    "priceCents": 223,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pate-curry",
+    "label": "Mei Asia · Pate De Curry Vert — 110 g",
+    "brand": "Mei Asia",
+    "quantity": 110,
+    "priceCents": 162,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pate-curry",
+    "label": "Real Thai · Pâte de curry jaune — 227 g",
+    "brand": "Real Thai",
+    "quantity": 227,
+    "priceCents": 414,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pate-pizza",
+    "label": "Croustipate · Pâte à pizza — 1 pièce",
+    "brand": "Croustipate",
+    "quantity": 1,
+    "priceCents": 156,
+    "asOf": "2026-10-04",
+    "stores": 2
+   },
+   {
+    "ingredientId": "pates-completes",
+    "label": "Pâtes Torsades au blé complet sachet de 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 106,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pesto",
+    "label": "Signorelli · Pesto con basilico Genovese — 330 g",
+    "brand": "Signorelli",
+    "quantity": 330,
+    "priceCents": 475,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "petits-pois-conserve",
+    "label": "Petits pois extra-fins - Boîte de 280g net égoutté — 280 g",
+    "brand": "U",
+    "quantity": 280,
+    "priceCents": 97,
+    "asOf": "2026-03-18",
+    "stores": 1
+   },
+   {
+    "ingredientId": "petits-pois-conserve",
+    "label": "Petits pois extra fins - Boîte de 560g net égoutté — 560 g",
+    "brand": "U",
+    "quantity": 560,
+    "priceCents": 151,
+    "asOf": "2026-03-18",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pois-casses",
+    "label": "Pois cassés étui de 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 114,
+    "asOf": "2026-10-04",
+    "stores": 2
+   },
+   {
+    "ingredientId": "pois-chiches",
+    "label": "Compagnie Générale De Conserve · Pois chiches Sultanines 265g — 265 g",
+    "brand": "Compagnie Générale De Conserve",
+    "quantity": 265,
+    "priceCents": 118,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pois-chiches",
+    "label": "Pois chiches étui 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 162,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pois-chiches",
+    "label": "Pois chiches Sultanines 530g — 530 g",
+    "brand": "Sultanines",
+    "quantity": 530,
+    "priceCents": 158,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "poivre",
+    "label": "Sainte Lucie · Poivre noir grains — 245 g",
+    "brand": "Sainte Lucie",
+    "quantity": 245,
+    "priceCents": 977,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pomme",
+    "label": "POMME CHANTECLER BELCHARD — 1 kg (prix au kilo)",
+    "quantity": 1000,
+    "priceCents": 299,
+    "asOf": "2026-04-01",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pomme",
+    "label": "POMME IGP U SHT 2KG ALP.HT.DUR — 2 kg",
+    "brand": "U",
+    "quantity": 2000,
+    "priceCents": 299,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pousses-soja",
+    "label": "Pousses de haricots mungo - Boîte 180g — 180 g",
+    "brand": "U",
+    "quantity": 180,
+    "priceCents": 111,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "pruneaux",
+    "label": "Maître PRUNILLE · Pruneaux d'Agen dénoyautés — 500 g",
+    "brand": "Maître PRUNILLE",
+    "quantity": 500,
+    "priceCents": 599,
+    "asOf": "2026-02-10",
+    "stores": 1
+   },
+   {
+    "ingredientId": "quinoa",
+    "label": "Quinoa nature paquet de 250g — 250 g",
+    "brand": "U",
+    "quantity": 250,
+    "priceCents": 226,
+    "asOf": "2026-03-15",
+    "stores": 1
+   },
+   {
+    "ingredientId": "raisins-secs",
+    "label": "Raisins secs Sultanine - Sachet 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 399,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "ricotta",
+    "label": "La Pasta · Tortelloni à la Ricotta — 500 g",
+    "brand": "La Pasta",
+    "quantity": 500,
+    "priceCents": 499,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "riz-arborio",
+    "label": "Taureau Ailé · Riz pour Risotto Crémeux & Savoureux — 1 kg",
+    "brand": "Taureau Ailé",
+    "quantity": 1000,
+    "priceCents": 393,
+    "asOf": "2026-03-18",
+    "stores": 1
+   },
+   {
+    "ingredientId": "riz-basmati",
+    "label": "U · Riz basmati 500g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 161,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "riz-long",
+    "label": "Prix Mini · Riz long grain étuvé — 500 g",
+    "brand": "Prix Mini",
+    "quantity": 500,
+    "priceCents": 100,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "riz-long",
+    "label": "Riz long grain étuvé 10 minutes, étui vrac de 1kg — 1 kg",
+    "brand": "U",
+    "quantity": 1000,
+    "priceCents": 146,
+    "asOf": "2026-01-23",
+    "stores": 2
+   },
+   {
+    "ingredientId": "sardines-huile",
+    "label": "Prix Mini · Sardines a l’huile de tournesol — 360 g",
+    "brand": "Prix Mini",
+    "quantity": 360,
+    "priceCents": 305,
+    "asOf": "2026-04-21",
+    "stores": 1
+   },
+   {
+    "ingredientId": "sauce-soja",
+    "label": "Sauce soja 150ml — 150 ml",
+    "brand": "U",
+    "quantity": 150,
+    "priceCents": 104,
+    "asOf": "2026-08-28",
+    "stores": 2
+   },
+   {
+    "ingredientId": "saumon-fume",
+    "label": "Dés de saumon fumé nature, 100g — 100 g",
+    "brand": "U",
+    "quantity": 100,
+    "priceCents": 483,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "sel",
+    "label": "Prix Mini · Sel fin de table — 750 g",
+    "brand": "Prix Mini",
+    "quantity": 750,
+    "priceCents": 60,
+    "asOf": "2026-02-07",
+    "stores": 1
+   },
+   {
+    "ingredientId": "semoule",
+    "label": "Barco · semoule de blé dur — 1 kg",
+    "brand": "Barco",
+    "quantity": 1000,
+    "priceCents": 180,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "spaghetti",
+    "label": "BARILLA · Pâtes spaghettoni n°7 500g — 500 g",
+    "brand": "BARILLA",
+    "quantity": 500,
+    "priceCents": 101,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "spaghetti",
+    "label": "Prix Mini · spaghetti pasta — 1 kg",
+    "brand": "Prix Mini",
+    "quantity": 1000,
+    "priceCents": 106,
+    "asOf": "2026-01-23",
+    "stores": 1
+   },
+   {
+    "ingredientId": "sucre",
+    "label": "Prix Mini · sucre en poudre — 1 kg",
+    "brand": "Prix Mini",
+    "quantity": 1000,
+    "priceCents": 121,
+    "asOf": "2026-01-23",
+    "stores": 2
+   },
+   {
+    "ingredientId": "thon-naturel",
+    "label": "Chancerelle · Thon entier au naturel — 190 g",
+    "brand": "Chancerelle",
+    "quantity": 190,
+    "priceCents": 249,
+    "asOf": "2026-08-28",
+    "stores": 1
+   },
+   {
+    "ingredientId": "thon-naturel",
+    "label": "Petit Navire · Thon entier au naturel — 264 g",
+    "brand": "Petit Navire",
+    "quantity": 264,
+    "priceCents": 380,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "thon-naturel",
+    "label": "Petit Navire · Thon entier au naturel — 320 g",
+    "brand": "Petit Navire",
+    "quantity": 320,
+    "priceCents": 548,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "tomate-cerise",
+    "label": "Azura · Tomates Cerises Allongées — 250 g",
+    "brand": "Azura",
+    "quantity": 250,
+    "priceCents": 99,
+    "asOf": "2025-05-03",
+    "stores": 1
+   },
+   {
+    "ingredientId": "tomates-concassees",
+    "label": "Mutti · Polpa Tomates concassées fines — 1.2 kg",
+    "brand": "Mutti",
+    "quantity": 1200,
+    "priceCents": 299,
+    "asOf": "2026-08-09",
+    "stores": 1
+   },
+   {
+    "ingredientId": "tomates-sechees",
+    "label": "U · Délice de tomates séchées bocal 190g — 190 g",
+    "brand": "U",
+    "quantity": 190,
+    "priceCents": 213,
+    "asOf": "2026-08-19",
+    "stores": 1
+   },
+   {
+    "ingredientId": "vinaigre-balsamique",
+    "label": "Vinaigre balsamique bouteille en verre de 50cl — 500 ml",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 168,
+    "asOf": "2026-08-28",
+    "stores": 3
+   },
+   {
+    "ingredientId": "yaourt-grec",
+    "label": "Yaourt à la Grecque Nature — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 249,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "yaourt-grec",
+    "label": "Yaourt à la grecque nature 12x125g — 1.5 kg",
+    "brand": "U",
+    "quantity": 1500,
+    "priceCents": 343,
+    "asOf": "2026-02-27",
+    "stores": 1
+   },
+   {
+    "ingredientId": "yaourt-nature",
+    "label": "Yaourt nature 4x125g — 500 g",
+    "brand": "U",
+    "quantity": 500,
+    "priceCents": 74,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "yaourt-nature",
+    "label": "Prix Mini · Yaourts nature — 1 kg",
+    "brand": "Prix Mini",
+    "quantity": 1000,
+    "priceCents": 176,
+    "asOf": "2026-10-04",
+    "stores": 1
+   },
+   {
+    "ingredientId": "yaourt-nature",
+    "label": "yaourt nature — 1.5 kg",
+    "brand": "U",
+    "quantity": 1500,
+    "priceCents": 189,
+    "asOf": "2026-02-27",
+    "stores": 1
+   }
+  ]
+ }
+}

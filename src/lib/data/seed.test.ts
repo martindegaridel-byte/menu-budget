@@ -80,3 +80,17 @@ describe("données seed", () => {
     });
   });
 });
+
+describe("prix réels partagés par magasin", () => {
+  it("référencent des magasins et des ingrédients existants, à des prix plausibles", () => {
+    const storeIds = new Set(data.stores.map((s) => s.id));
+    for (const [storeId, pkgs] of Object.entries(data.storePrices)) {
+      expect(storeIds.has(storeId), storeId).toBe(true);
+      for (const p of pkgs) {
+        expect(byId.has(p.ingredientId), p.ingredientId).toBe(true);
+        expect(p.source).toBe("openprices");
+        expect(p.priceCents).toBeGreaterThan(0);
+      }
+    }
+  });
+});

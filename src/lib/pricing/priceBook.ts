@@ -47,3 +47,38 @@ export function resolvePriceBook(input: ResolvePriceBookInput): PriceBook {
   for (const id of input.unavailableIngredientIds ?? []) book.delete(id);
   return book;
 }
+
+/**
+ * Recale les estimations sur des prix réels relevés dans plusieurs magasins d'une enseigne :
+ * on garde les formats habituels (petit flacon, boîte de 400 g…) mais au niveau de prix
+ * constaté (rapport médian prix relevé / estimation, au kilo, borné entre `min` et `max`).
+ * Les relevés seuls ne suffisent pas : ils ne couvrent souvent que de grands formats ou des marques.
+ */
+export function scaleToObserved(
+  reference: readonly Package[],
+  observed: readonly Package[],
+  opts: { min?: number; max?: number } = {},
+): Package[] {
+  const min = opts.min ?? 0.6;
+  const max = opts.max ?? 1.6;
+  const refBy = new Map<string, Package[]>();
+  for (const p of reference) refBy.set(p.ingredientId, [...(refBy.get(p.ingredientId) ?? []), p]);
+  const obsBy = new Map<string, Package[]>();
+  for (const p of observed) obsBy.set(p.ingredientId, [...(obsBy.get(p.ingredientId) ?? []), p]);
+  const out: Package[] = [];
+  for (const [id, obs] of obsBy) {
+    const refs = refBy.get(id);
+    if (!refs?.length) continue;
+    const refUnit = Math.min(...refs.map((p) => p.priceCents / p.quantity));
+    if (!(refUnit > 0)) continue;
+    const ratios = obs.map((p) => p.priceCents / p.quantity / refUnit).sort((a, b) => a - b);
+    const mid = Math.floor(ratios.length / 2);
+    const median = ratios.length % 2 ? ratios[mid]! : (ratios[mid - 1]! + ratios[mid]!) / 2;
+    const ratio = Math.min(max, Math.max(min, median));
+    const asOf = obs.map((p) => p.asOf).sort().at(-1)!;
+    refs.forEach((p, i) =>
+      out.push({ ...p, id: `observed:${id}:${i}`, priceCents: Math.max(1, Math.round(p.priceCents * ratio)), source: "openprices", asOf }),
+    );
+  }
+  return out;
+}

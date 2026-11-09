@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { CalendarClock, CalendarDays, ListChecks, Pencil, PiggyBank, RefreshCw, Star, TrendingUp, UtensilsCrossed, X } from "lucide-react";
+import { CalendarClock, CalendarDays, ListChecks, Pencil, PiggyBank, RefreshCw, Star, Store as StoreIcon, TrendingUp, UtensilsCrossed, X } from "lucide-react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
@@ -39,8 +39,8 @@ function pickWeighted<T>(items: readonly T[], top = 5): T | undefined {
   return pool[0];
 }
 
-const FAVORITE_STORE_ID = "super-u-saint-pierre";
-const FAVORITE_STORE_KEY = "mb:favorite-store-v1";
+/** Noms courts des magasins proposés à tous (sélecteur du menu). */
+const SHORT_STORE_NAMES: Record<string, string> = { "super-u-saint-pierre": "Super U", "intermarche-super": "Intermarché" };
 
 export const DEFAULT_PREFERENCES: Preferences = PreferencesSchema.parse({
   budgetCents: 2000,
@@ -68,18 +68,6 @@ export function Planner({
     const parsed = PreferencesSchema.safeParse(storedPrefs);
     return parsed.success ? parsed.data : DEFAULT_PREFERENCES;
   }, [storedPrefs]);
-  // Super U Saint-Pierre devient le magasin favori (une seule fois : un autre choix ensuite est respecté).
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(FAVORITE_STORE_KEY)) return;
-      localStorage.setItem(FAVORITE_STORE_KEY, "1");
-      // Mise à jour fonctionnelle : s'applique après la lecture des réglages enregistrés, sans les écraser.
-      setPrefs((prev) => ({ ...prev, storeId: FAVORITE_STORE_ID }));
-    } catch {
-      /* stockage indisponible */
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const [result, setResult] = usePersistentState<MenuResult | null>("mb:result", null);
   // Recettes proposées récemment (la plus récente d'abord) : le moteur évite de les reproposer.
   const [recent, setRecent] = usePersistentState<string[]>("mb:recent", []);
@@ -422,6 +410,29 @@ export function Planner({
               <h1 className="text-title-1 font-semibold tracking-tight">
                 {result.recipes.length} repas · {result.persons} pers.
               </h1>
+              {stores.length > 1 && stores.length <= 4 && (
+                <div role="group" aria-label="Magasin des courses" className="mt-2 flex flex-wrap gap-1.5">
+                  {stores.map((st) => {
+                    const on = st.id === prefs.storeId;
+                    return (
+                      <button
+                        key={st.id}
+                        type="button"
+                        aria-pressed={on}
+                        disabled={busy}
+                        onClick={() => !on && liveAdjust({ ...prefs, storeId: st.id })}
+                        className={cx(
+                          "focus-ring inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 text-body-sm font-medium ring-1 ring-inset transition-colors duration-150",
+                          on ? "bg-accent-soft text-accent-text ring-accent/40" : "text-muted ring-line hover:bg-surface-2 hover:text-fg",
+                        )}
+                      >
+                        <StoreIcon aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
+                        {SHORT_STORE_NAMES[st.id] ?? st.name.replace(/\s*\(.*\)$/, "")}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
               {(result.lunchPortions ?? 0) > 0 && (
                 <p className="text-body-sm text-muted">
                   + {result.lunchPortions} portion{result.lunchPortions > 1 ? "s" : ""} pour le midi du lendemain
