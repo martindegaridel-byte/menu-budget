@@ -39,6 +39,14 @@ describe("liste de courses (client)", () => {
     expect(get("sel")?.quantity).toBeNull();
   });
 
+  it("après les courses, date les produits frais pour finir les restes à temps", () => {
+    const next = pantryAfterPurchase(pantry, list, "2026-11-10");
+    const get = (id: string) => next.find((p) => p.ingredientId === id);
+    expect(get("oignon-jaune")?.expiresOn).toBe("2026-12-10"); // se garde 30 jours
+    expect(get("oeuf")?.expiresOn).toBe("2026-12-01"); // œufs : 21 jours
+    expect(get("spaghetti")?.expiresOn).toBeUndefined(); // épicerie : pas de date
+  });
+
   it("après avoir cuisiné un plat, retire ce qu'il a utilisé", () => {
     const stocked = pantryAfterPurchase(pantry, list);
     const next = pantryAfterCooking(stocked, [

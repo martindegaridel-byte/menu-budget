@@ -11,6 +11,7 @@ import {
   Gauge,
   Info,
   Package,
+  Recycle,
   RefreshCw,
   Scale,
   Sparkles,
@@ -18,7 +19,7 @@ import {
   Wheat,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, IconButton } from "@/components/ds";
 import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { DishThumb } from "@/components/DishThumb";
@@ -28,6 +29,7 @@ import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types
 import { CUISINES, type Cuisine } from "@/lib/domain/schemas";
 import { formatEuros } from "@/lib/engine/money";
 import { weekBalance } from "@/lib/client/balance";
+import { readLeftovers } from "@/lib/client/leftovers";
 import type { MenuResult, PrepPlan, SwapOption } from "@/lib/engine/optimize";
 import { formatQuantity } from "@/lib/engine/units";
 import { BudgetInput } from "./PreferencesForm";
@@ -502,6 +504,37 @@ export function ExtrasCard({
           </ul>
         )}
       </Sheet>
+    </Card>
+  );
+}
+
+/** « Ce menu finit vos restes » : produits du placard utilisés, euros économisés, compteur cumulé. */
+export function LeftoversCard({ result }: { result: MenuResult }) {
+  const [total, setTotal] = useState<number | null>(null);
+  useEffect(() => setTotal(readLeftovers().totalCents), []);
+  const used = result.shoppingList.lines.filter((l) => l.fromPantry > 0 && !l.staple);
+  if (used.length === 0) return null;
+  return (
+    <Card className="space-y-2" aria-labelledby="restes-titre">
+      <div className="flex items-baseline justify-between gap-2">
+        <h2 id="restes-titre" className="inline-flex items-center gap-2 text-body font-semibold">
+          <Recycle aria-hidden className="size-5 text-accent-text" strokeWidth={ICON_STROKE} /> Ce menu finit vos restes
+        </h2>
+        {result.pantrySavingsCents > 0 && <p className="font-numeric text-body-sm font-semibold tabular-nums text-accent-text">− {formatEuros(result.pantrySavingsCents)}</p>}
+      </div>
+      <p className="text-body-sm text-muted">
+        {used
+          .slice(0, 8)
+          .map((l) => l.name)
+          .join(", ")}
+        {used.length > 8 ? "…" : ""}
+      </p>
+      {total !== null && total > 0 && (
+        <p className="text-caption text-subtle">
+          Depuis le début, vos restes vous ont fait économiser <span className="font-semibold tabular-nums text-fg">{formatEuros(total)}</span>.
+        </p>
+      )}
+      <p className="text-caption text-subtle">Touchez « J&apos;ai fait mes courses » puis « Cuisiné » : le placard se met à jour et les prochains menus finiront ce qui reste.</p>
     </Card>
   );
 }

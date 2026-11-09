@@ -55,17 +55,44 @@ function keep(q: number): number | null {
 }
 
 /**
+ * Durée de conservation indicative (jours) des produits frais, par rayon, une fois achetés.
+ * Sert à repérer les restes à finir en priorité ; l'utilisateur peut corriger la date dans le placard.
+ */
+export const SHELF_LIFE_DAYS: Partial<Record<Aisle, number>> = {
+  "fruits-legumes": 7,
+  cremerie: 10,
+  boucherie: 3,
+  poissonnerie: 2,
+  charcuterie: 5,
+  boulangerie: 3,
+  vegetal: 10,
+};
+/** Exceptions : se gardent plus longtemps que leur rayon. */
+const SHELF_LIFE_OVERRIDES: Record<string, number> = { oeuf: 21, "pomme-de-terre": 30, oignon: 30, "oignon-jaune": 30, "oignon-rouge": 30, ail: 30, carotte: 14, pomme: 21 };
+
+function addDays(isoDate: string, days: number): string {
+  const d = new Date(`${isoDate}T12:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+/**
  * Placard après les courses : on ajoute ce qui a été acheté (paquets entiers).
+ * Avec `today`, les produits frais reçoivent une date limite estimée (si aucune n'est déjà notée),
+ * pour que les prochains menus finissent les restes avant qu'ils ne se perdent.
  * La consommation est retirée ensuite, plat par plat (voir `pantryAfterCooking`).
  */
-export function pantryAfterPurchase(pantry: readonly PantryItem[], list: ShoppingList): PantryItem[] {
+export function pantryAfterPurchase(pantry: readonly PantryItem[], list: ShoppingList, today?: string): PantryItem[] {
   const byId = new Map(pantry.map((p) => [p.ingredientId, { ...p }]));
   for (const l of list.lines) {
     if (l.purchased <= 0) continue;
     const cur = byId.get(l.ingredientId);
     if (cur && cur.quantity === null) continue; // « en quantité suffisante »
     const q = keep((cur?.quantity ?? 0) + l.purchased);
-    if (q !== null) byId.set(l.ingredientId, { ingredientId: l.ingredientId, quantity: q, expiresOn: cur?.expiresOn });
+    if (q === null) continue;
+    const life = SHELF_LIFE_OVERRIDES[l.ingredientId] ?? SHELF_LIFE_DAYS[l.aisle];
+    const expiresOn = cur?.expiresOn ?? (today && life ? addDays(today, life) : undefined);
+    byId.set(l.ingredientId, { ingredientId: l.ingredientId, quantity: q, ...(expiresOn ? { expiresOn } : {}) });
   }
   return [...byId.values()];
 }
