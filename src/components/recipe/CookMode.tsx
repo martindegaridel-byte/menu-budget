@@ -356,7 +356,7 @@ export function CookMode({
           {step && (
             <section aria-label={`Étape ${screen}`}>
               <p className="mb-3 text-caption font-semibold uppercase tracking-wider text-accent-text">Étape {screen}</p>
-              <p className="text-[1.6rem] font-medium leading-snug [text-wrap:pretty] sm:text-[1.9rem]">{step}</p>
+              <p className={cn("whitespace-pre-line font-medium leading-snug [text-wrap:pretty]", step.length > 220 ? "text-[1.25rem] sm:text-[1.5rem]" : "text-[1.6rem] sm:text-[1.9rem]")}>{step}</p>
               {stepTimers.length > 0 && (
                 <div className="mt-6 flex flex-wrap gap-2">
                   {stepTimers.map((t) => (

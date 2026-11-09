@@ -6,6 +6,8 @@ import { Badge } from "@/components/ds";
 import { MacroBar } from "@/components/MacroBar";
 import { RecipeStorage } from "@/components/RecipeStorage";
 import { RecipeActions } from "@/components/recipe/RecipeActions";
+import { RecipeSteps, type RenderedDetail } from "@/components/recipe/RecipeSteps";
+import { recipeDetail, renderDetailText } from "@/lib/data/details";
 import { nutritionPerPortion } from "@/lib/engine/nutrition";
 import { ALLERGENS, CUISINES, EQUIPMENT } from "@/lib/domain/schemas";
 import { compatibleDiets } from "@/lib/engine/diet";
@@ -42,6 +44,18 @@ export default async function RecipePage({
   });
   const allergens = [...new Set(lines.filter((l) => !l.optional).flatMap((l) => l.ing.allergens))];
   const nutrition = nutritionPerPortion(new Map(lines.filter((l) => !l.optional).map((l) => [l.ingredientId, l.qty])), catalog.ingredientsById, persons);
+  // Version détaillée : quantités insérées dans le texte pour le nombre de personnes choisi.
+  const rawDetail = recipeDetail(recipe.id);
+  const quantities = new Map(lines.map((l) => [l.ingredientId, { quantity: l.qty, unit: l.ing.unit }]));
+  const render = (t: string) => renderDetailText(t, quantities, factor);
+  const detail: RenderedDetail | null = rawDetail
+    ? {
+        utensils: rawDetail.utensils,
+        prep: rawDetail.prep.map(render),
+        steps: rawDetail.steps.map((st) => ({ text: render(st.text), ...(st.tip ? { tip: render(st.tip) } : {}) })),
+        ...(rawDetail.serve ? { serve: render(rawDetail.serve) } : {}),
+      }
+    : null;
   const diets = compatibleDiets(lines.filter((l) => !l.optional).map((l) => l.ing.animal));
 
   return (
@@ -101,6 +115,7 @@ export default async function RecipePage({
         persons={persons}
         ingredients={lines.map((l) => ({ id: l.ingredientId, name: l.ing.name, quantity: formatQuantity(l.qty, l.ing.unit), optional: l.optional }))}
         steps={recipe.steps}
+        detail={detail}
         initialStars={rating?.stars ?? null}
         initialNote={rating?.note ?? ""}
       />
@@ -122,21 +137,7 @@ export default async function RecipePage({
         </ul>
       </section>
 
-      <section aria-labelledby="steps-title" className="rounded-card bg-surface p-4 shadow-soft ring-1 ring-inset ring-line sm:p-5">
-        <h2 id="steps-title" className="mb-3 text-title-3 font-semibold">
-          Préparation
-        </h2>
-        <ol className="space-y-3">
-          {recipe.steps.map((s, i) => (
-            <li key={i} className="flex gap-3">
-              <span aria-hidden className="grid size-7 shrink-0 place-items-center rounded-full bg-accent-soft text-caption font-semibold tabular-nums text-accent-text">
-                {i + 1}
-              </span>
-              <span className="pt-0.5 text-body-sm">{s}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <RecipeSteps steps={recipe.steps} detail={detail} />
     </article>
   );
 }
