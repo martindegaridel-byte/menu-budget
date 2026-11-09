@@ -11,13 +11,15 @@ import { Button, Notice, cx } from "@/components/ui";
 import { api } from "@/lib/client/api";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
 import { pantryAfterCooking, pantryAfterPurchase } from "@/lib/client/shopping";
+import { recordLeftovers } from "@/lib/client/leftovers";
+import { recordPriceSnapshot } from "@/lib/client/priceTrends";
 import { usePersistentState } from "@/lib/client/storage";
 import type { Profile } from "@/lib/domain/profile";
 import { PreferencesSchema, type Preferences, type Store } from "@/lib/domain/schemas";
 import { formatEuros } from "@/lib/engine/money";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import { AiRecipes } from "./AiRecipes";
-import { BalanceCard, ExtrasCard, MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
+import { BalanceCard, ExtrasCard, LeftoversCard, MenuRecipes, MenuSummary, PrepPlanCard, SwapSheet } from "./MenuView";
 import { Onboarding, ONBOARDED_KEY } from "./Onboarding";
 import { SubstituteSheet } from "./SubstituteSheet";
 import { WeekPlanner } from "./WeekPlanner";
@@ -69,6 +71,12 @@ export function Planner({
     return parsed.success ? parsed.data : DEFAULT_PREFERENCES;
   }, [storedPrefs]);
   const [result, setResult] = usePersistentState<MenuResult | null>("mb:result", null);
+  // Votre historique de prix : chaque liste de courses note le prix au kilo des produits achetés.
+  useEffect(() => {
+    if (!result || !prefs.storeId) return;
+    recordPriceSnapshot(prefs.storeId, result.shoppingList.lines.filter((l) => l.toBuy > 0));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
   // Recettes proposées récemment (la plus récente d'abord) : le moteur évite de les reproposer.
   const [recent, setRecent] = usePersistentState<string[]>("mb:recent", []);
   const toast = useToast();
@@ -211,7 +219,9 @@ export function Planner({
   const shoppingDone = async () => {
     if (!result) return;
     const { items } = await api.getPantry();
-    await api.putPantry(pantryAfterPurchase(items, result.shoppingList));
+    await api.putPantry(pantryAfterPurchase(items, result.shoppingList, todayIso()));
+    // Ce que le placard a évité d'acheter compte dans le compteur « restes finis ».
+    recordLeftovers(menuKey, result.pantrySavingsCents);
     await refreshPantry();
   };
 
@@ -497,6 +507,7 @@ export function Planner({
                       cooked={cooked}
                       busy={busy}
                     />
+                    <LeftoversCard result={result} />
                     <ExtrasCard
                       result={result}
                       recipes={recipeMap}
