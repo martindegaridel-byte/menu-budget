@@ -3,6 +3,7 @@ import { CakeSlice, Coffee, Egg, Fish, Leaf, Salad, Soup, UtensilsCrossed, Wheat
 import { useState } from "react";
 import { cn } from "@/components/ds/cn";
 import { recipePhoto } from "@/lib/photos";
+import { useUserPhoto } from "@/lib/client/userPhotos";
 
 /** Icône + teinte selon les étiquettes, quand le plat n'a pas de photo. */
 function dishVisual(tags: readonly string[]): { icon: LucideIcon; tint: string } {
@@ -20,7 +21,9 @@ function dishVisual(tags: readonly string[]): { icon: LucideIcon; tint: string }
 
 /** Vignette d'un plat : sa photo, sinon une icône. Décorative (le nom du plat est affiché à côté). */
 export function DishThumb({ recipeId, tags = [], className, iconClassName = "size-9" }: { recipeId: string; tags?: readonly string[]; className?: string; iconClassName?: string }) {
-  const photo = recipePhoto(recipeId);
+  const mine = useUserPhoto(recipeId);
+  const stock = recipePhoto(recipeId);
+  const photo = mine ? { src: mine } : stock;
   const [failed, setFailed] = useState(false);
   if (photo && !failed) {
     return (
