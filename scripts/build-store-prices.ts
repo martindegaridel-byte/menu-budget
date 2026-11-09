@@ -19,8 +19,11 @@ interface Target {
   /** Magasin lui-même sur Open Prices (prioritaire). */
   ownLocation: number | null;
   /** Autres magasins de l'enseigne, même format. */
-  /** `near` : magasins proches, prioritaires (médiane des proches s'il y en a au moins un). */
-  locations: { id: number; city: string; near?: boolean }[];
+  /**
+   * `tier` : cercle de proximité (0 = le plus proche). Pour chaque produit, on prend la médiane
+   * du cercle le plus proche qui a un relevé. Sans `tier` : cercle 0.
+   */
+  locations: { id: number; city: string; tier?: number }[];
 }
 
 const TARGETS: Target[] = [
@@ -43,25 +46,58 @@ const TARGETS: Target[] = [
   {
     storeId: "intermarche-super",
     ownLocation: null,
+    // Toutes les Intermarché relevées sur Open Prices (sans Express ni Contact), en trois cercles.
     locations: [
-      // Région grenobloise d'abord…
-      { id: 10, city: "Grenoble", near: true },
-      { id: 34, city: "Bresson", near: true },
-      { id: 35, city: "Grenoble", near: true },
-      { id: 2889, city: "Domène", near: true },
-      { id: 1542, city: "Grenoble", near: true },
-      { id: 932, city: "Le Bourg-d'Oisans", near: true },
-      { id: 2611, city: "Varces", near: true },
-      { id: 1166, city: "Vizille", near: true },
-      // … puis plus loin (Super et magasins classiques, sans Express ni Contact).
-      { id: 6915, city: "Lyon 8e" },
-      { id: 5985, city: "Craponne" },
-      { id: 1817, city: "Amplepuis" },
-      { id: 6835, city: "Bourg-de-Thizy" },
-      { id: 3806, city: "Gap" },
-      { id: 1303, city: "Rennes" },
-      { id: 2217, city: "Clichy" },
-      { id: 3269, city: "Jarville-la-Malgrange" },
+      // 0 — Grenoble et l'Isère
+      { id: 10, city: "Grenoble", tier: 0 },
+      { id: 34, city: "Bresson", tier: 0 },
+      { id: 35, city: "Grenoble", tier: 0 },
+      { id: 2889, city: "Domène", tier: 0 },
+      { id: 1542, city: "Grenoble", tier: 0 },
+      { id: 932, city: "Le Bourg-d'Oisans", tier: 0 },
+      { id: 2611, city: "Varces", tier: 0 },
+      { id: 1166, city: "Vizille", tier: 0 },
+      { id: 849, city: "La Mure", tier: 0 },
+      { id: 2207, city: "Apprieu", tier: 0 },
+      // 1 — reste d'Auvergne-Rhône-Alpes
+      { id: 6835, city: "Bourg-de-Thizy", tier: 1 },
+      { id: 1817, city: "Amplepuis", tier: 1 },
+      { id: 6915, city: "Lyon 8e", tier: 1 },
+      { id: 5985, city: "Craponne", tier: 1 },
+      { id: 4409, city: "Port", tier: 1 },
+      { id: 5322, city: "Lyon 7e", tier: 1 },
+      { id: 163, city: "Saint-Flour", tier: 1 },
+      { id: 2211, city: "Saint-Genis-Pouilly", tier: 1 },
+      { id: 3557, city: "Sainte-Marie-de-Cuines", tier: 1 },
+      { id: 2373, city: "Mauriac", tier: 1 },
+      // 2 — reste de la France
+      { id: 2738, city: "Lunel", tier: 2 },
+      { id: 2217, city: "Clichy", tier: 2 },
+      { id: 3269, city: "Jarville-la-Malgrange", tier: 2 },
+      { id: 1303, city: "Rennes", tier: 2 },
+      { id: 119, city: "Mons-en-Barœul", tier: 2 },
+      { id: 5751, city: "La Rochelle", tier: 2 },
+      { id: 3806, city: "Gap", tier: 2 },
+      { id: 130, city: "Aulnay-sous-Bois", tier: 2 },
+      { id: 2680, city: "Avèze", tier: 2 },
+      { id: 5369, city: "Le Thillot", tier: 2 },
+      { id: 1263, city: "Aulnay", tier: 2 },
+      { id: 148, city: "Bezons", tier: 2 },
+      { id: 135, city: "Toulouse", tier: 2 },
+      { id: 3626, city: "Soorts-Hossegor", tier: 2 },
+      { id: 5451, city: "La Réole", tier: 2 },
+      { id: 4161, city: "Avallon", tier: 2 },
+      { id: 280, city: "Paris", tier: 2 },
+      { id: 1112, city: "Paris", tier: 2 },
+      { id: 2735, city: "Sedan", tier: 2 },
+      { id: 2733, city: "Givet", tier: 2 },
+      { id: 3218, city: "Carvin", tier: 2 },
+      { id: 717, city: "Rennes", tier: 2 },
+      { id: 3792, city: "Peipin", tier: 2 },
+      { id: 2711, city: "Langres", tier: 2 },
+      { id: 1755, city: "Gentilly", tier: 2 },
+      { id: 360, city: "Hyères", tier: 2 },
+      { id: 2841, city: "Plouescat", tier: 2 },
     ],
   },
 ];
@@ -117,29 +153,46 @@ async function main() {
       .map(stem),
   );
   const out: Record<string, unknown> = {};
+  const trends: Record<string, Record<string, [string, number, number][]>> = {};
 
   for (const t of TARGETS) {
     const all = [...(t.ownLocation ? [{ id: t.ownLocation, city: "magasin" }] : []), ...t.locations];
     const perLocation = new Map<number, MatchedPackage[]>();
+    const monthly = new Map<string, number[]>();
     for (const loc of all) {
       const prices = await fetchOpenPrices(loc.id, { since: SINCE, delayMs: 400 });
       // Fourchette plus stricte que l'import manuel : on mélange plusieurs magasins.
       const report = matchOpenPrices(prices, ingredients, seed.packages, `${t.storeId}-${loc.id}`, { since: SINCE, maxAbove: 1.6, maxBelow: 2 });
       const ok = report.packages.filter((p) => plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads));
       perLocation.set(loc.id, ok);
+      // Évolution : mêmes règles, mois par mois (tous les relevés du mois, pas seulement le dernier).
+      const byMonth = new Map<string, typeof prices>();
+      for (const pr of prices) byMonth.set(pr.date.slice(0, 7), [...(byMonth.get(pr.date.slice(0, 7)) ?? []), pr]);
+      for (const [month, monthPrices] of byMonth) {
+        const r = matchOpenPrices(monthPrices, ingredients, seed.packages, "trend", { since: `${month}-01`, maxAbove: 1.6, maxBelow: 2 });
+        for (const p of r.packages) {
+          if (!plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads)) continue;
+          const key = `${p.ingredientId}|${month}`;
+          monthly.set(key, [...(monthly.get(key) ?? []), p.priceCents / p.quantity]);
+        }
+      }
       console.log(`${loc.id} ${loc.city} : ${prices.length} relevés, ${new Set(ok.map((p) => p.ingredientId)).size} ingrédients reconnus (${report.packages.length - ok.length} écartés)`);
     }
 
     // Regroupement par ingrédient et contenance (arrondie à 5 %).
-    const nearIds = new Set(t.locations.filter((l) => l.near).map((l) => l.id));
-    const groups = new Map<string, { own?: MatchedPackage; all: MatchedPackage[]; near: MatchedPackage[] }>();
+    const tierOf = new Map(t.locations.map((l) => [l.id, l.tier ?? 0]));
+    type Group = { own?: MatchedPackage; all: MatchedPackage[]; byTier: Map<number, MatchedPackage[]> };
+    const groups = new Map<string, Group>();
     for (const [locId, pkgs] of perLocation) {
       for (const p of pkgs) {
         const key = `${p.ingredientId}|${Math.round(Math.log(p.quantity) / Math.log(1.05))}`;
-        const g = groups.get(key) ?? { all: [], near: [] };
+        const g: Group = groups.get(key) ?? { all: [], byTier: new Map() };
         if (locId === t.ownLocation) g.own = p;
-        else g.all.push(p);
-        if (nearIds.has(locId)) g.near.push(p);
+        else {
+          g.all.push(p);
+          const tier = tierOf.get(locId) ?? 0;
+          g.byTier.set(tier, [...(g.byTier.get(tier) ?? []), p]);
+        }
         groups.set(key, g);
       }
     }
@@ -147,7 +200,8 @@ async function main() {
     const packages: { ingredientId: string; label: string; brand?: string; quantity: number; priceCents: number; asOf: string; stores: number }[] = [];
     for (const g of groups.values()) {
       const ref = g.own ?? g.all.sort((a, b) => a.priceCents - b.priceCents)[Math.floor(g.all.length / 2)]!;
-      const priceCents = g.own ? g.own.priceCents : median((g.near.length ? g.near : g.all).map((p) => p.priceCents));
+      const closest = [...g.byTier.entries()].sort((x, y) => x[0] - y[0])[0]?.[1] ?? g.all;
+      const priceCents = g.own ? g.own.priceCents : median(closest.map((p) => p.priceCents));
       packages.push({
         ingredientId: ref.ingredientId,
         label: ref.label,
@@ -172,10 +226,26 @@ async function main() {
       locations: all.map((l) => l.id),
       packages: kept,
     };
+    // Prix médian au kilo / litre / pièce, par mois ; ingrédients relevés au moins 3 mois.
+    const series = new Map<string, [string, number, number][]>();
+    for (const [key, units] of monthly) {
+      const [id, month] = key.split("|") as [string, string];
+      const per = ingredients.get(id)!.unit === "piece" ? 1 : 1000;
+      const sorted = [...units].sort((a, b) => a - b);
+      series.set(id, [...(series.get(id) ?? []), [month, Math.round(sorted[Math.floor(sorted.length / 2)]! * per), units.length]]);
+    }
+    trends[t.storeId] = Object.fromEntries(
+      [...series.entries()].filter(([, pts]) => pts.length >= 3).map(([id, pts]) => [id, pts.sort((a, b) => a[0].localeCompare(b[0]))]),
+    );
+    console.log(`→ évolution : ${Object.keys(trends[t.storeId]!).length} ingrédients suivis`);
     console.log(`→ ${t.storeId} : ${kept.length} prix pour ${byIng.size} ingrédients`);
   }
 
   writeFileSync(join(__dirname, "..", "data", "store-prices.json"), JSON.stringify(out, null, 1) + "\n");
+  writeFileSync(
+    join(__dirname, "..", "data", "price-trends.json"),
+    JSON.stringify({ source: "Open Prices (licence ODbL)", generatedAt: new Date().toISOString().slice(0, 10), unit: "centimes par kg, L ou pièce", stores: trends }) + "\n",
+  );
 }
 
 main().catch((e) => {
