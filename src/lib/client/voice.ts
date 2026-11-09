@@ -40,6 +40,7 @@ const UNITS: [RegExp, string][] = [
   [/(\d)\s?cl\b/g, "$1 centilitres"],
   [/(\d)\s?ml\b/g, "$1 millilitres"],
   [/(\d)\s?l\b/g, "$1 litres"],
+  [/\bc\.\s?à\s?soupe\b/gi, "cuillère à soupe"],
   [/\bc\.\s?à\s?s\.?/gi, "cuillère à soupe"],
   [/\bc\.\s?à\s?c\.?/gi, "cuillère à café"],
   [/(\d+)\s?[-–à]\s?(\d+)/g, "$1 à $2"],

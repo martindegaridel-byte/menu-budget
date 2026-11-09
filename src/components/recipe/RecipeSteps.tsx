@@ -85,7 +85,7 @@ export function RecipeSteps({ steps, detail }: { steps: string[]; detail: Render
           {detail.serve}
         </p>
       )}
-      {!detail && <p className="text-caption text-subtle">Version détaillée bientôt disponible pour cette recette.</p>}
+      {!detail && <p className="text-caption text-subtle">Pas de version détaillée pour cette recette.</p>}
     </section>
   );
 }

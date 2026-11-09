@@ -52,7 +52,7 @@ export function quantityInText(quantity: number, unit: BaseUnit): string {
 /** Remplace les jetons ; un id inconnu est laissé tel quel (signalé par les tests). */
 export function renderDetailText(
   text: string,
-  quantities: ReadonlyMap<string, { quantity: number; unit: BaseUnit }>,
+  quantities: ReadonlyMap<string, { quantity: number; unit: BaseUnit; gramsPerPiece?: number }>,
   factor = 1,
 ): string {
   return text
@@ -60,9 +60,11 @@ export function renderDetailText(
     .replace(TOKEN, (all, id: string, singular?: string, plural?: string) => {
       const q = quantities.get(id);
       if (!q) return all;
-      const shown = quantityInText(q.quantity, q.unit);
-      if (!singular || !plural) return shown;
-      const n = Math.max(0.5, Math.round(q.quantity * 2) / 2);
-      return `${shown} ${n > 1 ? plural : singular}`;
+      if (!singular || !plural) return quantityInText(q.quantity, q.unit);
+      // Forme « nombre + nom » : en pièces (poids moyen d'une pièce si l'ingrédient se compte en grammes).
+      const pieces = q.unit === "piece" ? q.quantity : q.gramsPerPiece ? q.quantity / q.gramsPerPiece : null;
+      if (pieces === null) return `${quantityInText(q.quantity, q.unit)} de ${plural}`;
+      const n = Math.max(0.5, Math.round(pieces * 2) / 2);
+      return `${nf(n)} ${n > 1 ? plural : singular}`;
     });
 }

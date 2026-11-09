@@ -46,7 +46,7 @@ export default async function RecipePage({
   const nutrition = nutritionPerPortion(new Map(lines.filter((l) => !l.optional).map((l) => [l.ingredientId, l.qty])), catalog.ingredientsById, persons);
   // Version détaillée : quantités insérées dans le texte pour le nombre de personnes choisi.
   const rawDetail = recipeDetail(recipe.id);
-  const quantities = new Map(lines.map((l) => [l.ingredientId, { quantity: l.qty, unit: l.ing.unit }]));
+  const quantities = new Map(lines.map((l) => [l.ingredientId, { quantity: l.qty, unit: l.ing.unit, gramsPerPiece: l.ing.gramsPerPiece }]));
   const render = (t: string) => renderDetailText(t, quantities, factor);
   const detail: RenderedDetail | null = rawDetail
     ? {
