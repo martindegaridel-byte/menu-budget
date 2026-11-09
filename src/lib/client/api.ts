@@ -68,6 +68,10 @@ export const api = {
   exportData: () => call<Record<string, unknown>>("/api/export"),
   importData: (backup: unknown) =>
     call<{ imported: { stores: number; prices: number; pantry: number; menus: number; favorites: number; ratings: number } }>("/api/import", { body: backup }),
+  sessionSteps: (items: { id: string; persons: number }[]) =>
+    call<{ dishes: { id: string; name: string; cookMinutes: number; prep: string[]; steps: string[] }[] }>(
+      `/api/recipes/session?items=${encodeURIComponent(items.map((i) => `${i.id}:${i.persons}`).join(","))}`,
+    ),
   swap: (preferences: PreferencesInput, recipeIds: string[], slot: number) =>
     call<{ options: SwapOption[] }>("/api/menu/swap", { body: { preferences, recipeIds, slot } }),
   saveMenu: (preferences: PreferencesInput, recipeIds: string[], favorite = false) =>

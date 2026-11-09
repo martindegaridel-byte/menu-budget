@@ -6,6 +6,7 @@ import {
   CookingPot,
   Flame,
   Pencil,
+  Play,
   Refrigerator,
   Snowflake,
   Sparkles,
@@ -25,6 +26,8 @@ import { formatEuros } from "@/lib/engine/money";
 import type { MenuResult } from "@/lib/engine/optimize";
 import { formatQuantity } from "@/lib/engine/units";
 import { DEFAULT_PREFERENCES } from "@/components/planner/Planner";
+import { CookMode } from "@/components/recipe/CookMode";
+import { buildSessionSteps } from "@/lib/client/batchSession";
 
 const DAYS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"] as const;
 const SESSION_DAYS = [
@@ -95,6 +98,35 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
       .map(([id, slots]) => ({ id, slots, name: result.recipes[slots[0]!]!.name, info: byId.get(id) }))
       .sort((a, b) => (b.info?.cookMinutes ?? 0) - (a.info?.cookMinutes ?? 0));
   }, [result, byId]);
+
+  // Session guidée : toutes les recettes enchaînées dans l'ordre pratique, avec les minuteurs.
+  const [session, setSession] = useState<string[] | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(false);
+  const startSession = async () => {
+    if (!result || !plan) return;
+    setSessionLoading(true);
+    try {
+      const portions = result.persons + (result.lunchPortions ?? 0);
+      const { dishes: steps } = await api.sessionSteps(dishes.map((d) => ({ id: d.id, persons: Math.min(48, portions * d.slots.length) })));
+      const byDish = new Map(steps.map((x) => [x.id, x]));
+      const sessionDishes = dishes.flatMap((d) => {
+        const x = byDish.get(d.id);
+        return x ? [{ name: d.name, prep: x.prep, steps: x.steps, cookMinutes: x.cookMinutes, meals: d.slots.length }] : [];
+      });
+      const bases = plan.sharedBases.map((b) => ({
+        text: `Cuire ${formatQuantity(b.quantity, b.unit)} de ${b.name.toLowerCase()} en une fois, puis laisser refroidir.`,
+        dishNames: [...new Set(b.slots.map((slot) => result.recipes[slot]!.name))],
+      }));
+      const storage = `Laisser refroidir, puis une boîte par repas, étiquetée avec le jour. ${
+        freeze.size > 0 ? `Au congélateur : ${[...freeze].map(dayName).join(", ").toLowerCase()}.` : "Tout va au frigo."
+      } Les plats se réchauffent en 5 minutes.`;
+      setSession(buildSessionSteps(sessionDishes, bases, storage));
+    } catch (e) {
+      toast({ title: "Session indisponible", description: e instanceof Error ? e.message : undefined, tone: "error" });
+    } finally {
+      setSessionLoading(false);
+    }
+  };
 
   const freeze = new Set(plan?.freezeSlots ?? []);
   const fresh = new Set(plan?.freshSlots ?? []);
@@ -213,7 +245,21 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
               </Step>
             </ol>
             <p className="mt-3 text-caption text-subtle">Estimation : préparations à la suite, jusqu&apos;à 3 cuissons en même temps (four et 2 feux).</p>
+            <Button size="lg" fullWidth icon={Play} className="mt-4" loading={sessionLoading} onClick={() => void startSession()}>
+              Lancer la session pas à pas
+            </Button>
           </Card>
+          {session && (
+            <CookMode
+              recipeName={`Session du ${DAYS[Number(sessionDay)]}`}
+              persons={result!.persons}
+              ingredients={result!.shoppingList.lines
+                .filter((l) => !l.staple)
+                .map((l) => ({ id: l.ingredientId, name: l.name, quantity: formatQuantity(l.needed, l.unit), optional: false }))}
+              steps={session}
+              onClose={() => setSession(null)}
+            />
+          )}
 
           {/* Soir par soir */}
           <Card aria-labelledby="week-title">
