@@ -51,3 +51,7 @@ livres/
 
 # Schéma Postgres généré pour l'hébergement en ligne (scripts/vercel-build.mjs)
 prisma/postgres/
+
+# Playwright
+/test-results/
+/playwright-report/

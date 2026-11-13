@@ -35,8 +35,8 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
 - **Tailwind CSS 4** (via `@tailwindcss/postcss`, styles dans `src/app/globals.css`)
 - **Prisma 6** + **SQLite** (migration vers Postgres prévue), **Zod 3** aux frontières
 - **Vitest** pour les tests (moteur, données, prix)
-- **lucide-react** pour les icônes (à installer : `npm i lucide-react` — pas encore
-  dans les dépendances, l'UI actuelle utilise encore des emojis à remplacer)
+- **lucide-react** pour les icônes
+- **Playwright** (`@playwright/test`) pour le test de bout en bout `e2e/parcours.e2e.ts`
 - `@anthropic-ai/sdk` pour la génération de recettes (optionnelle, désactivée par défaut)
 
 ## Commandes
@@ -49,6 +49,7 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test` | tests Vitest |
 | `npm run check` | typecheck + lint + test |
+| `npm run e2e` | parcours principal de bout en bout (Playwright, build + `next start` sur le port 3200) |
 | `npm run db:migrate` | migration Prisma (dev) |
 | `npm run db:seed` | charge ingrédients, prix, recettes, magasins |
 | `npm run db:reset` | réinitialise la base + seed |
