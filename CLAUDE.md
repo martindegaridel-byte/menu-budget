@@ -82,8 +82,13 @@ utilisateur.
   par cercles de proximité (Intermarché Isère → région → France, puis Super U, puis grandes
   surfaces) ; `scaleToObserved` recale les formats habituels, et `indexUnobserved` recale
   les ingrédients sans relevé sur le niveau de leur rayon : aucun ingrédient n'est laissé
-  à l'estimation brute. Le rapprochement produit/ingrédient (`scripts/price-match.ts`) gère
-  pluriels, « œ » et appellations de rayon.
+  à l'estimation brute. Chaque relevé est comparé au format habituel de taille la plus proche
+  (au format vrac pour un prix au kilo), corrigé de l'économie d'échelle (élasticité 0,2), et un
+  relevé unique n'est suivi qu'à moitié. Le rapprochement produit/ingrédient
+  (`scripts/price-match.ts` et `build-store-prices.ts`) gère pluriels, « œ », appellations de rayon,
+  écarte les formes transformées d'un produit frais (cuit, surgelé, en conserve, en morceaux…), la
+  viande cuite/tranchée/végétale, le sans-gluten, le blé complet, les formats aberrants et les
+  quantités contredites par le nom, et convertit le poids net des conserves en poids égoutté.
 - `src/lib/llm/` — `RecipeGenerator` + implémentation Anthropic (`claude-opus-5-5`),
   désactivé sauf `RECIPE_GENERATOR_ENABLED=true`.
 - `src/lib/server/` — Prisma, utilisateur anonyme (cookie posé par `src/middleware.ts`),

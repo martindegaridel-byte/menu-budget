@@ -49,6 +49,41 @@ export function resolvePriceBook(input: ResolvePriceBookInput): PriceBook {
 }
 
 /**
+ * Prix unitaire du format habituel de taille la plus proche (échelle logarithmique) :
+ * un seau de 2 kg se compare au plus gros format, pas au pack de 4 yaourts.
+ */
+/**
+ * Économie d'échelle : en rayon, le prix au kilo baisse d'environ 13 % quand le format double
+ * (élasticité 0,2). Un relevé d'un format plus grand que le nôtre est donc corrigé à la hausse, et inversement.
+ */
+export const SIZE_ELASTICITY = 0.2;
+
+/** Rapport « prix relevé / estimation » d'un relevé, ramené au format habituel le plus proche. */
+function observedRatio(refs: readonly Package[], obs: Pick<Package, "quantity" | "label" | "priceCents">): number {
+  const r = nearestRef(refs, obs);
+  const raw = obs.priceCents / obs.quantity / (r.priceCents / r.quantity);
+  return /prix au kilo/i.test(obs.label) ? raw : raw * (obs.quantity / r.quantity) ** SIZE_ELASTICITY;
+}
+
+/** Un seul relevé (souvent une marque) : on ne le suit qu'à moitié, entre l'estimation et le relevé. */
+const shrink = (ratio: number, n: number) => (n >= 2 ? ratio : 1 + (ratio - 1) / 2);
+
+/** Relevé « prix au kilo » (vrac) : comparé au format vrac ou à l'unité s'il existe, sinon au format de taille la plus proche. */
+function nearestRef(refs: readonly Package[], obs: Pick<Package, "quantity" | "label">): Package {
+  const loose = /prix au kilo/i.test(obs.label) ? refs.filter((r) => /vrac|unit[ée]|pi[èe]ce/i.test(r.label)) : [];
+  const pool = loose.length ? loose : refs;
+  return pool.reduce((best, x) => (Math.abs(Math.log(x.quantity / obs.quantity)) < Math.abs(Math.log(best.quantity / obs.quantity)) ? x : best));
+}
+
+/** Relevé trop éloigné en taille de tout format habituel (seau de 2 kg pour un pack de 4) : il ne dit rien de son prix. */
+export const MAX_SIZE_GAP = 2.5;
+function comparable(refs: readonly Package[], obs: Pick<Package, "quantity" | "label">): boolean {
+  if (/prix au kilo/i.test(obs.label)) return true;
+  const r = nearestRef(refs, obs);
+  return Math.abs(Math.log(r.quantity / obs.quantity)) <= Math.log(MAX_SIZE_GAP);
+}
+
+/**
  * Recale les estimations sur des prix réels relevés dans plusieurs magasins d'une enseigne :
  * on garde les formats habituels (petit flacon, boîte de 400 g…) mais au niveau de prix
  * constaté (rapport médian prix relevé / estimation, au kilo, borné entre `min` et `max`).
@@ -69,11 +104,12 @@ export function scaleToObserved(
   for (const [id, obs] of obsBy) {
     const refs = refBy.get(id);
     if (!refs?.length) continue;
-    const refUnit = Math.min(...refs.map((p) => p.priceCents / p.quantity));
-    if (!(refUnit > 0)) continue;
-    const ratios = obs.map((p) => p.priceCents / p.quantity / refUnit).sort((a, b) => a - b);
-    const mid = Math.floor(ratios.length / 2);
-    const median = ratios.length % 2 ? ratios[mid]! : (ratios[mid - 1]! + ratios[mid]!) / 2;
+    // Chaque relevé est comparé au format habituel de taille la plus proche : un seau de 2 kg
+    // ne doit pas faire baisser le prix d'un pack de 4 yaourts (prix au kilo très différents).
+    if (!refs.every((r) => r.priceCents > 0 && r.quantity > 0)) continue;
+    const usable = obs.filter((p) => comparable(refs, p));
+    if (!usable.length) continue;
+    const median = shrink(medianOf(usable.map((p) => observedRatio(refs, p))), usable.length);
     const ratio = Math.min(max, Math.max(min, median));
     const asOf = obs.map((p) => p.asOf).sort().at(-1)!;
     refs.forEach((p, i) =>
@@ -94,15 +130,15 @@ const medianOf = (xs: readonly number[]): number => {
  * borné comme dans `scaleToObserved`.
  */
 function observedRatios(reference: readonly Package[], observed: readonly Package[], min: number, max: number): Map<string, number> {
-  const refUnit = new Map<string, number>();
-  for (const p of reference) refUnit.set(p.ingredientId, Math.min(refUnit.get(p.ingredientId) ?? Infinity, p.priceCents / p.quantity));
+  const refBy = new Map<string, Package[]>();
+  for (const p of reference) if (p.priceCents > 0 && p.quantity > 0) refBy.set(p.ingredientId, [...(refBy.get(p.ingredientId) ?? []), p]);
   const obs = new Map<string, number[]>();
   for (const p of observed) {
-    const ref = refUnit.get(p.ingredientId);
-    if (!ref || !(ref > 0)) continue;
-    obs.set(p.ingredientId, [...(obs.get(p.ingredientId) ?? []), p.priceCents / p.quantity / ref]);
+    const refs = refBy.get(p.ingredientId);
+    if (!refs?.length || !comparable(refs, p)) continue;
+    obs.set(p.ingredientId, [...(obs.get(p.ingredientId) ?? []), observedRatio(refs, p)]);
   }
-  return new Map([...obs].map(([id, rs]) => [id, Math.min(max, Math.max(min, medianOf(rs)))]));
+  return new Map([...obs].map(([id, rs]) => [id, Math.min(max, Math.max(min, shrink(medianOf(rs), rs.length)))]));
 }
 
 /**
