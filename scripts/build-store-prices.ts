@@ -160,6 +160,41 @@ async function main() {
       .filter((w): w is string => !!w && !GENERIC_HEADS.has(w))
       .map(stem),
   );
+  // Format plausible : ni minuscule ni géant par rapport aux conditionnements habituels (tranches de rôti cuit, lot de 6 kg…).
+  const refQty = new Map<string, number[]>();
+  for (const p of seed.packages) refQty.set(p.ingredientId, [...(refQty.get(p.ingredientId) ?? []), p.quantity]);
+  const plausibleSize = (p: { ingredientId: string; quantity: number }) => {
+    const q = refQty.get(p.ingredientId);
+    return !q || (p.quantity >= 0.25 * Math.min(...q) && p.quantity <= 5 * Math.max(...q));
+  };
+  // Conserves : nos formats sont en poids égoutté (« Boîte 400 g (égoutté 265 g) »), Open Prices donne le poids net.
+  // Une quantité nettement sous le poids net habituel est déjà un poids égoutté (« boîte 1/2, 250 g ») : pas de conversion.
+  const drain = new Map<string, { ratio: number; gross: number }>();
+  for (const p of seed.packages) {
+    const m = p.label.match(/(\d+)\s*g\s*\(égoutté\s*(\d+)\s*g\)/i);
+    if (m) drain.set(p.ingredientId, { ratio: Number(m[2]) / Number(m[1]), gross: Number(m[1]) });
+  }
+  const toDrained = <P extends { ingredientId: string; quantity: number; productName: string }>(p: P): P => {
+    const d = drain.get(p.ingredientId);
+    // Tailles de boîtes standard : 1/2 = 400 g net / 250-265 g égouttés ; 4/4 = 800 g net / 500-530 g égouttés.
+    const drainedSize = (p.quantity >= 240 && p.quantity <= 275) || (p.quantity >= 490 && p.quantity <= 540);
+    if (!d || /égoutt|egoutt/i.test(p.productName) || drainedSize || p.quantity < 0.9 * d.gross) return p;
+    return { ...p, quantity: Math.round(p.quantity * d.ratio) };
+  };
+  // Quantité contredite par le nom (« Huile 1L » enregistrée en 2 L) : relevé écarté, sauf lot (x4, 2x500 g…).
+  const UNIT_G: Record<string, number> = { g: 1, kg: 1000, ml: 1, cl: 10, l: 1000 };
+  const consistentQuantity = (p: { ingredientId: string; quantity: number; productName: string; label: string }) => {
+    const ing = ingredients.get(p.ingredientId);
+    // Sans gluten (marque Schär comprise) pour un ingrédient ordinaire ; « mini » pour un produit vendu à la pièce.
+    if (/sch[äa]r|sans gluten/i.test(`${p.label} ${p.productName}`) && !/gluten/i.test(ing?.name ?? "")) return false;
+    if (ing?.unit === "piece") return !/\bmini\b/i.test(p.productName);
+    const name = p.productName.toLowerCase();
+    if (/\b\d+\s*x\b|\bx\s*\d+|\blot\b|\+/.test(name)) return true;
+    const m = name.match(/(\d+(?:[.,]\d+)?)\s*(kg|g|ml|cl|l)\b/);
+    if (!m) return true;
+    const stated = Number(m[1]!.replace(",", ".")) * UNIT_G[m[2]!]!;
+    return Math.abs(stated - p.quantity) / p.quantity <= 0.15;
+  };
   const out: Record<string, unknown> = {};
   const trends: Record<string, Record<string, [string, number, number][]>> = {};
 
@@ -171,7 +206,10 @@ async function main() {
       const prices = await cachedPrices(loc.id, SINCE);
       // Fourchette plus stricte que l'import manuel : on mélange plusieurs magasins.
       const report = matchOpenPrices(prices, ingredients, seed.packages, `${t.storeId}-${loc.id}`, { since: SINCE, maxAbove: 1.6, maxBelow: 2 });
-      const ok = report.packages.filter((p) => plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId));
+      const ok = report.packages
+        .filter((p) => plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId, ingredients.get(p.ingredientId)) && consistentQuantity(p))
+        .map(toDrained)
+        .filter(plausibleSize);
       perLocation.set(loc.id, ok);
       // Évolution : mêmes règles, mois par mois (tous les relevés du mois, pas seulement le dernier).
       const byMonth = new Map<string, typeof prices>();
@@ -179,9 +217,9 @@ async function main() {
       for (const [month, monthPrices] of byMonth) {
         const r = matchOpenPrices(monthPrices, ingredients, seed.packages, "trend", { since: `${month}-01`, maxAbove: 1.6, maxBelow: 2 });
         for (const p of r.packages) {
-          if (!plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId)) continue;
+          if (!(plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId, ingredients.get(p.ingredientId)) && consistentQuantity(p) && plausibleSize(toDrained(p)))) continue;
           const key = `${p.ingredientId}|${month}`;
-          monthly.set(key, [...(monthly.get(key) ?? []), p.priceCents / p.quantity]);
+          monthly.set(key, [...(monthly.get(key) ?? []), p.priceCents / toDrained(p).quantity]);
         }
       }
       console.log(`${loc.id} ${loc.city} : ${prices.length} relevés, ${new Set(ok.map((p) => p.ingredientId)).size} ingrédients reconnus (${report.packages.length - ok.length} écartés)`);
