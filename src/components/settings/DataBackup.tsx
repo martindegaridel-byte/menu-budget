@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Button, Card, CardHeader, useToast } from "@/components/ds";
 import { api } from "@/lib/client/api";
 import { backupFileName, deviceSettings, restoreDeviceSettings } from "@/lib/client/backup";
+import { exportPhotos, importPhotos } from "@/lib/client/photoBackup";
 
 /** « Mes données » : sauvegarde dans un fichier et restauration (nouveau téléphone, autre navigateur). */
 export function DataBackup() {
@@ -15,7 +16,7 @@ export function DataBackup() {
   const exportData = async () => {
     setBusy("export");
     try {
-      const data = { ...(await api.exportData()), device: deviceSettings(window.localStorage) };
+      const data = { ...(await api.exportData()), device: deviceSettings(window.localStorage), photos: await exportPhotos() };
       const name = backupFileName();
       const file = new File([JSON.stringify(data)], name, { type: "application/json" });
       // Sur téléphone : feuille de partage (Fichiers, AirDrop, mail…) ; sinon téléchargement classique.
@@ -45,8 +46,9 @@ export function DataBackup() {
     setBusy("import");
     setSummary(null);
     try {
-      const data = JSON.parse(await file.text()) as { device?: Record<string, string> };
+      const { photos: filePhotos, ...data } = JSON.parse(await file.text()) as { device?: Record<string, string>; photos?: unknown };
       const { imported: n } = await api.importData(data);
+      const photos = await importPhotos(filePhotos ?? []);
       const settings = data.device && typeof data.device === "object" ? restoreDeviceSettings(window.localStorage, data.device) : 0;
       const parts = [
         n.menus && `${n.menus} menu${n.menus > 1 ? "s" : ""}`,
@@ -55,6 +57,7 @@ export function DataBackup() {
         n.ratings && `${n.ratings} note${n.ratings > 1 ? "s" : ""}`,
         n.stores && `${n.stores} magasin${n.stores > 1 ? "s" : ""}`,
         n.prices && `${n.prices} prix`,
+        photos && `${photos} photo${photos > 1 ? "s" : ""} de plats`,
         settings && "vos réglages",
       ].filter(Boolean);
       setSummary(parts.length ? `Restauré : ${parts.join(", ")}.` : "Rien de nouveau : tout était déjà là.");
@@ -75,7 +78,7 @@ export function DataBackup() {
       <CardHeader
         icon={HardDriveDownload}
         title="Mes données"
-        description="Placard, exclusions, menus, favoris, notes, magasins, prix et réglages dans un fichier : pour changer de téléphone ou garder une copie."
+        description="Placard, exclusions, menus, favoris, notes, photos de plats, magasins, prix, historique des prix et réglages dans un fichier : pour changer de téléphone ou garder une copie."
       />
       <div className="grid gap-2 sm:grid-cols-2">
         <Button variant="secondary" icon={Download} loading={busy === "export"} disabled={!!busy} onClick={() => void exportData()}>
