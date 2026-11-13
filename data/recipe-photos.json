@@ -1,1447 +1,1127 @@
 {
- "acorda-ail-oeuf": {
-  "author": "Filipe Fortes",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:A%C3%A7orda_%C3%A0_Alentejana.jpg"
- },
- "alloco-oeufs": {
-  "author": "Krista",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Aloko.jpg"
- },
- "aloo-gobi": {
-  "author": "Auteur inconnu",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Aloo_gobi.jpg"
- },
- "arroz-tomate-sardines": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Smoked_sardines_on_rice,_tomato,_and_black_beans,_with_olive_oil_-_Massachusetts.jpg"
- },
- "aubergines-parmigiana": {
-  "author": "Tamorlan",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Parmigiana_di_melanzane-cer.JPG"
- },
- "bananes-poelees-miel": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Caramel_Hazelnut_Banana_Bread_with_Yoghurt_-_Moksha_Caff%C3%A8_2023-09-13.jpg"
- },
- "banh-mi-tofu": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Special_Baguette_(B%C3%A1nh_m%C3%AC)_-_Banh_Mi_Ancient_Saigon_2024-12-20.jpg"
- },
- "bibimbap": {
-  "author": "Chloe Lim",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bibimbap_7.jpg"
- },
- "biryani-poulet": {
-  "author": "Subhrajyoti07",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:A_home_made_plate_of_mutton_biryani_served_with_chicken_kassa_cooked_in_the_bengali_style.jpg"
- },
- "blanquette-veau": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Blanquette_de_veau_%C3%A0_l%27ancienne_06.jpg"
- },
- "bo-bun": {
-  "author": "fabulousfabs",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bun_Bo_Nam_Bo.jpg"
- },
- "boeuf-bourguignon": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:B%C5%93uf_bourguignon_06.JPG"
- },
- "boeuf-oignons-saute": {
-  "author": "Judgefloro",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:1320Stir_fry_corn_beef_tenderloin_19.jpg"
- },
- "bol-farfalle-oeuf-mollet-radis": {
-  "author": "Auteur inconnu",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Farfalle_salad_23_January_2025_Filipinas4.jpg"
- },
- "bol-houmous-carottes-rotis": {
-  "author": "TechnoKittyCat",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Hummus_with_Olive_Oil.jpg"
- },
- "bol-semoule-poulet-curry": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tomato_%26_Couscous_Salad_-_The_Canopy_2025-08-03.jpg"
- },
- "bol-tofu-laque": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salt_%26_Pepper_Tofu_Rice_Bowl_-_Tiger_Bites_Pig_2025-11-20.jpg"
- },
- "bol-vermicelles-crevettes-ananas": {
-  "author": "trungnguyen299",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:B%C3%BAn_%C4%91%E1%BA%ADu_m%E1%BA%AFm_t%C3%B4m.jpg"
- },
- "bol-yaourt-muesli": {
-  "author": "Papathanasiouk",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Home_prepared_yoghurt_and_muesli_with_berries.JPG"
- },
- "bolognaise-lentilles": {
-  "author": "Katrin Gilger",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta,_Tomato_Sauce,_Red_Lentils_%26_Sprouts_(4368525956).jpg"
- },
- "bouillon-coco-poulet-citronnelle": {
-  "author": "lydiajoy1",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tom_kha_gai2.jpg"
- },
- "boulettes-boeuf-mozza-coquillettes": {
-  "author": "Peachyeung316",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:A_Pasta_dish_with_meatballs_and_tomato_sauce.jpg"
- },
- "boulettes-curry-coco-courgette": {
-  "author": "USDAgov",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:MyPlate_gov_Cultural_Food_(20241025-USDA-FNS-UNK-0057).jpg"
- },
- "boulettes-legumes-soleil-mo": {
-  "author": "jeffreyw",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_and_meatballs_1.jpg"
- },
- "boulgour-legumes-feta": {
-  "author": "Karen and Brad Emerson",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bulgur_salad_(4354349203).jpg"
- },
- "brandade-cabillaud": {
-  "author": "Bopuc",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Brandade_de_morue_%C3%A0_la_pur%C3%A9e_de_pommes_de_terre_et_%C5%93ufs_b%C3%A9n%C3%A9dictes.jpg"
- },
- "brownie": {
-  "author": "JefferySAC",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chocolate-brownie-hachatw.jpg"
- },
- "buddha-bowl-quinoa": {
-  "author": "PizzaMan",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:BuddhaBowlLot.jpg"
- },
- "bun-chay-tofu": {
-  "author": "Taman Renyah",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Ketoprak-On_our_way_back_home.jpg"
- },
- "burger-maison": {
-  "author": "Horacio Cambeiro",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Argentine_homemade_hamburger_with_lettuce,_tomato_and_cheese.jpg"
- },
- "burger-vegetarien": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fancy_Veggie_Burger_and_Fries_-_Joe%27s_Burger_House_2024-07-07.jpg"
- },
- "burritos-haricots": {
-  "author": "Levi bernardo",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Burrito_chihuahuense_de_chile_verde.jpg"
- },
- "butter-chicken": {
-  "author": "stu_spivack",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_makhani.jpg"
- },
- "cabillaud-pdt-haricots": {
-  "author": "USDAgov",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:MyPlate_gov_Cultural_Food_(20241025-USDA-FNS-UNK-0071).jpg"
- },
- "calamars-riz": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Squid,_clams,_mussels,_shrimp,_pickled_garlic,_and_tomato_sauce_on_sticky_rice,_with_basil_and_black_pepper_-_Massachusetts.jpg"
- },
- "caldo-verde": {
-  "author": "Mateus Hidalgo",
-  "license": "CC BY-SA 2.5 br",
-  "page": "https://commons.wikimedia.org/wiki/File:Caldo_verde.jpg"
- },
- "cassoulet-express": {
-  "author": "Julien Domec",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Le_Cassoulet_du_Sud-Ouest_-_Le_Florida.jpg"
- },
- "chana-masala": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chana_Masala_-_Mohammed_-_Spice_Of_Life_2024-05-27.jpg"
- },
- "chili-con-carne": {
-  "author": "Carstor",
-  "license": "CC BY-SA 2.5",
-  "page": "https://commons.wikimedia.org/wiki/File:Bowl_of_chili.jpg"
- },
- "chili-sin-carne": {
-  "author": "Thriving Vegetarian",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Two-Bean_Vegetarian_Chili.jpg"
- },
- "chou-farci-express": {
-  "author": "Gerda Arendt",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Game_sausages,_Niederauroff.jpg"
- },
- "choucroute-garnie": {
-  "author": "User:Anvilaquarius",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Choucroute_garnie_%C3%A0_Paris.jpg"
- },
- "choux-bruxelles-lardons": {
-  "author": "Missvain",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Brussels_sprouts_-_Mussel_Bar_-_Ballston_-_2018_-_Sarah_Stierch_01.jpg"
- },
- "clafoutis-fruits-rouges": {
-  "author": "Popo le Chien",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Clafoutis_cerises.jpg"
- },
- "clementines-cannelle": {
-  "author": "Rhododendrites",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Clementines_(01014)s.jpg"
- },
- "colin-provencale": {
-  "author": "Armineaghayan",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pan-fried_white_fish_fillet_with_vegetables.jpg"
- },
- "colombo-pois-chiches-patate-douce": {
-  "author": "E4024",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Nohut_yahni.jpg"
- },
- "colombo-poulet": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Colombo_004.jpg"
- },
- "compote-pommes-poires": {
-  "author": "Taken",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Apple-sauce-544676.jpg"
- },
- "cookies-chocolat": {
-  "author": "Evan-Amos",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:Choc-Chip-Cookie.jpg"
- },
- "courgettes-farcies": {
-  "author": "Justwiki",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Stuffed_squash_2025_JORDAN_(2).jpg"
- },
- "couscous-agneau": {
-  "author": "Marshiayers",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Thiere_Senegalese_couscous_with_lamb.jpg"
- },
- "couscous-legumes": {
-  "author": "TheGirlsNY",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Moroccan_cuisine-Couscous_lamb_berber.jpg"
- },
- "couscous-poulet-raisins-express": {
-  "author": "Ypsilon from Finland",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_couscous_in_Tangier.jpg"
- },
- "creme-dessert-chocolat": {
-  "author": "Thomson200",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Swiss_MIss_Chocolate_Vanilla_Swirl_pudding_cup.jpg"
- },
- "crepes-petit-dej": {
-  "author": "Line 1921",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Cr%C3%AApe_%C3%A0_la_confiture_de_fruit.jpg"
- },
- "crepes-salees": {
-  "author": "Geoff Peters from Vancouver, BC, Canada",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Ham_and_cheese_crepe_(3275485711).jpg"
- },
- "crepes-sucrees": {
-  "author": "Ka23 13",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:CrepeSuzette_20220507_205653.jpg"
- },
- "croque-monsieur": {
-  "author": "Ruth Hartnup",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Croque_Monsieur_and_salad_at_Paris_Bakery.jpg"
- },
- "croziflette-camembert": {
-  "author": "Arnaud 25",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:Tartiflette_2.jpg"
- },
- "crumble-pommes": {
-  "author": "Jonathan Harker",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:British_apple_crumble_05.jpg"
- },
- "curry-japonais-legumes": {
-  "author": "Ocdp",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Beef_curry_rice_003.jpg"
- },
- "curry-legumes-coco": {
-  "author": "pelican from Tokyo, Japan",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Sweet_potato_curry_(10362720945).jpg"
- },
- "curry-lentilles-epinards": {
-  "author": "Yummy O Yummy",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Dal_Palak_Spinach_and_lentil_curry_(15914333462).jpg"
- },
- "curry-oeufs-tomate": {
-  "author": "https://onlybestrecipes.com/egg-curry-recipeegg-curry-rec…",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spicy_Anda_Curry.jpg"
- },
- "curry-poulet-brocoli-coco": {
-  "author": "Steven Depolo",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Haitian_chicken_and_broccoli.jpg"
- },
- "curry-vert-tofu-legumes": {
-  "author": "Takeaway",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Thai_green_chicken_curry_and_roti.jpg"
- },
- "dinde-creme-moutarde": {
-  "author": "Zak Le Messager",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Riz_et_Escalope_de_poulet_%C3%A0_la_cr%C3%A8me.jpg"
- },
- "enchiladas-haricots-mais": {
-  "author": "Lameirasb",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Festival_de_la_Enchilada_59.jpg"
- },
- "endives-jambon": {
-  "author": "Vincent van Zeijst",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicory_(witlof),_oven_dish_with_ham_and_cheese.jpg"
- },
- "fajitas-haricots": {
-  "author": "Shreya13jain",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Kidney_bean_Fajitas.jpg"
- },
- "falafels-pita": {
-  "author": "Contrapunctus-1",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Hummus,_falafel,_pita_bread,_and_mafrouka_at_Agasi,_Lajpat_Nagar_(July_2025).jpg"
- },
- "far-breton": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Far_breton_03.jpg"
- },
- "fasolada": {
-  "author": "Miansari66",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fasolada.JPG"
- },
- "fattoush-pois-chiches": {
-  "author": "Arousing Appetites",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fattoush_mixed-salad.jpg"
- },
- "feijoada-vegetarienne": {
-  "author": "Bradleyzm",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Feijoada_%C3%A0_brasileira_-02.jpg"
- },
- "fenouil-saumon-four": {
-  "author": "ppacificvancouver",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Crispy_skin_Kuterra_salmon_with_locally_foraged_BC_mushroom_barley_risotto,_blistered_kale,_and_fennel_orange_puree.jpg"
- },
- "flan-patissier": {
-  "author": "Shanti, shanti",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Custard_tart_emerging_from_wrapper.jpg"
- },
- "foies-volaille-persillade": {
-  "author": "Marie from Malang, East Java, Indonesia",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Balsamic_Chicken_Livers_(16023748071).jpg"
- },
- "fondant-chocolat": {
-  "author": "Rogi.Official",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fondant_au_Chocolat_1.jpg"
- },
- "frittata-spaghetti": {
-  "author": "Key West Wedding Photography",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Frittata_04.jpg"
- },
- "fromage-blanc-kiwi-miel": {
-  "author": "Brenda Godinez cravethebenefits",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chia_jars_with_bleuberries_(Unsplash).jpg"
- },
- "galette-sarrasin-champignons": {
-  "author": "Melinda Legendre",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Galette_de_sarrasin.jpg"
- },
- "galettes-complete": {
-  "author": "Trizek",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Galette_de_Haute_Bretagne.jpg"
- },
- "galettes-coreennes-legumes": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pajeon_(spring_onion_pancake)_-_Kogi,_Brighton.jpg"
- },
- "galettes-patate-douce-cheddar-four": {
-  "author": "GwennVienn",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mac_MG_5988.jpg"
- },
- "gateau-poires": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:G%C3%A2teau_de_m%C3%A9nage_09.jpg"
- },
- "gateau-yaourt": {
-  "author": "Infrogmation of New Orleans",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Earl_Grey_Tea_Greek_Yogurt_Cake.jpg"
- },
- "gigantes-plaki": {
-  "author": "Hevesli",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:Gigandes_plaki.jpg"
- },
- "gnocchi-bleu": {
-  "author": "cyclonebill",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Gnocchi_med_gorgonzola_og_valn%C3%B8dder.jpg"
- },
- "gnocchi-tomate-mozza": {
-  "author": "Davide Zambelli",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Gnocchi_alla_sorrentina.jpg"
- },
- "gnocchis-coco-pesto-chorizo-mo": {
-  "author": "Postcrosser",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Gnocchi_al_pesto_02.jpg"
- },
- "gnocchis-gratines-surimi": {
-  "author": "Alpha",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Baked_Gnocchi_with_Taleggio_Cheese_and_Crispy_Sage_at_Il_Fornaio_in_Kilda.jpg"
- },
- "granola-maison": {
-  "author": "Karen and Brad Emerson",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Homemade_granola_(12272245254).jpg"
- },
- "gratin-chou-fleur": {
-  "author": "Andy / Andrew Fogg from near Cambridge, UK",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Cauliflower-cheese.jpg"
- },
- "gratin-coquillettes-jambon": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Filet_mignon_et_son_gratin_de_p%C3%A2tes_(Brasserie_des_Terreaux,_Belley).jpg"
- },
- "gratin-courgettes-pdt": {
-  "author": "E4024",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Sandal_sefasi.jpg"
- },
- "gratin-dauphinois": {
-  "author": "Ludovic Péron",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Gratin_dauphinois.jpg"
- },
- "gratin-legumes-vegan": {
-  "author": "Wxao Zexw",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Gratin_4.jpg"
- },
- "gratin-macaronis-jambon-creme": {
-  "author": "Zarate123",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Baked_Macaroni33.jpg"
- },
- "gratin-penne-thon-brocoli": {
-  "author": "hirotomo t from japan",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Cream_gratin.jpg"
- },
- "gratin-poisson-epinards": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bill%27s_Fish_Pie_-_Bill%27s,_Lewes_2026-07-03.jpg"
- },
- "hachis-parmentier": {
-  "author": "Finbar.concaig",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Australian_cottage_pie.jpg"
- },
- "hachis-proteines-soja": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Shepherds_pie_-_The_Kew_Greenhouse_Cafe_2025-05-14.jpg"
- },
- "harira": {
-  "author": "Miansari66",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Harira..JPG"
- },
- "hot-dogs": {
-  "author": "TheCulinaryGeek from Chicago, USA",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Hot_Dog_with_Baked_Beans_and_Coleslaw_(5076896284).jpg"
- },
- "huevos-rancheros": {
-  "author": "1000b",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Huevos_rancheros.jpg"
- },
- "jambon-volaille-gratin-pdt": {
-  "author": "Dreamyshade",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Potato_gratin_on_stove.jpg"
- },
- "kefta-tomate": {
-  "author": "Fabienkhan",
-  "license": "CC BY-SA 2.5",
-  "page": "https://commons.wikimedia.org/wiki/File:Koofteh_tabrizi.jpg"
- },
- "khichdi": {
-  "author": "Seena.ge",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spicy_Khichdi.JPG"
- },
- "korma-legumes": {
-  "author": "Vis M",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Vegetable_Korma_03.jpg"
- },
- "lablabi": {
-  "author": "Sami Mlouhi",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Lablabi_%D9%84%D8%A8%D9%84%D8%A7%D8%A8%D9%8A.jpg"
- },
- "lardons-volaille-pates": {
-  "author": "Rocky Masum",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:A_plate_of_red_sauce_pasta.jpg"
- },
- "lasagnes-bolognaise": {
-  "author": "Breville USA",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Meaty_Lasagna_8of8_(8736299782).jpg"
- },
- "lasagnes-epinards-ricotta": {
-  "author": "Karen and Brad Emerson",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spinach_lasagne_(3185744041).jpg"
- },
- "lasagnes-legumes": {
-  "author": "Breville USA",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Meaty_Lasagna_8of8_(8736299782).jpg"
- },
- "lentilles-saucisse-curry-petits-pois": {
-  "author": "Brücke-Osteuropa",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Linseneintopf_mit_Blutwurst_1.JPG"
- },
- "mac-cheese": {
-  "author": "Matt MacGillivray from Toronto, Ontario, Canada",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Flickr_qmnonic_123431456--Kraft_Dinner_and_veggie_dogs.jpg"
- },
- "mafe-legumes": {
-  "author": "Nicolas PHULPIN",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Maaf%C3%A9.jpg"
- },
- "mafe-poulet": {
-  "author": "Adamplume",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Maf%C3%A9_domoda_Resto-UCAD_09.jpg"
- },
- "magret-pommes-sautees": {
-  "author": "PierreSelim",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Magret_de_canard_et_foie_gras.jpg"
- },
- "manchons-poulet-pdt": {
-  "author": "andrusdevelopment",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tandoori_Chicken_01.jpg"
- },
- "maquereau-pdt-moutarde": {
-  "author": "Ocdp",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Deep-fried_horse_mackerel_lunch_002.jpg"
- },
- "menemen": {
-  "author": "E4024",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Turkish_egg_dish_Menemen.jpg"
- },
- "mercimek-koftesi": {
-  "author": "Ahzaryamed",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mercimekkoftesi.jpg"
- },
- "minestrone": {
-  "author": "Katrin Morenz from Aachen, Deutschland",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Minestrone_soup.jpg"
- },
- "moules-marinieres": {
-  "author": "Edward",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Moules-frites_at_Chez_Leon_in_Brussels.jpg"
- },
- "moussaka-libanaise": {
-  "author": "Ewan Munro from London, UK",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Byblos_Harbour,_Millwall,_London_(3639283205).jpg"
- },
- "mousse-chocolat": {
-  "author": "Bin im Garten",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mousse_au_Chocolat_2010_006.JPG"
- },
- "muffins-banane-avoine": {
-  "author": "Shisma",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Banana_bread_slices.jpg"
- },
- "muffins-myrtilles": {
-  "author": "W.carter",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Plain_vanilla_muffin_in_Tuntorp.jpg"
- },
- "mujaddara": {
-  "author": "Tamorlan",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mujaddara_-_My_own_style.JPG"
- },
- "nouilles-coreennes-legumes": {
-  "author": "Ibrahim Husain Meraj",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Homemade_Japchae,_Dhaka_03.jpg"
- },
- "nouilles-legumes-oeuf": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Yaki_udon_and_tofu_curry_rice_-_Pompoko.jpg"
- },
- "nouilles-sautees-poulet-cacahuetes": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_and_peanuts_on_hokkien_noodles,_with_peanut_sauce_and_sesame_seeds_-_Massachusetts.jpg"
- },
- "nouilles-sautees-tofu": {
-  "author": "Sonny doe",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Homemade_Chinese_stir_fry_noodles.jpg"
- },
- "oeufs-brouilles-tartines": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Scrambled_eggs_on_toast_-_Joe%27s_Cafe_2024-04-14.jpg"
- },
- "oeufs-coque-mouillettes": {
-  "author": "Syced",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mouillette.jpg"
- },
- "oeufs-poches-tomate-chorizo": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Smoky_Shakshouka_-_T_@_The_Dials_2024-12-17.jpg"
- },
- "oeufs-tomates-cerises-thon-mo": {
-  "author": "FranHogan",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Shakshuka_eggs_for_breakfast.jpg"
- },
- "oeufs-tomates-poelees-jambon-cru-pesto": {
-  "author": "Huangdan2060",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Hunan_cuisine,_stir-fried_tomato_with_eggs.jpg"
- },
- "okonomiyaki": {
-  "author": "ume-y",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Okonomiyaki_001.jpg"
- },
- "omelette-avocat-citronnelle": {
-  "author": "Missvain",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Black_Bear_Diner_-_January_2025_-_Sarah_Stierch_02.jpg"
- },
- "omelette-basilic-fromage": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Cheese_%26_Mushroom_Omelette_-_The_Bystander_Cafe_2023-08-07.jpg"
- },
- "omelette-champignons": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mushroom_Omelette_-_Breakfast_At_Tiffany%27s_Brighton.jpg"
- },
- "omelette-epinards-feta": {
-  "author": "Reza babaeian",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Nargesi_omelette.jpg"
- },
- "overnight-oats": {
-  "author": "Original description was: I, VirtualSteve took this photo…",
-  "license": "CC BY-SA 2.5",
-  "page": "https://commons.wikimedia.org/wiki/File:Muesli.jpg"
- },
- "pad-thai-crevettes": {
-  "author": "P1898",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Shrimp_Pad_Thai_2026-09-11_classic_02.jpg"
- },
- "paella-poulet-chorizo": {
-  "author": "Kgbo",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken,_Chorizo_and_green_beans_paella,_Brisbane,_2021.jpg"
- },
- "paella-vegetarienne": {
-  "author": "2020 kamilo",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Paella_kamilo.jpg"
- },
- "pain-perdu": {
-  "author": "Ocdp",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:French_toast_001.jpg"
- },
- "pancakes": {
-  "author": "Infrogmation of New Orleans",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Plate_with_pancakes_with_syrup.jpg"
- },
- "pasta-e-ceci": {
-  "author": "valtercirillo",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_e_fagioli_-_minestra.jpg"
- },
- "pasta-e-patate": {
-  "author": "M&A",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_al_pesto_con_fagiolini_e_patate.jpg"
- },
- "pasta-fagioli": {
-  "author": "Spinoziano",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_e_fagioli_cannellini.jpg"
- },
- "patates-douces-farcies": {
-  "author": "Salil Kumar Mukherjee",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Stuffed_Capcicum.jpg"
- },
- "pates-aglio-olio": {
-  "author": "Bairuilong",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_aglio_e_olio_KB.jpg"
- },
- "pates-alla-norma": {
-  "author": "Paoletta S",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_alla_Norma_(2563876877).jpg"
- },
- "pates-courgettes-feta": {
-  "author": "chomjong",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Zucchini_oil_pasta.jpg"
- },
- "pates-creme-champignons": {
-  "author": "Sharon Chen",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Creamy_Mushroom_Pasta.jpg"
- },
- "pates-epinards-chevre": {
-  "author": "Karen and Brad Emerson",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spinach_pasta_(3383218355).jpg"
- },
- "pates-legumes-soleil": {
-  "author": "Mack Male from Edmonton, AB, Canada",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Roasted_Vegetable_Pasta_(2897941006).jpg"
- },
- "pates-puttanesca": {
-  "author": "Popo le Chien",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_Puttanesca.jpg"
- },
- "pates-sardines-citron": {
-  "author": "naotakem",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_with_a_tomatoes-sardine_sauce_and_broccoli_%E3%83%88%E3%83%9E%E3%83%88%E3%81%A8%E3%82%A4%E3%83%AF%E3%82%B7%E3%81%AE%E3%82%B9%E3%83%91%E3%82%B2%E3%83%86%E3%82%A3%E3%80%81%E3%83%96%E3%83%AD%E3%83%83%E3%82%B3%E3%83%AA%E3%83%BC%E6%B7%BB%E3%81%88.jpg"
- },
- "pates-tomates-sechees": {
-  "author": "naotakem",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Farfalle_with_arugula_and_sun_dried_tomatoes_in_a_white_wine_garlic_sauce_%E3%83%AB%E3%83%83%E3%82%B3%E3%83%A9%E3%81%A8%E3%82%B5%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%89%E3%83%88%E3%83%9E%E3%83%88%E3%81%AE%E3%83%95%E3%82%A1%E3%83%AB%E3%83%95%E3%82%A1%E3%83%83%E3%83%AC%E3%80%81%E7%99%BD%E3%83%AF%E3%82%A4%E3%83%B3%E3%83%8B%E3%83%B3%E3%83%8B%E3%82%AF%E3%82%BD%E3%83%BC%E3%82%B9.jpg"
- },
- "pdt-chorizo-oeufs": {
-  "author": "Neil Thompson",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Lanjar%C3%B3n_-_Huevos_con_chorizo.jpg"
- },
- "pdt-four-garnies": {
-  "author": "Renee Comet (photographer)",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:BakedPotatoWithButter.jpg"
- },
- "peches-fromage-blanc": {
-  "author": "Evelyn-rose",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Peach-Melba-1.jpg"
- },
- "penne-arrabbiata": {
-  "author": "Petar Milošević",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Penne_Arrabbiata.jpg"
- },
- "penne-thon-gaspacho-micro-ondes": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tuna_fish_and_salsa_on_penne,_with_black_pepper_and_capers_-_Massachusetts.jpg"
- },
- "petit-sale-lentilles": {
-  "author": "Thomon",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Petit_sal%C3%A9_aux_lentilles.jpg"
- },
- "pho-boeuf-express": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Beef_noodle_soup_(Ph%E1%BB%9F_b%C3%B2)_-_Pho_Hanoi_Authentic_2024-12-01.jpg"
- },
- "pide-epinards-feta": {
-  "author": "Garrett Ziegler",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Peynirli_Pide.jpg"
- },
- "pisto-oeuf-plat": {
-  "author": "Gini10",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Huevos_flamenquina_o_huevo_al_plato.jpg"
- },
- "pizza-jambon-champignons": {
-  "author": "Phil Whitehouse from London, United Kingdom",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pizza_capricciosa.jpg"
- },
- "pizza-margherita": {
-  "author": "Mario56",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Margherita_Originale.JPG"
- },
- "pizza-poireau-raclette": {
-  "author": "Lulu Durand",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tarte_flamb%C3%A9e_alsacienne_514471722.jpg"
- },
- "pizza-poulet-curry-yaourt": {
-  "author": "jeffreyw",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:White_pizza_with_chicken,_broccoli,_and_roasted_garlic_(15652092563).jpg"
- },
- "poelee-panais-boulgour": {
-  "author": "Gloria Cabada-Leman",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Neon_root_veggies_(roasted_beets,_turnips,_rutabaga,_carrots_and_onions)_(6893015819).jpg"
- },
- "poelee-pdt-haricots-oeufs": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pot_roast,_green_beans,_and_mashed_potatoes_-_Massachusetts.jpg"
- },
- "poelee-petits-pois-jambon-cru": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Scallops,_crispy_prosciutto,_peas,_and_lemon_confit_-_Auckland,_New_Zealand.jpg"
- },
- "poires-chocolat": {
-  "author": "Comrade Foot from Taastrup, Greater Copenhagen Region, De…",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Poire_belle_H%C3%A9l%C3%A8ne.jpg"
- },
- "poisson-pane-puree": {
-  "author": "Superbass",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fishfinger_classic_frozen_1.jpg"
- },
- "poivrons-farcis-riz": {
-  "author": "Roundhere44",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Stuffed_Peppers_Florentine.jpg"
- },
- "poke-bowl-saumon": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Philadelphia_Poke_Bowl_-_Happy_Maki_2026-09-08.jpg"
- },
- "polenta-saucisse": {
-  "author": "Matt Squirrell",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Lunch_of_polenta,_sausages_and_tomato_sauce.jpg"
- },
- "pommes-au-four": {
-  "author": "Andrey Korzun",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
- },
- "porc-caramel": {
-  "author": "Baoothersks",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Th%E1%BB%8Bt_kho_h%E1%BB%99t_v%E1%BB%8Bt.jpg"
- },
- "porc-saute-coreen": {
-  "author": "대경라이프",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Jeyuk-bokkeum_4.jpg"
- },
- "porridge-avoine-pomme": {
-  "author": "Shisma",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Apple_cinnamon_oatmeal.jpg"
- },
- "porridge-banane": {
-  "author": "Shisma",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Banana_oatmeal_2.jpg"
- },
- "potage-potimarron": {
-  "author": "Cala cala_maffia",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Autumn_Soup_(Unsplash)_cropped.jpg"
- },
- "potaje-pois-chiches-epinards": {
-  "author": "Toniher",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Potaje_de_vigilia.jpg"
- },
- "potee-chou": {
-  "author": "Agathe",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pot%C3%A9e.jpg"
- },
- "poulet-aigre-doux": {
-  "author": "PattayaPatrol",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:DFC_0882_A_colorful_plate_of_sweet_and_sour_chicken_with_bell_peppers_pineapple_chunks_and_scallions_served_in_a_white_oval_dish.jpg"
- },
- "poulet-basquaise": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Poulet_basquaise_01.jpg"
- },
- "poulet-basquaise-poele-express": {
-  "author": "Infrogmation of New Orleans",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Friday_dinner_-_Curry_chicken_with_bell_peppers_and_rice_-_01.jpg"
- },
- "poulet-curry-coco": {
-  "author": "Gaurav Dhwaj Khadka",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_Curry_4.jpg"
- },
- "poulet-moutarde": {
-  "author": "YoAmes",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Poulet_Gaston_G%C3%A9rard.jpg"
- },
- "poulet-roti-frites": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Roasted_chicken_and_french_fries_-_La_Petite_Plage_2025-03-25.jpg"
- },
- "poulet-roti-pdt": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Halal_Roast_Chicken_Leg_%2B_Roasted_Sweet_Potato_-_Foodilic_2024-03-25.jpg"
- },
- "poulet-satay": {
-  "author": "Sumit Surai",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_Satay_With_Peanut_Sauce.jpg"
- },
- "poulet-teriyaki": {
-  "author": "CNEcija12345",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Teriyaki_chicken_and_beef_Yakiniku_with_eggCNE.jpg"
- },
- "poulet-yassa": {
-  "author": "Arnaud 25",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Poulet_yassa_01.jpg"
- },
- "quatre-quarts": {
-  "author": "Kimberly Vardeman",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Almond_pound_cake,_angled_profile.jpg"
- },
- "quesadillas-poulet": {
-  "author": "Photograph by Mike Peel ( www.mikepeel.net )",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:At_Long_Island_2023_267.jpg"
- },
- "quiche-lorraine": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Quiche_lorraine_01.JPG"
- },
- "quiche-poireaux-chevre": {
-  "author": "Jessica from Hove, United Kingdom",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mushroom_and_leek_quiche.jpg"
- },
- "quiche-raclette-deux-jambons": {
-  "author": "HarshLight",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Ham_%26_Cheese_Quiche.jpg"
- },
- "quiche-sans-pate-courgettes": {
-  "author": "Michele Frazier from USA",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Quiche_Me_(8104774395).jpg"
- },
- "quiche-saumon-epinards": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Quiche_au_saumon_et_aux_%C3%A9pinards.jpg"
- },
- "raclette-maison": {
-  "author": "Ka23 13",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Raclette_20040817_140816.jpg"
- },
- "ramen-porc-laque-epinards": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pork_Chashu_Bowl_(M)_-_Goemon_Ramen_Bar.jpg"
- },
- "ratatouille-riz": {
-  "author": "Marcus Guimarães",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Ratatouille.jpg"
- },
- "raviolis-carbonara-chorizo": {
-  "author": "OneArmedMan",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:Ravioli_di_Faraona.JPG"
- },
- "red-red-plantain": {
-  "author": "benketaro",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Ghanaian_Red-Red_with_Fish.jpg"
- },
- "risotto-butternut": {
-  "author": "Alpha from Melbourne, Australia",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_and_Pumpkin_Risotto-_Air,_David_Jones,_Chadstone_(1238453950).jpg"
- },
- "risotto-champignons": {
-  "author": "Number55",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Risotto_ai_funghi_porcini.JPG"
- },
- "risotto-petits-pois": {
-  "author": "Katrin Gilger",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pea_Risotto_with_Lemon_and_Basil_(4355548435).jpg"
- },
- "riz-au-lait": {
-  "author": "Silar",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:02023_1271_Rice_puddings.jpg"
- },
- "riz-cantonais": {
-  "author": "Peachyeung316",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fried_rice_in_home.jpg"
- },
- "riz-saucisse-fumee-tomate": {
-  "author": "pelican from Tokyo, Japan",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Jambalaya_(30750226186).jpg"
- },
- "riz-saute-crevettes": {
-  "author": "Ceeseven",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Shrimp_Paste_Fried_Rice.jpg"
- },
- "riz-saute-tofu": {
-  "author": "Grendelkhan",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pineapple_fried_rice_at_Banana_Leaf_in_Milpitas,_California.jpg"
- },
- "rochers-coco": {
-  "author": "snowpea&bokchoi",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Sofra_Coconut_macaroon,_October_2009.jpg"
- },
- "roti-porc-pdt": {
-  "author": "Sara Goldsmith",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Roast_pork_loin,_potatoes_(2585116058).jpg"
- },
- "rougail-saucisse": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bourbon_Saveur_974_(Belley)_-_rougail_saucisses.jpg"
- },
- "roule-feuillete-jambon-moutarde": {
-  "author": "Legoless",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Jambon_(pastry).jpg"
- },
- "saag-aloo": {
-  "author": "Miansari66",
-  "license": "Public domain",
-  "page": "https://commons.wikimedia.org/wiki/File:Sarsoon_Ka_Saag_Cooked.JPG"
- },
- "salade-boulgour-pois-chiches-carottes": {
-  "author": "E4024",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Nohut_yahni_and_bulgur.jpg"
- },
- "salade-cesar": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Caesar_salad_with_chicken,_homemade_-_Massachusetts.jpg"
- },
- "salade-chevre-chaud": {
-  "author": "Arnaud 25",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salade_de_ch%C3%A8vre_chaud_002.jpg"
- },
- "salade-fruits": {
-  "author": "dnm",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Fruktsallad_(Fruit_salad).jpg"
- },
- "salade-grecque-boulgour": {
-  "author": "https://www.flickr.com/photos/zone41/",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Greek_Salad_Choriatiki.jpg"
- },
- "salade-lentilles-feta": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salade_de_lentilles,_potimarron_r%C3%B4ti_et_Feta.jpg"
- },
- "salade-lyonnaise": {
-  "author": "Kjetil Ree",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salade_lyonnaise_(9_June_2018).jpg"
- },
- "salade-nicoise": {
-  "author": "cyclonebill from Copenhagen, Denmark",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salade_ni%C3%A7oise_(7545098258).jpg"
- },
- "salade-pdt-petits-pois": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salad_of_boiled_eggs,_potatoes,_and_peas,_served_cold_with_tomatoes,_vinegar_carrot,_olive_oil,_black_pepper,_and_garlic_sea_salt_-_Massachusetts.jpg"
- },
- "salade-quinoa-feta": {
-  "author": "Simmer + Sauce",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Gluten-Free_Quinoa_Vegetable_Slaw_With_Peanut_Dressing.jpg"
- },
- "salade-riz-thon": {
-  "author": "Karen and Brad Emerson",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Rice_salad_(3513765313).jpg"
- },
- "saucisses-lentilles": {
-  "author": "Randalfino",
-  "license": "CC BY 2.5",
-  "page": "https://commons.wikimedia.org/wiki/File:Saucisse_de_Morteau_aux_lentilles_gros_plan.jpg"
- },
- "saucisses-puree": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Bangers_and_mash_-_The_Perkin_Warbeck_2025-07-26.jpg"
- },
- "saumon-riz-brocoli": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Salmon,_tomato,_mashed_potato,_broccoli,_mushrooms,_and_corn_-_Massachusetts.jpg"
- },
- "semoule-au-lait": {
-  "author": "Dezidor",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Krupicov%C3%A1_ka%C5%A1e.jpeg"
- },
- "shakshuka": {
-  "author": "Joe Mahoney",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Shakshuka1.jpg"
- },
- "smoothie-banane-fruits-rouges": {
-  "author": "Katrin Gilger",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Banana,_Berries_%26_Buttermilk_(4389522814).jpg"
- },
- "sopa-tortilla-haricots": {
-  "author": "Wikiwrimo",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tortilla_Soup.jpg"
- },
- "soupe-arachide-legumes": {
-  "author": "Blackmapapa",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Groundnut_Soup.JPG"
- },
- "soupe-au-pistou": {
-  "author": "Cuisine de mère en fille, et des autres",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:La_soupe_au_pistou.jpg"
- },
- "soupe-lentilles-carottes": {
-  "author": "Dmitry Bagrov",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Lentil_soup_in_a_bowl.jpg"
- },
- "soupe-nouilles-poulet": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_with_Noodles_Soup_-_Noodles_Soup_2023-10-24.jpg"
- },
- "soupe-nouilles-tofu-citronnelle": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Laksa_Noodle_Soup_with_Tofu_-_Balinese_House,_Brighton_2026-05-17.jpg"
- },
- "soupe-oignon": {
-  "author": "jeffreyw",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Mmm...onion_soup_(5344349906).jpg"
- },
- "soupe-pois-casses": {
-  "author": "Mx. Granger",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Amy%27s_split_pea_soup.jpg"
- },
- "soupe-vermicelles": {
-  "author": "naotakem",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Rice_sticks_with_kimchee_and_pork_with_vegetables_in_soup_%E8%B1%9A%E3%82%AD%E3%83%A0%E3%83%81%E9%87%8E%E8%8F%9C%E5%85%A5%E3%82%8A%E6%B1%81%E3%83%93%E3%83%BC%E3%83%95%E3%83%B3.jpg"
- },
- "spaghetti-bolognaise": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_Bolognese_-_Figaros,_Brighton_2023-10-06.jpg"
- },
- "spaghetti-carbonara": {
-  "author": "Javier Somoza",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Espaguetis_carbonara.jpg"
- },
- "spaghetti-sardines-chapelure": {
-  "author": "Adriao",
-  "license": "CC BY 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_con_le_sarde_(Palermo).jpg"
- },
- "spanakopita-brick": {
-  "author": "Alpha",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spanakopita.jpg"
- },
- "spanakorizo": {
-  "author": "KaterinaStrak",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Spanakorizo.jpg"
- },
- "surimi-salade-pates": {
-  "author": "jeffreyw",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pasta_salad_with_spinach_and_garlic_bread.jpg"
- },
- "taboule-libanais": {
-  "author": "cyclonebill",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Tabbouleh.jpg"
- },
- "tacos-boeuf": {
-  "author": "Larry Miller",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
- },
- "tagliatelles-carbonara-crevettes": {
-  "author": "HarshLight",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Angel_Hair_Pasta.jpg"
- },
- "tagliatelles-saumon": {
-  "author": "FotoosVanRobin",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Hot_Smoked_Salmon_with_black_Tagliatelle.jpg"
- },
- "tajine-agneau-pruneaux": {
-  "author": "LilKil",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tagine_d%27agneau.jpg"
- },
- "tajine-poulet-citron": {
-  "author": "Foodista",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-01.jpg"
- },
- "tamago-don": {
-  "author": "sheepman",
-  "license": "CC BY-SA 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tamagodon.jpg"
- },
- "tarte-pommes": {
-  "author": "W.carter",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Apple_cake_with_vanilla_ice_cream_2.jpg"
- },
- "tarte-tomate-moutarde": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pr%C3%A9paration_d%27une_tarte_%C3%A0_la_tomate_(07)_-_r%C3%A9sultat_(gros_plan).jpg"
- },
- "tartiflette": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Une_tartiflette_sortie_du_four.jpg"
- },
- "tartiflette-poele-express": {
-  "author": "Benoît Prieur",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Une_tartiflette_sortie_du_four.jpg"
- },
- "tartine-avocat-oeuf": {
-  "author": "Sarah Stierch",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Avocado_toast_at_the_girl_%26_the_fig_-_Sarah_Stierch.jpg"
- },
- "tartines-cacahuete-banane": {
-  "author": "Daderot",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Peanut_butter_and_banana_on_toasted_homemade_bread_-_Massachusetts.jpg"
- },
- "tiramisu": {
-  "author": "Anna.Massini",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Dolce_Tiramis%C3%B9_monoporzione.jpg"
- },
- "tofu-braise-coreen": {
-  "author": "Melsj",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Dubu-jorim_and_maneul-ganjang-beoteo-bap.jpg"
- },
- "tofu-brocoli-riz": {
-  "author": "Miscellaneous contributor",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tofu_and_Broccoli_2.jpg"
- },
- "tomates-farcies": {
-  "author": "Mina Biennier",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tomates_farcies_maison_de_Mina_Biennier.jpg"
- },
- "tortilla-espagnole": {
-  "author": "Juan Emilio Prades Bel",
-  "license": "CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tortilla_espa%C3%B1ola_con_patatas_y_cebolla.jpg"
- },
- "tostadas-haricots-avocat": {
-  "author": "Dahyana Yasada R. R",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Tostadas_Sencillas.jpg"
- },
- "udon-sautes-tofu": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Black_pepper_tofu_fried_udon_-_Stir_Fry_by_CK.jpg"
- },
- "upma-semoule-legumes": {
-  "author": "Intodustin",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Upma_South_India.JPG"
- },
- "veloute-butternut": {
-  "author": "NickParry",
-  "license": "CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Butternut_squash_soup_with_cheese.jpg"
- },
- "veloute-champignons": {
-  "author": "Redeemer|Vodesnet",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Cream_Mushroom_soup_2.jpg"
- },
- "veloute-poireaux": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Leek_%26_Potato_%2B_celeriac_soup.jpg"
- },
- "wok-poulet-nouilles": {
-  "author": "jeffreyw",
-  "license": "CC BY 2.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Noodle_stir_fry_with_chicken,_shrimp,_and_broccoli_(18471621051).jpg"
- },
- "wraps-poulet": {
-  "author": "Takeaway",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Smoked_chicken_and_avocado_wrap.jpg"
- },
- "yakisoba-porc-chou": {
-  "author": "Andy Li",
-  "license": "CC0",
-  "page": "https://commons.wikimedia.org/wiki/File:Chicken_yakisoba_-_Korpan.jpg"
- },
- "yaourt-grec-miel-amandes": {
-  "author": "ProjectManhattan",
-  "license": "CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Greek_yoghurt_with_honey.jpg"
- }
+  "arroz-tomate-sardines": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Smoked_sardines_on_rice,_tomato,_and_black_beans,_with_olive_oil_-_Massachusetts.jpg"
+  },
+  "aubergines-parmigiana": {
+    "author": "Tamorlan",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Parmigiana_di_melanzane-cer.JPG"
+  },
+  "bananes-poelees-miel": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Caramel_Hazelnut_Banana_Bread_with_Yoghurt_-_Moksha_Caff%C3%A8_2023-09-13.jpg"
+  },
+  "blanquette-veau": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Blanquette_de_veau_%C3%A0_l%27ancienne_06.jpg"
+  },
+  "boeuf-bourguignon": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:B%C5%93uf_bourguignon_06.JPG"
+  },
+  "boeuf-oignons-saute": {
+    "author": "Judgefloro",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:1320Stir_fry_corn_beef_tenderloin_19.jpg"
+  },
+  "bol-farfalle-oeuf-mollet-radis": {
+    "author": "Auteur inconnu",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Farfalle_salad_23_January_2025_Filipinas4.jpg"
+  },
+  "bol-semoule-poulet-curry": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tomato_%26_Couscous_Salad_-_The_Canopy_2025-08-03.jpg"
+  },
+  "bol-tofu-laque": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salt_%26_Pepper_Tofu_Rice_Bowl_-_Tiger_Bites_Pig_2025-11-20.jpg"
+  },
+  "bol-yaourt-muesli": {
+    "author": "Papathanasiouk",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Home_prepared_yoghurt_and_muesli_with_berries.JPG"
+  },
+  "bolognaise-lentilles": {
+    "author": "Katrin Gilger",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pasta,_Tomato_Sauce,_Red_Lentils_%26_Sprouts_(4368525956).jpg"
+  },
+  "boulettes-boeuf-mozza-coquillettes": {
+    "author": "Peachyeung316",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:A_Pasta_dish_with_meatballs_and_tomato_sauce.jpg"
+  },
+  "boulettes-curry-coco-courgette": {
+    "author": "USDAgov",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:MyPlate_gov_Cultural_Food_(20241025-USDA-FNS-UNK-0057).jpg"
+  },
+  "boulettes-legumes-soleil-mo": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_and_meatballs_1.jpg"
+  },
+  "boulgour-legumes-feta": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Bulgur_salad_(4354349203).jpg"
+  },
+  "brandade-cabillaud": {
+    "author": "Bopuc",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Brandade_de_morue_%C3%A0_la_pur%C3%A9e_de_pommes_de_terre_et_%C5%93ufs_b%C3%A9n%C3%A9dictes.jpg"
+  },
+  "brownie": {
+    "author": "JefferySAC",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chocolate-brownie-hachatw.jpg"
+  },
+  "buddha-bowl-quinoa": {
+    "author": "PizzaMan",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:BuddhaBowlLot.jpg"
+  },
+  "burger-maison": {
+    "author": "Horacio Cambeiro",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Argentine_homemade_hamburger_with_lettuce,_tomato_and_cheese.jpg"
+  },
+  "burger-vegetarien": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Fancy_Veggie_Burger_and_Fries_-_Joe%27s_Burger_House_2024-07-07.jpg"
+  },
+  "burritos-haricots": {
+    "author": "Levi bernardo",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Burrito_chihuahuense_de_chile_verde.jpg"
+  },
+  "cabillaud-pdt-haricots": {
+    "author": "USDAgov",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:MyPlate_gov_Cultural_Food_(20241025-USDA-FNS-UNK-0071).jpg"
+  },
+  "calamars-riz": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Squid,_clams,_mussels,_shrimp,_pickled_garlic,_and_tomato_sauce_on_sticky_rice,_with_basil_and_black_pepper_-_Massachusetts.jpg"
+  },
+  "cassoulet-express": {
+    "author": "Julien Domec",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Le_Cassoulet_du_Sud-Ouest_-_Le_Florida.jpg"
+  },
+  "chili-con-carne": {
+    "author": "Carstor",
+    "license": "CC BY-SA 2.5",
+    "page": "https://commons.wikimedia.org/wiki/File:Bowl_of_chili.jpg"
+  },
+  "chili-sin-carne": {
+    "author": "Thriving Vegetarian",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Two-Bean_Vegetarian_Chili.jpg"
+  },
+  "chou-farci-express": {
+    "author": "Gerda Arendt",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Game_sausages,_Niederauroff.jpg"
+  },
+  "choucroute-garnie": {
+    "author": "User:Anvilaquarius",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Choucroute_garnie_%C3%A0_Paris.jpg"
+  },
+  "choux-bruxelles-lardons": {
+    "author": "Missvain",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Brussels_sprouts_-_Mussel_Bar_-_Ballston_-_2018_-_Sarah_Stierch_01.jpg"
+  },
+  "clafoutis-fruits-rouges": {
+    "author": "Popo le Chien",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Clafoutis_cerises.jpg"
+  },
+  "clementines-cannelle": {
+    "author": "Rhododendrites",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Clementines_(01014)s.jpg"
+  },
+  "colin-provencale": {
+    "author": "Armineaghayan",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pan-fried_white_fish_fillet_with_vegetables.jpg"
+  },
+  "compote-pommes-poires": {
+    "author": "Taken",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Apple-sauce-544676.jpg"
+  },
+  "cookies-chocolat": {
+    "author": "Evan-Amos",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Choc-Chip-Cookie.jpg"
+  },
+  "courgettes-farcies": {
+    "author": "Justwiki",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Stuffed_squash_2025_JORDAN_(2).jpg"
+  },
+  "couscous-agneau": {
+    "author": "Marshiayers",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Thiere_Senegalese_couscous_with_lamb.jpg"
+  },
+  "couscous-legumes": {
+    "author": "TheGirlsNY",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Moroccan_cuisine-Couscous_lamb_berber.jpg"
+  },
+  "couscous-poulet-raisins-express": {
+    "author": "Ypsilon from Finland",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_couscous_in_Tangier.jpg"
+  },
+  "creme-dessert-chocolat": {
+    "author": "Thomson200",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Swiss_MIss_Chocolate_Vanilla_Swirl_pudding_cup.jpg"
+  },
+  "crepes-petit-dej": {
+    "author": "Line 1921",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cr%C3%AApe_%C3%A0_la_confiture_de_fruit.jpg"
+  },
+  "crepes-salees": {
+    "author": "Geoff Peters from Vancouver, BC, Canada",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ham_and_cheese_crepe_(3275485711).jpg"
+  },
+  "crepes-sucrees": {
+    "author": "Ka23 13",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:CrepeSuzette_20220507_205653.jpg"
+  },
+  "croque-monsieur": {
+    "author": "Ruth Hartnup",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Croque_Monsieur_and_salad_at_Paris_Bakery.jpg"
+  },
+  "croziflette-camembert": {
+    "author": "Arnaud 25",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Tartiflette_2.jpg"
+  },
+  "crumble-pommes": {
+    "author": "Jonathan Harker",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:British_apple_crumble_05.jpg"
+  },
+  "curry-lentilles-epinards": {
+    "author": "Yummy O Yummy",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Dal_Palak_Spinach_and_lentil_curry_(15914333462).jpg"
+  },
+  "curry-poulet-brocoli-coco": {
+    "author": "Steven Depolo",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Haitian_chicken_and_broccoli.jpg"
+  },
+  "dinde-creme-moutarde": {
+    "author": "Zak Le Messager",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Riz_et_Escalope_de_poulet_%C3%A0_la_cr%C3%A8me.jpg"
+  },
+  "enchiladas-haricots-mais": {
+    "author": "Lameirasb",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Festival_de_la_Enchilada_59.jpg"
+  },
+  "endives-jambon": {
+    "author": "Vincent van Zeijst",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicory_(witlof),_oven_dish_with_ham_and_cheese.jpg"
+  },
+  "fajitas-haricots": {
+    "author": "Shreya13jain",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Kidney_bean_Fajitas.jpg"
+  },
+  "falafels-pita": {
+    "author": "Contrapunctus-1",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hummus,_falafel,_pita_bread,_and_mafrouka_at_Agasi,_Lajpat_Nagar_(July_2025).jpg"
+  },
+  "far-breton": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Far_breton_03.jpg"
+  },
+  "fenouil-saumon-four": {
+    "author": "ppacificvancouver",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Crispy_skin_Kuterra_salmon_with_locally_foraged_BC_mushroom_barley_risotto,_blistered_kale,_and_fennel_orange_puree.jpg"
+  },
+  "flan-patissier": {
+    "author": "Shanti, shanti",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Custard_tart_emerging_from_wrapper.jpg"
+  },
+  "foies-volaille-persillade": {
+    "author": "Marie from Malang, East Java, Indonesia",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Balsamic_Chicken_Livers_(16023748071).jpg"
+  },
+  "fondant-chocolat": {
+    "author": "Rogi.Official",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Fondant_au_Chocolat_1.jpg"
+  },
+  "fromage-blanc-kiwi-miel": {
+    "author": "Brenda Godinez cravethebenefits",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chia_jars_with_bleuberries_(Unsplash).jpg"
+  },
+  "galette-sarrasin-champignons": {
+    "author": "Melinda Legendre",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Galette_de_sarrasin.jpg"
+  },
+  "galettes-complete": {
+    "author": "Trizek",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Galette_de_Haute_Bretagne.jpg"
+  },
+  "galettes-patate-douce-cheddar-four": {
+    "author": "GwennVienn",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mac_MG_5988.jpg"
+  },
+  "gateau-poires": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:G%C3%A2teau_de_m%C3%A9nage_09.jpg"
+  },
+  "gateau-yaourt": {
+    "author": "Infrogmation of New Orleans",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Earl_Grey_Tea_Greek_Yogurt_Cake.jpg"
+  },
+  "gigantes-plaki": {
+    "author": "Hevesli",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:Gigandes_plaki.jpg"
+  },
+  "gnocchi-bleu": {
+    "author": "cyclonebill",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Gnocchi_med_gorgonzola_og_valn%C3%B8dder.jpg"
+  },
+  "gnocchi-tomate-mozza": {
+    "author": "Davide Zambelli",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Gnocchi_alla_sorrentina.jpg"
+  },
+  "gnocchis-coco-pesto-chorizo-mo": {
+    "author": "Postcrosser",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Gnocchi_al_pesto_02.jpg"
+  },
+  "gnocchis-gratines-surimi": {
+    "author": "Alpha",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Baked_Gnocchi_with_Taleggio_Cheese_and_Crispy_Sage_at_Il_Fornaio_in_Kilda.jpg"
+  },
+  "granola-maison": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Homemade_granola_(12272245254).jpg"
+  },
+  "gratin-chou-fleur": {
+    "author": "Andy / Andrew Fogg from near Cambridge, UK",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cauliflower-cheese.jpg"
+  },
+  "gratin-coquillettes-jambon": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Filet_mignon_et_son_gratin_de_p%C3%A2tes_(Brasserie_des_Terreaux,_Belley).jpg"
+  },
+  "gratin-courgettes-pdt": {
+    "author": "E4024",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sandal_sefasi.jpg"
+  },
+  "gratin-dauphinois": {
+    "author": "Ludovic Péron",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Gratin_dauphinois.jpg"
+  },
+  "gratin-macaronis-jambon-creme": {
+    "author": "Zarate123",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Baked_Macaroni33.jpg"
+  },
+  "gratin-penne-thon-brocoli": {
+    "author": "hirotomo t from japan",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cream_gratin.jpg"
+  },
+  "gratin-poisson-epinards": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Bill%27s_Fish_Pie_-_Bill%27s,_Lewes_2026-07-03.jpg"
+  },
+  "hachis-parmentier": {
+    "author": "Finbar.concaig",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Australian_cottage_pie.jpg"
+  },
+  "hot-dogs": {
+    "author": "TheCulinaryGeek from Chicago, USA",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hot_Dog_with_Baked_Beans_and_Coleslaw_(5076896284).jpg"
+  },
+  "huevos-rancheros": {
+    "author": "1000b",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Huevos_rancheros.jpg"
+  },
+  "jambon-volaille-gratin-pdt": {
+    "author": "Dreamyshade",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Potato_gratin_on_stove.jpg"
+  },
+  "kefta-tomate": {
+    "author": "Fabienkhan",
+    "license": "CC BY-SA 2.5",
+    "page": "https://commons.wikimedia.org/wiki/File:Koofteh_tabrizi.jpg"
+  },
+  "lardons-volaille-pates": {
+    "author": "Rocky Masum",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:A_plate_of_red_sauce_pasta.jpg"
+  },
+  "lasagnes-bolognaise": {
+    "author": "Breville USA",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Meaty_Lasagna_8of8_(8736299782).jpg"
+  },
+  "lasagnes-epinards-ricotta": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spinach_lasagne_(3185744041).jpg"
+  },
+  "lasagnes-legumes": {
+    "author": "Breville USA",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Meaty_Lasagna_8of8_(8736299782).jpg"
+  },
+  "lentilles-saucisse-curry-petits-pois": {
+    "author": "Brücke-Osteuropa",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Linseneintopf_mit_Blutwurst_1.JPG"
+  },
+  "mac-cheese": {
+    "author": "Matt MacGillivray from Toronto, Ontario, Canada",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Flickr_qmnonic_123431456--Kraft_Dinner_and_veggie_dogs.jpg"
+  },
+  "magret-pommes-sautees": {
+    "author": "PierreSelim",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Magret_de_canard_et_foie_gras.jpg"
+  },
+  "manchons-poulet-pdt": {
+    "author": "andrusdevelopment",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tandoori_Chicken_01.jpg"
+  },
+  "maquereau-pdt-moutarde": {
+    "author": "Ocdp",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Deep-fried_horse_mackerel_lunch_002.jpg"
+  },
+  "minestrone": {
+    "author": "Katrin Morenz from Aachen, Deutschland",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Minestrone_soup.jpg"
+  },
+  "moules-marinieres": {
+    "author": "Edward",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Moules-frites_at_Chez_Leon_in_Brussels.jpg"
+  },
+  "mousse-chocolat": {
+    "author": "Bin im Garten",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mousse_au_Chocolat_2010_006.JPG"
+  },
+  "muffins-banane-avoine": {
+    "author": "Shisma",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Banana_bread_slices.jpg"
+  },
+  "muffins-myrtilles": {
+    "author": "W.carter",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Plain_vanilla_muffin_in_Tuntorp.jpg"
+  },
+  "nouilles-legumes-oeuf": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Yaki_udon_and_tofu_curry_rice_-_Pompoko.jpg"
+  },
+  "nouilles-sautees-poulet-cacahuetes": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_and_peanuts_on_hokkien_noodles,_with_peanut_sauce_and_sesame_seeds_-_Massachusetts.jpg"
+  },
+  "nouilles-sautees-tofu": {
+    "author": "Sonny doe",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Homemade_Chinese_stir_fry_noodles.jpg"
+  },
+  "oeufs-brouilles-tartines": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Scrambled_eggs_on_toast_-_Joe%27s_Cafe_2024-04-14.jpg"
+  },
+  "oeufs-coque-mouillettes": {
+    "author": "Syced",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mouillette.jpg"
+  },
+  "oeufs-poches-tomate-chorizo": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Smoky_Shakshouka_-_T_@_The_Dials_2024-12-17.jpg"
+  },
+  "oeufs-tomates-cerises-thon-mo": {
+    "author": "FranHogan",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Shakshuka_eggs_for_breakfast.jpg"
+  },
+  "oeufs-tomates-poelees-jambon-cru-pesto": {
+    "author": "Huangdan2060",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hunan_cuisine,_stir-fried_tomato_with_eggs.jpg"
+  },
+  "omelette-basilic-fromage": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cheese_%26_Mushroom_Omelette_-_The_Bystander_Cafe_2023-08-07.jpg"
+  },
+  "omelette-champignons": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mushroom_Omelette_-_Breakfast_At_Tiffany%27s_Brighton.jpg"
+  },
+  "omelette-epinards-feta": {
+    "author": "Reza babaeian",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Nargesi_omelette.jpg"
+  },
+  "overnight-oats": {
+    "author": "Original description was: I, VirtualSteve took this photo…",
+    "license": "CC BY-SA 2.5",
+    "page": "https://commons.wikimedia.org/wiki/File:Muesli.jpg"
+  },
+  "paella-poulet-chorizo": {
+    "author": "Kgbo",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken,_Chorizo_and_green_beans_paella,_Brisbane,_2021.jpg"
+  },
+  "paella-vegetarienne": {
+    "author": "2020 kamilo",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Paella_kamilo.jpg"
+  },
+  "pain-perdu": {
+    "author": "Ocdp",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:French_toast_001.jpg"
+  },
+  "pancakes": {
+    "author": "Infrogmation of New Orleans",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Plate_with_pancakes_with_syrup.jpg"
+  },
+  "pasta-fagioli": {
+    "author": "Spinoziano",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pasta_e_fagioli_cannellini.jpg"
+  },
+  "patates-douces-farcies": {
+    "author": "Salil Kumar Mukherjee",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Stuffed_Capcicum.jpg"
+  },
+  "pates-aglio-olio": {
+    "author": "Bairuilong",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_aglio_e_olio_KB.jpg"
+  },
+  "pates-alla-norma": {
+    "author": "Paoletta S",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pasta_alla_Norma_(2563876877).jpg"
+  },
+  "pates-courgettes-feta": {
+    "author": "chomjong",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Zucchini_oil_pasta.jpg"
+  },
+  "pates-creme-champignons": {
+    "author": "Sharon Chen",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Creamy_Mushroom_Pasta.jpg"
+  },
+  "pates-epinards-chevre": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spinach_pasta_(3383218355).jpg"
+  },
+  "pates-legumes-soleil": {
+    "author": "Mack Male from Edmonton, AB, Canada",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Roasted_Vegetable_Pasta_(2897941006).jpg"
+  },
+  "pates-sardines-citron": {
+    "author": "naotakem",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_with_a_tomatoes-sardine_sauce_and_broccoli_%E3%83%88%E3%83%9E%E3%83%88%E3%81%A8%E3%82%A4%E3%83%AF%E3%82%B7%E3%81%AE%E3%82%B9%E3%83%91%E3%82%B2%E3%83%86%E3%82%A3%E3%80%81%E3%83%96%E3%83%AD%E3%83%83%E3%82%B3%E3%83%AA%E3%83%BC%E6%B7%BB%E3%81%88.jpg"
+  },
+  "pates-tomates-sechees": {
+    "author": "naotakem",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Farfalle_with_arugula_and_sun_dried_tomatoes_in_a_white_wine_garlic_sauce_%E3%83%AB%E3%83%83%E3%82%B3%E3%83%A9%E3%81%A8%E3%82%B5%E3%83%B3%E3%83%89%E3%83%A9%E3%82%A4%E3%83%89%E3%83%88%E3%83%9E%E3%83%88%E3%81%AE%E3%83%95%E3%82%A1%E3%83%AB%E3%83%95%E3%82%A1%E3%83%83%E3%83%AC%E3%80%81%E7%99%BD%E3%83%AF%E3%82%A4%E3%83%B3%E3%83%8B%E3%83%B3%E3%83%8B%E3%82%AF%E3%82%BD%E3%83%BC%E3%82%B9.jpg"
+  },
+  "pdt-chorizo-oeufs": {
+    "author": "Neil Thompson",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Lanjar%C3%B3n_-_Huevos_con_chorizo.jpg"
+  },
+  "pdt-four-garnies": {
+    "author": "Renee Comet (photographer)",
+    "license": "Public domain",
+    "page": "https://commons.wikimedia.org/wiki/File:BakedPotatoWithButter.jpg"
+  },
+  "peches-fromage-blanc": {
+    "author": "Evelyn-rose",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Peach-Melba-1.jpg"
+  },
+  "penne-arrabbiata": {
+    "author": "Petar Milošević",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Penne_Arrabbiata.jpg"
+  },
+  "penne-thon-gaspacho-micro-ondes": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tuna_fish_and_salsa_on_penne,_with_black_pepper_and_capers_-_Massachusetts.jpg"
+  },
+  "petit-sale-lentilles": {
+    "author": "Thomon",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Petit_sal%C3%A9_aux_lentilles.jpg"
+  },
+  "pizza-jambon-champignons": {
+    "author": "Phil Whitehouse from London, United Kingdom",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pizza_capricciosa.jpg"
+  },
+  "pizza-margherita": {
+    "author": "Mario56",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Margherita_Originale.JPG"
+  },
+  "pizza-poireau-raclette": {
+    "author": "Lulu Durand",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tarte_flamb%C3%A9e_alsacienne_514471722.jpg"
+  },
+  "pizza-poulet-curry-yaourt": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:White_pizza_with_chicken,_broccoli,_and_roasted_garlic_(15652092563).jpg"
+  },
+  "poelee-panais-boulgour": {
+    "author": "Gloria Cabada-Leman",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Neon_root_veggies_(roasted_beets,_turnips,_rutabaga,_carrots_and_onions)_(6893015819).jpg"
+  },
+  "poelee-pdt-haricots-oeufs": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pot_roast,_green_beans,_and_mashed_potatoes_-_Massachusetts.jpg"
+  },
+  "poelee-petits-pois-jambon-cru": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Scallops,_crispy_prosciutto,_peas,_and_lemon_confit_-_Auckland,_New_Zealand.jpg"
+  },
+  "poires-chocolat": {
+    "author": "Comrade Foot from Taastrup, Greater Copenhagen Region, De…",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Poire_belle_H%C3%A9l%C3%A8ne.jpg"
+  },
+  "poisson-pane-puree": {
+    "author": "Superbass",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Fishfinger_classic_frozen_1.jpg"
+  },
+  "poivrons-farcis-riz": {
+    "author": "Roundhere44",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Stuffed_Peppers_Florentine.jpg"
+  },
+  "poke-bowl-saumon": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Philadelphia_Poke_Bowl_-_Happy_Maki_2026-09-08.jpg"
+  },
+  "polenta-saucisse": {
+    "author": "Matt Squirrell",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Lunch_of_polenta,_sausages_and_tomato_sauce.jpg"
+  },
+  "pommes-au-four": {
+    "author": "Andrey Korzun",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
+  },
+  "porc-caramel": {
+    "author": "Baoothersks",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Th%E1%BB%8Bt_kho_h%E1%BB%99t_v%E1%BB%8Bt.jpg"
+  },
+  "porridge-avoine-pomme": {
+    "author": "Shisma",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Apple_cinnamon_oatmeal.jpg"
+  },
+  "porridge-banane": {
+    "author": "Shisma",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Banana_oatmeal_2.jpg"
+  },
+  "potage-potimarron": {
+    "author": "Cala cala_maffia",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Autumn_Soup_(Unsplash)_cropped.jpg"
+  },
+  "potee-chou": {
+    "author": "Agathe",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pot%C3%A9e.jpg"
+  },
+  "poulet-aigre-doux": {
+    "author": "PattayaPatrol",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:DFC_0882_A_colorful_plate_of_sweet_and_sour_chicken_with_bell_peppers_pineapple_chunks_and_scallions_served_in_a_white_oval_dish.jpg"
+  },
+  "poulet-basquaise": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Poulet_basquaise_01.jpg"
+  },
+  "poulet-basquaise-poele-express": {
+    "author": "Infrogmation of New Orleans",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Friday_dinner_-_Curry_chicken_with_bell_peppers_and_rice_-_01.jpg"
+  },
+  "poulet-curry-coco": {
+    "author": "Gaurav Dhwaj Khadka",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_Curry_4.jpg"
+  },
+  "poulet-moutarde": {
+    "author": "YoAmes",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Poulet_Gaston_G%C3%A9rard.jpg"
+  },
+  "poulet-roti-frites": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Roasted_chicken_and_french_fries_-_La_Petite_Plage_2025-03-25.jpg"
+  },
+  "poulet-roti-pdt": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Halal_Roast_Chicken_Leg_%2B_Roasted_Sweet_Potato_-_Foodilic_2024-03-25.jpg"
+  },
+  "poulet-satay": {
+    "author": "Sumit Surai",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_Satay_With_Peanut_Sauce.jpg"
+  },
+  "poulet-teriyaki": {
+    "author": "CNEcija12345",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Teriyaki_chicken_and_beef_Yakiniku_with_eggCNE.jpg"
+  },
+  "quatre-quarts": {
+    "author": "Kimberly Vardeman",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Almond_pound_cake,_angled_profile.jpg"
+  },
+  "quesadillas-poulet": {
+    "author": "Photograph by Mike Peel ( www.mikepeel.net )",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:At_Long_Island_2023_267.jpg"
+  },
+  "quiche-lorraine": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Quiche_lorraine_01.JPG"
+  },
+  "quiche-poireaux-chevre": {
+    "author": "Jessica from Hove, United Kingdom",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mushroom_and_leek_quiche.jpg"
+  },
+  "quiche-raclette-deux-jambons": {
+    "author": "HarshLight",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ham_%26_Cheese_Quiche.jpg"
+  },
+  "quiche-sans-pate-courgettes": {
+    "author": "Michele Frazier from USA",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Quiche_Me_(8104774395).jpg"
+  },
+  "quiche-saumon-epinards": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Quiche_au_saumon_et_aux_%C3%A9pinards.jpg"
+  },
+  "raclette-maison": {
+    "author": "Ka23 13",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Raclette_20040817_140816.jpg"
+  },
+  "ramen-porc-laque-epinards": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pork_Chashu_Bowl_(M)_-_Goemon_Ramen_Bar.jpg"
+  },
+  "ratatouille-riz": {
+    "author": "Marcus Guimarães",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ratatouille.jpg"
+  },
+  "risotto-butternut": {
+    "author": "Alpha from Melbourne, Australia",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_and_Pumpkin_Risotto-_Air,_David_Jones,_Chadstone_(1238453950).jpg"
+  },
+  "risotto-champignons": {
+    "author": "Number55",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Risotto_ai_funghi_porcini.JPG"
+  },
+  "risotto-petits-pois": {
+    "author": "Katrin Gilger",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pea_Risotto_with_Lemon_and_Basil_(4355548435).jpg"
+  },
+  "riz-au-lait": {
+    "author": "Silar",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:02023_1271_Rice_puddings.jpg"
+  },
+  "riz-cantonais": {
+    "author": "Peachyeung316",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Fried_rice_in_home.jpg"
+  },
+  "riz-saucisse-fumee-tomate": {
+    "author": "pelican from Tokyo, Japan",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Jambalaya_(30750226186).jpg"
+  },
+  "riz-saute-crevettes": {
+    "author": "Ceeseven",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Shrimp_Paste_Fried_Rice.jpg"
+  },
+  "rochers-coco": {
+    "author": "snowpea&bokchoi",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Sofra_Coconut_macaroon,_October_2009.jpg"
+  },
+  "roti-porc-pdt": {
+    "author": "Sara Goldsmith",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Roast_pork_loin,_potatoes_(2585116058).jpg"
+  },
+  "roule-feuillete-jambon-moutarde": {
+    "author": "Legoless",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Jambon_(pastry).jpg"
+  },
+  "salade-boulgour-pois-chiches-carottes": {
+    "author": "E4024",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Nohut_yahni_and_bulgur.jpg"
+  },
+  "salade-cesar": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Caesar_salad_with_chicken,_homemade_-_Massachusetts.jpg"
+  },
+  "salade-chevre-chaud": {
+    "author": "Arnaud 25",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salade_de_ch%C3%A8vre_chaud_002.jpg"
+  },
+  "salade-fruits": {
+    "author": "dnm",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Fruktsallad_(Fruit_salad).jpg"
+  },
+  "salade-grecque-boulgour": {
+    "author": "https://www.flickr.com/photos/zone41/",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Greek_Salad_Choriatiki.jpg"
+  },
+  "salade-lentilles-feta": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salade_de_lentilles,_potimarron_r%C3%B4ti_et_Feta.jpg"
+  },
+  "salade-lyonnaise": {
+    "author": "Kjetil Ree",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salade_lyonnaise_(9_June_2018).jpg"
+  },
+  "salade-nicoise": {
+    "author": "cyclonebill from Copenhagen, Denmark",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salade_ni%C3%A7oise_(7545098258).jpg"
+  },
+  "salade-pdt-petits-pois": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salad_of_boiled_eggs,_potatoes,_and_peas,_served_cold_with_tomatoes,_vinegar_carrot,_olive_oil,_black_pepper,_and_garlic_sea_salt_-_Massachusetts.jpg"
+  },
+  "salade-quinoa-feta": {
+    "author": "Simmer + Sauce",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Gluten-Free_Quinoa_Vegetable_Slaw_With_Peanut_Dressing.jpg"
+  },
+  "salade-riz-thon": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rice_salad_(3513765313).jpg"
+  },
+  "saucisses-lentilles": {
+    "author": "Randalfino",
+    "license": "CC BY 2.5",
+    "page": "https://commons.wikimedia.org/wiki/File:Saucisse_de_Morteau_aux_lentilles_gros_plan.jpg"
+  },
+  "saucisses-puree": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Bangers_and_mash_-_The_Perkin_Warbeck_2025-07-26.jpg"
+  },
+  "saumon-riz-brocoli": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Salmon,_tomato,_mashed_potato,_broccoli,_mushrooms,_and_corn_-_Massachusetts.jpg"
+  },
+  "semoule-au-lait": {
+    "author": "Dezidor",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Krupicov%C3%A1_ka%C5%A1e.jpeg"
+  },
+  "shakshuka": {
+    "author": "Joe Mahoney",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Shakshuka1.jpg"
+  },
+  "smoothie-banane-fruits-rouges": {
+    "author": "Katrin Gilger",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Banana,_Berries_%26_Buttermilk_(4389522814).jpg"
+  },
+  "soupe-lentilles-carottes": {
+    "author": "Dmitry Bagrov",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Lentil_soup_in_a_bowl.jpg"
+  },
+  "soupe-nouilles-poulet": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_with_Noodles_Soup_-_Noodles_Soup_2023-10-24.jpg"
+  },
+  "soupe-oignon": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Mmm...onion_soup_(5344349906).jpg"
+  },
+  "soupe-pois-casses": {
+    "author": "Mx. Granger",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Amy%27s_split_pea_soup.jpg"
+  },
+  "soupe-vermicelles": {
+    "author": "naotakem",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rice_sticks_with_kimchee_and_pork_with_vegetables_in_soup_%E8%B1%9A%E3%82%AD%E3%83%A0%E3%83%81%E9%87%8E%E8%8F%9C%E5%85%A5%E3%82%8A%E6%B1%81%E3%83%93%E3%83%BC%E3%83%95%E3%83%B3.jpg"
+  },
+  "spaghetti-bolognaise": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_Bolognese_-_Figaros,_Brighton_2023-10-06.jpg"
+  },
+  "spaghetti-carbonara": {
+    "author": "Javier Somoza",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Espaguetis_carbonara.jpg"
+  },
+  "spanakorizo": {
+    "author": "KaterinaStrak",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spanakorizo.jpg"
+  },
+  "surimi-salade-pates": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pasta_salad_with_spinach_and_garlic_bread.jpg"
+  },
+  "taboule-libanais": {
+    "author": "cyclonebill",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Tabbouleh.jpg"
+  },
+  "tacos-boeuf": {
+    "author": "Larry Miller",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:001_Tacos_de_carnitas,_carne_asada_y_al_pastor.jpg"
+  },
+  "tagliatelles-carbonara-crevettes": {
+    "author": "HarshLight",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Angel_Hair_Pasta.jpg"
+  },
+  "tagliatelles-saumon": {
+    "author": "FotoosVanRobin",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hot_Smoked_Salmon_with_black_Tagliatelle.jpg"
+  },
+  "tajine-agneau-pruneaux": {
+    "author": "LilKil",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tagine_d%27agneau.jpg"
+  },
+  "tajine-poulet-citron": {
+    "author": "Foodista",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Moroccan_food-Chicken_tagine_with_preserved_lemons_and_olives-01.jpg"
+  },
+  "tamago-don": {
+    "author": "sheepman",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tamagodon.jpg"
+  },
+  "tarte-pommes": {
+    "author": "W.carter",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Apple_cake_with_vanilla_ice_cream_2.jpg"
+  },
+  "tarte-tomate-moutarde": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Pr%C3%A9paration_d%27une_tarte_%C3%A0_la_tomate_(07)_-_r%C3%A9sultat_(gros_plan).jpg"
+  },
+  "tartiflette": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Une_tartiflette_sortie_du_four.jpg"
+  },
+  "tartiflette-poele-express": {
+    "author": "Benoît Prieur",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Une_tartiflette_sortie_du_four.jpg"
+  },
+  "tartine-avocat-oeuf": {
+    "author": "Sarah Stierch",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Avocado_toast_at_the_girl_%26_the_fig_-_Sarah_Stierch.jpg"
+  },
+  "tartines-cacahuete-banane": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Peanut_butter_and_banana_on_toasted_homemade_bread_-_Massachusetts.jpg"
+  },
+  "tiramisu": {
+    "author": "Anna.Massini",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Dolce_Tiramis%C3%B9_monoporzione.jpg"
+  },
+  "tofu-brocoli-riz": {
+    "author": "Miscellaneous contributor",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tofu_and_Broccoli_2.jpg"
+  },
+  "tomates-farcies": {
+    "author": "Mina Biennier",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tomates_farcies_maison_de_Mina_Biennier.jpg"
+  },
+  "tortilla-espagnole": {
+    "author": "Juan Emilio Prades Bel",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Tortilla_espa%C3%B1ola_con_patatas_y_cebolla.jpg"
+  },
+  "udon-sautes-tofu": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Black_pepper_tofu_fried_udon_-_Stir_Fry_by_CK.jpg"
+  },
+  "veloute-butternut": {
+    "author": "NickParry",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Butternut_squash_soup_with_cheese.jpg"
+  },
+  "veloute-champignons": {
+    "author": "Redeemer|Vodesnet",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cream_Mushroom_soup_2.jpg"
+  },
+  "veloute-poireaux": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Leek_%26_Potato_%2B_celeriac_soup.jpg"
+  },
+  "wok-poulet-nouilles": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Noodle_stir_fry_with_chicken,_shrimp,_and_broccoli_(18471621051).jpg"
+  },
+  "wraps-poulet": {
+    "author": "Takeaway",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Smoked_chicken_and_avocado_wrap.jpg"
+  },
+  "yakisoba-porc-chou": {
+    "author": "Andy Li",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_yakisoba_-_Korpan.jpg"
+  },
+  "yaourt-grec-miel-amandes": {
+    "author": "ProjectManhattan",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Greek_yoghurt_with_honey.jpg"
+  }
 }

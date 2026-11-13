@@ -99,22 +99,22 @@ describe("restes de paquets", () => {
 describe("notes des recettes", () => {
   const ctx3 = seedContext();
   const score = (ratings: Record<string, number>) =>
-    filterRecipes(prefs({ persons: 1, maxTotalMinutes: 300, seed: 5, ratings }), ctx3).candidates.find((c) => c.recipe.id === "khichdi")!.score;
+    filterRecipes(prefs({ persons: 1, maxTotalMinutes: 300, seed: 5, ratings }), ctx3).candidates.find((c) => c.recipe.id === "poulet-curry-coco")!.score;
 
   it("favorise une recette bien notée et écarte presque une recette mal notée", () => {
     const neutral = score({});
-    expect(score({ khichdi: 5 })).toBeGreaterThan(score({ khichdi: 4 }));
-    expect(score({ khichdi: 4 })).toBeGreaterThan(neutral);
-    expect(score({ khichdi: 3 })).toBe(neutral);
-    expect(score({ khichdi: 1 })).toBeLessThan(score({ khichdi: 2 }));
-    expect(score({ khichdi: 2 })).toBeLessThan(neutral);
+    expect(score({ "poulet-curry-coco": 5 })).toBeGreaterThan(score({ "poulet-curry-coco": 4 }));
+    expect(score({ "poulet-curry-coco": 4 })).toBeGreaterThan(neutral);
+    expect(score({ "poulet-curry-coco": 3 })).toBe(neutral);
+    expect(score({ "poulet-curry-coco": 1 })).toBeLessThan(score({ "poulet-curry-coco": 2 }));
+    expect(score({ "poulet-curry-coco": 2 })).toBeLessThan(neutral);
   });
 });
 
 describe("portions pour le lendemain midi", () => {
   it("augmente les quantités et répartit le coût par portion", () => {
     const ctx4 = seedContext();
-    const find = (lunchPortions: number) => filterRecipes(prefs({ persons: 1, lunchPortions, maxTotalMinutes: 300 }), ctx4).candidates.find((c) => c.recipe.id === "khichdi")!;
+    const find = (lunchPortions: number) => filterRecipes(prefs({ persons: 1, lunchPortions, maxTotalMinutes: 300 }), ctx4).candidates.find((c) => c.recipe.id === "poulet-curry-coco")!;
     expect(find(1).needs.get("riz-basmati")).toBeCloseTo(find(0).needs.get("riz-basmati")! * 2);
     expect(find(1).nutrition!.kcal).toBeCloseTo(find(0).nutrition!.kcal, -1); // même portion
   });

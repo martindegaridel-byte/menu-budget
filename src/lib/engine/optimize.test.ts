@@ -83,8 +83,8 @@ describe("optimizeMenu", () => {
   });
 
   it("privilégie les cuisines aimées", () => {
-    const res = optimizeMenu(prefs({ budgetCents: 4000, meals: 4, likedCuisines: ["indienne"] }), ctx);
-    expect(res.recipes.filter((r) => r.cuisine === "indienne").length).toBeGreaterThanOrEqual(2);
+    const res = optimizeMenu(prefs({ budgetCents: 4000, meals: 4, likedCuisines: ["mexicaine"] }), ctx);
+    expect(res.recipes.filter((r) => r.cuisine === "mexicaine").length).toBeGreaterThanOrEqual(2);
   });
 });
 
