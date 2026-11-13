@@ -1,12 +1,19 @@
 import { applyProfile, EMPTY_PROFILE, ProfileSchema, type Profile } from "@/lib/domain/profile";
 import type { Preferences } from "@/lib/domain/schemas";
+import { loadSeedData } from "@/lib/data/seed";
 import { prisma } from "./db";
+
+/** Ingrédients du catalogue : une exclusion d'un ingrédient retiré est ignorée (sinon l'enregistrement serait refusé). */
+let knownIds: Set<string> | null = null;
+const known = () => (knownIds ??= new Set(loadSeedData().ingredients.map((i) => i.id)));
 
 export async function getProfile(userId: string): Promise<Profile> {
   const u = await prisma.user.findUnique({ where: { id: userId }, select: { excludedIngredientsJson: true, allergensJson: true } });
   if (!u) return EMPTY_PROFILE;
   const parsed = ProfileSchema.safeParse({
-    excludedIngredientIds: JSON.parse(u.excludedIngredientsJson),
+    excludedIngredientIds: ((raw: unknown) => (Array.isArray(raw) ? raw.filter((id) => typeof id === "string" && known().has(id)) : raw))(
+      JSON.parse(u.excludedIngredientsJson),
+    ),
     allergens: JSON.parse(u.allergensJson),
   });
   return parsed.success ? parsed.data : EMPTY_PROFILE;

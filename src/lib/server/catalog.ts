@@ -147,8 +147,9 @@ export const prismaPriceProvider: PriceProvider = {
 };
 
 export async function getPantry(userId: string): Promise<PantryItem[]> {
-  const rows = await prisma.pantryItem.findMany({ where: { userId } });
-  return rows.map((r) =>
+  const [rows, { ingredientsById }] = await Promise.all([prisma.pantryItem.findMany({ where: { userId } }), getCatalog()]);
+  // Un ingrédient retiré du catalogue reste en base mais n'est plus montré (ni renvoyé, ce qui bloquerait l'enregistrement).
+  return rows.filter((r) => ingredientsById.has(r.ingredientId)).map((r) =>
     PantryItemSchema.parse({ ingredientId: r.ingredientId, quantity: r.quantity, expiresOn: r.expiresOn ?? undefined }),
   );
 }

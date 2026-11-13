@@ -576,18 +576,9 @@
    "name": "Beurre de cacahuète ou pâte d'arachide",
    "factor": 100
   },
-  "pate-curry": {
-   "code": null,
-   "reason": "absente de la table"
-  },
   "tofu-nature": {
    "code": "20904",
    "name": "Tofu nature, préemballé",
-   "factor": 100
-  },
-  "tofu-fume": {
-   "code": "20912",
-   "name": "Tofu fumé, préemballé",
    "factor": 100
   },
   "boisson-soja": {
@@ -595,17 +586,9 @@
    "name": "Boisson au soja, nature, non enrichie, préemballée",
    "factor": 100
   },
-  "creme-soja": {
-   "code": null,
-   "reason": "absente de la table"
-  },
   "margarine": {
    "code": null,
    "reason": "seule une matière grasse de friture est décrite"
-  },
-  "proteines-soja": {
-   "code": null,
-   "reason": "seule la forme réhydratée est décrite"
   },
   "baguette": {
    "code": "7001",
@@ -1041,11 +1024,6 @@
    "code": null,
    "reason": "seule la forme prête à l'emploi est décrite"
   },
-  "nuoc-mam": {
-   "code": "11194",
-   "name": "Sauce nuoc mâm ou sauce au poisson, préemballée",
-   "factor": 100
-  },
   "mascarpone": {
    "code": "19584",
    "name": "Mascarpone",
@@ -1083,11 +1061,6 @@
   "tagliatelles-fraiches": {
    "code": "9815",
    "name": "Pâtes fraîches, aux oeufs, crues",
-   "factor": 100
-  },
-  "fromage-vegetal": {
-   "code": "1029",
-   "name": "Spécialité végétale type fromage en tranche ou râpé, sans soja, préemballée",
    "factor": 100
   },
   "tagliatelles-oeufs": {
@@ -1201,14 +1174,6 @@
    "name": "Paprika, poudre",
    "factor": 100
   },
-  "garam-masala": {
-   "code": null,
-   "reason": "mélange d'épices absent"
-  },
-  "colombo": {
-   "code": null,
-   "reason": "mélange d'épices absent"
-  },
   "safran": {
    "code": "11039",
    "name": "Safran",
@@ -1229,25 +1194,6 @@
    "name": "Légumes pour potages, surgelés, crus",
    "factor": 100
   },
-  "puree-sesame": {
-   "code": "15203",
-   "name": "Tahin ou purée de sésame",
-   "factor": 100
-  },
-  "banane-plantain": {
-   "code": "53100",
-   "name": "Banane plantain, crue",
-   "factor": 100
-  },
-  "feuilles-brick": {
-   "code": "51550",
-   "name": "Feuille de brick ou khatfa, préemballée",
-   "factor": 18
-  },
-  "citronnelle": {
-   "code": null,
-   "reason": "absente de la table"
-  },
   "gaspacho": {
    "code": "25967",
    "name": "Soupe froide type gaspacho ou gazpacho, préemballée",
@@ -1261,11 +1207,6 @@
   "chair-a-saucisse": {
    "code": "30050",
    "name": "Chair à saucisse crue",
-   "factor": 100
-  },
-  "sauce-nems": {
-   "code": "11217",
-   "name": "Sauce pour nems à base de nuoc-mam dilué, préemballée",
    "factor": 100
   },
   "myrtilles": {

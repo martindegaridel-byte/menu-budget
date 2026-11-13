@@ -113,8 +113,8 @@ describe("règles d'association", () => {
 
   it("reconnaissent les nouveaux ingrédients", () => {
     const named = (product_name: string) => ({ id: 1, type: "PRODUCT", product_code: "1", product_name, category_tag: null, price: 1, price_is_discounted: false, price_per: null, currency: "EUR", date: "2026-10-01" }) as OpenPrice;
-    expect(candidateIngredients(named("Tahini crème de sésame"))).toContain("puree-sesame");
-    expect(candidateIngredients(named("Banane plantain"))).toContain("banane-plantain");
-    expect(candidateIngredients(named("Feuilles de brick x10"))).toContain("feuilles-brick");
+    expect(candidateIngredients(named("Gaspacho andalou"))).toContain("gaspacho");
+    expect(candidateIngredients(named("Chair à saucisse pur porc"))).toContain("chair-a-saucisse");
+    expect(candidateIngredients(named("Myrtilles barquette 125 g"))).toContain("myrtilles");
   });
 });

@@ -89,7 +89,7 @@ export function sessionMinutesFor(recipes: readonly Pick<Recipe, "prepMinutes" |
 }
 
 /** Aromates, condiments et agrumes : ne comptent pas comme portion de légumes. */
-const NOT_VEGETABLES = new Set(["ail", "gingembre", "citron", "citron-vert", "persil", "coriandre", "basilic", "ciboulette", "menthe", "estragon", "aneth", "piment-frais", "citronnelle", "oignon-nouveau"]);
+const NOT_VEGETABLES = new Set(["ail", "gingembre", "citron", "citron-vert", "persil", "coriandre", "basilic", "ciboulette", "menthe", "estragon", "aneth", "piment-frais", "oignon-nouveau"]);
 const VEG_EXTRA = new Set([
   "petits-pois-surgeles", "haricots-verts-surgeles", "epinards-surgeles", "legumes-wok", "ratatouille-surgelee", "brocoli-surgele", "choux-bruxelles-surgeles",
   "petits-pois-carottes-surgeles", "legumes-potage-surgeles", "tomates-concassees", "mais-conserve", "petits-pois-conserve", "champignons-conserve", "ananas-conserve", "gaspacho",

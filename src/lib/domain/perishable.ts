@@ -4,7 +4,7 @@ import type { Aisle, Ingredient } from "./schemas";
 const FRESH_AISLES: ReadonlySet<Aisle> = new Set(["fruits-legumes", "boucherie", "charcuterie", "poissonnerie", "cremerie", "vegetal", "boulangerie"]);
 
 /** Produits de ces rayons qui se conservent longtemps malgré tout. */
-const LONG_LIFE = new Set(["proteines-soja"]);
+const LONG_LIFE: ReadonlySet<string> = new Set<string>([]);
 
 /**
  * Faut-il proposer une date de péremption pour cet ingrédient ?

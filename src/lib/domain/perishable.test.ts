@@ -7,7 +7,7 @@ const p = (id: string) => isPerishable(byId.get(id)!);
 
 describe("isPerishable", () => {
   it("pas de date de péremption pour l'épicerie sèche, les conserves, les épices, les surgelés", () => {
-    for (const id of ["spaghetti", "riz-long", "lentilles-vertes", "tomates-concassees", "sel", "cumin", "petits-pois-surgeles", "proteines-soja"]) {
+    for (const id of ["spaghetti", "riz-long", "lentilles-vertes", "tomates-concassees", "sel", "cumin", "petits-pois-surgeles"]) {
       expect(p(id), id).toBe(false);
     }
   });

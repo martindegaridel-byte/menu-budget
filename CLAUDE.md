@@ -95,7 +95,7 @@ utilisateur.
 - Préférences « plats simples et classiques » (`classics` : off / prefer / only, étiquette
   `classique`) et plafond d'ingrédients par recette (`maxIngredients`, condiments et
   facultatifs exclus) : appliqués dans `filterRecipes` et `scoreRecipe`.
-- `data/` — seed JSON (278 ingrédients, 272 recettes dont desserts et petits-déjeuners
+- `data/` — seed JSON (265 ingrédients, 272 recettes dont desserts et petits-déjeuners
   repérés par l'étiquette `dessert` / `petit-dejeuner`, magasins), photos des plats dans
   `public/photos/` (crédits dans `data/recipe-photos.json`), nutrition des ingrédients
   d'après Ciqual 2025 (Anses) : correspondances dans `data/ciqual-map.json`, valeurs dans
