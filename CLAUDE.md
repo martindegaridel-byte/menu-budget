@@ -83,7 +83,7 @@ utilisateur.
   profil d'exclusions, contexte moteur.
 - `src/lib/client/` — appels API (`api.ts`), état persistant (`storage.ts`), helpers
   de liste de courses.
-- `data/` — seed JSON (278 ingrédients, 313 recettes dont desserts et petits-déjeuners
+- `data/` — seed JSON (278 ingrédients, 339 recettes dont desserts et petits-déjeuners
   repérés par l'étiquette `dessert` / `petit-dejeuner`, magasins), photos des plats dans
   `public/photos/` (crédits dans `data/recipe-photos.json`) ; `prisma/` — schéma,
   migrations, seed ; `docs/` — choix techniques.

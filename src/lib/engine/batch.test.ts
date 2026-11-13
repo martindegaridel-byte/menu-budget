@@ -104,11 +104,11 @@ describe("semaine en batch cooking : une session pour tout", () => {
     };
     let batch = 0;
     let normal = 0;
-    for (const seed of [1, 2, 3, 4, 5, 6]) {
+    for (const seed of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
       const base = { budgetCents: 3500, meals: 7, persons: 1, maxTotalMinutes: 90, seed };
       batch += shared(optimizeMenu(prefs({ ...base, batchCooking: true }), ctx).recipes.map((r) => r.recipeId));
       normal += shared(optimizeMenu(prefs(base), ctx).recipes.map((r) => r.recipeId));
     }
     expect(batch).toBeGreaterThanOrEqual(normal);
-  }, 30_000);
+  }, 60_000);
 });
