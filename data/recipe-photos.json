@@ -169,6 +169,11 @@
     "license": "Public domain",
     "page": "https://commons.wikimedia.org/wiki/File:Choc-Chip-Cookie.jpg"
   },
+  "coquillettes-jambon-fromage": {
+    "author": "Peachyeung316",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:A_Baked_Pasta_with_Double_Cheese_and_Ham.jpg"
+  },
   "courgettes-farcies": {
     "author": "Justwiki",
     "license": "CC BY 4.0",
@@ -784,6 +789,11 @@
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Friday_dinner_-_Curry_chicken_with_bell_peppers_and_rice_-_01.jpg"
   },
+  "poulet-creme-champignons-riz": {
+    "author": "Kritzolina",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Food_at_the_Restaurante_Associa%C3%A7%C3%A3o_Agr%C3%ADcola_de_S%C3%A3o_Miguel_01.jpg"
+  },
   "poulet-curry-coco": {
     "author": "Gaurav Dhwaj Khadka",
     "license": "CC BY-SA 4.0",
@@ -793,6 +803,11 @@
     "author": "YoAmes",
     "license": "CC BY-SA 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Poulet_Gaston_G%C3%A9rard.jpg"
+  },
+  "poulet-pane-riz": {
+    "author": "Eugene Alvin Villar (seav)",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_schnitzel_from_Brotzeit.jpg"
   },
   "poulet-roti-frites": {
     "author": "Andy Li",
@@ -969,6 +984,11 @@
     "license": "CC0",
     "page": "https://commons.wikimedia.org/wiki/File:Salad_of_boiled_eggs,_potatoes,_and_peas,_served_cold_with_tomatoes,_vinegar_carrot,_olive_oil,_black_pepper,_and_garlic_sea_salt_-_Massachusetts.jpg"
   },
+  "salade-piemontaise": {
+    "author": "Eugene Kim",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Olivier_salad.jpg"
+  },
   "salade-quinoa-feta": {
     "author": "Simmer + Sauce",
     "license": "CC BY 3.0",
@@ -988,6 +1008,11 @@
     "author": "Al4az",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Jambon_beurre_classique.jpg"
+  },
+  "saucisses-coquillettes": {
+    "author": "Robert Loescher",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Grilled_Italian_Sausage_with_noodles.jpg"
   },
   "saucisses-lentilles": {
     "author": "Randalfino",
@@ -1073,6 +1098,11 @@
     "author": "cyclonebill from Copenhagen, Denmark",
     "license": "CC BY-SA 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Hakkeb%C3%B8f_med_kartoffelmos_og_salat_(4266858524).jpg"
+  },
+  "steak-hache-riz-haricots": {
+    "author": "David Pursehouse from Kawasaki, Japan",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Asakusa_curry_with_hamburger.jpg"
   },
   "surimi-salade-pates": {
     "author": "jeffreyw",
@@ -1193,6 +1223,11 @@
     "author": "Takeaway",
     "license": "CC BY-SA 3.0",
     "page": "https://commons.wikimedia.org/wiki/File:Smoked_chicken_and_avocado_wrap.jpg"
+  },
+  "wraps-thon-mais": {
+    "author": "Karen and Brad Emerson",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Cheddar_chard_chowder_w_tuna_wraps_and_curried_apple_quninoa_salad_(4451364396).jpg"
   },
   "yakisoba-porc-chou": {
     "author": "Andy Li",
