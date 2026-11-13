@@ -14,6 +14,8 @@ export type RejectionReason =
   | "temps"
   | "difficulte"
   | "equipement"
+  | "ingredients"
+  | "classique"
   | "indisponible";
 
 export const REJECTION_LABELS: Record<RejectionReason, string> = {
@@ -23,6 +25,8 @@ export const REJECTION_LABELS: Record<RejectionReason, string> = {
   temps: "temps de préparation",
   difficulte: "niveau de cuisine",
   equipement: "équipement",
+  ingredients: "nombre d'ingrédients",
+  classique: "plats simples et classiques",
   indisponible: "ingrédient indisponible en magasin",
 };
 
@@ -150,6 +154,14 @@ function ingredientViolation(ingredientId: string, prefs: Constraints, ctx: Engi
   return null;
 }
 
+/** Recette « classique » : un plat que tout le monde connaît (étiquette `classique`). */
+export const isClassic = (recipe: Pick<Recipe, "tags">): boolean => recipe.tags.includes("classique");
+
+/** Ingrédients à acheter pour une recette : distincts, hors condiments de base et hors facultatifs. */
+export function countShoppingIngredients(recipe: Pick<Recipe, "ingredients">, ctx: Pick<EngineContext, "ingredients">): number {
+  return new Set(recipe.ingredients.filter((l) => !l.optional && !ctx.ingredients.get(l.ingredientId)?.staple).map((l) => l.ingredientId)).size;
+}
+
 /** Type de plat : dîner (par défaut), dessert ou petit-déjeuner (étiquette de la recette). */
 export type Course = "plat" | "dessert" | "petit-dejeuner";
 export function courseOf(recipe: Pick<Recipe, "tags">): Course {
@@ -176,6 +188,8 @@ export function filterRecipes(prefs: Preferences, ctx: EngineContext, course: Co
     if (recipe.prepMinutes + recipe.cookMinutes > maxMinutes) reasons.add("temps");
     if (recipe.difficulty > prefs.maxDifficulty) reasons.add("difficulte");
     if (!recipe.equipment.every((e) => prefs.equipment.includes(e))) reasons.add("equipement");
+    if (countShoppingIngredients(recipe, ctx) > prefs.maxIngredients) reasons.add("ingredients");
+    if (prefs.classics === "only" && !isClassic(recipe)) reasons.add("classique");
 
     const needs: Needs = new Map();
     const optionalNeeds: Needs = new Map();
@@ -243,6 +257,8 @@ export const SEASON_BONUS = 1;
 export const OUT_OF_SEASON_PENALTY = 1.5;
 /** Amplitude du bruit (graine) ajouté au score : assez pour varier, moins qu'un goût déclaré. */
 export const SCORE_NOISE = 5;
+/** Bonus d'un plat classique quand l'option « privilégier les classiques » est active (« seulement » ne trie plus, il filtre). */
+export const CLASSIC_BONUS = 6;
 /** Pénalité d'historique : dernier menu, avant-dernier, celui d'avant. */
 export const HISTORY_PENALTIES = [8, 5, 2] as const;
 
@@ -265,11 +281,12 @@ export function scoreRecipe(
   recipe: Recipe,
   needs: Needs,
   prefs: Pick<Preferences, "likedCuisines" | "favoriteIngredientIds" | "diet" | "seed"> &
-    Partial<Pick<Preferences, "recentRecipeIds" | "meals" | "ratings">>,
+    Partial<Pick<Preferences, "recentRecipeIds" | "meals" | "ratings" | "classics">>,
   ctx: EngineContext,
 ): number {
   let score = 10;
   if (prefs.likedCuisines.includes(recipe.cuisine)) score += 4;
+  if (prefs.classics && prefs.classics !== "off" && isClassic(recipe)) score += CLASSIC_BONUS;
   const favs = [...needs.keys()].filter((id) => prefs.favoriteIngredientIds.includes(id)).length;
   score += Math.min(6, favs * 3);
   if (prefs.diet === "flexitarien" && [...needs.keys()].some((id) => ctx.ingredients.get(id)?.animal === "viande")) {

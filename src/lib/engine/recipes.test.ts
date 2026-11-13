@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { computeRecipeCost, filterRecipes } from "./recipes";
+import { optimizeMenu } from "./optimize";
+import { CLASSIC_BONUS, computeRecipeCost, countShoppingIngredients, filterRecipes } from "./recipes";
 import { prefs, seedContext } from "./test-fixtures";
 
 const ctx = seedContext();
@@ -128,5 +129,43 @@ describe("saison des fruits et légumes", () => {
     };
     expect(at("2026-11-15").seasonal).toBe(true);
     expect(at("2026-11-15").score).toBeGreaterThan(at("2026-07-15").score);
+  });
+});
+
+describe("plats simples et classiques, nombre d'ingrédients", () => {
+  const ctx5 = seedContext();
+  const pick = (p: Parameters<typeof prefs>[0]) => filterRecipes(prefs({ maxTotalMinutes: 300, ...p }), ctx5).candidates.map((c) => c.recipe);
+
+  it("« seulement » ne garde que les classiques, et il y en a assez pour un menu", () => {
+    const only = pick({ classics: "only" });
+    expect(only.length).toBeGreaterThanOrEqual(30);
+    expect(only.every((r) => r.tags.includes("classique"))).toBe(true);
+  });
+
+  it("« tous » n'écarte rien, « privilégier » ne fait que relever le score des classiques", () => {
+    const off = filterRecipes(prefs({ maxTotalMinutes: 300, classics: "off" }), ctx5).candidates;
+    const prefer = filterRecipes(prefs({ maxTotalMinutes: 300, classics: "prefer" }), ctx5).candidates;
+    expect(prefer.map((c) => c.recipe.id)).toEqual(off.map((c) => c.recipe.id));
+    for (const c of prefer) {
+      const base = off.find((o) => o.recipe.id === c.recipe.id)!.score;
+      expect(c.score - base).toBeCloseTo(c.recipe.tags.includes("classique") ? CLASSIC_BONUS : 0);
+    }
+  });
+
+  it("le plafond d'ingrédients écarte les recettes qui en demandent plus (condiments et facultatifs exclus)", () => {
+    const few = pick({ maxIngredients: 5 });
+    expect(few.length).toBeGreaterThan(40);
+    for (const r of few) expect(countShoppingIngredients(r, ctx5)).toBeLessThanOrEqual(5);
+    const rejected = filterRecipes(prefs({ maxTotalMinutes: 300, maxIngredients: 5 }), ctx5).rejected;
+    expect(rejected.some((x) => x.reasons.includes("ingredients"))).toBe(true);
+    expect(pick({ maxIngredients: 20 }).length).toBeGreaterThan(few.length);
+  });
+
+  it("un menu complet reste possible avec « seulement » et 6 ingrédients max, budget respecté", () => {
+    const p = prefs({ budgetCents: 3500, meals: 7, persons: 1, maxTotalMinutes: 60, classics: "only", maxIngredients: 6 });
+    const res = optimizeMenu(p, ctx5);
+    expect(res.status).toBe("ok");
+    expect(res.totalCents).toBeLessThanOrEqual(3500);
+    expect(res.recipes.length).toBe(7);
   });
 });

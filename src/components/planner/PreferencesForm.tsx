@@ -7,7 +7,7 @@ import { cn, ICON_STROKE } from "@/components/ds/cn";
 import { Chips, IngredientPicker, Stepper } from "@/components/ui";
 import type { IngredientOption } from "@/lib/client/catalog-types";
 import type { Profile } from "@/lib/domain/profile";
-import { CUISINES, DIETS, EQUIPMENT, NUTRITION_GOALS, type Cuisine, type Diet, type Difficulty, type Equipment, type NutritionGoal, type Preferences, type Store } from "@/lib/domain/schemas";
+import { CUISINES, DIETS, EQUIPMENT, NUTRITION_GOALS, type Classics, type Cuisine, type Diet, type Difficulty, type Equipment, type NutritionGoal, type Preferences, type Store } from "@/lib/domain/schemas";
 import { divideCeil, eurosToCents, formatEuros } from "@/lib/engine/money";
 
 const entries = <K extends string>(o: Record<K, string>) => Object.entries(o) as [K, string][];
@@ -26,6 +26,16 @@ const LEVELS: { value: `${Difficulty}`; label: string }[] = [
   { value: "3", label: "Confirmé" },
 ];
 const TIMES = [15, 20, 30, 45, 60, 90, 300] as const;
+const CLASSICS: { value: Classics; label: string }[] = [
+  { value: "off", label: "Tous" },
+  { value: "prefer", label: "Privilégier" },
+  { value: "only", label: "Seulement" },
+];
+const INGREDIENT_LIMITS: { value: string; label: string }[] = [
+  { value: "6", label: "6 max" },
+  { value: "8", label: "8 max" },
+  { value: "20", label: "Sans limite" },
+];
 
 /**
  * Repères indicatifs par repas et par personne, d'après les prix estimés du magasin
@@ -399,7 +409,7 @@ export function PreferencesForm({
         step={3}
         icon={ChefHat}
         title="Temps, niveau, équipement et goûts"
-        summary={`${timeLabel}${prefs.batchCooking ? " · batch cooking" : ""} · ${LEVELS[prefs.maxDifficulty - 1]!.label} · ${prefs.equipment.length} équipement${prefs.equipment.length > 1 ? "s" : ""}`}
+        summary={`${timeLabel}${prefs.batchCooking ? " · batch cooking" : ""}${prefs.classics === "only" ? " · classiques" : ""}${prefs.maxIngredients < 20 ? ` · ${prefs.maxIngredients} ingrédients max` : ""} · ${LEVELS[prefs.maxDifficulty - 1]!.label} · ${prefs.equipment.length} équipement${prefs.equipment.length > 1 ? "s" : ""}`}
       >
         <div className="space-y-5">
           <Field label="Temps total maximum par plat" htmlFor={timeId} icon={Clock}>
@@ -430,6 +440,16 @@ export function PreferencesForm({
           <div>
             <p className="mb-2 text-caption font-medium text-muted">Niveau en cuisine</p>
             <Segmented label="Niveau en cuisine" value={`${prefs.maxDifficulty}`} onChange={(v) => set("maxDifficulty", Number(v) as Difficulty)} options={LEVELS} />
+          </div>
+          <div>
+            <p className="mb-1 text-caption font-medium text-muted">Plats simples et classiques</p>
+            <p className="mb-2 text-caption text-subtle">Pâtes bolognaise, steak-purée, omelette, croque-monsieur… les plats que tout le monde connaît.</p>
+            <Segmented label="Plats simples et classiques" value={prefs.classics} onChange={(v) => set("classics", v as Classics)} options={CLASSICS} />
+          </div>
+          <div>
+            <p className="mb-1 text-caption font-medium text-muted">Ingrédients par recette</p>
+            <p className="mb-2 text-caption text-subtle">Hors sel, poivre, huile et autres condiments de base.</p>
+            <Segmented label="Nombre d'ingrédients par recette" value={`${prefs.maxIngredients <= 6 ? 6 : prefs.maxIngredients <= 8 ? 8 : 20}`} onChange={(v) => set("maxIngredients", Number(v))} options={INGREDIENT_LIMITS} />
           </div>
           <Chips label="Équipement disponible" options={entries(EQUIPMENT)} selected={prefs.equipment} onToggle={(e: Equipment) => set("equipment", toggle(prefs.equipment, e))} />
           <Chips label="Cuisines préférées" options={entries(CUISINES)} selected={prefs.likedCuisines} onToggle={(c: Cuisine) => set("likedCuisines", toggle(prefs.likedCuisines, c))} />

@@ -242,6 +242,9 @@ export type PantryItem = z.infer<typeof PantryItemSchema>;
 /* Préférences utilisateur                                            */
 /* ------------------------------------------------------------------ */
 
+export const ClassicsSchema = z.enum(["off", "prefer", "only"]);
+export type Classics = z.infer<typeof ClassicsSchema>;
+
 export const PreferencesSchema = z.object({
   /** Budget total pour la période, en centimes. */
   budgetCents: cents.max(1_000_000),
@@ -253,6 +256,10 @@ export const PreferencesSchema = z.object({
   excludedIngredientIds: z.array(id).default([]),
   maxTotalMinutes: z.number().int().min(5).max(300).default(60),
   maxDifficulty: DifficultySchema.default(3),
+  /** Plats simples et classiques : « off » = aucun effet, « prefer » = favorisés, « only » = uniquement ceux-là. */
+  classics: ClassicsSchema.default("prefer"),
+  /** Nombre maximal d'ingrédients à acheter par recette (condiments et facultatifs exclus) ; 20 = sans limite. */
+  maxIngredients: z.number().int().min(2).max(20).default(20),
   equipment: z.array(EquipmentSchema).default(["plaques", "four", "micro-ondes", "mixeur"]),
   likedCuisines: z.array(CuisineSchema).default([]),
   favoriteIngredientIds: z.array(id).default([]),
