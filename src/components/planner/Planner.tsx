@@ -530,7 +530,7 @@ export function Planner({
                     </div>
                   </div>
                 ) : tab === "semaine" ? (
-                  <WeekPlanner result={result} menuKey={menuKey} />
+                  <WeekPlanner result={result} menuKey={menuKey} recipes={recipeMap} />
                 ) : (
                   <div className="space-y-3">
                     <ShoppingListView

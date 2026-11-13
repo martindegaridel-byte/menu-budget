@@ -76,13 +76,24 @@ utilisateur.
 - `src/lib/pricing/` — `PriceProvider`, résolution des prix par magasin, import CSV,
   import Open Prices (`openprices.ts`, règles dans `openprices-rules.ts`). Un
   ingrédient avec des prix `openprices` n'utilise plus les estimations ; les relevés
-  > 1,5 × l'estimation sont ignorés.
+  > 1,5 × l'estimation sont ignorés. `data/store-prices.json` (généré par
+  `scripts/build-store-prices.ts`, cache disque via `PRICE_CACHE_DIR`) regroupe les relevés
+  par cercles de proximité (Intermarché Isère → région → France, puis Super U, puis grandes
+  surfaces) ; `scaleToObserved` recale les formats habituels, et `indexUnobserved` recale
+  les ingrédients sans relevé sur le niveau de leur rayon : aucun ingrédient n'est laissé
+  à l'estimation brute. Le rapprochement produit/ingrédient (`scripts/price-match.ts`) gère
+  pluriels, « œ » et appellations de rayon.
 - `src/lib/llm/` — `RecipeGenerator` + implémentation Anthropic (`claude-opus-5-5`),
   désactivé sauf `RECIPE_GENERATOR_ENABLED=true`.
 - `src/lib/server/` — Prisma, utilisateur anonyme (cookie posé par `src/middleware.ts`),
   profil d'exclusions, contexte moteur.
 - `src/lib/client/` — appels API (`api.ts`), état persistant (`storage.ts`), helpers
   de liste de courses.
+  Planning de la semaine : `planning.ts` (jours, export .ics) et `weekPlan.ts` (soir cuisiné
+  frais / pendant la session de batch / réchauffé / congelé, alerte de conservation).
+- Préférences « plats simples et classiques » (`classics` : off / prefer / only, étiquette
+  `classique`) et plafond d'ingrédients par recette (`maxIngredients`, condiments et
+  facultatifs exclus) : appliqués dans `filterRecipes` et `scoreRecipe`.
 - `data/` — seed JSON (278 ingrédients, 272 recettes dont desserts et petits-déjeuners
   repérés par l'étiquette `dessert` / `petit-dejeuner`, magasins), photos des plats dans
   `public/photos/` (crédits dans `data/recipe-photos.json`) ; `prisma/` — schéma,
