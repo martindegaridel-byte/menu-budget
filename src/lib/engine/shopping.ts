@@ -59,7 +59,7 @@ export function buildShoppingList(needs: Needs, ctx: EngineContext, cache?: Cove
       picks = c.counts
         .map((count, i) => ({ count, pkg: usable[i]! }))
         .filter(({ count }) => count > 0)
-        .map(({ count, pkg }) => ({ packageId: pkg.id, label: pkg.label, count, unitPriceCents: pkg.priceCents }));
+        .map(({ count, pkg }) => ({ packageId: pkg.id, label: pkg.label, quantity: pkg.quantity, count, unitPriceCents: pkg.priceCents }));
       costCents = c.costCents;
       purchased = c.quantity;
       used = Math.ceil(toBuy * (bestUnitPrice(usable) ?? 0));

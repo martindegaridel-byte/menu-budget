@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { useToast } from "@/components/ds";
 import { ICON_STROKE } from "@/components/ds/cn";
 import { Button, Card, Notice, cx } from "@/components/ui";
+import { PaidPrice } from "./PaidPrice";
 import { StoreMode } from "./StoreMode";
 import { describePicks, groupByAisle, shoppingListText } from "@/lib/client/shopping";
 import { usePersistentState } from "@/lib/client/storage";
@@ -16,15 +17,20 @@ export function ShoppingListView({
   meals,
   persons,
   storeName,
+  storeId,
   menuKey,
   onShoppingDone,
+  onPriceSaved,
 }: {
   list: ShoppingList;
   meals: number;
   persons: number;
   storeName?: string;
+  /** Magasin du menu : permet de saisir le prix payé d'un article. */
+  storeId?: string;
   menuKey: string;
   onShoppingDone: () => Promise<void>;
+  onPriceSaved?: () => void;
 }) {
   const [checkedByMenu, setCheckedByMenu] = usePersistentState<Record<string, string[]>>("mb:checked", {});
   const checked = new Set(checkedByMenu[menuKey] ?? []);
@@ -108,8 +114,8 @@ export function ShoppingListView({
             {g.lines.map((l) => {
               const on = checked.has(l.ingredientId);
               return (
-                <li key={l.ingredientId}>
-                  <label className="flex min-h-12 cursor-pointer items-start gap-3 py-2">
+                <li key={l.ingredientId} className="flex flex-wrap items-start gap-x-1">
+                  <label className="flex min-h-12 min-w-0 flex-1 cursor-pointer items-start gap-3 py-2">
                     <input type="checkbox" checked={on} onChange={() => toggle(l.ingredientId)} className="peer sr-only" />
                     <span
                       aria-hidden
@@ -127,6 +133,7 @@ export function ShoppingListView({
                     </span>
                     <span className="whitespace-nowrap font-numeric font-medium tabular-nums">{formatEuros(l.costCents)}</span>
                   </label>
+                  {storeId && <PaidPrice line={l} storeId={storeId} storeName={storeName} onSaved={onPriceSaved} />}
                 </li>
               );
             })}
@@ -153,7 +160,7 @@ export function ShoppingListView({
       <Card className="space-y-3">
         <h3 className="text-title-3 font-semibold">Après les courses</h3>
         <p className="text-body-sm text-muted">
-          Ajoutez vos achats au placard. Ensuite, touchez « Cuisiné » sur chaque plat : ses ingrédients sont retirés automatiquement.
+          Touchez l&apos;étiquette d&apos;un article pour noter le prix payé : il remplace l&apos;estimation pour ce magasin. Ajoutez ensuite vos achats au placard. Ensuite, touchez « Cuisiné » sur chaque plat : ses ingrédients sont retirés automatiquement.
         </p>
         {confirm ? (
           <div className="flex flex-wrap gap-2">

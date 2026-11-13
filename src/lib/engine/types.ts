@@ -21,6 +21,8 @@ export type Needs = Map<string, number>;
 export interface PackagePick {
   packageId: string;
   label: string;
+  /** Contenance du conditionnement, en unité de base (facultative dans les anciens menus enregistrés). */
+  quantity?: number;
   count: number;
   unitPriceCents: Cents;
 }

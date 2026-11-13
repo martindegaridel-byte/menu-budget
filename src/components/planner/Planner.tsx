@@ -538,6 +538,8 @@ export function Planner({
                       meals={result.recipes.length}
                       persons={result.persons}
                       storeName={storeName}
+                      storeId={prefs.storeId}
+                      onPriceSaved={() => liveAdjust(prefs)}
                       menuKey={menuKey}
                       onShoppingDone={shoppingDone}
                     />
