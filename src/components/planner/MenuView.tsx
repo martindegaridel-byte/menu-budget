@@ -73,7 +73,7 @@ export function MenuSummary({
       )}
       {result.nutritionPerMeal && (
         <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
-          <p className="mb-1.5 text-caption text-muted">En moyenne, par repas et par personne (estimation)</p>
+          <p className="mb-1.5 text-caption text-muted">En moyenne, par repas et par personne (estimation, table Ciqual de l&apos;Anses)</p>
           <MacroBar n={result.nutritionPerMeal} />
         </div>
       )}

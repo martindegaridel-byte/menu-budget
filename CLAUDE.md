@@ -96,7 +96,9 @@ utilisateur.
   facultatifs exclus) : appliqués dans `filterRecipes` et `scoreRecipe`.
 - `data/` — seed JSON (278 ingrédients, 272 recettes dont desserts et petits-déjeuners
   repérés par l'étiquette `dessert` / `petit-dejeuner`, magasins), photos des plats dans
-  `public/photos/` (crédits dans `data/recipe-photos.json`) ; `prisma/` — schéma,
+  `public/photos/` (crédits dans `data/recipe-photos.json`), nutrition des ingrédients
+  d'après Ciqual 2025 (Anses) : correspondances dans `data/ciqual-map.json`, valeurs dans
+  `data/ciqual-extract.json`, vérifiées par `src/lib/data/ciqual.test.ts` ; `prisma/` — schéma,
   migrations, seed ; `docs/` — choix techniques.
 
 ## Conventions

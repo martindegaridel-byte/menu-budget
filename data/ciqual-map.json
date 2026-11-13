@@ -1,0 +1,1377 @@
+{
+ "source": "Table de composition nutritionnelle des aliments Ciqual 2025 (Anses), version du 03/11/2025, Licence Ouverte Etalab",
+ "unit": "facteur = grammes représentés par 100 g, 100 ml (densité) ou une pièce de l'ingrédient",
+ "ingredients": {
+  "oignon-jaune": {
+   "code": "20239",
+   "name": "Oignon jaune, cru",
+   "factor": 100
+  },
+  "oignon-rouge": {
+   "code": "20238",
+   "name": "Oignon rouge, cru",
+   "factor": 100
+  },
+  "ail": {
+   "code": "11000",
+   "name": "Ail, cru",
+   "factor": 100
+  },
+  "echalote": {
+   "code": "20097",
+   "name": "Échalote, crue",
+   "factor": 100
+  },
+  "carotte": {
+   "code": "20009",
+   "name": "Carotte, crue",
+   "factor": 100
+  },
+  "pomme-de-terre": {
+   "code": "4008",
+   "name": "Pomme de terre, sans peau, crue",
+   "factor": 100
+  },
+  "patate-douce": {
+   "code": "4101",
+   "name": "Patate douce, crue",
+   "factor": 100
+  },
+  "courgette": {
+   "code": "20020",
+   "name": "Courgette, chair et peau, crue",
+   "factor": 100
+  },
+  "aubergine": {
+   "code": "20053",
+   "name": "Aubergine, crue",
+   "factor": 100
+  },
+  "poivron": {
+   "code": "20087",
+   "name": "Poivron rouge, cru",
+   "factor": 100
+  },
+  "tomate": {
+   "code": "20276",
+   "name": "Tomate ronde, crue",
+   "factor": 100
+  },
+  "tomate-cerise": {
+   "code": "20172",
+   "name": "Tomate cerise, crue",
+   "factor": 100
+  },
+  "concombre": {
+   "code": "20019",
+   "name": "Concombre, chair et peau, cru",
+   "factor": 100
+  },
+  "salade-laitue": {
+   "code": "20031",
+   "name": "Laitue, crue",
+   "factor": 100
+  },
+  "pousses-epinard": {
+   "code": "20270",
+   "name": "Épinard, jeunes pousses pour salades, cru",
+   "factor": 100
+  },
+  "brocoli": {
+   "code": "20057",
+   "name": "Brocoli, cru",
+   "factor": 100
+  },
+  "chou-fleur": {
+   "code": "20016",
+   "name": "Chou-fleur, cru",
+   "factor": 100
+  },
+  "chou-rouge": {
+   "code": "20014",
+   "name": "Chou rouge, cru",
+   "factor": 100
+  },
+  "poireau": {
+   "code": "20039",
+   "name": "Poireau, cru",
+   "factor": 100
+  },
+  "champignon-paris": {
+   "code": "20056",
+   "name": "Champignon de Paris ou champignon de couche, cru",
+   "factor": 100
+  },
+  "citron": {
+   "code": "13009",
+   "name": "Citron, chair sans peau, sans pépins, cru",
+   "factor": 100
+  },
+  "citron-vert": {
+   "code": "13067",
+   "name": "Citron vert ou lime, chair sans peau, sans pépins, cru",
+   "factor": 100
+  },
+  "pomme": {
+   "code": "13039",
+   "name": "Pomme, chair et peau, crue",
+   "factor": 100
+  },
+  "avocat": {
+   "code": "13004",
+   "name": "Avocat, chair sans peau, sans noyau, cru",
+   "factor": 100
+  },
+  "gingembre": {
+   "code": "11074",
+   "name": "Gingembre, racine fraîche",
+   "factor": 100
+  },
+  "persil": {
+   "code": "11014",
+   "name": "Persil, frais",
+   "factor": 100
+  },
+  "coriandre": {
+   "code": "11094",
+   "name": "Coriandre, fraiche",
+   "factor": 100
+  },
+  "basilic": {
+   "code": "11033",
+   "name": "Basilic, frais",
+   "factor": 100
+  },
+  "ciboulette": {
+   "code": "11003",
+   "name": "Ciboule ou ciboulette, fraîche",
+   "factor": 100
+  },
+  "menthe": {
+   "code": "11027",
+   "name": "Menthe, fraîche",
+   "factor": 100
+  },
+  "butternut": {
+   "code": "20138",
+   "name": "Courge butternut (doubeurre), chair sans peau, crue",
+   "factor": 100
+  },
+  "navet": {
+   "code": "20064",
+   "name": "Navet, pelé, cru",
+   "factor": 100
+  },
+  "betterave-cuite": {
+   "code": "20003",
+   "name": "Betterave rouge, cuite",
+   "factor": 100
+  },
+  "celeri-branche": {
+   "code": "20023",
+   "name": "Céleri branche, cru",
+   "factor": 100
+  },
+  "radis": {
+   "code": "20045",
+   "name": "Radis rouge, cru",
+   "factor": 100
+  },
+  "banane": {
+   "code": "13005",
+   "name": "Banane, chair sans peau, crue",
+   "factor": 100
+  },
+  "oignon-nouveau": {
+   "code": "20323",
+   "name": "Oignon nouveau ou oignon frais ou cébette, sauté/poêlé sans matière grasse",
+   "factor": 100
+  },
+  "lait-demi-ecreme": {
+   "code": "19041",
+   "name": "Lait demi-écrémé, UHT",
+   "factor": 103
+  },
+  "beurre-doux": {
+   "code": "16400",
+   "name": "Beurre à 80% MG minimum, doux",
+   "factor": 100
+  },
+  "creme-fraiche-epaisse": {
+   "code": "19410",
+   "name": "Crème 30% MG, épaisse, rayon frais",
+   "factor": 100
+  },
+  "creme-liquide": {
+   "code": "19417",
+   "name": "Crème 30% MG, fluide, UHT",
+   "factor": 100
+  },
+  "oeuf": {
+   "code": "22000",
+   "name": "Oeuf cru",
+   "factor": 55
+  },
+  "yaourt-nature": {
+   "code": "19593",
+   "name": "Yaourt ou lait fermenté, nature",
+   "factor": 100
+  },
+  "fromage-blanc": {
+   "code": "19646",
+   "name": "Fromage blanc, nature, 2-3% MG",
+   "factor": 100
+  },
+  "emmental-rape": {
+   "code": "12118",
+   "name": "Emmental ou emmenthal, râpé",
+   "factor": 100
+  },
+  "mozzarella": {
+   "code": "19590",
+   "name": "Mozzarella au lait de vache",
+   "factor": 100
+  },
+  "parmesan": {
+   "code": "12120",
+   "name": "Parmesan",
+   "factor": 100
+  },
+  "feta": {
+   "code": "12066",
+   "name": "Feta, au lait de brebis 70% minimum et lait de chèvre 30% maximum",
+   "factor": 100
+  },
+  "chevre-buche": {
+   "code": "12812",
+   "name": "Fromage de chèvre bûche",
+   "factor": 100
+  },
+  "comte": {
+   "code": "12110",
+   "name": "Comté",
+   "factor": 100
+  },
+  "ricotta": {
+   "code": null,
+   "reason": "absente de la table"
+  },
+  "cheddar-tranches": {
+   "code": "12726",
+   "name": "Cheddar",
+   "factor": 100
+  },
+  "reblochon": {
+   "code": "12045",
+   "name": "Reblochon",
+   "factor": 100
+  },
+  "pate-brisee": {
+   "code": "23410",
+   "name": "Pâte brisée, matière grasse végétale, préemballée, crue",
+   "factor": 230
+  },
+  "pate-feuilletee": {
+   "code": "23424",
+   "name": "Pâte feuilletée, pur beurre, préemballée, crue",
+   "factor": 230
+  },
+  "pate-pizza": {
+   "code": "37001",
+   "name": "Pâte à pizza, préemballée, crue",
+   "factor": 260
+  },
+  "lardons-fumes": {
+   "code": "28720",
+   "name": "Lardon fumé, cru",
+   "factor": 100
+  },
+  "jambon-blanc": {
+   "code": "28900",
+   "name": "Jambon cuit, supérieur",
+   "factor": 100
+  },
+  "des-jambon": {
+   "code": "28922",
+   "name": "Dés, allumettes, râpé ou haché de jambon",
+   "factor": 100
+  },
+  "chorizo": {
+   "code": "30316",
+   "name": "Chorizo supérieur, doux ou fort, type saucisse sèche",
+   "factor": 100
+  },
+  "saucisse-toulouse": {
+   "code": "30110",
+   "name": "Saucisse de Toulouse crue",
+   "factor": 100
+  },
+  "chipolata": {
+   "code": "30115",
+   "name": "Chipolata crue",
+   "factor": 100
+  },
+  "merguez": {
+   "code": "30150",
+   "name": "Merguez crue",
+   "factor": 100
+  },
+  "filet-poulet": {
+   "code": "36017",
+   "name": "Poulet, filet sans peau cru",
+   "factor": 100
+  },
+  "cuisse-poulet": {
+   "code": "36002",
+   "name": "Poulet, cuisse, viande et peau crue",
+   "factor": 100
+  },
+  "escalope-dinde": {
+   "code": "36304",
+   "name": "Dinde, escalope crue",
+   "factor": 100
+  },
+  "boeuf-hache": {
+   "code": "6254",
+   "name": "Boeuf, steak haché 15% MG cru",
+   "factor": 100
+  },
+  "steak-hache": {
+   "code": "6254",
+   "name": "Boeuf, steak haché 15% MG cru",
+   "factor": 100
+  },
+  "boeuf-bourguignon": {
+   "code": "6231",
+   "name": "Boeuf, à bourguignon ou pot-au-feu, cru",
+   "factor": 100
+  },
+  "echine-porc": {
+   "code": "28302",
+   "name": "Porc, échine crue",
+   "factor": 100
+  },
+  "saucisse-morteau": {
+   "code": "30102",
+   "name": "Saucisse fumée à cuire",
+   "factor": 100
+  },
+  "colin-surgele": {
+   "code": "26006",
+   "name": "Lieu ou colin d'Alaska, cru",
+   "factor": 100
+  },
+  "saumon-pave": {
+   "code": "26036",
+   "name": "Saumon, élevage, cru",
+   "factor": 100
+  },
+  "crevettes": {
+   "code": "10086",
+   "name": "Crevettes, décortiquées, cuites, réfrigérées, préemballées",
+   "factor": 100
+  },
+  "thon-naturel": {
+   "code": "26039",
+   "name": "Thon, au naturel, appertisé, égoutté",
+   "factor": 100
+  },
+  "sardines-huile": {
+   "code": "26034",
+   "name": "Sardine, à l'huile, appertisée, égouttée",
+   "factor": 100
+  },
+  "maquereau-conserve": {
+   "code": "26123",
+   "name": "Maquereau, filet (grillé ou non), au naturel, appertisé, égoutté",
+   "factor": 100
+  },
+  "spaghetti": {
+   "code": "9810",
+   "name": "Pâtes sèches, standard, crues",
+   "factor": 100
+  },
+  "penne": {
+   "code": "9810",
+   "name": "Pâtes sèches, standard, crues",
+   "factor": 100
+  },
+  "coquillettes": {
+   "code": "9810",
+   "name": "Pâtes sèches, standard, crues",
+   "factor": 100
+  },
+  "pates-sans-gluten": {
+   "code": "9874",
+   "name": "Pâtes sèches, sans gluten, crues",
+   "factor": 100
+  },
+  "lasagnes": {
+   "code": "9810",
+   "name": "Pâtes sèches, standard, crues",
+   "factor": 100
+  },
+  "gnocchi": {
+   "code": "26264",
+   "name": "Gnocchi à la pomme de terre, à cuire",
+   "factor": 100
+  },
+  "nouilles-oeufs": {
+   "code": "9863",
+   "name": "Pâtes ou nouilles asiatiques sèches, au blé et aux oeufs, nature, crues",
+   "factor": 100
+  },
+  "nouilles-riz": {
+   "code": "9900",
+   "name": "Vermicelles de riz sèches, crues",
+   "factor": 100
+  },
+  "riz-long": {
+   "code": "9100",
+   "name": "Riz blanc, cru",
+   "factor": 100
+  },
+  "riz-basmati": {
+   "code": "9119",
+   "name": "Riz thaï ou basmati, cru",
+   "factor": 100
+  },
+  "riz-arborio": {
+   "code": "9100",
+   "name": "Riz blanc, cru",
+   "factor": 100
+  },
+  "semoule": {
+   "code": "9610",
+   "name": "Semoule de blé dur, crue",
+   "factor": 100
+  },
+  "boulgour": {
+   "code": "9690",
+   "name": "Boulgour de blé, cru",
+   "factor": 100
+  },
+  "quinoa": {
+   "code": "9340",
+   "name": "Quinoa, cru",
+   "factor": 100
+  },
+  "lentilles-vertes": {
+   "code": "20585",
+   "name": "Lentille verte, sèche",
+   "factor": 100
+  },
+  "lentilles-corail": {
+   "code": "20535",
+   "name": "Lentille corail, sèche",
+   "factor": 100
+  },
+  "pois-casses": {
+   "code": "20515",
+   "name": "Pois cassé, sec",
+   "factor": 100
+  },
+  "flocons-avoine": {
+   "code": "32140",
+   "name": "Flocons d'avoine",
+   "factor": 100
+  },
+  "farine-ble": {
+   "code": "9440",
+   "name": "Farine de blé tendre ou froment T45 (pour pâtisserie)",
+   "factor": 100
+  },
+  "maizena": {
+   "code": "9510",
+   "name": "Amidon de maïs ou fécule de maïs",
+   "factor": 100
+  },
+  "chapelure": {
+   "code": "7500",
+   "name": "Chapelure",
+   "factor": 100
+  },
+  "bouillon-volaille": {
+   "code": "11174",
+   "name": "Bouillon de volaille, déshydraté",
+   "factor": 10
+  },
+  "bouillon-legumes": {
+   "code": "11041",
+   "name": "Bouillon de légumes, déshydraté",
+   "factor": 10
+  },
+  "tomates-concassees": {
+   "code": "20169",
+   "name": "Tomate, chair, appertisée",
+   "factor": 100
+  },
+  "coulis-tomate": {
+   "code": "20260",
+   "name": "Tomate, coulis, appertisé (purée de tomates mi-réduite à 11%)",
+   "factor": 100
+  },
+  "concentre-tomate": {
+   "code": "20268",
+   "name": "Tomate, double concentré, appertisé",
+   "factor": 100
+  },
+  "pois-chiches": {
+   "code": "20532",
+   "name": "Pois chiche, appertisé, égoutté",
+   "factor": 100
+  },
+  "haricots-rouges": {
+   "code": "20524",
+   "name": "Haricot rouge, appertisé, égoutté",
+   "factor": 100
+  },
+  "haricots-blancs": {
+   "code": "20511",
+   "name": "Haricot blanc, appertisé, égoutté",
+   "factor": 100
+  },
+  "lentilles-conserve": {
+   "code": "20510",
+   "name": "Lentille, cuisinée, appertisée, égouttée",
+   "factor": 100
+  },
+  "mais-conserve": {
+   "code": "20066",
+   "name": "Maïs doux, appertisé, égoutté",
+   "factor": 100
+  },
+  "petits-pois-conserve": {
+   "code": "20036",
+   "name": "Petits pois, appertisés, égouttés",
+   "factor": 100
+  },
+  "olives-noires": {
+   "code": "13032",
+   "name": "Olive noire, en saumure, égouttée",
+   "factor": 100
+  },
+  "champignons-conserve": {
+   "code": "20079",
+   "name": "Champignon de Paris ou champignon de couche, appertisé, égoutté",
+   "factor": 100
+  },
+  "lait-coco": {
+   "code": "18041",
+   "name": "Lait de coco",
+   "factor": 100
+  },
+  "sauce-soja": {
+   "code": "11104",
+   "name": "Sauce soja, préemballée",
+   "factor": 115
+  },
+  "tortilla": {
+   "code": "7815",
+   "name": "Tortilla souple (à garnir), à base de blé",
+   "factor": 40
+  },
+  "beurre-cacahuete": {
+   "code": "15202",
+   "name": "Beurre de cacahuète ou pâte d'arachide",
+   "factor": 100
+  },
+  "pate-curry": {
+   "code": null,
+   "reason": "absente de la table"
+  },
+  "tofu-nature": {
+   "code": "20904",
+   "name": "Tofu nature, préemballé",
+   "factor": 100
+  },
+  "tofu-fume": {
+   "code": "20912",
+   "name": "Tofu fumé, préemballé",
+   "factor": 100
+  },
+  "boisson-soja": {
+   "code": "18900",
+   "name": "Boisson au soja, nature, non enrichie, préemballée",
+   "factor": 100
+  },
+  "creme-soja": {
+   "code": null,
+   "reason": "absente de la table"
+  },
+  "margarine": {
+   "code": null,
+   "reason": "seule une matière grasse de friture est décrite"
+  },
+  "proteines-soja": {
+   "code": null,
+   "reason": "seule la forme réhydratée est décrite"
+  },
+  "baguette": {
+   "code": "7001",
+   "name": "Pain blanc (par ex. : baguette, boule…)",
+   "factor": 250
+  },
+  "pain-mie": {
+   "code": "7200",
+   "name": "Pain de mie blanc, préemballé",
+   "factor": 100
+  },
+  "pain-burger": {
+   "code": "7259",
+   "name": "Pain pour burger ou hot dog (bun), préemballé",
+   "factor": 60
+  },
+  "pain-pita": {
+   "code": "7180",
+   "name": "Pain pita",
+   "factor": 70
+  },
+  "petits-pois-surgeles": {
+   "code": "20084",
+   "name": "Petits pois, surgelés, crus",
+   "factor": 100
+  },
+  "haricots-verts-surgeles": {
+   "code": "20070",
+   "name": "Haricot vert, surgelé, cru",
+   "factor": 100
+  },
+  "epinards-surgeles": {
+   "code": "20083",
+   "name": "Epinard, haché ou purée ou en branches, surgelé, cru",
+   "factor": 100
+  },
+  "legumes-wok": {
+   "code": "20273",
+   "name": "Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue",
+   "factor": 100
+  },
+  "ratatouille-surgelee": {
+   "code": "25018",
+   "name": "Ratatouille cuisinée, préemballée",
+   "factor": 100
+  },
+  "brocoli-surgele": {
+   "code": "20204",
+   "name": "Brocoli, surgelé, cru",
+   "factor": 100
+  },
+  "huile-olive": {
+   "code": "17270",
+   "name": "Huile d'olive vierge extra",
+   "factor": 92
+  },
+  "huile-tournesol": {
+   "code": "17440",
+   "name": "Huile de tournesol",
+   "factor": 92
+  },
+  "vinaigre-vin": {
+   "code": "11220",
+   "name": "Vinaigre de vin rouge",
+   "factor": 100
+  },
+  "vinaigre-balsamique": {
+   "code": "11091",
+   "name": "Vinaigre balsamique",
+   "factor": 100
+  },
+  "moutarde": {
+   "code": "11013",
+   "name": "Moutarde",
+   "factor": 100
+  },
+  "ketchup": {
+   "code": "11008",
+   "name": "Ketchup, préemballé",
+   "factor": 100
+  },
+  "mayonnaise": {
+   "code": "11054",
+   "name": "Mayonnaise (70% MG min.), préemballée",
+   "factor": 100
+  },
+  "pesto": {
+   "code": "11179",
+   "name": "Sauce pesto, préemballée",
+   "factor": 100
+  },
+  "sel": {
+   "code": "11017",
+   "name": "Sel blanc alimentaire, non iodé, non fluoré (marin, ignigène ou gemme)",
+   "factor": 100
+  },
+  "poivre": {
+   "code": "11015",
+   "name": "Poivre noir, poudre",
+   "factor": 100
+  },
+  "sucre": {
+   "code": "31016",
+   "name": "Sucre blanc",
+   "factor": 100
+  },
+  "miel": {
+   "code": "31008",
+   "name": "Miel",
+   "factor": 100
+  },
+  "curry-poudre": {
+   "code": "11005",
+   "name": "Curry, poudre",
+   "factor": 100
+  },
+  "cumin": {
+   "code": "11042",
+   "name": "Cumin, graine",
+   "factor": 100
+  },
+  "paprika": {
+   "code": "11049",
+   "name": "Paprika, poudre",
+   "factor": 100
+  },
+  "curcuma": {
+   "code": "11089",
+   "name": "Curcuma, poudre",
+   "factor": 100
+  },
+  "herbes-provence": {
+   "code": "11060",
+   "name": "Herbes de Provence, séchées",
+   "factor": 100
+  },
+  "thym": {
+   "code": "11038",
+   "name": "Thym, séché",
+   "factor": 100
+  },
+  "laurier": {
+   "code": "11053",
+   "name": "Laurier, feuille",
+   "factor": 0.2
+  },
+  "cannelle": {
+   "code": "11025",
+   "name": "Cannelle, poudre",
+   "factor": 100
+  },
+  "piment-poudre": {
+   "code": "11088",
+   "name": "Poivre de Cayenne ou piment de Cayenne, poudre",
+   "factor": 100
+  },
+  "ras-el-hanout": {
+   "code": null,
+   "reason": "mélange d'épices absent"
+  },
+  "muscade": {
+   "code": "11048",
+   "name": "Noix de muscade",
+   "factor": 100
+  },
+  "origan": {
+   "code": "11035",
+   "name": "Origan, séché",
+   "factor": 100
+  },
+  "graines-sesame": {
+   "code": "15010",
+   "name": "Sésame, graine",
+   "factor": 100
+  },
+  "gingembre-poudre": {
+   "code": "11006",
+   "name": "Gingembre, poudre",
+   "factor": 100
+  },
+  "ail-semoule": {
+   "code": "11023",
+   "name": "Ail séché, poudre",
+   "factor": 100
+  },
+  "levure-chimique": {
+   "code": "11046",
+   "name": "Levure chimique ou poudre à lever",
+   "factor": 100
+  },
+  "sauce-tomate-basilic": {
+   "code": null,
+   "reason": "absente de la table"
+  },
+  "noix-cajou": {
+   "code": "15054",
+   "name": "Noix de cajou, grillée, sans sel ajouté",
+   "factor": 100
+  },
+  "raisins-secs": {
+   "code": "13046",
+   "name": "Raisin sec",
+   "factor": 100
+  },
+  "pruneaux": {
+   "code": "13042",
+   "name": "Pruneau, sans noyau, sec",
+   "factor": 100
+  },
+  "cornichons": {
+   "code": "11004",
+   "name": "Cornichon, au vinaigre",
+   "factor": 100
+  },
+  "capres": {
+   "code": null,
+   "reason": "absentes de la table"
+  },
+  "pois-chiches-secs": {
+   "code": "20516",
+   "name": "Pois chiche, sec",
+   "factor": 100
+  },
+  "galettes-ble-noir": {
+   "code": "23801",
+   "name": "Galette de sarrasin, nature, souple (à garnir) préemballée",
+   "factor": 60
+  },
+  "pommes-noisettes-surgelees": {
+   "code": "4013",
+   "name": "Pomme de terre noisette, surgelée, à cuire",
+   "factor": 100
+  },
+  "cabillaud-surgele": {
+   "code": "26043",
+   "name": "Cabillaud, cru",
+   "factor": 100
+  },
+  "moules-surgelees": {
+   "code": "10014",
+   "name": "Moule commune, crue",
+   "factor": 100
+  },
+  "fromage-raclette": {
+   "code": "12749",
+   "name": "Raclette (fromage)",
+   "factor": 100
+  },
+  "lait-avoine": {
+   "code": "18899",
+   "name": "Boisson à l'avoine, nature, sans sucres ajoutés, non enrichie, préemballée",
+   "factor": 100
+  },
+  "fenouil": {
+   "code": "20028",
+   "name": "Fenouil, cru",
+   "factor": 100
+  },
+  "celeri-rave": {
+   "code": "20055",
+   "name": "Céleri-rave, cru",
+   "factor": 100
+  },
+  "panais": {
+   "code": "20181",
+   "name": "Panais, cru",
+   "factor": 100
+  },
+  "potimarron": {
+   "code": "20132",
+   "name": "Potimarron, chair sans peau, cru",
+   "factor": 100
+  },
+  "endive": {
+   "code": "20026",
+   "name": "Endive, crue",
+   "factor": 100
+  },
+  "mache": {
+   "code": "20099",
+   "name": "Mâche, crue",
+   "factor": 100
+  },
+  "roquette": {
+   "code": "20217",
+   "name": "Roquette, crue",
+   "factor": 100
+  },
+  "orange": {
+   "code": "13034",
+   "name": "Orange, chair sans peau, sans pépins, crue",
+   "factor": 100
+  },
+  "pousses-soja": {
+   "code": "20183",
+   "name": "Graine germée de haricot mungo ou pousse de \"soja\", crue",
+   "factor": 100
+  },
+  "chou-vert": {
+   "code": "20069",
+   "name": "Chou vert, cru",
+   "factor": 100
+  },
+  "chou-blanc": {
+   "code": "20116",
+   "name": "Chou blanc, cru",
+   "factor": 100
+  },
+  "estragon": {
+   "code": null,
+   "reason": "seule la forme séchée est décrite"
+  },
+  "aneth": {
+   "code": "11093",
+   "name": "Aneth, frais",
+   "factor": 100
+  },
+  "piment-frais": {
+   "code": "20151",
+   "name": "Piment, cru",
+   "factor": 100
+  },
+  "haricots-verts-frais": {
+   "code": "20061",
+   "name": "Haricot vert, cru",
+   "factor": 100
+  },
+  "veau-blanquette": {
+   "code": "6560",
+   "name": "Veau, épaule crue",
+   "factor": 100
+  },
+  "agneau-epaule": {
+   "code": "21504",
+   "name": "Agneau, épaule crue",
+   "factor": 100
+  },
+  "poulet-entier": {
+   "code": "36016",
+   "name": "Poulet, viande et peau crues",
+   "factor": 100
+  },
+  "manchons-poulet": {
+   "code": "36023",
+   "name": "Poulet, aile, viande et peau crues",
+   "factor": 100
+  },
+  "foie-volaille": {
+   "code": "40108",
+   "name": "Foie, volaille, cru",
+   "factor": 100
+  },
+  "magret-canard": {
+   "code": "36206",
+   "name": "Canard, magret cru",
+   "factor": 100
+  },
+  "roti-porc": {
+   "code": "28300",
+   "name": "Porc, rôti cru",
+   "factor": 100
+  },
+  "petit-sale": {
+   "code": "28002",
+   "name": "Porc, poitrine crue",
+   "factor": 100
+  },
+  "jambon-cru": {
+   "code": "28800",
+   "name": "Jambon cru",
+   "factor": 100
+  },
+  "saucisse-strasbourg": {
+   "code": "30742",
+   "name": "Saucisse de Strasbourg ou knack, à cuire",
+   "factor": 100
+  },
+  "boeuf-braiser": {
+   "code": "6270",
+   "name": "Boeuf, paleron cru",
+   "factor": 100
+  },
+  "boulettes-boeuf": {
+   "code": "25163",
+   "name": "Boulettes au boeuf, cuites",
+   "factor": 100
+  },
+  "cordon-bleu": {
+   "code": "25089",
+   "name": "Cordon bleu de volaille, préemballé",
+   "factor": 100
+  },
+  "boeuf-emince": {
+   "code": "6206",
+   "name": "Boeuf, rumsteck cru",
+   "factor": 100
+  },
+  "lardons-volaille": {
+   "code": null,
+   "reason": "absents de la table"
+  },
+  "jambon-volaille": {
+   "code": "28964",
+   "name": "Jambon de dinde ou blanc de dinde en tranche",
+   "factor": 100
+  },
+  "saumon-fume": {
+   "code": "26037",
+   "name": "Saumon fumé",
+   "factor": 100
+  },
+  "moules": {
+   "code": "10014",
+   "name": "Moule commune, crue",
+   "factor": 100
+  },
+  "calamars": {
+   "code": "10001",
+   "name": "Calmar ou calamar ou encornet, cru",
+   "factor": 100
+  },
+  "poisson-pane": {
+   "code": "26029",
+   "name": "Poisson pané, surgelé, cru",
+   "factor": 100
+  },
+  "surimi": {
+   "code": "26046",
+   "name": "Surimi, bâtonnets, tranche ou râpé saveur crabe",
+   "factor": 100
+  },
+  "fumet-poisson": {
+   "code": null,
+   "reason": "seule la forme prête à l'emploi est décrite"
+  },
+  "nuoc-mam": {
+   "code": "11194",
+   "name": "Sauce nuoc mâm ou sauce au poisson, préemballée",
+   "factor": 100
+  },
+  "mascarpone": {
+   "code": "19584",
+   "name": "Mascarpone",
+   "factor": 100
+  },
+  "camembert": {
+   "code": "12006",
+   "name": "Camembert au lait cru ou thermisé",
+   "factor": 100
+  },
+  "bleu-auvergne": {
+   "code": "12521",
+   "name": "Fromage bleu d'Auvergne",
+   "factor": 100
+  },
+  "yaourt-grec": {
+   "code": "19860",
+   "name": "Yaourt à la grecque nature",
+   "factor": 100
+  },
+  "mozzarella-rapee": {
+   "code": null,
+   "reason": "seule la mozzarella fraîche est décrite"
+  },
+  "chevre-frais": {
+   "code": "12805",
+   "name": "Fromage de chèvre frais, type palet, crottin ou bûchette",
+   "factor": 100
+  },
+  "creme-legere": {
+   "code": "19430",
+   "name": "Crème 12 à 25% MG, légère, semi-épaisse, UHT",
+   "factor": 100
+  },
+  "tagliatelles-fraiches": {
+   "code": "9815",
+   "name": "Pâtes fraîches, aux oeufs, crues",
+   "factor": 100
+  },
+  "fromage-vegetal": {
+   "code": "1029",
+   "name": "Spécialité végétale type fromage en tranche ou râpé, sans soja, préemballée",
+   "factor": 100
+  },
+  "tagliatelles-oeufs": {
+   "code": "9821",
+   "name": "Pâtes sèches, aux oeufs, crues",
+   "factor": 100
+  },
+  "pates-completes": {
+   "code": "9870",
+   "name": "Pâtes sèches, au blé complet, crues",
+   "factor": 100
+  },
+  "vermicelles": {
+   "code": "9810",
+   "name": "Pâtes sèches, standard, crues",
+   "factor": 100
+  },
+  "polenta": {
+   "code": "9614",
+   "name": "Polenta ou semoule de maïs, précuite, à cuire",
+   "factor": 100
+  },
+  "riz-thai": {
+   "code": "9119",
+   "name": "Riz thaï ou basmati, cru",
+   "factor": 100
+  },
+  "nouilles-udon": {
+   "code": null,
+   "reason": "absentes de la table"
+  },
+  "flageolets": {
+   "code": "20508",
+   "name": "Haricot flageolet, appertisé, égoutté",
+   "factor": 100
+  },
+  "choucroute": {
+   "code": null,
+   "reason": "seule la choucroute cuisinée est décrite"
+  },
+  "harissa": {
+   "code": "11112",
+   "name": "Harissa (sauce au piment), préemballée",
+   "factor": 100
+  },
+  "olives-vertes": {
+   "code": "13033",
+   "name": "Olive verte, en saumure, égouttée",
+   "factor": 100
+  },
+  "tomates-sechees": {
+   "code": null,
+   "reason": "absentes de la table"
+  },
+  "ananas-conserve": {
+   "code": "13718",
+   "name": "Ananas au sirop léger, appertisé, égoutté",
+   "factor": 100
+  },
+  "amandes-effilees": {
+   "code": "15000",
+   "name": "Amande, avec peau, sans sel ajouté",
+   "factor": 100
+  },
+  "cacahuetes": {
+   "code": "15002",
+   "name": "Cacahuète, grillée, salée",
+   "factor": 100
+  },
+  "abricots-secs": {
+   "code": "13001",
+   "name": "Abricot, dénoyauté, sec",
+   "factor": 100
+  },
+  "oignons-frits": {
+   "code": null,
+   "reason": "absents de la table"
+  },
+  "vin-blanc": {
+   "code": "5215",
+   "name": "Vin blanc sec",
+   "factor": 100
+  },
+  "vin-rouge": {
+   "code": "5214",
+   "name": "Vin rouge",
+   "factor": 100
+  },
+  "fond-veau": {
+   "code": "11169",
+   "name": "Fond de veau pour sauces et cuisson, déshydraté",
+   "factor": 100
+  },
+  "pain-hot-dog": {
+   "code": "7259",
+   "name": "Pain pour burger ou hot dog (bun), préemballé",
+   "factor": 55
+  },
+  "romarin": {
+   "code": "11036",
+   "name": "Romarin, séché",
+   "factor": 100
+  },
+  "clou-girofle": {
+   "code": "11052",
+   "name": "Clou de girofle",
+   "factor": 100
+  },
+  "paprika-fume": {
+   "code": "11049",
+   "name": "Paprika, poudre",
+   "factor": 100
+  },
+  "garam-masala": {
+   "code": null,
+   "reason": "mélange d'épices absent"
+  },
+  "colombo": {
+   "code": null,
+   "reason": "mélange d'épices absent"
+  },
+  "safran": {
+   "code": "11039",
+   "name": "Safran",
+   "factor": 100
+  },
+  "choux-bruxelles-surgeles": {
+   "code": "20058",
+   "name": "Chou de Bruxelles, cru",
+   "factor": 100
+  },
+  "petits-pois-carottes-surgeles": {
+   "code": "20214",
+   "name": "Petits pois et carottes, surgelés, crus",
+   "factor": 100
+  },
+  "legumes-potage-surgeles": {
+   "code": "20263",
+   "name": "Légumes pour potages, surgelés, crus",
+   "factor": 100
+  },
+  "puree-sesame": {
+   "code": "15203",
+   "name": "Tahin ou purée de sésame",
+   "factor": 100
+  },
+  "banane-plantain": {
+   "code": "53100",
+   "name": "Banane plantain, crue",
+   "factor": 100
+  },
+  "feuilles-brick": {
+   "code": "51550",
+   "name": "Feuille de brick ou khatfa, préemballée",
+   "factor": 18
+  },
+  "citronnelle": {
+   "code": null,
+   "reason": "absente de la table"
+  },
+  "gaspacho": {
+   "code": "25967",
+   "name": "Soupe froide type gaspacho ou gazpacho, préemballée",
+   "factor": 100
+  },
+  "raviolis-jambon": {
+   "code": "25157",
+   "name": "Pâtes fraîches farcies (ex : raviolis, tortellinis), au boeuf (ex : bolognaise), préemballées, crues",
+   "factor": 100
+  },
+  "chair-a-saucisse": {
+   "code": "30050",
+   "name": "Chair à saucisse crue",
+   "factor": 100
+  },
+  "sauce-nems": {
+   "code": "11217",
+   "name": "Sauce pour nems à base de nuoc-mam dilué, préemballée",
+   "factor": 100
+  },
+  "myrtilles": {
+   "code": "13028",
+   "name": "Myrtille, crue",
+   "factor": 100
+  },
+  "chocolat-noir-patissier": {
+   "code": "31085",
+   "name": "Chocolat noir 40% de cacao et plus, à pâtisser, tablette",
+   "factor": 100
+  },
+  "cacao-poudre": {
+   "code": "18100",
+   "name": "Cacao, sans sucres ajoutés, poudre soluble",
+   "factor": 100
+  },
+  "sucre-vanille": {
+   "code": "31044",
+   "name": "Sucre vanillé",
+   "factor": 100
+  },
+  "sucre-glace": {
+   "code": "31016",
+   "name": "Sucre blanc",
+   "factor": 100
+  },
+  "confiture-fraise": {
+   "code": "31024",
+   "name": "Confiture de fraise (extra ou classique)",
+   "factor": 100
+  },
+  "compote-pomme": {
+   "code": "13187",
+   "name": "Purée de pommes, type \"compote sans sucres ajoutés\", rayon ambiant",
+   "factor": 100
+  },
+  "fraise": {
+   "code": "13014",
+   "name": "Fraise, crue",
+   "factor": 100
+  },
+  "poire": {
+   "code": "13037",
+   "name": "Poire, chair et peau, crue",
+   "factor": 100
+  },
+  "kiwi": {
+   "code": "13021",
+   "name": "Kiwi, chair sans peau, avec pépins, cru",
+   "factor": 100
+  },
+  "clementine": {
+   "code": "13024",
+   "name": "Clémentine ou mandarine, chair sans peau, sans pépins, crue",
+   "factor": 100
+  },
+  "riz-rond": {
+   "code": "9100",
+   "name": "Riz blanc, cru",
+   "factor": 100
+  },
+  "biscuits-petit-beurre": {
+   "code": "24015",
+   "name": "Biscuit sec petit beurre",
+   "factor": 100
+  },
+  "boudoirs": {
+   "code": "24430",
+   "name": "Biscuit sec aux oeufs à la cuillère (cuiller) ou boudoir",
+   "factor": 100
+  },
+  "cafe-soluble": {
+   "code": "18005",
+   "name": "Café, poudre soluble",
+   "factor": 100
+  },
+  "lait-concentre-sucre": {
+   "code": "19027",
+   "name": "Lait concentré sucré, entier",
+   "factor": 100
+  },
+  "noix-coco-rapee": {
+   "code": "15007",
+   "name": "Noix de coco, chair, sèche",
+   "factor": 100
+  },
+  "brioche-tranchee": {
+   "code": "7210",
+   "name": "Pain de mie brioché, préemballé",
+   "factor": 100
+  },
+  "muesli": {
+   "code": "32110",
+   "name": "Muesli floconneux aux fruits, fruits à coque et/ou graines, enrichi en vitamines et minéraux",
+   "factor": 100
+  },
+  "fruits-rouges-surgeles": {
+   "code": "13015",
+   "name": "Framboise, crue",
+   "factor": 100
+  },
+  "peches-sirop": {
+   "code": "13730",
+   "name": "Pêche, sans noyau, au sirop léger, appertisée, égouttée",
+   "factor": 100
+  }
+ }
+}

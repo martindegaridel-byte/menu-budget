@@ -139,7 +139,8 @@ export const IngredientSchema = z.object({
   /** Familles pour les exclusions rapides (porc, champignon, fromage, piquant…). */
   tags: z.array(z.string()).default([]),
   /**
-   * Valeurs nutritionnelles moyennes (estimations, ordre de grandeur Ciqual) :
+   * Valeurs nutritionnelles moyennes, d'après la table Ciqual 2025 de l'Anses (correspondances et
+   * facteurs dans data/ciqual-map.json, valeurs sources dans data/ciqual-extract.json) :
    * pour 100 g / 100 ml, ou pour 1 pièce si l'unité de base est « piece ».
    */
   nutrition: NutritionSchema.optional(),

@@ -1,0 +1,1734 @@
+{
+ "source": "Extrait de la table Ciqual 2025 (Anses), Licence Ouverte Etalab : valeurs pour 100 g",
+ "foods": {
+  "1029": {
+   "name": "Spécialité végétale type fromage en tranche ou râpé, sans soja, préemballée",
+   "kcal": 271.0,
+   "protein": 0.25,
+   "carbs": 21.2,
+   "fat": 20.1
+  },
+  "4008": {
+   "name": "Pomme de terre, sans peau, crue",
+   "kcal": 80.0,
+   "protein": 2.02,
+   "carbs": 16.2,
+   "fat": 0.09
+  },
+  "4013": {
+   "name": "Pomme de terre noisette, surgelée, à cuire",
+   "kcal": 179.0,
+   "protein": 2.44,
+   "carbs": 25.3,
+   "fat": 7.02
+  },
+  "4101": {
+   "name": "Patate douce, crue",
+   "kcal": 81.2,
+   "protein": 1.57,
+   "carbs": 17.1,
+   "fat": 0.05
+  },
+  "5214": {
+   "name": "Vin rouge",
+   "kcal": 75.7,
+   "protein": 0.16,
+   "carbs": 0.0,
+   "fat": 0.0
+  },
+  "5215": {
+   "name": "Vin blanc sec",
+   "kcal": 55.3,
+   "protein": 0.25,
+   "carbs": 0.17,
+   "fat": 0.0
+  },
+  "6206": {
+   "name": "Boeuf, rumsteck cru",
+   "kcal": 118.0,
+   "protein": 23.5,
+   "carbs": 0.4,
+   "fat": 2.5
+  },
+  "6231": {
+   "name": "Boeuf, à bourguignon ou pot-au-feu, cru",
+   "kcal": 164.0,
+   "protein": 24.0,
+   "carbs": 0.0,
+   "fat": 7.5
+  },
+  "6254": {
+   "name": "Boeuf, steak haché 15% MG cru",
+   "kcal": 215.0,
+   "protein": 20.2,
+   "carbs": 0.47,
+   "fat": 14.8
+  },
+  "6270": {
+   "name": "Boeuf, paleron cru",
+   "kcal": 144.0,
+   "protein": 21.2,
+   "carbs": 0.0,
+   "fat": 6.54
+  },
+  "6560": {
+   "name": "Veau, épaule crue",
+   "kcal": 124.0,
+   "protein": 20.7,
+   "carbs": 0.0,
+   "fat": 4.63
+  },
+  "7001": {
+   "name": "Pain blanc (par ex. : baguette, boule…)",
+   "kcal": 287.0,
+   "protein": 8.27,
+   "carbs": 58.3,
+   "fat": 1.4
+  },
+  "7180": {
+   "name": "Pain pita",
+   "kcal": 249.0,
+   "protein": 7.48,
+   "carbs": 48.8,
+   "fat": 1.5
+  },
+  "7200": {
+   "name": "Pain de mie blanc, préemballé",
+   "kcal": 279.0,
+   "protein": 7.06,
+   "carbs": 50.4,
+   "fat": 4.37
+  },
+  "7210": {
+   "name": "Pain de mie brioché, préemballé",
+   "kcal": 312.0,
+   "protein": 7.78,
+   "carbs": 51.4,
+   "fat": 7.26
+  },
+  "7259": {
+   "name": "Pain pour burger ou hot dog (bun), préemballé",
+   "kcal": 283.0,
+   "protein": 8.21,
+   "carbs": 47.2,
+   "fat": 4.9
+  },
+  "7500": {
+   "name": "Chapelure",
+   "kcal": 365.0,
+   "protein": 9.41,
+   "carbs": 74.3,
+   "fat": 1.6
+  },
+  "7815": {
+   "name": "Tortilla souple (à garnir), à base de blé",
+   "kcal": 320.0,
+   "protein": 8.01,
+   "carbs": 53.0,
+   "fat": 7.48
+  },
+  "9100": {
+   "name": "Riz blanc, cru",
+   "kcal": 350.0,
+   "protein": 7.02,
+   "carbs": 77.5,
+   "fat": 0.79
+  },
+  "9119": {
+   "name": "Riz thaï ou basmati, cru",
+   "kcal": 351.0,
+   "protein": 7.08,
+   "carbs": 78.4,
+   "fat": 0.63
+  },
+  "9340": {
+   "name": "Quinoa, cru",
+   "kcal": 358.0,
+   "protein": 13.2,
+   "carbs": 58.1,
+   "fat": 6.07
+  },
+  "9440": {
+   "name": "Farine de blé tendre ou froment T45 (pour pâtisserie)",
+   "kcal": 355.0,
+   "protein": 8.44,
+   "carbs": 76.5,
+   "fat": 0.82
+  },
+  "9510": {
+   "name": "Amidon de maïs ou fécule de maïs",
+   "kcal": 365.0,
+   "protein": 0.26,
+   "carbs": 90.4,
+   "fat": 0.05
+  },
+  "9610": {
+   "name": "Semoule de blé dur, crue",
+   "kcal": 350.0,
+   "protein": 11.8,
+   "carbs": 69.8,
+   "fat": 1.28
+  },
+  "9614": {
+   "name": "Polenta ou semoule de maïs, précuite, à cuire",
+   "kcal": 350.0,
+   "protein": 7.88,
+   "carbs": 74.0,
+   "fat": 1.8
+  },
+  "9690": {
+   "name": "Boulgour de blé, cru",
+   "kcal": 347.0,
+   "protein": 11.7,
+   "carbs": 65.8,
+   "fat": 1.42
+  },
+  "9810": {
+   "name": "Pâtes sèches, standard, crues",
+   "kcal": 364.0,
+   "protein": 12.0,
+   "carbs": 72.7,
+   "fat": 1.6
+  },
+  "9815": {
+   "name": "Pâtes fraîches, aux oeufs, crues",
+   "kcal": 283.0,
+   "protein": 10.1,
+   "carbs": 53.8,
+   "fat": 1.87
+  },
+  "9821": {
+   "name": "Pâtes sèches, aux oeufs, crues",
+   "kcal": 381.0,
+   "protein": 14.0,
+   "carbs": 68.0,
+   "fat": 4.72
+  },
+  "9863": {
+   "name": "Pâtes ou nouilles asiatiques sèches, au blé et aux oeufs, nature, crues",
+   "kcal": 371.0,
+   "protein": 11.9,
+   "carbs": 71.0,
+   "fat": 3.0
+  },
+  "9870": {
+   "name": "Pâtes sèches, au blé complet, crues",
+   "kcal": 353.0,
+   "protein": 11.8,
+   "carbs": 67.6,
+   "fat": 2.2
+  },
+  "9874": {
+   "name": "Pâtes sèches, sans gluten, crues",
+   "kcal": 358.0,
+   "protein": 6.06,
+   "carbs": 79.0,
+   "fat": 1.5
+  },
+  "9900": {
+   "name": "Vermicelles de riz sèches, crues",
+   "kcal": 365.0,
+   "protein": 7.44,
+   "carbs": 80.5,
+   "fat": 1.0
+  },
+  "10001": {
+   "name": "Calmar ou calamar ou encornet, cru",
+   "kcal": 77.0,
+   "protein": 14.4,
+   "carbs": 2.17,
+   "fat": 1.19
+  },
+  "10014": {
+   "name": "Moule commune, crue",
+   "kcal": 71.8,
+   "protein": 11.2,
+   "carbs": 2.69,
+   "fat": 1.82
+  },
+  "10086": {
+   "name": "Crevettes, décortiquées, cuites, réfrigérées, préemballées",
+   "kcal": 92.5,
+   "protein": 18.3,
+   "carbs": 2.6,
+   "fat": 1.02
+  },
+  "11000": {
+   "name": "Ail, cru",
+   "kcal": 109.0,
+   "protein": 5.31,
+   "carbs": 18.6,
+   "fat": 0.0
+  },
+  "11003": {
+   "name": "Ciboule ou ciboulette, fraîche",
+   "kcal": 30.8,
+   "protein": 2.55,
+   "carbs": 2.85,
+   "fat": 0.46
+  },
+  "11004": {
+   "name": "Cornichon, au vinaigre",
+   "kcal": 16.0,
+   "protein": 1.06,
+   "carbs": 0.78,
+   "fat": 0.0
+  },
+  "11005": {
+   "name": "Curry, poudre",
+   "kcal": 301.0,
+   "protein": 14.5,
+   "carbs": 2.63,
+   "fat": 14.0
+  },
+  "11006": {
+   "name": "Gingembre, poudre",
+   "kcal": 335.0,
+   "protein": 8.98,
+   "carbs": 58.3,
+   "fat": 4.24
+  },
+  "11008": {
+   "name": "Ketchup, préemballé",
+   "kcal": 108.0,
+   "protein": 1.23,
+   "carbs": 23.7,
+   "fat": 0.16
+  },
+  "11013": {
+   "name": "Moutarde",
+   "kcal": 151.0,
+   "protein": 6.92,
+   "carbs": 4.33,
+   "fat": 11.2
+  },
+  "11014": {
+   "name": "Persil, frais",
+   "kcal": 42.5,
+   "protein": 2.97,
+   "carbs": 4.1,
+   "fat": 0.63
+  },
+  "11015": {
+   "name": "Poivre noir, poudre",
+   "kcal": 331.0,
+   "protein": 13.3,
+   "carbs": 39.9,
+   "fat": 7.5
+  },
+  "11017": {
+   "name": "Sel blanc alimentaire, non iodé, non fluoré (marin, ignigène ou gemme)",
+   "kcal": 0.0,
+   "protein": 0.0,
+   "carbs": 0.0,
+   "fat": 0.0
+  },
+  "11023": {
+   "name": "Ail séché, poudre",
+   "kcal": 346.0,
+   "protein": 16.6,
+   "carbs": 63.7,
+   "fat": 0.73
+  },
+  "11025": {
+   "name": "Cannelle, poudre",
+   "kcal": 243.0,
+   "protein": 3.99,
+   "carbs": 27.5,
+   "fat": 1.24
+  },
+  "11027": {
+   "name": "Menthe, fraîche",
+   "kcal": 57.6,
+   "protein": 3.52,
+   "carbs": 5.3,
+   "fat": 0.84
+  },
+  "11033": {
+   "name": "Basilic, frais",
+   "kcal": 35.2,
+   "protein": 3.15,
+   "carbs": 3.4,
+   "fat": 0.64
+  },
+  "11035": {
+   "name": "Origan, séché",
+   "kcal": 265.0,
+   "protein": 9.0,
+   "carbs": 26.4,
+   "fat": 4.28
+  },
+  "11036": {
+   "name": "Romarin, séché",
+   "kcal": 328.0,
+   "protein": 4.88,
+   "carbs": 21.5,
+   "fat": 15.2
+  },
+  "11038": {
+   "name": "Thym, séché",
+   "kcal": 285.0,
+   "protein": 9.11,
+   "carbs": 26.9,
+   "fat": 7.43
+  },
+  "11039": {
+   "name": "Safran",
+   "kcal": 352.0,
+   "protein": 11.4,
+   "carbs": 61.5,
+   "fat": 5.85
+  },
+  "11041": {
+   "name": "Bouillon de légumes, déshydraté",
+   "kcal": 287.0,
+   "protein": 9.66,
+   "carbs": 26.0,
+   "fat": 16.0
+  },
+  "11042": {
+   "name": "Cumin, graine",
+   "kcal": 427.0,
+   "protein": 17.8,
+   "carbs": 33.7,
+   "fat": 22.3
+  },
+  "11046": {
+   "name": "Levure chimique ou poudre à lever",
+   "kcal": 108.0,
+   "protein": 0.1,
+   "carbs": 26.9,
+   "fat": 0.0
+  },
+  "11048": {
+   "name": "Noix de muscade",
+   "kcal": 506.0,
+   "protein": 5.84,
+   "carbs": 27.4,
+   "fat": 36.3
+  },
+  "11049": {
+   "name": "Paprika, poudre",
+   "kcal": 318.0,
+   "protein": 14.1,
+   "carbs": 18.8,
+   "fat": 12.9
+  },
+  "11052": {
+   "name": "Clou de girofle",
+   "kcal": 335.0,
+   "protein": 5.97,
+   "carbs": 31.6,
+   "fat": 13.0
+  },
+  "11053": {
+   "name": "Laurier, feuille",
+   "kcal": 353.0,
+   "protein": 7.61,
+   "carbs": 48.6,
+   "fat": 8.36
+  },
+  "11054": {
+   "name": "Mayonnaise (70% MG min.), préemballée",
+   "kcal": 692.0,
+   "protein": 1.33,
+   "carbs": 3.41,
+   "fat": 74.5
+  },
+  "11060": {
+   "name": "Herbes de Provence, séchées",
+   "kcal": 283.0,
+   "protein": 11.5,
+   "carbs": 23.1,
+   "fat": 7.2
+  },
+  "11074": {
+   "name": "Gingembre, racine fraîche",
+   "kcal": 33.3,
+   "protein": 1.1,
+   "carbs": 3.4,
+   "fat": 1.1
+  },
+  "11088": {
+   "name": "Poivre de Cayenne ou piment de Cayenne, poudre",
+   "kcal": 376.0,
+   "protein": 12.0,
+   "carbs": 29.4,
+   "fat": 17.3
+  },
+  "11089": {
+   "name": "Curcuma, poudre",
+   "kcal": 291.0,
+   "protein": 9.68,
+   "carbs": 44.4,
+   "fat": 3.25
+  },
+  "11091": {
+   "name": "Vinaigre balsamique",
+   "kcal": 91.7,
+   "protein": 0.69,
+   "carbs": 18.0,
+   "fat": 0.0
+  },
+  "11093": {
+   "name": "Aneth, frais",
+   "kcal": 48.2,
+   "protein": 3.93,
+   "carbs": 3.9,
+   "fat": 1.1
+  },
+  "11094": {
+   "name": "Coriandre, fraiche",
+   "kcal": 22.3,
+   "protein": 2.13,
+   "carbs": 0.87,
+   "fat": 0.52
+  },
+  "11104": {
+   "name": "Sauce soja, préemballée",
+   "kcal": 39.9,
+   "protein": 7.25,
+   "carbs": 1.72,
+   "fat": 0.0
+  },
+  "11112": {
+   "name": "Harissa (sauce au piment), préemballée",
+   "kcal": 76.4,
+   "protein": 2.72,
+   "carbs": 7.3,
+   "fat": 2.9
+  },
+  "11169": {
+   "name": "Fond de veau pour sauces et cuisson, déshydraté",
+   "kcal": 343.0,
+   "protein": 8.5,
+   "carbs": 59.5,
+   "fat": 7.4
+  },
+  "11174": {
+   "name": "Bouillon de volaille, déshydraté",
+   "kcal": 193.0,
+   "protein": 13.0,
+   "carbs": 17.0,
+   "fat": 8.0
+  },
+  "11179": {
+   "name": "Sauce pesto, préemballée",
+   "kcal": 370.0,
+   "protein": 3.94,
+   "carbs": 6.6,
+   "fat": 35.4
+  },
+  "11194": {
+   "name": "Sauce nuoc mâm ou sauce au poisson, préemballée",
+   "kcal": 81.2,
+   "protein": 9.3,
+   "carbs": 10.9,
+   "fat": 0.0
+  },
+  "11217": {
+   "name": "Sauce pour nems à base de nuoc-mam dilué, préemballée",
+   "kcal": 132.0,
+   "protein": 1.38,
+   "carbs": 31.2,
+   "fat": 0.0
+  },
+  "11220": {
+   "name": "Vinaigre de vin rouge",
+   "kcal": 20.6,
+   "protein": 0.25,
+   "carbs": 0.0,
+   "fat": 0.0
+  },
+  "12006": {
+   "name": "Camembert au lait cru ou thermisé",
+   "kcal": 267.0,
+   "protein": 20.7,
+   "carbs": 0.0,
+   "fat": 20.3
+  },
+  "12045": {
+   "name": "Reblochon",
+   "kcal": 322.0,
+   "protein": 20.3,
+   "carbs": 0.0,
+   "fat": 26.9
+  },
+  "12066": {
+   "name": "Feta, au lait de brebis 70% minimum et lait de chèvre 30% maximum",
+   "kcal": 284.0,
+   "protein": 15.1,
+   "carbs": 0.45,
+   "fat": 24.3
+  },
+  "12110": {
+   "name": "Comté",
+   "kcal": 413.0,
+   "protein": 27.8,
+   "carbs": 0.0,
+   "fat": 33.8
+  },
+  "12118": {
+   "name": "Emmental ou emmenthal, râpé",
+   "kcal": 368.0,
+   "protein": 27.6,
+   "carbs": 0.58,
+   "fat": 28.2
+  },
+  "12120": {
+   "name": "Parmesan",
+   "kcal": 411.0,
+   "protein": 31.1,
+   "carbs": 1.14,
+   "fat": 31.0
+  },
+  "12521": {
+   "name": "Fromage bleu d'Auvergne",
+   "kcal": 342.0,
+   "protein": 20.6,
+   "carbs": 0.0,
+   "fat": 29.0
+  },
+  "12726": {
+   "name": "Cheddar",
+   "kcal": 399.0,
+   "protein": 24.7,
+   "carbs": 1.2,
+   "fat": 32.6
+  },
+  "12749": {
+   "name": "Raclette (fromage)",
+   "kcal": 342.0,
+   "protein": 23.4,
+   "carbs": 0.0,
+   "fat": 27.5
+  },
+  "12805": {
+   "name": "Fromage de chèvre frais, type palet, crottin ou bûchette",
+   "kcal": 194.0,
+   "protein": 12.0,
+   "carbs": 2.5,
+   "fat": 15.2
+  },
+  "12812": {
+   "name": "Fromage de chèvre bûche",
+   "kcal": 285.0,
+   "protein": 18.8,
+   "carbs": 0.0,
+   "fat": 23.3
+  },
+  "13001": {
+   "name": "Abricot, dénoyauté, sec",
+   "kcal": 239.0,
+   "protein": 2.88,
+   "carbs": 59.1,
+   "fat": 0.5
+  },
+  "13004": {
+   "name": "Avocat, chair sans peau, sans noyau, cru",
+   "kcal": 203.0,
+   "protein": 1.56,
+   "carbs": 0.0,
+   "fat": 20.6
+  },
+  "13005": {
+   "name": "Banane, chair sans peau, crue",
+   "kcal": 87.6,
+   "protein": 1.06,
+   "carbs": 19.7,
+   "fat": 0.0
+  },
+  "13009": {
+   "name": "Citron, chair sans peau, sans pépins, cru",
+   "kcal": 24.3,
+   "protein": 0.25,
+   "carbs": 1.56,
+   "fat": 0.0
+  },
+  "13014": {
+   "name": "Fraise, crue",
+   "kcal": 35.1,
+   "protein": 0.63,
+   "carbs": 6.03,
+   "fat": 0.0
+  },
+  "13015": {
+   "name": "Framboise, crue",
+   "kcal": 47.9,
+   "protein": 1.19,
+   "carbs": 5.83,
+   "fat": 0.8
+  },
+  "13021": {
+   "name": "Kiwi, chair sans peau, avec pépins, cru",
+   "kcal": 60.9,
+   "protein": 0.88,
+   "carbs": 11.0,
+   "fat": 0.6
+  },
+  "13024": {
+   "name": "Clémentine ou mandarine, chair sans peau, sans pépins, crue",
+   "kcal": 45.5,
+   "protein": 0.81,
+   "carbs": 9.17,
+   "fat": 0.0
+  },
+  "13028": {
+   "name": "Myrtille, crue",
+   "kcal": 57.7,
+   "protein": 0.87,
+   "carbs": 10.6,
+   "fat": 0.33
+  },
+  "13032": {
+   "name": "Olive noire, en saumure, égouttée",
+   "kcal": 173.0,
+   "protein": 1.38,
+   "carbs": 0.0,
+   "fat": 17.2
+  },
+  "13033": {
+   "name": "Olive verte, en saumure, égouttée",
+   "kcal": 164.0,
+   "protein": 1.13,
+   "carbs": 0.61,
+   "fat": 16.6
+  },
+  "13034": {
+   "name": "Orange, chair sans peau, sans pépins, crue",
+   "kcal": 42.0,
+   "protein": 0.75,
+   "carbs": 8.03,
+   "fat": 0.0
+  },
+  "13037": {
+   "name": "Poire, chair et peau, crue",
+   "kcal": 56.6,
+   "protein": 0.36,
+   "carbs": 12.3,
+   "fat": 0.27
+  },
+  "13039": {
+   "name": "Pomme, chair et peau, crue",
+   "kcal": 54.0,
+   "protein": 0.25,
+   "carbs": 11.6,
+   "fat": 0.25
+  },
+  "13042": {
+   "name": "Pruneau, sans noyau, sec",
+   "kcal": 229.0,
+   "protein": 1.63,
+   "carbs": 55.4,
+   "fat": 0.4
+  },
+  "13046": {
+   "name": "Raisin sec",
+   "kcal": 322.0,
+   "protein": 3.0,
+   "carbs": 73.2,
+   "fat": 0.9
+  },
+  "13067": {
+   "name": "Citron vert ou lime, chair sans peau, sans pépins, cru",
+   "kcal": 39.3,
+   "protein": 1.13,
+   "carbs": 3.14,
+   "fat": 0.0
+  },
+  "13187": {
+   "name": "Purée de pommes, type \"compote sans sucres ajoutés\", rayon ambiant",
+   "kcal": 56.4,
+   "protein": 1.13,
+   "carbs": 11.6,
+   "fat": 0.28
+  },
+  "13718": {
+   "name": "Ananas au sirop léger, appertisé, égoutté",
+   "kcal": 65.8,
+   "protein": 0.25,
+   "carbs": 15.3,
+   "fat": 0.0
+  },
+  "13730": {
+   "name": "Pêche, sans noyau, au sirop léger, appertisée, égouttée",
+   "kcal": 59.0,
+   "protein": 0.5,
+   "carbs": 13.5,
+   "fat": 0.0
+  },
+  "15000": {
+   "name": "Amande, avec peau, sans sel ajouté",
+   "kcal": 615.0,
+   "protein": 18.8,
+   "carbs": 9.51,
+   "fat": 51.3
+  },
+  "15002": {
+   "name": "Cacahuète, grillée, salée",
+   "kcal": 635.0,
+   "protein": 22.9,
+   "carbs": 14.2,
+   "fat": 50.8
+  },
+  "15007": {
+   "name": "Noix de coco, chair, sèche",
+   "kcal": 692.0,
+   "protein": 6.83,
+   "carbs": 7.81,
+   "fat": 66.8
+  },
+  "15010": {
+   "name": "Sésame, graine",
+   "kcal": 606.0,
+   "protein": 17.7,
+   "carbs": 12.8,
+   "fat": 49.7
+  },
+  "15054": {
+   "name": "Noix de cajou, grillée, sans sel ajouté",
+   "kcal": 618.0,
+   "protein": 17.4,
+   "carbs": 21.3,
+   "fat": 48.1
+  },
+  "15202": {
+   "name": "Beurre de cacahuète ou pâte d'arachide",
+   "kcal": 643.0,
+   "protein": 22.2,
+   "carbs": 17.3,
+   "fat": 51.4
+  },
+  "15203": {
+   "name": "Tahin ou purée de sésame",
+   "kcal": 631.0,
+   "protein": 17.7,
+   "carbs": 13.8,
+   "fat": 53.4
+  },
+  "16400": {
+   "name": "Beurre à 80% MG minimum, doux",
+   "kcal": 753.0,
+   "protein": 0.64,
+   "carbs": 0.71,
+   "fat": 83.0
+  },
+  "17270": {
+   "name": "Huile d'olive vierge extra",
+   "kcal": 899.0,
+   "protein": 0.25,
+   "carbs": 0.0,
+   "fat": 99.9
+  },
+  "17440": {
+   "name": "Huile de tournesol",
+   "kcal": 900.0,
+   "protein": 0.25,
+   "carbs": 0.0,
+   "fat": 100.0
+  },
+  "18005": {
+   "name": "Café, poudre soluble",
+   "kcal": 291.0,
+   "protein": 18.5,
+   "carbs": 41.9,
+   "fat": 1.1
+  },
+  "18041": {
+   "name": "Lait de coco",
+   "kcal": 199.0,
+   "protein": 1.94,
+   "carbs": 4.29,
+   "fat": 19.2
+  },
+  "18100": {
+   "name": "Cacao, sans sucres ajoutés, poudre soluble",
+   "kcal": 387.0,
+   "protein": 22.4,
+   "carbs": 11.6,
+   "fat": 20.6
+  },
+  "18899": {
+   "name": "Boisson à l'avoine, nature, sans sucres ajoutés, non enrichie, préemballée",
+   "kcal": 41.0,
+   "protein": 0.25,
+   "carbs": 7.78,
+   "fat": 1.1
+  },
+  "18900": {
+   "name": "Boisson au soja, nature, non enrichie, préemballée",
+   "kcal": 42.4,
+   "protein": 3.19,
+   "carbs": 1.87,
+   "fat": 2.1
+  },
+  "19027": {
+   "name": "Lait concentré sucré, entier",
+   "kcal": 327.0,
+   "protein": 7.7,
+   "carbs": 56.5,
+   "fat": 7.87
+  },
+  "19041": {
+   "name": "Lait demi-écrémé, UHT",
+   "kcal": 47.7,
+   "protein": 3.48,
+   "carbs": 5.0,
+   "fat": 1.56
+  },
+  "19410": {
+   "name": "Crème 30% MG, épaisse, rayon frais",
+   "kcal": 285.0,
+   "protein": 2.32,
+   "carbs": 1.38,
+   "fat": 29.9
+  },
+  "19417": {
+   "name": "Crème 30% MG, fluide, UHT",
+   "kcal": 293.0,
+   "protein": 2.2,
+   "carbs": 3.69,
+   "fat": 30.0
+  },
+  "19430": {
+   "name": "Crème 12 à 25% MG, légère, semi-épaisse, UHT",
+   "kcal": 189.0,
+   "protein": 2.78,
+   "carbs": 4.34,
+   "fat": 17.6
+  },
+  "19584": {
+   "name": "Mascarpone",
+   "kcal": 369.0,
+   "protein": 6.0,
+   "carbs": 3.1,
+   "fat": 37.0
+  },
+  "19590": {
+   "name": "Mozzarella au lait de vache",
+   "kcal": 227.0,
+   "protein": 16.5,
+   "carbs": 0.7,
+   "fat": 17.7
+  },
+  "19593": {
+   "name": "Yaourt ou lait fermenté, nature",
+   "kcal": 50.1,
+   "protein": 3.83,
+   "carbs": 4.26,
+   "fat": 1.68
+  },
+  "19646": {
+   "name": "Fromage blanc, nature, 2-3% MG",
+   "kcal": 75.7,
+   "protein": 7.28,
+   "carbs": 3.86,
+   "fat": 3.23
+  },
+  "19860": {
+   "name": "Yaourt à la grecque nature",
+   "kcal": 103.0,
+   "protein": 3.02,
+   "carbs": 3.73,
+   "fat": 8.16
+  },
+  "20003": {
+   "name": "Betterave rouge, cuite",
+   "kcal": 41.5,
+   "protein": 1.44,
+   "carbs": 7.13,
+   "fat": 0.4
+  },
+  "20009": {
+   "name": "Carotte, crue",
+   "kcal": 30.2,
+   "protein": 0.78,
+   "carbs": 5.16,
+   "fat": 0.0
+  },
+  "20014": {
+   "name": "Chou rouge, cru",
+   "kcal": 26.4,
+   "protein": 1.13,
+   "carbs": 4.33,
+   "fat": 0.0
+  },
+  "20016": {
+   "name": "Chou-fleur, cru",
+   "kcal": 24.9,
+   "protein": 1.81,
+   "carbs": 2.13,
+   "fat": 0.7
+  },
+  "20019": {
+   "name": "Concombre, chair et peau, cru",
+   "kcal": 16.8,
+   "protein": 0.65,
+   "carbs": 2.87,
+   "fat": 0.11
+  },
+  "20020": {
+   "name": "Courgette, chair et peau, crue",
+   "kcal": 16.7,
+   "protein": 1.21,
+   "carbs": 1.75,
+   "fat": 0.32
+  },
+  "20023": {
+   "name": "Céleri branche, cru",
+   "kcal": 15.4,
+   "protein": 0.63,
+   "carbs": 2.41,
+   "fat": 0.0
+  },
+  "20026": {
+   "name": "Endive, crue",
+   "kcal": 16.6,
+   "protein": 1.19,
+   "carbs": 2.83,
+   "fat": 0.0
+  },
+  "20028": {
+   "name": "Fenouil, cru",
+   "kcal": 18.2,
+   "protein": 1.0,
+   "carbs": 2.63,
+   "fat": 0.0
+  },
+  "20031": {
+   "name": "Laitue, crue",
+   "kcal": 14.7,
+   "protein": 1.35,
+   "carbs": 1.22,
+   "fat": 0.2
+  },
+  "20036": {
+   "name": "Petits pois, appertisés, égouttés",
+   "kcal": 92.5,
+   "protein": 4.87,
+   "carbs": 13.7,
+   "fat": 0.8
+  },
+  "20039": {
+   "name": "Poireau, cru",
+   "kcal": 30.4,
+   "protein": 1.5,
+   "carbs": 4.55,
+   "fat": 0.3
+  },
+  "20045": {
+   "name": "Radis rouge, cru",
+   "kcal": 11.0,
+   "protein": 0.94,
+   "carbs": 1.53,
+   "fat": 0.0
+  },
+  "20053": {
+   "name": "Aubergine, crue",
+   "kcal": 22.9,
+   "protein": 0.98,
+   "carbs": 2.7,
+   "fat": 0.18
+  },
+  "20055": {
+   "name": "Céleri-rave, cru",
+   "kcal": 26.3,
+   "protein": 1.38,
+   "carbs": 3.98,
+   "fat": 0.0
+  },
+  "20056": {
+   "name": "Champignon de Paris ou champignon de couche, cru",
+   "kcal": 21.0,
+   "protein": 2.11,
+   "carbs": 1.83,
+   "fat": 0.36
+  },
+  "20057": {
+   "name": "Brocoli, cru",
+   "kcal": 31.9,
+   "protein": 2.9,
+   "carbs": 2.15,
+   "fat": 0.36
+  },
+  "20058": {
+   "name": "Chou de Bruxelles, cru",
+   "kcal": 43.9,
+   "protein": 3.38,
+   "carbs": 4.59,
+   "fat": 0.3
+  },
+  "20061": {
+   "name": "Haricot vert, cru",
+   "kcal": 31.9,
+   "protein": 1.83,
+   "carbs": 4.14,
+   "fat": 0.22
+  },
+  "20064": {
+   "name": "Navet, pelé, cru",
+   "kcal": 25.6,
+   "protein": 0.9,
+   "carbs": 4.39,
+   "fat": 0.1
+  },
+  "20066": {
+   "name": "Maïs doux, appertisé, égoutté",
+   "kcal": 105.0,
+   "protein": 2.66,
+   "carbs": 18.3,
+   "fat": 1.68
+  },
+  "20069": {
+   "name": "Chou vert, cru",
+   "kcal": 24.4,
+   "protein": 1.43,
+   "carbs": 2.74,
+   "fat": 0.14
+  },
+  "20070": {
+   "name": "Haricot vert, surgelé, cru",
+   "kcal": 33.1,
+   "protein": 1.79,
+   "carbs": 4.76,
+   "fat": 0.21
+  },
+  "20079": {
+   "name": "Champignon de Paris ou champignon de couche, appertisé, égoutté",
+   "kcal": 18.3,
+   "protein": 2.0,
+   "carbs": 0.64,
+   "fat": 0.37
+  },
+  "20083": {
+   "name": "Epinard, haché ou purée ou en branches, surgelé, cru",
+   "kcal": 28.0,
+   "protein": 3.32,
+   "carbs": 1.0,
+   "fat": 0.54
+  },
+  "20084": {
+   "name": "Petits pois, surgelés, crus",
+   "kcal": 77.9,
+   "protein": 5.86,
+   "carbs": 9.5,
+   "fat": 0.4
+  },
+  "20087": {
+   "name": "Poivron rouge, cru",
+   "kcal": 33.6,
+   "protein": 1.06,
+   "carbs": 5.98,
+   "fat": 0.0
+  },
+  "20097": {
+   "name": "Échalote, crue",
+   "kcal": 61.7,
+   "protein": 1.81,
+   "carbs": 12.2,
+   "fat": 0.0
+  },
+  "20099": {
+   "name": "Mâche, crue",
+   "kcal": 15.0,
+   "protein": 2.0,
+   "carbs": 0.5,
+   "fat": 0.0
+  },
+  "20116": {
+   "name": "Chou blanc, cru",
+   "kcal": 35.2,
+   "protein": 1.38,
+   "carbs": 4.63,
+   "fat": 0.6
+  },
+  "20132": {
+   "name": "Potimarron, chair sans peau, cru",
+   "kcal": 22.1,
+   "protein": 0.95,
+   "carbs": 3.1,
+   "fat": 0.28
+  },
+  "20138": {
+   "name": "Courge butternut (doubeurre), chair sans peau, crue",
+   "kcal": 30.5,
+   "protein": 1.0,
+   "carbs": 5.4,
+   "fat": 0.1
+  },
+  "20151": {
+   "name": "Piment, cru",
+   "kcal": 37.4,
+   "protein": 1.87,
+   "carbs": 5.75,
+   "fat": 0.44
+  },
+  "20169": {
+   "name": "Tomate, chair, appertisée",
+   "kcal": 22.6,
+   "protein": 1.2,
+   "carbs": 3.63,
+   "fat": 0.0
+  },
+  "20172": {
+   "name": "Tomate cerise, crue",
+   "kcal": 31.8,
+   "protein": 1.31,
+   "carbs": 5.62,
+   "fat": 0.0
+  },
+  "20181": {
+   "name": "Panais, cru",
+   "kcal": 67.9,
+   "protein": 1.2,
+   "carbs": 12.6,
+   "fat": 0.3
+  },
+  "20183": {
+   "name": "Graine germée de haricot mungo ou pousse de \"soja\", crue",
+   "kcal": 28.3,
+   "protein": 2.57,
+   "carbs": 3.4,
+   "fat": 0.0
+  },
+  "20204": {
+   "name": "Brocoli, surgelé, cru",
+   "kcal": 26.4,
+   "protein": 2.78,
+   "carbs": 1.5,
+   "fat": 0.42
+  },
+  "20214": {
+   "name": "Petits pois et carottes, surgelés, crus",
+   "kcal": 53.0,
+   "protein": 3.4,
+   "carbs": 7.1,
+   "fat": 0.47
+  },
+  "20217": {
+   "name": "Roquette, crue",
+   "kcal": 27.9,
+   "protein": 2.58,
+   "carbs": 2.1,
+   "fat": 0.66
+  },
+  "20238": {
+   "name": "Oignon rouge, cru",
+   "kcal": 35.0,
+   "protein": 1.31,
+   "carbs": 5.63,
+   "fat": 0.4
+  },
+  "20239": {
+   "name": "Oignon jaune, cru",
+   "kcal": 35.9,
+   "protein": 1.19,
+   "carbs": 6.39,
+   "fat": 0.0
+  },
+  "20260": {
+   "name": "Tomate, coulis, appertisé (purée de tomates mi-réduite à 11%)",
+   "kcal": 45.5,
+   "protein": 2.05,
+   "carbs": 7.57,
+   "fat": 0.2
+  },
+  "20263": {
+   "name": "Légumes pour potages, surgelés, crus",
+   "kcal": 33.9,
+   "protein": 1.33,
+   "carbs": 5.83,
+   "fat": 0.0
+  },
+  "20268": {
+   "name": "Tomate, double concentré, appertisé",
+   "kcal": 99.5,
+   "protein": 3.75,
+   "carbs": 19.3,
+   "fat": 0.47
+  },
+  "20270": {
+   "name": "Épinard, jeunes pousses pour salades, cru",
+   "kcal": 17.0,
+   "protein": 2.06,
+   "carbs": 0.0,
+   "fat": 0.4
+  },
+  "20273": {
+   "name": "Poêlée de légumes assaisonnés à l'asiatiques ou wok de légumes, surgelée, crue",
+   "kcal": 73.5,
+   "protein": 1.75,
+   "carbs": 4.0,
+   "fat": 5.0
+  },
+  "20276": {
+   "name": "Tomate ronde, crue",
+   "kcal": 17.5,
+   "protein": 0.5,
+   "carbs": 3.42,
+   "fat": 0.0
+  },
+  "20323": {
+   "name": "Oignon nouveau ou oignon frais ou cébette, sauté/poêlé sans matière grasse",
+   "kcal": 28.0,
+   "protein": 1.13,
+   "carbs": 3.56,
+   "fat": 0.3
+  },
+  "20508": {
+   "name": "Haricot flageolet, appertisé, égoutté",
+   "kcal": 92.9,
+   "protein": 6.1,
+   "carbs": 12.2,
+   "fat": 0.79
+  },
+  "20510": {
+   "name": "Lentille, cuisinée, appertisée, égouttée",
+   "kcal": 90.4,
+   "protein": 6.83,
+   "carbs": 12.3,
+   "fat": 0.64
+  },
+  "20511": {
+   "name": "Haricot blanc, appertisé, égoutté",
+   "kcal": 85.5,
+   "protein": 5.88,
+   "carbs": 10.9,
+   "fat": 0.5
+  },
+  "20515": {
+   "name": "Pois cassé, sec",
+   "kcal": 347.0,
+   "protein": 23.8,
+   "carbs": 47.5,
+   "fat": 1.16
+  },
+  "20516": {
+   "name": "Pois chiche, sec",
+   "kcal": 350.0,
+   "protein": 20.5,
+   "carbs": 47.5,
+   "fat": 6.04
+  },
+  "20524": {
+   "name": "Haricot rouge, appertisé, égoutté",
+   "kcal": 108.0,
+   "protein": 8.31,
+   "carbs": 13.0,
+   "fat": 0.97
+  },
+  "20532": {
+   "name": "Pois chiche, appertisé, égoutté",
+   "kcal": 122.0,
+   "protein": 6.74,
+   "carbs": 15.0,
+   "fat": 2.68
+  },
+  "20535": {
+   "name": "Lentille corail, sèche",
+   "kcal": 328.0,
+   "protein": 27.7,
+   "carbs": 44.9,
+   "fat": 0.8
+  },
+  "20585": {
+   "name": "Lentille verte, sèche",
+   "kcal": 327.0,
+   "protein": 25.1,
+   "carbs": 44.5,
+   "fat": 1.8
+  },
+  "20904": {
+   "name": "Tofu nature, préemballé",
+   "kcal": 147.0,
+   "protein": 13.4,
+   "carbs": 2.87,
+   "fat": 8.5
+  },
+  "20912": {
+   "name": "Tofu fumé, préemballé",
+   "kcal": 164.0,
+   "protein": 14.9,
+   "carbs": 2.91,
+   "fat": 9.5
+  },
+  "21504": {
+   "name": "Agneau, épaule crue",
+   "kcal": 170.0,
+   "protein": 18.3,
+   "carbs": 0.45,
+   "fat": 10.6
+  },
+  "22000": {
+   "name": "Oeuf cru",
+   "kcal": 140.0,
+   "protein": 12.8,
+   "carbs": 0.06,
+   "fat": 9.83
+  },
+  "23410": {
+   "name": "Pâte brisée, matière grasse végétale, préemballée, crue",
+   "kcal": 392.0,
+   "protein": 5.17,
+   "carbs": 42.7,
+   "fat": 21.7
+  },
+  "23424": {
+   "name": "Pâte feuilletée, pur beurre, préemballée, crue",
+   "kcal": 370.0,
+   "protein": 5.47,
+   "carbs": 40.0,
+   "fat": 20.0
+  },
+  "23801": {
+   "name": "Galette de sarrasin, nature, souple (à garnir) préemballée",
+   "kcal": 161.0,
+   "protein": 5.32,
+   "carbs": 30.5,
+   "fat": 1.74
+  },
+  "24015": {
+   "name": "Biscuit sec petit beurre",
+   "kcal": 450.0,
+   "protein": 7.78,
+   "carbs": 73.4,
+   "fat": 13.3
+  },
+  "24430": {
+   "name": "Biscuit sec aux oeufs à la cuillère (cuiller) ou boudoir",
+   "kcal": 366.0,
+   "protein": 7.75,
+   "carbs": 74.5,
+   "fat": 3.4
+  },
+  "25018": {
+   "name": "Ratatouille cuisinée, préemballée",
+   "kcal": 57.1,
+   "protein": 1.22,
+   "carbs": 4.97,
+   "fat": 3.15
+  },
+  "25089": {
+   "name": "Cordon bleu de volaille, préemballé",
+   "kcal": 226.0,
+   "protein": 14.0,
+   "carbs": 14.6,
+   "fat": 12.2
+  },
+  "25157": {
+   "name": "Pâtes fraîches farcies (ex : raviolis, tortellinis), au boeuf (ex : bolognaise), préemballées, crues",
+   "kcal": 265.0,
+   "protein": 11.4,
+   "carbs": 40.3,
+   "fat": 5.79
+  },
+  "25163": {
+   "name": "Boulettes au boeuf, cuites",
+   "kcal": 217.0,
+   "protein": 18.5,
+   "carbs": 5.65,
+   "fat": 13.3
+  },
+  "25967": {
+   "name": "Soupe froide type gaspacho ou gazpacho, préemballée",
+   "kcal": 40.2,
+   "protein": 0.81,
+   "carbs": 3.21,
+   "fat": 2.33
+  },
+  "26006": {
+   "name": "Lieu ou colin d'Alaska, cru",
+   "kcal": 72.6,
+   "protein": 16.3,
+   "carbs": 0.51,
+   "fat": 0.61
+  },
+  "26029": {
+   "name": "Poisson pané, surgelé, cru",
+   "kcal": 163.0,
+   "protein": 11.0,
+   "carbs": 15.6,
+   "fat": 6.14
+  },
+  "26034": {
+   "name": "Sardine, à l'huile, appertisée, égouttée",
+   "kcal": 217.0,
+   "protein": 23.3,
+   "carbs": 0.31,
+   "fat": 13.7
+  },
+  "26036": {
+   "name": "Saumon, élevage, cru",
+   "kcal": 193.0,
+   "protein": 20.5,
+   "carbs": 0.0,
+   "fat": 12.4
+  },
+  "26037": {
+   "name": "Saumon fumé",
+   "kcal": 184.0,
+   "protein": 22.2,
+   "carbs": 0.13,
+   "fat": 10.5
+  },
+  "26039": {
+   "name": "Thon, au naturel, appertisé, égoutté",
+   "kcal": 143.0,
+   "protein": 26.8,
+   "carbs": 0.0,
+   "fat": 3.94
+  },
+  "26043": {
+   "name": "Cabillaud, cru",
+   "kcal": 77.4,
+   "protein": 18.1,
+   "carbs": 0.0,
+   "fat": 0.57
+  },
+  "26046": {
+   "name": "Surimi, bâtonnets, tranche ou râpé saveur crabe",
+   "kcal": 117.0,
+   "protein": 7.54,
+   "carbs": 11.8,
+   "fat": 4.33
+  },
+  "26123": {
+   "name": "Maquereau, filet (grillé ou non), au naturel, appertisé, égoutté",
+   "kcal": 221.0,
+   "protein": 18.8,
+   "carbs": 0.018,
+   "fat": 16.2
+  },
+  "26264": {
+   "name": "Gnocchi à la pomme de terre, à cuire",
+   "kcal": 176.0,
+   "protein": 4.66,
+   "carbs": 35.0,
+   "fat": 1.42
+  },
+  "28002": {
+   "name": "Porc, poitrine crue",
+   "kcal": 253.0,
+   "protein": 17.0,
+   "carbs": 0.0,
+   "fat": 20.5
+  },
+  "28300": {
+   "name": "Porc, rôti cru",
+   "kcal": 153.0,
+   "protein": 22.3,
+   "carbs": 0.5,
+   "fat": 6.86
+  },
+  "28302": {
+   "name": "Porc, échine crue",
+   "kcal": 238.0,
+   "protein": 17.1,
+   "carbs": 0.1,
+   "fat": 18.8
+  },
+  "28720": {
+   "name": "Lardon fumé, cru",
+   "kcal": 272.0,
+   "protein": 16.7,
+   "carbs": 0.35,
+   "fat": 22.6
+  },
+  "28800": {
+   "name": "Jambon cru",
+   "kcal": 239.0,
+   "protein": 25.9,
+   "carbs": 4.27,
+   "fat": 13.2
+  },
+  "28900": {
+   "name": "Jambon cuit, supérieur",
+   "kcal": 113.0,
+   "protein": 21.0,
+   "carbs": 0.76,
+   "fat": 2.83
+  },
+  "28922": {
+   "name": "Dés, allumettes, râpé ou haché de jambon",
+   "kcal": 120.0,
+   "protein": 17.9,
+   "carbs": 2.08,
+   "fat": 4.46
+  },
+  "28964": {
+   "name": "Jambon de dinde ou blanc de dinde en tranche",
+   "kcal": 99.3,
+   "protein": 20.9,
+   "carbs": 0.023,
+   "fat": 1.67
+  },
+  "30050": {
+   "name": "Chair à saucisse crue",
+   "kcal": 323.0,
+   "protein": 14.7,
+   "carbs": 0.6,
+   "fat": 29.1
+  },
+  "30102": {
+   "name": "Saucisse fumée à cuire",
+   "kcal": 336.0,
+   "protein": 15.6,
+   "carbs": 0.0,
+   "fat": 30.4
+  },
+  "30110": {
+   "name": "Saucisse de Toulouse crue",
+   "kcal": 321.0,
+   "protein": 13.3,
+   "carbs": 0.64,
+   "fat": 29.5
+  },
+  "30115": {
+   "name": "Chipolata crue",
+   "kcal": 253.0,
+   "protein": 15.8,
+   "carbs": 1.0,
+   "fat": 20.6
+  },
+  "30150": {
+   "name": "Merguez crue",
+   "kcal": 301.0,
+   "protein": 13.8,
+   "carbs": 1.15,
+   "fat": 26.8
+  },
+  "30316": {
+   "name": "Chorizo supérieur, doux ou fort, type saucisse sèche",
+   "kcal": 474.0,
+   "protein": 20.9,
+   "carbs": 1.87,
+   "fat": 41.9
+  },
+  "30742": {
+   "name": "Saucisse de Strasbourg ou knack, à cuire",
+   "kcal": 291.0,
+   "protein": 12.4,
+   "carbs": 1.39,
+   "fat": 25.9
+  },
+  "31008": {
+   "name": "Miel",
+   "kcal": 331.0,
+   "protein": 0.65,
+   "carbs": 82.1,
+   "fat": 0.0
+  },
+  "31016": {
+   "name": "Sucre blanc",
+   "kcal": 399.0,
+   "protein": 0.0,
+   "carbs": 99.7,
+   "fat": 0.0
+  },
+  "31024": {
+   "name": "Confiture de fraise (extra ou classique)",
+   "kcal": 248.0,
+   "protein": 0.25,
+   "carbs": 60.5,
+   "fat": 0.5
+  },
+  "31044": {
+   "name": "Sucre vanillé",
+   "kcal": 397.0,
+   "protein": 0.1,
+   "carbs": 98.6,
+   "fat": 0.33
+  },
+  "31085": {
+   "name": "Chocolat noir 40% de cacao et plus, à pâtisser, tablette",
+   "kcal": 546.0,
+   "protein": 6.39,
+   "carbs": 51.4,
+   "fat": 33.1
+  },
+  "32110": {
+   "name": "Muesli floconneux aux fruits, fruits à coque et/ou graines, enrichi en vitamines et minéraux",
+   "kcal": 378.0,
+   "protein": 9.5,
+   "carbs": 68.9,
+   "fat": 5.3
+  },
+  "32140": {
+   "name": "Flocons d'avoine",
+   "kcal": 369.0,
+   "protein": 10.6,
+   "carbs": 57.7,
+   "fat": 7.82
+  },
+  "36002": {
+   "name": "Poulet, cuisse, viande et peau crue",
+   "kcal": 192.0,
+   "protein": 17.3,
+   "carbs": 0.0,
+   "fat": 13.5
+  },
+  "36016": {
+   "name": "Poulet, viande et peau crues",
+   "kcal": 173.0,
+   "protein": 21.5,
+   "carbs": 0.3,
+   "fat": 9.54
+  },
+  "36017": {
+   "name": "Poulet, filet sans peau cru",
+   "kcal": 110.0,
+   "protein": 23.4,
+   "carbs": 0.0,
+   "fat": 1.5
+  },
+  "36023": {
+   "name": "Poulet, aile, viande et peau crues",
+   "kcal": 181.0,
+   "protein": 20.4,
+   "carbs": 0.0,
+   "fat": 11.0
+  },
+  "36206": {
+   "name": "Canard, magret cru",
+   "kcal": 337.0,
+   "protein": 17.9,
+   "carbs": 0.1,
+   "fat": 29.4
+  },
+  "36304": {
+   "name": "Dinde, escalope crue",
+   "kcal": 108.0,
+   "protein": 23.7,
+   "carbs": 0.0,
+   "fat": 1.48
+  },
+  "37001": {
+   "name": "Pâte à pizza, préemballée, crue",
+   "kcal": 240.0,
+   "protein": 7.05,
+   "carbs": 44.2,
+   "fat": 3.45
+  },
+  "40108": {
+   "name": "Foie, volaille, cru",
+   "kcal": 134.0,
+   "protein": 21.5,
+   "carbs": 1.25,
+   "fat": 4.75
+  },
+  "51550": {
+   "name": "Feuille de brick ou khatfa, préemballée",
+   "kcal": 283.0,
+   "protein": 7.0,
+   "carbs": 59.0,
+   "fat": 1.5
+  },
+  "53100": {
+   "name": "Banane plantain, crue",
+   "kcal": 132.0,
+   "protein": 1.3,
+   "carbs": 29.6,
+   "fat": 0.37
+  }
+ }
+}

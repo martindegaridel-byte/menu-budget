@@ -92,7 +92,7 @@ export default async function RecipePage({
         <RecipeStorage recipe={recipe} />
         {nutrition && (
           <div className="rounded-field bg-surface-2 p-3 ring-1 ring-inset ring-line">
-            <p className="mb-1.5 text-caption text-muted">Par portion (estimation)</p>
+            <p className="mb-1.5 text-caption text-muted">Par portion (estimation d&apos;après la table Ciqual 2025 de l&apos;Anses)</p>
             <MacroBar n={nutrition} />
           </div>
         )}

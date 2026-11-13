@@ -1,3 +1,4 @@
+import ciqualMap from "../../../data/ciqual-map.json";
 import { describe, expect, it } from "vitest";
 import { loadSeedData } from "@/lib/data/seed";
 import { energyShares, nutritionBonus } from "./nutrition";
@@ -8,12 +9,17 @@ import { prefs, seedContext } from "./test-fixtures";
 const data = loadSeedData();
 const ctx = seedContext();
 
+const ciqualMapped = new Set(Object.entries(ciqualMap.ingredients).filter(([, e]) => e.code !== null).map(([id]) => id));
+
 describe("données nutritionnelles", () => {
   it("couvrent tous les ingrédients, avec des calories cohérentes avec les macros", () => {
     for (const i of data.ingredients) {
       expect(i.nutrition, i.id).toBeDefined();
       const n = i.nutrition!;
       if (i.id.startsWith("vin-") || n.kcal <= 20) continue; // alcool ; aliments très peu caloriques
+      // Valeurs Ciqual (vérifiées par ciqual.test.ts) : leur énergie compte aussi les fibres (2 kcal/g),
+      // absentes de nos 4 macros — très visible sur les épices et herbes séchées.
+      if (ciqualMapped.has(i.id)) continue;
       const fromMacros = 4 * n.protein + 4 * n.carbs + 9 * n.fat;
       expect(Math.abs(fromMacros - n.kcal), i.id).toBeLessThanOrEqual(Math.max(25, n.kcal * 0.25));
     }
