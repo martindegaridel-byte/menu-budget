@@ -589,6 +589,7 @@ export function Planner({
           substituted={result.recipes[subSlot]!.substituted ?? []}
           ingredients={ingredientMap}
           excluded={new Set([...permanent.excludedIngredientIds, ...prefs.excludedIngredientIds])}
+          storeId={prefs.storeId}
           onPick={(from, to) => {
             const recipeId = result.recipes[subSlot]!.recipeId;
             applySubstitutions(
