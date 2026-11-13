@@ -9,13 +9,17 @@ export function EmptyState({
   description,
   action,
   className,
+  headingLevel = 3,
 }: {
   icon: LucideIcon;
   title: string;
   description?: ReactNode;
   action?: ReactNode;
   className?: string;
+  /** Niveau du titre selon sa place dans la page (2 si l'état vide suit directement le titre de page). */
+  headingLevel?: 2 | 3;
 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   return (
     <div className={cn("flex flex-col items-center px-6 py-10 text-center", className)}>
       <div className="relative mb-5">
@@ -24,7 +28,7 @@ export function EmptyState({
           <Icon aria-hidden className="size-7" strokeWidth={ICON_STROKE} />
         </div>
       </div>
-      <h3 className="text-title-3 font-semibold text-fg [text-wrap:balance]">{title}</h3>
+      <Heading className="text-title-3 font-semibold text-fg [text-wrap:balance]">{title}</Heading>
       {description && <p className="mt-1.5 max-w-sm text-body-sm text-muted [text-wrap:pretty]">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>

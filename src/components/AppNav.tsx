@@ -24,7 +24,7 @@ function useActive() {
 
 export function Brand({ className }: { className?: string }) {
   return (
-    <Link href="/" className={cn("focus-ring inline-flex items-center gap-2.5 rounded-field", className)}>
+    <Link href="/" className={cn("focus-ring inline-flex min-h-11 items-center gap-2.5 rounded-field", className)}>
       <span className="grid size-9 place-items-center rounded-field bg-accent-2 text-accent-fg">
         <PopoteLogo className="size-6" />
       </span>

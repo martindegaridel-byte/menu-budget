@@ -161,8 +161,8 @@ export function WeekPlanner({ result, menuKey, recipes, onChange }: { result: Me
                 <p className="text-caption text-muted">{dateFmt.format(parse(e.date))}</p>
               </div>
               <div className="min-w-0 flex-1">
-                <Link href={`/recettes/${r.recipeId}?p=${result.persons + (result.lunchPortions ?? 0)}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
-                  {r.name}
+                <Link href={`/recettes/${r.recipeId}?p=${result.persons + (result.lunchPortions ?? 0)}`} className="focus-ring relative before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] block rounded font-medium hover:text-accent-text">
+                  <span className="block truncate">{r.name}</span>
                 </Link>
                 <div className="mt-1 flex flex-wrap gap-1.5">
                   <Badge icon={badge.icon} tone={badge.tone}>

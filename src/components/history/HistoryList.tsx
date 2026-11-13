@@ -47,6 +47,7 @@ export function HistoryList({ recipes }: { recipes: RecipeSummary[] }) {
       <Card>
         <EmptyState
           icon={HistoryIcon}
+          headingLevel={2}
           title="Aucun menu enregistré pour l'instant"
           description="Composez un menu puis touchez « Enregistrer » : il apparaîtra ici, prêt à être refait en un tap."
           action={

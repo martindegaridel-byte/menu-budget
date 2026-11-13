@@ -67,7 +67,8 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
     <div className="space-y-4">
       <Card className="space-y-3" aria-labelledby="stores-title">
         <CardHeader icon={StoreIcon} title={<span id="stores-title">Mes magasins</span>} description="Le magasin choisi sert au calcul de vos menus." />
-        <ul className="space-y-2" role="radiogroup" aria-labelledby="stores-title">
+        <div role="radiogroup" aria-labelledby="stores-title">
+        <ul className="space-y-2">
           {stores.map((s) => {
             const on = s.id === activeId;
             return (
@@ -114,6 +115,7 @@ export function StoresManager({ ingredients }: { ingredients: IngredientOption[]
             );
           })}
         </ul>
+        </div>
         <AddStoreForm
           formatIndex={formatIndex}
           onCreated={async (id) => {

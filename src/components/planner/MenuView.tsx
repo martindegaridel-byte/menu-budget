@@ -237,7 +237,7 @@ export function MenuRecipes({
                   <p className="font-numeric text-title-3 font-semibold tabular-nums">{formatEuros(r.allocatedCents)}</p>
                 </div>
                 <h3 className="text-body font-semibold leading-snug [text-wrap:balance]">
-                  <Link href={href} className="focus-ring rounded hover:text-accent-text">
+                  <Link href={href} className="focus-ring relative before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] rounded hover:text-accent-text">
                     {r.name}
                   </Link>
                 </h3>

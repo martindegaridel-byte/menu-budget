@@ -168,7 +168,7 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
         />
         <div>
           <p className="mb-2 text-caption font-medium text-muted">Jour de la session</p>
-          <Segmented label="Jour de la session" value={sessionDay} onChange={setSessionDay} options={SESSION_DAYS} className="[&>button]:px-1.5" />
+          <Segmented label="Jour de la session" value={sessionDay} onChange={setSessionDay} options={SESSION_DAYS} className="[&>button]:min-w-11 [&>button]:px-1.5" />
         </div>
         <div>
           <p className="mb-2 text-caption font-medium text-muted">Temps maximum en cuisine pour la session</p>
@@ -191,6 +191,7 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
         <Card>
           <EmptyState
             icon={CookingPot}
+            headingLevel={2}
             title={result?.recipes.length ? "Votre menu actuel n'est pas en batch cooking" : "Pas encore de menu batch cooking"}
             description="Choisissez le jour et le temps dont vous disposez : on compose les repas des soirs suivants, à préparer en une seule session."
           />
@@ -274,9 +275,9 @@ export function BatchPlanner({ recipes }: { recipes: RecipeSummary[] }) {
                       <span className="block text-body-sm font-semibold">{dayName(slot)}</span>
                     </span>
                     <span className="min-w-0 flex-1">
-                      <Link href={`/recettes/${r.recipeId}?p=${result!.persons + (result!.lunchPortions ?? 0)}`} className="focus-ring block truncate rounded font-medium hover:text-accent-text">
-                        {r.name}
-                      </Link>
+                      <Link href={`/recettes/${r.recipeId}?p=${result!.persons + (result!.lunchPortions ?? 0)}`} className="focus-ring relative before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] block rounded font-medium hover:text-accent-text">
+                  <span className="block truncate">{r.name}</span>
+                </Link>
                       <span className="mt-1 flex flex-wrap gap-1.5">
                         {fresh.has(slot) ? (
                           <Badge tone="warn" icon={Timer}>
@@ -363,7 +364,7 @@ function Step({ n, icon: Icon, title, href, children }: { n: number; icon: typeo
         <span className="flex items-center gap-1.5 font-medium">
           <Icon aria-hidden className="size-4 shrink-0 text-muted" strokeWidth={ICON_STROKE} />
           {href ? (
-            <Link href={href} className={cn("focus-ring rounded hover:text-accent-text")}>
+            <Link href={href} className="focus-ring relative rounded before:absolute before:-inset-y-3 before:inset-x-0 before:content-[''] hover:text-accent-text">
               {title}
             </Link>
           ) : (
