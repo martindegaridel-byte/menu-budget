@@ -209,6 +209,11 @@
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:CrepeSuzette_20220507_205653.jpg"
   },
+  "croque-madame": {
+    "author": "Kimberly Vardeman from Lubbock, TX, USA",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Asparagi_alla_Bismarck_and_croque-monsieur_(4717894679).jpg"
+  },
   "croque-monsieur": {
     "author": "Ruth Hartnup",
     "license": "CC BY 2.0",
@@ -479,6 +484,11 @@
     "license": "CC0",
     "page": "https://commons.wikimedia.org/wiki/File:Yaki_udon_and_tofu_curry_rice_-_Pompoko.jpg"
   },
+  "nouilles-sautees-oeuf-legumes": {
+    "author": "Dennis Sylvester Hurd",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chinese_stir_fry_noodles.jpg"
+  },
   "nouilles-sautees-poulet-cacahuetes": {
     "author": "Daderot",
     "license": "CC0",
@@ -529,6 +539,11 @@
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Nargesi_omelette.jpg"
   },
+  "omelette-jambon-fromage": {
+    "author": "John Freeman",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ham_%26_Cheddar_Omelet_(1)_(38273841901).jpg"
+  },
   "overnight-oats": {
     "author": "Original description was: I, VirtualSteve took this photo…",
     "license": "CC BY-SA 2.5",
@@ -574,6 +589,16 @@
     "license": "CC BY 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Pasta_alla_Norma_(2563876877).jpg"
   },
+  "pates-beurre-emmental": {
+    "author": "Dllu",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_fettuccine_alfredo.JPG"
+  },
+  "pates-carbonara-creme": {
+    "author": "Triplec85",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_Carbonara_von_Unico_Tauberbischofsheim.jpg"
+  },
   "pates-courgettes-feta": {
     "author": "chomjong",
     "license": "CC BY 2.0",
@@ -599,6 +624,11 @@
     "license": "CC BY 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_with_a_tomatoes-sardine_sauce_and_broccoli_%E3%83%88%E3%83%9E%E3%83%88%E3%81%A8%E3%82%A4%E3%83%AF%E3%82%B7%E3%81%AE%E3%82%B9%E3%83%91%E3%82%B2%E3%83%86%E3%82%A3%E3%80%81%E3%83%96%E3%83%AD%E3%83%83%E3%82%B3%E3%83%AA%E3%83%BC%E6%B7%BB%E3%81%88.jpg"
   },
+  "pates-sauce-tomate": {
+    "author": "HaJunkiyada",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Liat_Portal_for_Foodie_Disorder_-_Spaghetti_with_Tomato_Sauce.jpg"
+  },
   "pates-tomates-sechees": {
     "author": "naotakem",
     "license": "CC BY 2.0",
@@ -623,6 +653,11 @@
     "author": "Petar Milošević",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Penne_Arrabbiata.jpg"
+  },
+  "penne-saucisses-tomate": {
+    "author": "Daderot",
+    "license": "CC0",
+    "page": "https://commons.wikimedia.org/wiki/File:Chicken_sausage,_cheddar_cheese,_tomato_sauce,_and_black_pepper_on_penne_-_Massachusetts.jpg"
   },
   "penne-thon-gaspacho-micro-ondes": {
     "author": "Daderot",
@@ -653,6 +688,11 @@
     "author": "jeffreyw",
     "license": "CC BY 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:White_pizza_with_chicken,_broccoli,_and_roasted_garlic_(15652092563).jpg"
+  },
+  "pizza-tortilla-express": {
+    "author": "Dan Zen from Dundas, Canada",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Vegetarian_Pizza_(139721356).jpg"
   },
   "poelee-panais-boulgour": {
     "author": "Gloria Cabada-Leman",
@@ -698,6 +738,11 @@
     "author": "Andrey Korzun",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Baked_apple_02.JPG"
+  },
+  "pommes-de-terre-sautees-oeufs": {
+    "author": "Bijay Chaurasia",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Poached_eggs_and_Fried_potatoes-Food_in_Annapurana_Base_Camp_Trek-3326.jpg"
   },
   "porc-caramel": {
     "author": "Baoothersks",
@@ -819,6 +864,11 @@
     "license": "CC BY 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Ratatouille.jpg"
   },
+  "raviolis-tomate-fromage": {
+    "author": "Benreis",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Ricotta_Ravioli_Tokk_Victoria_Gozo.jpg"
+  },
   "risotto-butternut": {
     "author": "Alpha from Melbourne, Australia",
     "license": "CC BY-SA 2.0",
@@ -909,6 +959,11 @@
     "license": "CC BY-SA 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Salade_ni%C3%A7oise_(7545098258).jpg"
   },
+  "salade-pates-thon-mais": {
+    "author": "Benreis",
+    "license": "CC BY 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Nudelsalat_mit_Penne.JPG"
+  },
   "salade-pdt-petits-pois": {
     "author": "Daderot",
     "license": "CC0",
@@ -923,6 +978,16 @@
     "author": "Karen and Brad Emerson",
     "license": "CC BY 2.0",
     "page": "https://commons.wikimedia.org/wiki/File:Rice_salad_(3513765313).jpg"
+  },
+  "salade-tomates-mozzarella": {
+    "author": "Rainer Zenz",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Caprese-1.jpg"
+  },
+  "sandwich-jambon-beurre": {
+    "author": "Al4az",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Jambon_beurre_classique.jpg"
   },
   "saucisses-lentilles": {
     "author": "Randalfino",
@@ -984,6 +1049,11 @@
     "license": "CC0",
     "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_Bolognese_-_Figaros,_Brighton_2023-10-06.jpg"
   },
+  "spaghetti-boulettes-tomate": {
+    "author": "jeffreyw",
+    "license": "CC BY 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Spaghetti_and_meatballs_1.jpg"
+  },
   "spaghetti-carbonara": {
     "author": "Javier Somoza",
     "license": "CC BY-SA 4.0",
@@ -993,6 +1063,16 @@
     "author": "KaterinaStrak",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Spanakorizo.jpg"
+  },
+  "steak-hache-frites-four": {
+    "author": "Missvain",
+    "license": "CC BY 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Rock_Sea%27s_steak_frites_-_February_2023_-_Sarah_Stierch_08.jpg"
+  },
+  "steak-hache-puree": {
+    "author": "cyclonebill from Copenhagen, Denmark",
+    "license": "CC BY-SA 2.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Hakkeb%C3%B8f_med_kartoffelmos_og_salat_(4266858524).jpg"
   },
   "surimi-salade-pates": {
     "author": "jeffreyw",
