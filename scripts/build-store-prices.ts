@@ -8,11 +8,12 @@
  *
  * Usage : npx tsx scripts/build-store-prices.ts
  */
-import { writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { loadSeedData } from "../src/lib/data/seed";
 import { matchOpenPrices, type MatchedPackage } from "../src/lib/pricing/openprices";
 import { fetchOpenPrices } from "../src/lib/pricing/openprices-client";
+import { GENERIC_HEADS, median, plausible, STOP, stem, words } from "./price-match";
 
 interface Target {
   storeId: string;
@@ -98,50 +99,57 @@ const TARGETS: Target[] = [
       { id: 1755, city: "Gentilly", tier: 2 },
       { id: 360, city: "Hyères", tier: 2 },
       { id: 2841, city: "Plouescat", tier: 2 },
+      // 3 — magasins Super U (enseigne voisine, prix très proches)
+      { id: 1331, city: "Super U Lyon 7e", tier: 3 },
+      { id: 1057, city: "Super U Lyon", tier: 3 },
+      { id: 11, city: "Super U Grenoble", tier: 3 },
+      { id: 1387, city: "Super U Paris 18e", tier: 3 },
+      { id: 2016, city: "Super U Lyon 3e", tier: 3 },
+      { id: 90, city: "Super U La Madeleine", tier: 3 },
+      { id: 5392, city: "Super U Sisteron", tier: 3 },
+      // 4 — grandes surfaces de la région grenobloise et lyonnaise
+      { id: 3, city: "Auchan Grenoble", tier: 4 },
+      { id: 171, city: "E.Leclerc Échirolles", tier: 4 },
+      { id: 2015, city: "E.Leclerc Saint-Martin-d'Hères", tier: 4 },
+      { id: 33, city: "Carrefour Villeurbanne", tier: 4 },
+      { id: 1231, city: "Auchan Supermarché Lyon", tier: 4 },
+      { id: 401, city: "Carrefour Market Miribel", tier: 4 },
+      { id: 154, city: "Auchan Belley", tier: 4 },
+      // 5 — grandes surfaces du reste de la France
+      { id: 1920, city: "E.Leclerc Clichy", tier: 5 },
+      { id: 4973, city: "E.Leclerc Gennevilliers", tier: 5 },
+      { id: 2224, city: "Carrefour Market Paris", tier: 5 },
+      { id: 5586, city: "Carrefour Gennevilliers", tier: 5 },
+      { id: 3200, city: "E.Leclerc Vandœuvre", tier: 5 },
+      { id: 5395, city: "E.Leclerc Nancy", tier: 5 },
+      { id: 271, city: "Auchan Nancy", tier: 5 },
+      { id: 400, city: "E.Leclerc Canteleu", tier: 5 },
+      { id: 1579, city: "E.Leclerc Montélimar", tier: 5 },
+      { id: 5028, city: "Auchan Laxou", tier: 5 },
+      { id: 5235, city: "Auchan Supermarché Bagneux", tier: 5 },
+      { id: 3877, city: "Carrefour Arcueil", tier: 5 },
     ],
   },
 ];
 
-/** Relevés plus anciens ignorés. */
-const SINCE = "2025-05-01";
-
-/** Sans accents, minuscules, mots séparés. */
-const words = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9 ]/g, " ")
-    .split(/\s+/)
-    .filter(Boolean);
-const STOP = new Set(["de", "du", "des", "la", "le", "les", "en", "au", "aux", "a", "d", "l", "et", "a", "conserve", "surgele", "surgeles", "frais", "fraiche", "sec", "secs"]);
-const stem = (w: string) => w.slice(0, 5);
-/** Mots qui signalent un plat préparé ou un autre produit (s'ils ne sont pas dans le nom de l'ingrédient). */
-const DISH = new Set(["hache", "haches", "bouillon", "cubes", "gnocchi", "gnocchis", "pizza", "salade", "sandwich", "chips", "soupe", "veloute", "quiche", "tarte", "brioche", "biscuit", "biscuits", "gateau", "sauce", "plat", "cuisine", "cuisines", "emince", "emincee", "emiette", "nuggets", "pane", "panes", "croquettes", "gratin", "lasagnes", "raviolis", "ravioles", "tortellini", "girasoli", "torti", "nem", "nems", "bol", "poelee", "tartinade", "tartinades", "houmous", "taboule", "escalope", "bruschetta", "lit", "burger", "wrap", "feuillete", "aperitif", "friture", "dessert", "boisson", "jus", "creme", "yaourt", "fromage", "fourre", "fourree", "tarama", "puree", "sugo", "bio", "caramelisees", "caramelise", "aromatise", "aromatisee"]);
-/** Premiers mots d'ingrédients trop génériques pour signaler un autre aliment. */
-const GENERIC_HEADS = new Set(["sauce", "pate", "pates", "huile", "lait", "pain", "pains", "poudre", "filet", "filets", "fond", "fumet", "double", "graines", "petits", "blanc", "creme", "fromage", "dos", "cuisses", "noix", "melange", "mini", "boisson", "yaourt", "sucre", "jus"]);
-
 /**
- * Le produit correspond-il vraiment à l'ingrédient ?
- * - ses deux premiers mots significatifs figurent dans le nom du produit, le premier dès le début ;
- * - aucun mot de « plat préparé » ni aucun autre aliment du catalogue étranger à l'ingrédient.
+ * Cache disque des relevés bruts (variable PRICE_CACHE_DIR) : permet de rejouer le calcul
+ * sans refaire des centaines de requêtes sur un service communautaire.
  */
-function plausible(ingredientName: string, productName: string, foodHeads: ReadonlySet<string>): boolean {
-  const ing = words(ingredientName.replace(/\(.*?\)/g, "")).filter((w) => !STOP.has(w));
-  const prod = words(productName).filter((w) => !STOP.has(w));
-  const prodStems = prod.map(stem);
-  const ingStems = new Set(ing.map(stem));
-  if (!ing[0] || !prodStems.slice(0, 2).includes(stem(ing[0]))) return false;
-  if (!ing.slice(0, 2).every((w) => prodStems.includes(stem(w)))) return false;
-  if (prod.some((w) => DISH.has(w) && !ingStems.has(stem(w)))) return false;
-  return !prodStems.some((s) => foodHeads.has(s) && !ingStems.has(s));
+async function cachedPrices(locId: number, since: string) {
+  const dir = process.env.PRICE_CACHE_DIR;
+  const file = dir ? join(dir, `loc-${locId}-${since}.json`) : null;
+  if (file && existsSync(file)) return JSON.parse(readFileSync(file, "utf8")) as Awaited<ReturnType<typeof fetchOpenPrices>>;
+  const prices = await fetchOpenPrices(locId, { since, delayMs: 400 });
+  if (file && dir) {
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(file, JSON.stringify(prices));
+  }
+  return prices;
 }
 
-const median = (xs: number[]) => {
-  const s = [...xs].sort((a, b) => a - b);
-  const m = Math.floor(s.length / 2);
-  return s.length % 2 ? s[m]! : Math.round((s[m - 1]! + s[m]!) / 2);
-};
+/** Relevés plus anciens ignorés. */
+const SINCE = "2025-05-01";
 
 async function main() {
   const seed = loadSeedData();
@@ -160,10 +168,10 @@ async function main() {
     const perLocation = new Map<number, MatchedPackage[]>();
     const monthly = new Map<string, number[]>();
     for (const loc of all) {
-      const prices = await fetchOpenPrices(loc.id, { since: SINCE, delayMs: 400 });
+      const prices = await cachedPrices(loc.id, SINCE);
       // Fourchette plus stricte que l'import manuel : on mélange plusieurs magasins.
       const report = matchOpenPrices(prices, ingredients, seed.packages, `${t.storeId}-${loc.id}`, { since: SINCE, maxAbove: 1.6, maxBelow: 2 });
-      const ok = report.packages.filter((p) => plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads));
+      const ok = report.packages.filter((p) => plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId));
       perLocation.set(loc.id, ok);
       // Évolution : mêmes règles, mois par mois (tous les relevés du mois, pas seulement le dernier).
       const byMonth = new Map<string, typeof prices>();
@@ -171,7 +179,7 @@ async function main() {
       for (const [month, monthPrices] of byMonth) {
         const r = matchOpenPrices(monthPrices, ingredients, seed.packages, "trend", { since: `${month}-01`, maxAbove: 1.6, maxBelow: 2 });
         for (const p of r.packages) {
-          if (!plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads)) continue;
+          if (!plausible(ingredients.get(p.ingredientId)!.name, p.productName, foodHeads, p.ingredientId)) continue;
           const key = `${p.ingredientId}|${month}`;
           monthly.set(key, [...(monthly.get(key) ?? []), p.priceCents / p.quantity]);
         }

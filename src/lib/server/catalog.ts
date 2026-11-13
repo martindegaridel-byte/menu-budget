@@ -12,7 +12,7 @@ import {
 } from "@/lib/domain/schemas";
 import type { EngineContext } from "@/lib/engine/types";
 import { loadSeedData } from "@/lib/data/seed";
-import { resolvePriceBook, scaleToObserved, type PriceProvider } from "@/lib/pricing/priceBook";
+import { indexUnobserved, resolvePriceBook, scaleToObserved, type PriceProvider } from "@/lib/pricing/priceBook";
 import { prisma } from "./db";
 
 export const DEFAULT_STORE_ID = "super-u-saint-pierre";
@@ -130,11 +130,17 @@ export const prismaPriceProvider: PriceProvider = {
     const storeObserved = observed[storeId] ?? [];
     const ownIds = new Set(storeObserved.map((p) => p.ingredientId));
     const fallback = storeId in observed && storeId !== REFERENCE_STORE_ID ? (observed[REFERENCE_STORE_ID] ?? []).filter((p) => !ownIds.has(p.ingredientId)) : [];
-    const shared = scaleToObserved(catalog.referencePackages, [...storeObserved, ...fallback]).filter((p) => !mineIds.has(p.ingredientId));
+    const allObserved = [...storeObserved, ...fallback];
+    const shared = scaleToObserved(catalog.referencePackages, allObserved).filter((p) => !mineIds.has(p.ingredientId));
+    // Sans relevé pour un ingrédient : estimation recalée sur le niveau constaté dans son rayon.
+    const sharedIds = new Set(shared.map((p) => p.ingredientId));
+    const indexed = indexUnobserved(catalog.referencePackages, allObserved, (id) => catalog.ingredientsById.get(id)?.aisle).filter(
+      (p) => !mineIds.has(p.ingredientId) && !sharedIds.has(p.ingredientId),
+    );
     return resolvePriceBook({
       referencePackages: catalog.referencePackages,
       store,
-      storePackages: [...shared, ...mine],
+      storePackages: [...shared, ...indexed, ...mine],
       unavailableIngredientIds: unavailable.map((u) => u.ingredientId),
     });
   },

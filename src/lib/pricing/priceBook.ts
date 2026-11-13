@@ -82,3 +82,61 @@ export function scaleToObserved(
   }
   return out;
 }
+
+const medianOf = (xs: readonly number[]): number => {
+  const s = [...xs].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid]! : (s[mid - 1]! + s[mid]!) / 2;
+};
+
+/**
+ * Rapport « prix relevé / estimation » de chaque ingrédient observé (au kilo, litre ou pièce),
+ * borné comme dans `scaleToObserved`.
+ */
+function observedRatios(reference: readonly Package[], observed: readonly Package[], min: number, max: number): Map<string, number> {
+  const refUnit = new Map<string, number>();
+  for (const p of reference) refUnit.set(p.ingredientId, Math.min(refUnit.get(p.ingredientId) ?? Infinity, p.priceCents / p.quantity));
+  const obs = new Map<string, number[]>();
+  for (const p of observed) {
+    const ref = refUnit.get(p.ingredientId);
+    if (!ref || !(ref > 0)) continue;
+    obs.set(p.ingredientId, [...(obs.get(p.ingredientId) ?? []), p.priceCents / p.quantity / ref]);
+  }
+  return new Map([...obs].map(([id, rs]) => [id, Math.min(max, Math.max(min, medianOf(rs)))]));
+}
+
+/**
+ * Pas d'impasse sur un ingrédient sans relevé : son estimation est recalée sur le niveau de prix
+ * constaté dans le même rayon (rapport médian des ingrédients observés), ou à défaut sur l'ensemble
+ * du magasin. Le recalage est volontairement plus étroit que celui d'un relevé direct, car il
+ * s'appuie sur d'autres produits. Les formats restent ceux de l'estimation (source « estimate »).
+ */
+export function indexUnobserved(
+  reference: readonly Package[],
+  observed: readonly Package[],
+  aisleOf: (ingredientId: string) => string | undefined,
+  opts: { min?: number; max?: number; minSample?: number; observedMin?: number; observedMax?: number } = {},
+): Package[] {
+  const min = opts.min ?? 0.8;
+  const max = opts.max ?? 1.3;
+  const minSample = opts.minSample ?? 3;
+  const ratios = observedRatios(reference, observed, opts.observedMin ?? 0.6, opts.observedMax ?? 1.6);
+  if (ratios.size < minSample) return [];
+  const byAisle = new Map<string, number[]>();
+  for (const [id, r] of ratios) {
+    const aisle = aisleOf(id);
+    if (aisle) byAisle.set(aisle, [...(byAisle.get(aisle) ?? []), r]);
+  }
+  const global = medianOf([...ratios.values()]);
+  const asOf = observed.map((p) => p.asOf).sort().at(-1) ?? reference[0]?.asOf ?? "";
+  const refBy = new Map<string, Package[]>();
+  for (const p of reference) refBy.set(p.ingredientId, [...(refBy.get(p.ingredientId) ?? []), p]);
+  const out: Package[] = [];
+  for (const [id, refs] of refBy) {
+    if (ratios.has(id)) continue;
+    const sample = byAisle.get(aisleOf(id) ?? "");
+    const ratio = Math.min(max, Math.max(min, sample && sample.length >= minSample ? medianOf(sample) : global));
+    refs.forEach((p, i) => out.push({ ...p, id: `indexed:${id}:${i}`, priceCents: Math.max(1, Math.round(p.priceCents * ratio)), source: "estimate", asOf }));
+  }
+  return out;
+}
