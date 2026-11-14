@@ -5,14 +5,31 @@ import type { PantryItem, PreferencesInput, Store } from "@/lib/domain/schemas";
 import type { MenuResult, SwapOption } from "@/lib/engine/optimize";
 import type { PantrySuggestion } from "@/lib/engine/suggest";
 
-export class ApiError extends Error {}
+export class ApiError extends Error {
+  /** La requête n'a pas pu partir (pas de réseau) : on peut réessayer plus tard. */
+  constructor(
+    message: string,
+    readonly offline = false,
+  ) {
+    super(message);
+  }
+}
+
+export const OFFLINE_MESSAGE = "Pas de connexion : réessayez une fois en ligne.";
+export const isOffline = (e: unknown): boolean => e instanceof ApiError && e.offline;
 
 async function call<T>(url: string, init?: { method?: string; body?: unknown }): Promise<T> {
-  const res = await fetch(url, {
-    method: init?.method ?? (init?.body ? "POST" : "GET"),
-    headers: init?.body ? { "content-type": "application/json" } : undefined,
-    body: init?.body ? JSON.stringify(init.body) : undefined,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: init?.method ?? (init?.body ? "POST" : "GET"),
+      headers: init?.body ? { "content-type": "application/json" } : undefined,
+      body: init?.body ? JSON.stringify(init.body) : undefined,
+    });
+  } catch {
+    // fetch n'échoue ainsi que sans réseau (ou serveur injoignable) : message clair, en français.
+    throw new ApiError(OFFLINE_MESSAGE, true);
+  }
   const data = (await res.json().catch(() => ({}))) as { error?: string };
   if (!res.ok) throw new ApiError(data.error ?? `Erreur ${res.status}`);
   return data as T;

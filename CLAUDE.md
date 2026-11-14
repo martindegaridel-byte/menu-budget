@@ -49,7 +49,7 @@ l'utilisateur est déduit avant achat ; ses **exclusions permanentes** s'appliqu
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run test` | tests Vitest |
 | `npm run check` | typecheck + lint + test |
-| `npm run e2e` | parcours principal de bout en bout (Playwright, build + `next start` sur le port 3200) |
+| `npm run e2e` | parcours principal et hors connexion, de bout en bout (Playwright, build + `next start` sur le port 3200) |
 | `npm run db:migrate` | migration Prisma (dev) |
 | `npm run db:seed` | charge ingrédients, prix, recettes, magasins |
 | `npm run db:reset` | réinitialise la base + seed |
@@ -95,6 +95,10 @@ utilisateur.
   profil d'exclusions, contexte moteur.
 - `src/lib/client/` — appels API (`api.ts`), état persistant (`storage.ts`), helpers
   de liste de courses.
+  Hors connexion : `public/sw.js` (page gardée avec ses fichiers, recettes du menu préparées
+  d'avance, `public/offline.html` pour une page jamais ouverte) et `pendingPurchase.ts`
+  (« J'ai fait mes courses » sans réseau mis en attente, appliqué une seule fois au retour) ;
+  testé par `e2e/hors-ligne.e2e.ts`.
   Planning de la semaine : `planning.ts` (jours, export .ics) et `weekPlan.ts` (soir cuisiné
   frais / pendant la session de batch / réchauffé / congelé, alerte de conservation).
 - Préférences « plats simples et classiques » (`classics` : off / prefer / only, étiquette

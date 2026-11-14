@@ -21,9 +21,9 @@ export function PwaSupport() {
   }, []);
   if (!offline) return null;
   return (
-    <div role="status" className="sticky top-0 z-40 flex items-center justify-center gap-2 bg-warn-soft px-4 py-2 text-caption font-medium text-warn-text backdrop-blur-xl lg:pl-64">
+    <div role="status" className="sticky top-0 z-40 flex items-center justify-center gap-2 bg-surface-2 px-4 py-2 text-caption font-medium text-warn-text ring-1 ring-inset ring-line lg:pl-64">
       <WifiOff aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
-      Hors connexion : votre menu et votre liste de courses restent consultables.
+      Hors connexion : votre menu, votre liste de courses et les recettes du menu restent consultables.
     </div>
   );
 }

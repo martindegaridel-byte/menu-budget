@@ -29,7 +29,8 @@ export function ShoppingListView({
   /** Magasin du menu : permet de saisir le prix payé d'un article. */
   storeId?: string;
   menuKey: string;
-  onShoppingDone: () => Promise<void>;
+  /** « queued » : pas de réseau, l'achat sera ajouté au placard au retour de la connexion. */
+  onShoppingDone: () => Promise<"done" | "queued">;
   onPriceSaved?: () => void;
 }) {
   const [checkedByMenu, setCheckedByMenu] = usePersistentState<Record<string, string[]>>("mb:checked", {});
@@ -166,9 +167,15 @@ export function ShoppingListView({
           <div className="flex flex-wrap gap-2">
             <Button
               onClick={async () => {
-                await onShoppingDone();
-                setConfirm(false);
-                setStatus("Achats ajoutés au placard");
+                try {
+                  const outcome = await onShoppingDone();
+                  setConfirm(false);
+                  if (outcome === "queued") {
+                    toast({ title: "Courses notées", description: "Pas de connexion : vos achats seront ajoutés au placard dès le retour du réseau.", tone: "info" });
+                  } else setStatus("Achats ajoutés au placard");
+                } catch (e) {
+                  toast({ title: "Mise à jour impossible", description: e instanceof Error ? e.message : undefined, tone: "error" });
+                }
               }}
             >
               Confirmer la mise à jour

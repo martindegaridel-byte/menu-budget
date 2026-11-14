@@ -8,9 +8,10 @@ import { MONTHLY_BUDGET_KEY, monthBudgetStatus } from "@/lib/client/budget";
 import { recordPurchases, relevantHikes } from "@/lib/client/priceAlerts";
 import { expiryInfo, todayIso } from "@/lib/client/expiry";
 import { Button, Notice, cx } from "@/components/ui";
-import { api } from "@/lib/client/api";
+import { api, isOffline } from "@/lib/client/api";
+import { applyPending, PENDING_PURCHASE_KEY, savePending } from "@/lib/client/pendingPurchase";
 import type { IngredientOption, RecipeSummary } from "@/lib/client/catalog-types";
-import { pantryAfterCooking, pantryAfterPurchase } from "@/lib/client/shopping";
+import { pantryAfterCooking } from "@/lib/client/shopping";
 import { recordLeftovers } from "@/lib/client/leftovers";
 import { recordPriceSnapshot } from "@/lib/client/priceTrends";
 import { usePersistentState } from "@/lib/client/storage";
@@ -216,14 +217,56 @@ export function Planner({
       toast({ title: "Menu enregistré dans l'historique", tone: "success" });
     });
 
-  const shoppingDone = async () => {
-    if (!result) return;
-    const { items } = await api.getPantry();
-    await api.putPantry(pantryAfterPurchase(items, result.shoppingList, todayIso()));
-    // Ce que le placard a évité d'acheter compte dans le compteur « restes finis ».
-    recordLeftovers(menuKey, result.pantrySavingsCents);
+  // « J'ai fait mes courses » : sans réseau (au magasin), l'achat est mis en attente puis appliqué au retour.
+  const shoppingDone = async (): Promise<"done" | "queued"> => {
+    if (!result) return "done";
+    savePending(window.localStorage, { menuKey, date: todayIso(), list: result.shoppingList, pantrySavingsCents: result.pantrySavingsCents });
+    try {
+      await applyPending(window.localStorage, {
+        getPantry: api.getPantry,
+        putPantry: api.putPantry,
+        // Ce que le placard a évité d'acheter compte dans le compteur « restes finis ».
+        onApplied: (p) => recordLeftovers(p.menuKey, p.pantrySavingsCents),
+      });
+    } catch (e) {
+      if (isOffline(e)) return "queued";
+      window.localStorage.removeItem(PENDING_PURCHASE_KEY); // refus du serveur : inutile de réessayer
+      throw e;
+    }
     await refreshPantry();
+    return "done";
   };
+
+  // Recettes du menu préparées pour le hors connexion (consultables en cuisinant, même sans réseau).
+  useEffect(() => {
+    if (!result || !("serviceWorker" in navigator)) return;
+    const p = result.persons + (result.lunchPortions ?? 0);
+    const urls = [...result.recipes.map((r) => `/recettes/${r.recipeId}?p=${p}`), ...(result.extras ?? []).map((e) => `/recettes/${e.recipeId}?p=${result.persons}`)];
+    navigator.serviceWorker.ready.then((reg) => reg.active?.postMessage({ type: "warm", urls: [...new Set(urls)] })).catch(() => undefined);
+  }, [result]);
+
+  // Achat mis en attente hors connexion : appliqué dès que le réseau revient (ou à la prochaine ouverture).
+  const applyPendingRef = useRef<() => void>(() => undefined);
+  applyPendingRef.current = () => {
+    if (!navigator.onLine) return;
+    applyPending(window.localStorage, {
+      getPantry: api.getPantry,
+      putPantry: api.putPantry,
+      onApplied: (p) => recordLeftovers(p.menuKey, p.pantrySavingsCents),
+    })
+      .then((p) => {
+        if (!p) return;
+        toast({ title: "Achats ajoutés au placard", description: "Vos courses notées hors connexion sont maintenant enregistrées.", tone: "success" });
+        void refreshPantry();
+      })
+      .catch(() => undefined); // toujours hors ligne : on réessaiera
+  };
+  useEffect(() => {
+    const onOnline = () => applyPendingRef.current();
+    onOnline();
+    window.addEventListener("online", onOnline);
+    return () => window.removeEventListener("online", onOnline);
+  }, []);
 
   const showForm = !result || editing;
 
